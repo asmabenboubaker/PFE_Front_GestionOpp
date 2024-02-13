@@ -1,12 +1,12 @@
 (function (window) {
   window.__env = window.__env || {};
-  window.__env.apiUrlMetiers = 'https://psdev.picosoft.biz/kernel-v1/';
-  window.__env.apiUrlkernel = 'https://psdev.picosoft.biz/kernel-v1/api/';
+  window.__env.apiUrlMetiers = 'https://kernel.picosoft.biz/kernel-v1/';
+  window.__env.apiUrlkernel = 'https://kernel.picosoft.biz/kernel-v1/api/';
   window.__env.enableDebug = true;
-  window.__env.apiUrlpostal = 'http://localhost.picosoft.biz:4203';
+  window.__env.apiUrlpostal = 'http://localhost.picosoft.biz:4302';
 
   //URL Application Kernel
-  window.__env.apiUrlfrontkernel = 'https://psdev.picosoft.biz/kernel-v1/';
+  window.__env.apiUrlfrontkernel = 'https://kernel.picosoft.biz/kernel-v1/';
   window.__env.versionFront = 1;
   window.__env.versionBack = 0;
   window.__env.pstkRunnigTimer = 0

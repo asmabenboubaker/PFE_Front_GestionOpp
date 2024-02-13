@@ -1,9 +1,9 @@
 {
-  "name": "EventManager",
+  "name": "Opportunite",
   "version": "0.0.5",
   "scripts": {
     "ng": "ng",
-    "start": "node --max_old_space_size=9192 ./node_modules/@angular/cli/bin/ng serve --host localhost.picosoft.biz --port 4215",
+    "start": "node --max_old_space_size=9192 ./node_modules/@angular/cli/bin/ng serve --host localhost.picosoft.biz --port 4302",
     "build-prod": "node --max_old_space_size=9192 ./node_modules/@angular/cli/bin/ng build --configuration=production --stats-json",
     "prebuild": "npm --no-git-tag-version version patch",
     "bundle-report": "webpack-bundle-analyzer dist/stats.json --port 9000",
