@@ -17,6 +17,26 @@ export const routes: Routes = [
         path: 'Profile',
         loadChildren: () => import('./pages/Global/profile/profile.module').then(m => m.ProfileModule),
       },
+      {
+        path: 'Demande',
+        loadChildren: () => import('./pages/Oportunite/demande/demande.module').then(m => m.DemandeModule),
+      },
+      {
+        path: 'client',
+        loadChildren: () => import('./pages/Oportunite/client/client.module').then(m => m.ClientModule),
+      },
+      {
+        path: 'opportunite',
+        loadChildren: () => import('./pages/Oportunite/opportunite/opportunite.module').then(m => m.OpportuniteModule),
+      },
+      {
+        path: 'offre',
+        loadChildren: () => import('./pages/Oportunite/offre/offre.module').then(m => m.OffreModule),
+      },
+      {
+        path: 'bondecommande',
+        loadChildren: () => import('./pages/Oportunite/bon-de-commande/bon-de-commande.module').then(m => m.BonDeCommandeModule),
+      }
     ]
   },
   { path: '**', component: NotFoundComponent }
