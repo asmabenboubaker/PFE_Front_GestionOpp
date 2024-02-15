@@ -7,10 +7,19 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ClientServiceService {
-  private getApi = 'http://localhost:8888/demo_war/api/clients'; 
+  private  api = 'http://localhost:8888/demo_war/api/clients'; 
+ 
   constructor(private http: HttpClient) { }
 
     getClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.getApi);
+    return this.http.get<Client[]>(this.api);
+  }
+
+  addClient(client: Client): Observable<Client> {
+    return this.http.post<Client>(this.api, client);
+  }
+  getClientById(clientId: number): Observable<Client> {
+    const url = `${this.api}/${clientId}`;
+    return this.http.get<Client>(url);
   }
 }

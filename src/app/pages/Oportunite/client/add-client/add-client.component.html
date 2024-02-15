@@ -1,0 +1,18 @@
+<!-- add-client.component.html -->
+
+<dx-form [formData]="newClient" (onFieldDataChanged)="onFieldDataChanged($event)">
+    <dxi-item dataField="nom" editorType="dxTextBox" [editorOptions]="{ placeholder: 'Name' }"></dxi-item>
+    <dxi-item dataField="adresse" editorType="dxTextBox" [editorOptions]="{ placeholder: 'Address' }"></dxi-item>
+    <dxi-item dataField="telephone" editorType="dxTextBox" [editorOptions]="{ placeholder: 'Telephone' }"></dxi-item>
+    <dxi-item dataField="email" editorType="dxTextBox" [editorOptions]="{ placeholder: 'Email' }"></dxi-item>
+    <!-- Add other form fields as needed -->
+  
+    <div class="dx-field">
+      <div class="dx-field-value">
+        <div class="dx-form-button">
+          <div dxButton (onClick)="addClient()">Add Client</div>
+        </div>
+      </div>
+    </div>
+  </dx-form>
+      

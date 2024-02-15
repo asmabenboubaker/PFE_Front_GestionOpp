@@ -1,7 +1,39 @@
 <dx-data-grid
-    [dataSource]="clients"
-    keyExpr="id">
-     <dxo-filter-row [visible]="true"></dxo-filter-row>
-    <dxo-search-panel [visible]="true"></dxo-search-panel>
+  id="gridContainer"
+  [dataSource]="clients"
+  keyExpr="id"
+  [showBorders]="true"
+>
+  <dxo-paging [enabled]="true" pageSize="10"></dxo-paging>
+  <dxo-editing
+    mode="popup"
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+  >
+    <dxo-popup title="Client Info" showTitle="true" width="700" height="525"></dxo-popup>
+    <dxo-form>
+      <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+        <dxi-item dataField="nom"></dxi-item>
+        <dxi-item dataField="adresse"></dxi-item>
+        <dxi-item dataField="telephone"></dxi-item>
+        <dxi-item dataField="email"></dxi-item>
+        <dxi-item dataField="description"></dxi-item>
+        <dxi-item dataField="dateInscription"  ></dxi-item>
+        <dxi-item dataField="typeClient"></dxi-item>
+        <dxi-item dataField="notes" [colSpan]="2"></dxi-item>
+        <!-- Add other fields as needed -->
+      </dxi-item>
+    </dxo-form>
+  </dxo-editing>
+
+  <dxi-column dataField="nom" caption="Client Name"></dxi-column>
+  <dxi-column dataField="adresse" caption="Address"></dxi-column>
+  <dxi-column dataField="telephone" caption="Telephone"></dxi-column>
+  <dxi-column dataField="email" caption="Email"></dxi-column>
+  <dxi-column dataField="description" caption="Description"></dxi-column>
+  <dxi-column dataField="dateInscription" caption="Registration Date" dataType="date"></dxi-column>
+  <dxi-column dataField="typeClient" caption="Client Type"></dxi-column>
+  <dxi-column dataField="notes" caption="Notes"  ></dxi-column>
+  
 </dx-data-grid>
- 
