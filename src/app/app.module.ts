@@ -30,6 +30,7 @@ import {WsServiceProvider} from "../ws.service.provider";
 import {ConfigPstkModule} from "./pages/Global/config-pstk/config-pstk.module";
 import {AffectationRoutesModule} from "./pages/Global/affectation-routes/affectation-routes.module";
 import {TokenInterceptor} from "./core/auth/token.interceptor";
+import { GridProjetComponent } from './pages/Oportunite/projet/grid-projet/grid-projet.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -78,6 +79,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         NotFoundComponent,
         FlagsMenuComponent,
         ProfilesComponent,
+        GridProjetComponent,
     ],
     providers: [CookieService,
         AppSettings, EnvServiceProvider,WsServiceProvider,

@@ -36,6 +36,10 @@ export const routes: Routes = [
       {
         path: 'bondecommande',
         loadChildren: () => import('./pages/Oportunite/bon-de-commande/bon-de-commande.module').then(m => m.BonDeCommandeModule),
+      },
+      {
+        path: 'projet',
+        loadChildren: () => import('./pages/Oportunite/projet/projet.module').then(m => m.ProjetModule),
       }
     ]
   },
