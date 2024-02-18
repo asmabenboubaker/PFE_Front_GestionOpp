@@ -15,7 +15,7 @@ export class GridClientComponent implements OnInit {
   dataSourceElement: any;
   pageSize = this.env.pageSize;
   allowedPageSizes = this.env.allowedPageSizes;
-  
+
   constructor(private clientService: ClientServiceService, private env: EnvService,) {
     
   }

@@ -40,6 +40,14 @@ export const routes: Routes = [
       {
         path: 'projet',
         loadChildren: () => import('./pages/Oportunite/projet/projet.module').then(m => m.ProjetModule),
+      },
+      {
+        path: 'facture',
+        loadChildren: () => import('./pages/Oportunite/facture/facture.module').then(m => m.FactureModule),
+      },
+      {
+        path: 'pv',
+        loadChildren: () => import('./pages/Oportunite/pv/pv.module').then(m => m.PvModule),
       }
     ]
   },

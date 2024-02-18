@@ -7,7 +7,7 @@ export const routes: Routes  = [
   {
       path: 'all',
       component: GridOffreComponent,
-      data: {breadcrumb: 'Consultation demande'},
+      data: {breadcrumb: 'Consultation offres'},
       pathMatch: 'full'
   } 
  

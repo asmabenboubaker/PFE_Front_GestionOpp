@@ -1,28 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GridPvComponent } from './grid-pv/grid-pv.component';
+import { GridFactureComponent } from './grid-facture/grid-facture.component';
 import {RouterModule, Routes} from "@angular/router";
-
-import {GridOffreComponent} from "../offre/grid-offre/grid-offre.component";
-
 
 export const routes: Routes  = [
   {
     path: 'all',
-    component: GridPvComponent,
-    data: {breadcrumb: 'Consultation pv'},
+    component: GridFactureComponent,
+    data: {breadcrumb: 'Consultation factures'},
     pathMatch: 'full'
   }
-
-
 ];
+
 @NgModule({
   declarations: [
-    GridPvComponent
+    GridFactureComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
   ]
 })
-export class PvModule { }
+export class FactureModule { }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GridProjetComponent } from './grid-projet/grid-projet.component';
-import { Routes } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 export const routes: Routes  = [
   {
@@ -19,7 +19,8 @@ export const routes: Routes  = [
    
   ],
   imports: [
-    CommonModule
+      CommonModule,
+      RouterModule.forChild(routes),
   ]
 })
 export class ProjetModule { }
