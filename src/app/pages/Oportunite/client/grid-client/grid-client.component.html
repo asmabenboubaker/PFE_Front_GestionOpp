@@ -38,7 +38,7 @@
 <!--  -->
 <!--</dx-data-grid>-->
 <dx-data-grid
-
+        (onExporting)="exportGrid($event)"
         [showBorders]="true"
         [allowColumnResizing]="true"
         id="gridContainer"
@@ -49,7 +49,11 @@
 
         keyExpr="id"
 >
-<!--    <dxo-filter-row [visible]="true" applyFilter="true"></dxo-filter-row>-->
+    <dxo-export
+            [enabled]="true"
+            [formats]="['xlsx', 'pdf']"
+    >
+    </dxo-export>
     <dxo-header-filter [visible]="true"></dxo-header-filter>
     <dxo-filter-row [visible]="true" applyFilter="onClick"></dxo-filter-row>
 

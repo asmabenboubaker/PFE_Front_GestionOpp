@@ -3,7 +3,12 @@ import { Client } from 'src/app/Models/Client';
 import { ClientServiceService } from 'src/app/Service/client-service.service';
 import CustomStore from "devextreme/data/custom_store";
 import {EnvService} from "../../../../../env.service";
-import {HttpHeaders} from "@angular/common/http";
+
+import saveAs from 'file-saver';
+import { Workbook } from 'exceljs';
+import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter';
+import {exportDataGrid} from "devextreme/excel_exporter";
+import {jsPDF} from "jspdf";
 
 @Component({
   selector: 'app-grid-client',
@@ -24,7 +29,29 @@ export class GridClientComponent implements OnInit {
     this.getAllAdministration();
 
   }
-
+  exportGrid(e) {
+    if (e.format === 'xlsx') {
+      const workbook = new Workbook();
+      const worksheet = workbook.addWorksheet("Main sheet");
+      exportDataGrid({
+        worksheet: worksheet,
+        component: e.component,
+      }).then(function() {
+        workbook.xlsx.writeBuffer().then(function(buffer) {
+          saveAs(new Blob([buffer], { type: "application/octet-stream" }), "DataGrid.xlsx");
+        });
+      });
+    }
+    else if (e.format === 'pdf') {
+      const doc = new jsPDF();
+      exportDataGridToPdf({
+        jsPDFDocument: doc,
+        component: e.component,
+      }).then(() => {
+        doc.save('DataGrid.pdf');
+      });
+    }
+  }
   getAllAdministration() {
     this.clients = [
       {
