@@ -22,36 +22,7 @@ export class GridClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllAdministration();
-    // this.clients = [
-    //   {
-    //     id: 1,
-    //     adresse: '123 Main St',
-    //     telephone: '555-1234',
-    //     email: 'client1@example.com',
-    //     nom: 'Client 1',
-    //     description: 'Some description',
-    //     dateInscription: '2024-02-14',
-    //     typeClient: 'Regular',
-    //     notes: 'Some notes'
-    //   },
-    //   {
-    //     id: 2,
-    //     adresse: '456 Oak St',
-    //     telephone: '555-5678',
-    //     email: 'client2@example.com',
-    //     nom: 'Client 2',
-    //     description: 'Another description',
-    //     dateInscription: '2024-02-14',
-    //     typeClient: 'VIP',
-    //     notes: 'Additional notes'
-    //   }
-    //
-    // ];
-    // this.clientService.getClients().subscribe(data => {
-    //   this.clients = data;
-    //   console.log(this.clients);
-    // });
-  
+
   }
 
   getAllAdministration() {
@@ -256,8 +227,9 @@ export class GridClientComponent implements OnInit {
       }
     ];
 console.log("testtttttttttttttt");
+
     this.dataSourceElement = new CustomStore({
-      load: function (loadOptions: any) {
+      load: (loadOptions: any) => {
 
         loadOptions.requireTotalCount = true;
 
@@ -273,7 +245,7 @@ console.log("testtttttttttttttt");
           data: paginatedData,
           totalCount: this.clients.length
         });
-      }.bind(this),
+      },
     });
   }
 

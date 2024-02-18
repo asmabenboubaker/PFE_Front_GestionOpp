@@ -38,29 +38,51 @@
 <!--  -->
 <!--</dx-data-grid>-->
 <dx-data-grid
-        #GridElement
-        class="GridElement"
 
+        [showBorders]="true"
         [allowColumnResizing]="true"
-
+        id="gridContainer"
         [columnAutoWidth]="true"
         [dataSource]="dataSourceElement"
-        [remoteOperations]="true"
+        [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
 
-        [rowAlternationEnabled]="true"
-        [showBorders]="true"
-        [showColumnLines]="true"
-        id="GridElement"
+
         keyExpr="id"
 >
-    <dxo-filter-row [visible]="true" applyFilter="true"></dxo-filter-row>
+<!--    <dxo-filter-row [visible]="true" applyFilter="true"></dxo-filter-row>-->
     <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-filter-row [visible]="true" applyFilter="onClick"></dxo-filter-row>
+
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
-    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"  ></dxo-paging>
+
     <dxo-pager [allowedPageSizes]="allowedPageSizes" [showInfo]="true" [showPageSizeSelector]="true"
                [visible]="true"
                displayMode="full"
-               [showNavigationButtons]="false"
-                ></dxo-pager>
+               [showNavigationButtons]="true"
+    ></dxo-pager>
+<!--      <dxo-editing-->
+<!--        mode="popup"-->
+<!--        [allowUpdating]="true"-->
+<!--        [allowAdding]="true"-->
+<!--        [allowDeleting]="true"-->
+<!--      >-->
+<!--        <dxo-popup title="Client Info" showTitle="true" width="700" height="525"></dxo-popup>-->
+<!--        <dxo-form>-->
+<!--          <dxi-item itemType="group" [colCount]="2" [colSpan]="2">-->
+<!--            <dxi-item dataField="nom">-->
+<!--                <dxi-validation-rule type="required"></dxi-validation-rule>-->
+<!--            </dxi-item>-->
+<!--            <dxi-item dataField="adresse"></dxi-item>-->
+<!--            <dxi-item dataField="telephone"></dxi-item>-->
+<!--            <dxi-item dataField="email"></dxi-item>-->
+<!--            <dxi-item dataField="description"></dxi-item>-->
+<!--            <dxi-item dataField="dateInscription"  ></dxi-item>-->
+<!--            <dxi-item dataField="typeClient"></dxi-item>-->
+<!--            <dxi-item dataField="notes" [colSpan]="2"></dxi-item>-->
+
+<!--          </dxi-item>-->
+<!--        </dxo-form>-->
+<!--      </dxo-editing>-->
+
 </dx-data-grid>
