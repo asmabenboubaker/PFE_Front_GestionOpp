@@ -18,7 +18,7 @@ export class EnvService {
   public apiFrontPSSIGN;
   public stylingMode;
   public labelMode;
-
+public piOpp='http://localhost:8888/demo_war/api/';
   // Whether or not to enable debug mode
   public enableDebug = true;
 

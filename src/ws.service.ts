@@ -5,4 +5,10 @@ export class WsService {
 
   getAllCitybyCountry = 'ref-cities?&refCountryName.equals=';
   getCountCity = 'ref-cities/count?&refCountryName.equals=';
+  /* opportunité ==================================*/
+
+  getClient ='clients';
+  getdemandes = 'demandes'
+  getOpp='opportunites'
+  getoffre='offres'
 }

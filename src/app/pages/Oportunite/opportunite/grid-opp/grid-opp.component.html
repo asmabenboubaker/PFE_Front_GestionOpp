@@ -1,1 +1,49 @@
-<p>grid-opp works!</p>
+<dx-data-grid
+
+        [showBorders]="true"
+        [allowColumnResizing]="true"
+        id="gridContainer"
+        [columnAutoWidth]="true"
+        [dataSource]="dataSourceElement"
+        [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+        keyExpr="id"
+>
+    <dxo-export [enabled]="true" [formats]="['xlsx', 'pdf']"></dxo-export>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-filter-row [visible]="true" applyFilter="onClick"></dxo-filter-row>
+
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+
+    <dxo-pager
+            [allowedPageSizes]="allowedPageSizes"
+            [showInfo]="true"
+            [showPageSizeSelector]="true"
+            [visible]="true"
+            displayMode="full"
+            [showNavigationButtons]="true"
+    ></dxo-pager>
+
+    <dxo-editing
+            mode="popup"
+            [allowUpdating]="true"
+            [allowAdding]="true"
+            [allowDeleting]="true"
+            mode="row"
+            [confirmDelete]="false"
+    >
+        <dxo-popup width="700" height="525" [showTitle]="true" title="Modifier opportunite "></dxo-popup>
+        <dxo-form>
+            <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+                <!-- Adjust the data fields based on the Opportunite entity properties -->
+                <dxi-item dataField="nom">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                </dxi-item>
+                <dxi-item dataField="description"></dxi-item>
+                <dxi-item dataField="createdBy"></dxi-item>
+                <dxi-item dataField="createAt"></dxi-item>
+                <dxi-item dataField="montantEstime"></dxi-item>
+            </dxi-item>
+        </dxo-form>
+    </dxo-editing>
+</dx-data-grid>

@@ -3,6 +3,20 @@ import { CommonModule } from '@angular/common';
 import { GridDemandeComponent } from './grid-demande/grid-demande.component';
 import {RouterModule, Routes} from "@angular/router";
 import { AddDemandeComponent } from './add-demande/add-demande.component';
+import {DxDataGridModule} from "devextreme-angular";
+import {
+    DxiItemModule,
+    DxiValidationRuleModule,
+    DxoEditingModule,
+    DxoExportModule,
+    DxoFilterRowModule,
+    DxoFormModule,
+    DxoHeaderFilterModule,
+    DxoPagerModule,
+    DxoPagingModule,
+    DxoPopupModule,
+    DxoScrollingModule
+} from "devextreme-angular/ui/nested";
 
 export const routes: Routes  = [
   {
@@ -24,10 +38,22 @@ export const routes: Routes  = [
   declarations: [
   GridDemandeComponent,
   AddDemandeComponent],
-  imports: [
-      CommonModule,
-    RouterModule.forChild(routes),
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        DxDataGridModule,
+        DxiItemModule,
+        DxiValidationRuleModule,
+        DxoEditingModule,
+        DxoExportModule,
+        DxoFilterRowModule,
+        DxoFormModule,
+        DxoHeaderFilterModule,
+        DxoPagerModule,
+        DxoPagingModule,
+        DxoPopupModule,
+        DxoScrollingModule,
+    ]
 })
 
 
