@@ -10,6 +10,9 @@ import { exportDataGrid as exportDataGridToPdf } from 'devextreme/pdf_exporter';
 import {exportDataGrid} from "devextreme/excel_exporter";
 import {jsPDF} from "jspdf";
 import {DxDataGridComponent, DxFormComponent} from "devextreme-angular";
+import {Router} from "@angular/router";
+
+
 
 @Component({
   selector: 'app-grid-client',
@@ -23,7 +26,10 @@ export class GridClientComponent implements OnInit {
   allowedPageSizes = this.env.allowedPageSizes;
   @ViewChild('editForm', { static: false }) editForm: DxFormComponent;
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
-  constructor(private clientService: ClientServiceService, private env: EnvService,) {
+  formData: Client = { id: 0, nom: '', adresse: '', telephone: '', email: '', dateInscription: null, typeClient: '', notes: '' ,description:''};
+  isNewRecord = true;
+  visible = false;
+  constructor(private clientService: ClientServiceService, private env: EnvService,private router: Router) {
     
   }
 
@@ -54,9 +60,8 @@ export class GridClientComponent implements OnInit {
       });
     }
   }
-  addRow () {
-    this.dataGrid.instance.addRow();
-  }
+
+
   getAllAdministration() {
     this.clientService.getClients().subscribe((data) => {
       this.clients = data;

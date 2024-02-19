@@ -28,7 +28,7 @@ export class ClientServiceService {
     const url = `${this.env.piOpp+this.Wservice.getClient}/${clientId}`;
     return this.http.get<Client>(url);
   }
-  updateClient(client: Client): Observable<Client> {
-    return this.http.put<Client>(`${this.env.piOpp+this.Wservice.getClient}/${client.id}`, client);
+  updateClient(client: Client,id): Observable<Client> {
+    return this.http.put<Client>(`${this.env.piOpp+this.Wservice.getClient}/${id}`, client);
   }
 }

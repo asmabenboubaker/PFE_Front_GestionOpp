@@ -3,8 +3,17 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { GridClientComponent } from './grid-client/grid-client.component';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
-import { DxButtonModule, DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxFormModule,
+  DxTemplateModule,
+  DxTextAreaModule,
+  DxTooltipModule
+} from 'devextreme-angular';
 import { AddClientComponent } from './add-client/add-client.component';
+import {DxPopupModule} from "devextreme-angular/ui/popup";
+import {DxSelectBoxModule} from "devextreme-angular/ui/select-box";
 
 export const routes: Routes  = [
   {
@@ -34,7 +43,14 @@ export const routes: Routes  = [
     DxDataGridModule ,
     DxFormModule,
     DxButtonModule,
-    
+    DxPopupModule,
+    DxSelectBoxModule,
+    DxTextAreaModule,
+    DxFormModule,
+    DxTooltipModule,
+
+    DxTemplateModule,
+
     
   ]
 })

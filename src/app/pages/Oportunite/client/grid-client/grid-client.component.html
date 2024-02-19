@@ -1,57 +1,45 @@
-
 <dx-data-grid
-        (onExporting)="exportGrid($event)"
-        [showBorders]="true"
-        [allowColumnResizing]="true"
-        id="gridContainer"
-        [columnAutoWidth]="true"
-        [dataSource]="dataSourceElement"
-        [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-
-
-        keyExpr="id"
+    #grid
+    [dataSource]="dataSourceElement"
+    [showBorders]="true"
+    [repaintChangesOnly]="true"
 >
-    <dxo-export
-            [enabled]="true"
-            [formats]="['xlsx', 'pdf']"
-    >
-    </dxo-export>
-    <dxo-header-filter [visible]="true"></dxo-header-filter>
-    <dxo-filter-row [visible]="true" applyFilter="onClick"></dxo-filter-row>
+    <dxo-editing
+            [allowUpdating]="true"
+            [allowAdding]="true"
+            [allowDeleting]="true"
+            [useIcons]="true"
+            mode="popup"
 
-    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
-    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"  ></dxo-paging>
-
-    <dxo-pager [allowedPageSizes]="allowedPageSizes" [showInfo]="true" [showPageSizeSelector]="true"
-               [visible]="true"
-               displayMode="full"
-               [showNavigationButtons]="true"
-    ></dxo-pager>
-      <dxo-editing
-        mode="popup"
-        [allowUpdating]="true"
-        [allowAdding]="true"
-        [allowDeleting]="true"
-
-
-        [confirmDelete]="false"
-      >
-        <dxo-popup  width="700" height="525" [showTitle]="true" title="Modifier client "></dxo-popup>
-        <dxo-form>
-          <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
-            <dxi-item dataField="nom">
-                <dxi-validation-rule type="required"></dxi-validation-rule>
-            </dxi-item>
-            <dxi-item dataField="adresse"></dxi-item>
-            <dxi-item dataField="telephone"></dxi-item>
-            <dxi-item dataField="email"></dxi-item>
-            <dxi-item dataField="description"></dxi-item>
-            <dxi-item dataField="dateInscription"  ></dxi-item>
-            <dxi-item dataField="typeClient"></dxi-item>
-            <dxi-item dataField="notes" [colSpan]="2"></dxi-item>
-
-          </dxi-item>
-        </dxo-form>
-      </dxo-editing>
-
+    ></dxo-editing>
+    <dxi-column dataField="nom" dataType="string"></dxi-column>
+    <dxi-column dataField="adresse" dataType="string"></dxi-column>
+    <dxi-column dataField="telephone" dataType="string"></dxi-column>
+    <dxi-column dataField="email" dataType="string"></dxi-column>
+    <dxi-column dataField="dateInscription" dataType="date"></dxi-column>
+    <dxi-column dataField="typeClient" dataType="string"></dxi-column>
+    <dxi-column dataField="notes" dataType="string"></dxi-column>
+<!--    <dxi-column type="buttons">-->
+<!--        <dxi-button name="edit" [onClick]="editRow"></dxi-button>-->
+<!--        <dxi-button name="delete"></dxi-button>-->
+<!--    </dxi-column>-->
+<!--    <dxo-toolbar>-->
+<!--        <dxi-item location="after">-->
+<!--            <div *dxTemplate>-->
+<!--                <dx-button icon="plus" (onClick)="addRow()"></dx-button>-->
+<!--            </div>-->
+<!--        </dxi-item>-->
+<!--    </dxo-toolbar>-->
 </dx-data-grid>
+<dx-popup
+        [maxWidth]="940"
+        [width]="900"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="اضافة اختصاص"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupAdd">
+
+    <app-specialite [id]="" (add)="add($event)"></app-specialite>
+</dx-popup>
