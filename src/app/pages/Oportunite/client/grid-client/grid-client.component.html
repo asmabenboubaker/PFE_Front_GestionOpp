@@ -13,24 +13,51 @@
 
     <app-add-client [id]="" (add)="add($event)"></app-add-client>
 </dx-popup>
+<dx-popup
+        [maxWidth]="940"
+        [width]="900"
+        [height]="'auto'"
+        [showTitle]="true"
+        title=" edit client"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupEdit">
 
-<dx-data-grid
+    <app-add-client *ngIf="this.id" [id]="''+this.id" (add)="add($event)"></app-add-client>
+</dx-popup>
+<div class="row justify-content-center">
+    <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 col-xl-12 col-xxl-12">
+
+    <dx-data-grid
     #grid
     [dataSource]="dataSourceElement"
     [showBorders]="true"
-    [repaintChangesOnly]="true"
+
     (onToolbarPreparing)="onToolbarPreparing($event)"
     [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+    [columnAutoWidth]="true"
+    (onRowDblClick)="Editclient($event)"
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+
+    keyExpr="id"
 >
 
     <dxo-editing
-            [allowUpdating]="true"
-
-            [allowDeleting]="true"
+            [allowDeleting]="false"
+            [allowUpdating]="false"
+            [confirmDelete]="true"
             [useIcons]="true"
-            mode="popup"
+            mode="row"
 
     ></dxo-editing>
+    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+    <dxo-filter-row [visible]="true" applyFilter="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="false"></dxo-header-filter>
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-export [allowExportSelectedData]="false" [enabled]="true"></dxo-export>
+
     <dxo-pager [allowedPageSizes]="allowedPageSizes" [showInfo]="true" [showPageSizeSelector]="true"
                [visible]="true"
                displayMode="full"
@@ -38,6 +65,11 @@
     ></dxo-pager>
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"  ></dxo-paging>
+        <dxi-column [allowResizing]="false"
+                    [fixed]="false" caption="{{'' | translate}}"
+                    cellTemplate="cellTemplateActions"
+                  >
+        </dxi-column>
     <dxi-column dataField="nom" dataType="string"></dxi-column>
     <dxi-column dataField="adresse" dataType="string"></dxi-column>
     <dxi-column dataField="telephone" dataType="string"></dxi-column>
@@ -45,6 +77,16 @@
     <dxi-column dataField="dateInscription" dataType="date"></dxi-column>
     <dxi-column dataField="typeClient" dataType="string"></dxi-column>
     <dxi-column dataField="notes" dataType="string"></dxi-column>
+        <div *dxTemplate="let data of 'cellTemplateActions'"
+             style="display: flex; justify-content: center; align-items: center;">
+
+            <!--                        <a (click)="EditVille(data.data.id)" target="_blank" rel="noopener" title=""><i-->
+            <!--                                class="fa fa-pencil" style="color: rgb(32, 166, 219);"></i></a>-->
+            &nbsp;&nbsp;
+            <a (click)="deleteclient(data.data.id)" target="_blank" rel="noopener" title="" >
+                <i class="fa fa-trash" style="color:#a63a3a;">
+                </i></a>
+        </div>
 <!--    <dxi-column type="buttons">-->
 <!--        <dxi-button name="edit" [onClick]="editRow"></dxi-button>-->
 <!--        <dxi-button name="delete"></dxi-button>-->
@@ -58,3 +100,5 @@
 <!--    </dxo-toolbar>-->
 </dx-data-grid>
 
+    </div>
+</div>

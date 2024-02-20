@@ -19,8 +19,7 @@ import {TokenStorageService} from "../../../Global/shared-service/token-storage.
 export class AddClientComponent implements OnInit {
   @Output() add = new EventEmitter<boolean>();
   @Input() id: string;
-  @ViewChild(HttpServicesComponent, {static: true})
-  private httpServicesComponent: HttpServicesComponent;
+
   private msg: string = 'defaultErrorMessageKey';
 
   newClient: Client = {
@@ -46,6 +45,8 @@ export class AddClientComponent implements OnInit {
     typeClient: null,
     notes: null
   })
+
+
   constructor(private clientService: ClientServiceService,private fb: FormBuilder,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
               private translateService: TranslateService,
@@ -136,15 +137,13 @@ export class AddClientComponent implements OnInit {
     console.log("test   ");
     try {
       if (this.id) {
-        const paramsHttp = new HttpParams()
-            .set('id', this.id);
 
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.tokenStorage.getToken()
         });
-
-        this.http.put(`${this.env.piOpp}${this.wsService.getClient}/${this.id}`, this.domaineForm.value, { headers, params: paramsHttp })
+console.log("update:"+`${this.env.piOpp}${this.wsService.getClient}/${this.id}`);
+        this.http.put(`${this.env.piOpp}${this.wsService.getClient}/${this.id}`, this.domaineForm.value, { headers})
             .subscribe((data: any) => {
 
               if (data.statut === true) {
@@ -154,7 +153,7 @@ export class AddClientComponent implements OnInit {
       } else {
 
         const headers = new HttpHeaders({
-          'Content-Type': 'application/json',  // Adjust content type as needed
+          'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.tokenStorage.getToken()
         });
 
@@ -183,4 +182,7 @@ export class AddClientComponent implements OnInit {
       return;
     }
   }
+
+
+
 }

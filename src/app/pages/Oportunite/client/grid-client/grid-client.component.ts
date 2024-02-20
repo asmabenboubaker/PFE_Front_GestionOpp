@@ -11,6 +11,7 @@ import {exportDataGrid} from "devextreme/excel_exporter";
 import {jsPDF} from "jspdf";
 import {DxDataGridComponent, DxFormComponent} from "devextreme-angular";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 
 
@@ -29,7 +30,8 @@ export class GridClientComponent implements OnInit {
   formData: Client = { id: 0, nom: '', adresse: '', telephone: '', email: '', dateInscription: null, typeClient: '', notes: '' ,description:''};
   isNewRecord = true;
   visible = false;
-  constructor(private clientService: ClientServiceService, private env: EnvService,private router: Router) {
+  packageName = require('package.json').name;
+  constructor(private clientService: ClientServiceService, private env: EnvService,private router: Router,private toastr: ToastrService) {
     
   }
 
@@ -68,6 +70,10 @@ export class GridClientComponent implements OnInit {
     this.popupEdit = e
     this.refresh()
   }
+  resetGrid() {
+    localStorage.removeItem(this.packageName + '_' + 'GridJuge');
+    window.location.reload();
+  }
   getAllAdministration() {
     this.clientService.getClients().subscribe((data) => {
       this.clients = data;
@@ -94,8 +100,22 @@ export class GridClientComponent implements OnInit {
   openAddPage(e) {
     this.popupAdd = true   }
 
+  id
+  Editclient(id) {
+    this.id = id.data.id
+    console.log(this.id)
+    this.popupEdit = true
 
-
+  }
+  deleteclient(id) {
+    this.clientService.deleteClient(id).subscribe(data=>{
+          this.toastr.success("   successfully deleted ")
+          this.dataGrid.instance.refresh();
+        },
+        error => {
+          this.toastr.error("error")
+        })
+  }
   onToolbarPreparing(e) {
 
 
@@ -104,7 +124,16 @@ export class GridClientComponent implements OnInit {
     //       location: 'after',
     //       template: 'ExportPDF'
     //     });
-
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'after',
+          widget: 'dxButton',
+          options: {
+            hint: 'Reset',
+            icon: 'undo',
+            onClick: this.resetGrid.bind(this),
+          }
+        });
     e.toolbarOptions.items.unshift(
         {
           location: 'after',

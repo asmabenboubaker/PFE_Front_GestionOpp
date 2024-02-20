@@ -44,15 +44,6 @@ export const routes: Routes  = [
     CommonModule,
     RouterModule.forChild(routes),
 
-    // BrowserTransferStateModule,
-    // DxDataGridModule,
-    // DxFormModule,
-    // DxButtonModule,
-    // DxPopupModule,
-    // DxSelectBoxModule,
-    // DxTextAreaModule,
-    // DxFormModule,
-    // DxTooltipModule,
     SharedModuleModule,
     DxTemplateModule,
 

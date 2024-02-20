@@ -31,4 +31,7 @@ export class ClientServiceService {
   updateClient(client: Client,id): Observable<Client> {
     return this.http.put<Client>(`${this.env.piOpp+this.Wservice.getClient}/${id}`, client);
   }
+  deleteClient(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.env.piOpp}${this.Wservice.getClient}/${id}`);
+  }
 }
