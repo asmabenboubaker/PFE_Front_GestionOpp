@@ -137,7 +137,8 @@ export class AddClientComponent implements OnInit {
     console.log("test   ");
     try {
       if (this.id) {
-
+console.log("iddddddddddd"+this.id);
+        this.domaineForm.value.id = this.id;
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.tokenStorage.getToken()
