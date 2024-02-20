@@ -61,7 +61,13 @@ export class GridClientComponent implements OnInit {
     }
   }
 
-
+  popupAdd
+  popupEdit
+  add(e){
+    this.popupAdd = e
+    this.popupEdit = e
+    this.refresh()
+  }
   getAllAdministration() {
     this.clientService.getClients().subscribe((data) => {
       this.clients = data;
@@ -84,7 +90,7 @@ export class GridClientComponent implements OnInit {
   refresh() {
     this.dataGrid.instance.refresh();
   }
-  popupAdd: boolean = false;
+
   openAddPage(e) {
     this.popupAdd = true   }
 
