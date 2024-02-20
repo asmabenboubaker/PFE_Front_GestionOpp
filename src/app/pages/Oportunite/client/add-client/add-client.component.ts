@@ -10,6 +10,7 @@ import {HttpServicesComponent} from "../../../Global/ps-tools/http-services/http
 import {TranslateService} from "@ngx-translate/core";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {TokenStorageService} from "../../../Global/shared-service/token-storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-client',
@@ -52,6 +53,7 @@ export class AddClientComponent implements OnInit {
               private translateService: TranslateService,
               private tokenStorage: TokenStorageService,
               private http: HttpClient,
+              private router: Router
   ) { }
   onFieldDataChanged(e: any) {
     // Handle field data changes if needed
@@ -60,10 +62,12 @@ export class AddClientComponent implements OnInit {
   }
 
   ngAfterViewInit():void{
-    
+
   }
   Return() {
-    this.add.emit(false)
+    console.log("return")
+    this.add.emit(false);
+    this.router.navigate(['/client/all']);
   }
 
   // onSubmit() {
@@ -162,10 +166,11 @@ console.log("update:"+`${this.env.piOpp}${this.wsService.getClient}/${this.id}`)
             .subscribe((data: any) => {
 
               console.log(this.domaineForm.value)
-              if (data.statut === true) {
 
                 this.Return();
-              }
+
+            },error => {
+
             });
       }
     } catch (e) {

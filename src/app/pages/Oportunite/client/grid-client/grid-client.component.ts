@@ -110,7 +110,7 @@ export class GridClientComponent implements OnInit {
   deleteclient(id) {
     this.clientService.deleteClient(id).subscribe(data=>{
           this.toastr.success("   successfully deleted ")
-          this.dataGrid.instance.refresh();
+        this.refresh();
         },
         error => {
           this.toastr.error("error")
