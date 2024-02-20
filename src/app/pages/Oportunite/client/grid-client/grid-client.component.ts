@@ -81,6 +81,50 @@ export class GridClientComponent implements OnInit {
       });
     });
   }
+  refresh() {
+    this.dataGrid.instance.refresh();
+  }
+  popupAdd: boolean = false;
+  openAddPage(e) {
+    this.popupAdd = true   }
 
 
+
+  onToolbarPreparing(e) {
+
+
+    // e.toolbarOptions.items.unshift(
+    //     {
+    //       location: 'after',
+    //       template: 'ExportPDF'
+    //     });
+
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'after',
+          widget: 'dxButton',
+          options: {
+            hint: 'Refresh',
+            icon: 'refresh',
+            onClick: this.refresh.bind(this),
+          }
+        });
+    e.toolbarOptions.items.unshift({
+      location: 'after',
+      widget: 'dxButton',
+      options: {
+        hint: 'Nouveau',
+        icon: 'plus',
+        onClick: this.openAddPage.bind(this),
+      },
+    });
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'center',
+          template: 'titreGrid'
+        }
+    );
+
+
+  }
 }

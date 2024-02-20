@@ -1,18 +1,42 @@
-<!-- add-client.component.html -->
+<form [formGroup]="domaineForm" class="form-outline row g-2 needs-validation" novalidate>
+    <div class="row">
+        <div  >
+            <mdb-form-control>
+                <label for="nom">Nom:</label>
+                <input class="form-control" formControlName="nom" id="nom" mdbInput mdbValidate  type="text" />
+            </mdb-form-control>
 
-<dx-form [formData]="newClient" (onFieldDataChanged)="onFieldDataChanged($event)">
-    <dxi-item dataField="nom" editorType="dxTextBox" [editorOptions]="{ placeholder: 'Name' }"></dxi-item>
-    <dxi-item dataField="adresse" editorType="dxTextBox" [editorOptions]="{ placeholder: 'Address' }"></dxi-item>
-    <dxi-item dataField="telephone" editorType="dxTextBox" [editorOptions]="{ placeholder: 'Telephone' }"></dxi-item>
-    <dxi-item dataField="email" editorType="dxTextBox" [editorOptions]="{ placeholder: 'Email' }"></dxi-item>
-    <!-- Add other form fields as needed -->
-  
-    <div class="dx-field">
-      <div class="dx-field-value">
-        <div class="dx-form-button">
-          <div dxButton (onClick)="addClient()">Add Client</div>
+            <mdb-form-control>
+                <label for="adresse">Adresse:</label>
+                <input class="form-control" formControlName="adresse" id="adresse" mdbInput mdbValidate  type="text" />
+            </mdb-form-control>
+
+            <mdb-form-control>
+                <label for="email">Email:</label>
+                <input class="form-control" formControlName="email" id="email" mdbInput mdbValidate  type="text" />
+            </mdb-form-control>
+
+            <mdb-form-control>
+                <label for="description">Description:</label>
+                <input class="form-control" formControlName="description" id="description" mdbInput mdbValidate  type="text" />
+            </mdb-form-control>
+
+            <mdb-form-control>
+                <label for="typeClient">Type Client:</label>
+                <input class="form-control" formControlName="typeClient" id="typeClient" mdbInput mdbValidate  type="text" />
+            </mdb-form-control>
+
+            <mdb-form-control>
+                <label for="notes">Notes:</label>
+                <input class="form-control" formControlName="notes" id="notes" mdbInput mdbValidate  type="text" />
+            </mdb-form-control>
+
         </div>
-      </div>
     </div>
-  </dx-form>
-      
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+        <button (click)="Return()" class="btn btn-light" type="button" style="background: #6e7271;color: white">
+            Cancel </button>
+        <button (click)="onSubmit()" class="btn btn-success me-md-2" type="submit"> Save </button>
+    </div>
+</form>

@@ -1,17 +1,42 @@
+
+
+
+<dx-popup
+        [maxWidth]="940"
+        [width]="900"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Add Client"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupAdd">
+
+    <app-add-client [id]="" (add)="add($event)"></app-add-client>
+</dx-popup>
 <dx-data-grid
     #grid
     [dataSource]="dataSourceElement"
     [showBorders]="true"
     [repaintChangesOnly]="true"
+    (onToolbarPreparing)="onToolbarPreparing($event)"
+    [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
 >
+
     <dxo-editing
             [allowUpdating]="true"
-            [allowAdding]="true"
+
             [allowDeleting]="true"
             [useIcons]="true"
             mode="popup"
 
     ></dxo-editing>
+    <dxo-pager [allowedPageSizes]="allowedPageSizes" [showInfo]="true" [showPageSizeSelector]="true"
+               [visible]="true"
+               displayMode="full"
+               [showNavigationButtons]="true"
+    ></dxo-pager>
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"  ></dxo-paging>
     <dxi-column dataField="nom" dataType="string"></dxi-column>
     <dxi-column dataField="adresse" dataType="string"></dxi-column>
     <dxi-column dataField="telephone" dataType="string"></dxi-column>
@@ -31,15 +56,4 @@
 <!--        </dxi-item>-->
 <!--    </dxo-toolbar>-->
 </dx-data-grid>
-<dx-popup
-        [maxWidth]="940"
-        [width]="900"
-        [height]="'auto'"
-        [showTitle]="true"
-        title="اضافة اختصاص"
-        [dragEnabled]="false"
-        [closeOnOutsideClick]="true"
-        [(visible)]="popupAdd">
 
-    <app-specialite [id]="" (add)="add($event)"></app-specialite>
-</dx-popup>

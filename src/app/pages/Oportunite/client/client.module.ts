@@ -14,6 +14,10 @@ import {
 import { AddClientComponent } from './add-client/add-client.component';
 import {DxPopupModule} from "devextreme-angular/ui/popup";
 import {DxSelectBoxModule} from "devextreme-angular/ui/select-box";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MdbFormsModule} from "mdb-angular-ui-kit/forms";
+import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
+import {HttpServicesComponent} from "../../Global/ps-tools/http-services/http-services.component";
 
 export const routes: Routes  = [
   {
@@ -33,25 +37,27 @@ export const routes: Routes  = [
 @NgModule({
   declarations: [
     GridClientComponent,
-    AddClientComponent
+    AddClientComponent,
+
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-   
-    BrowserTransferStateModule,
-    DxDataGridModule ,
-    DxFormModule,
-    DxButtonModule,
-    DxPopupModule,
-    DxSelectBoxModule,
-    DxTextAreaModule,
-    DxFormModule,
-    DxTooltipModule,
 
+    // BrowserTransferStateModule,
+    // DxDataGridModule,
+    // DxFormModule,
+    // DxButtonModule,
+    // DxPopupModule,
+    // DxSelectBoxModule,
+    // DxTextAreaModule,
+    // DxFormModule,
+    // DxTooltipModule,
+    SharedModuleModule,
     DxTemplateModule,
 
-    
+
+
   ]
 })
 export class ClientModule { }
