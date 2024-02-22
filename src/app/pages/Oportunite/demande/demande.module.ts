@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GridDemandeComponent } from './grid-demande/grid-demande.component';
 import {RouterModule, Routes} from "@angular/router";
 import { AddDemandeComponent } from './add-demande/add-demande.component';
-import {DxDataGridModule} from "devextreme-angular";
+import {DxDataGridModule, DxPopupModule} from "devextreme-angular";
 import {
     DxiItemModule,
     DxiValidationRuleModule,
@@ -53,6 +53,7 @@ export const routes: Routes  = [
         DxoPagingModule,
         DxoPopupModule,
         DxoScrollingModule,
+        DxPopupModule,
     ]
 })
 

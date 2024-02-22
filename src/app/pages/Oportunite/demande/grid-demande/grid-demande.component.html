@@ -1,15 +1,43 @@
-<dx-data-grid
 
+<dx-popup
+        [maxWidth]="940"
+        [width]="900"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Add Client"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupAdd">
+
+    <app-add-demande [id]="" (add)="add($event)"></app-add-demande>
+</dx-popup>
+<dx-popup
+        [maxWidth]="940"
+        [width]="900"
+        [height]="'auto'"
+        [showTitle]="true"
+        title=" edit client"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupEdit">
+
+    <app-add-demande *ngIf="this.id" [id]="''+this.id" (add)="add($event)"></app-add-demande>
+</dx-popup>
+<dx-data-grid
+    #dataGridDemande
         [showBorders]="true"
         [allowColumnResizing]="true"
         id="gridContainer"
+    (onToolbarPreparing)="onToolbarPreparing($event)"
         [columnAutoWidth]="true"
         [dataSource]="dataSourceElement"
         [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+
         keyExpr="id"
+    id="dataGridDemande"
+    class="dataGridDemande"
 >
-    <dxo-export [enabled]="true" [formats]="['xlsx', 'pdf']"></dxo-export>
-    <dxo-header-filter [visible]="true"></dxo-header-filter>
+
     <dxo-filter-row [visible]="true" applyFilter="onClick"></dxo-filter-row>
 
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>

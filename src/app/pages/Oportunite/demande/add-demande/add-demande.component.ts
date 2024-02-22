@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-add-demande',
@@ -6,8 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-demande.component.scss']
 })
 export class AddDemandeComponent implements OnInit {
-
-  constructor() { }
+  @Output() add = new EventEmitter<boolean>();
+  @Input() id: string;
+  demandeForm: FormGroup;
+  constructor(private fb: FormBuilder) {
+    this.demandeForm = this.fb.group({
+      id: null, // You might want to initialize other properties based on your requirements
+      nom: [null, Validators.required],
+      description: null,
+      dateDeCreation: null,
+      statutDemande: null,
+      statut: null,
+    });
+  }
 
   ngOnInit(): void {
   }

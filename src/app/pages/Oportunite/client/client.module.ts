@@ -40,13 +40,15 @@ export const routes: Routes  = [
     AddClientComponent,
 
   ],
+  exports: [
+    AddClientComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
 
     SharedModuleModule,
     DxTemplateModule,
-
 
 
   ]

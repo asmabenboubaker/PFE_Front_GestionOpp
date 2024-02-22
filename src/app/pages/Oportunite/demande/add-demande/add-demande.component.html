@@ -1,1 +1,43 @@
-<p>add-demande works!</p>
+<form [formGroup]="demandeForm" class="row g-3 needs-validation" novalidate>
+    <div class="col-md-6">
+        <label for="nom" class="form-label">Nom:</label>
+        <input class="form-control" formControlName="nom" id="nom" type="text" required>
+        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"
+             class="alert alert-danger">
+            <div *ngIf="demandeForm.get('nom').errors.required">
+                Nom is required.
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="description" class="form-label">Description:</label>
+        <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
+        <!-- Add validation for description if needed -->
+    </div>
+
+    <div class="col-md-6">
+        <label for="dateDeCreation" class="form-label">Date de Création:</label>
+        <input class="form-control" formControlName="dateDeCreation" id="dateDeCreation" type="date">
+        <!-- Add validation for dateDeCreation if needed -->
+    </div>
+
+    <div class="col-md-6">
+        <label for="statutDemande" class="form-label">Statut Demande:</label>
+        <input class="form-control" formControlName="statutDemande" id="statutDemande" type="text">
+        <!-- Add validation for statutDemande if needed -->
+    </div>
+
+    <div class="col-md-6">
+        <label for="statut" class="form-label">Statut:</label>
+        <input class="form-control" formControlName="statut" id="statut" type="text">
+        <!-- Add validation for statut if needed -->
+    </div>
+
+    <div class="col-12">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+            <button (click)="Return()" class="btn btn-light" type="button">Cancel</button>
+            <button (click)="onSubmit()" class="btn btn-success" type="submit">Save</button>
+        </div>
+    </div>
+</form>
