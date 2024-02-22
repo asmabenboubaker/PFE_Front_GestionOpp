@@ -15,6 +15,8 @@ import {ToastrService} from "ngx-toastr";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {TokenStorageService} from "../../../Global/shared-service/token-storage.service";
 import {CookieService} from "ngx-cookie-service";
+import DevExpress from "devextreme";
+import ExportingEvent = DevExpress.ui.dxDataGrid.ExportingEvent;
 
 
 
@@ -46,38 +48,16 @@ export class GridClientComponent implements OnInit {
     this.getAllAdministration();
 
   }
-  // exportGrid(e) {
-  //   if (e.format === 'xlsx') {
-  //     const workbook = new Workbook();
-  //     const worksheet = workbook.addWorksheet("Main sheet");
-  //     exportDataGrid({
-  //       worksheet: worksheet,
-  //       component: e.component,
-  //     }).then(function() {
-  //       workbook.xlsx.writeBuffer().then(function(buffer) {
-  //         saveAs(new Blob([buffer], { type: "application/octet-stream" }), "DataGrid.xlsx");
-  //       });
-  //     });
-  //   }
-  //   else if (e.format === 'pdf') {
-  //     const doc = new jsPDF();
-  //     exportDataGridToPdf({
-  //       jsPDFDocument: doc,
-  //       component: e.component,
-  //     }).then(() => {
-  //       doc.save('DataGrid.pdf');
-  //     });
-  //   }
-  // }
   exportGrid() {
     const doc = new jsPDF();
     exportDataGridToPdf({
       jsPDFDocument: doc,
       component: this.dataGridClient.instance
     }).then(() => {
-      doc.save('Customers.pdf');
+      doc.save('Clients.pdf');
     })
   }
+
   popupAdd
   popupEdit
   add(e){

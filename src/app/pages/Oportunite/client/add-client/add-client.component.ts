@@ -39,16 +39,26 @@ export class AddClientComponent implements OnInit {
 
   domaineForm = this.fb.group({
     id: null,
-    nom: null,
-    adresse: null,
-    telephne: null,
-    email: null,
+    nom: ['', Validators.required],
+    adresse: ['', Validators.required],
+    telephne: ['', Validators.required],
+    email: ['', Validators.required],
     description: null,
     dateInscription:null,
     typeClient: null,
     notes: null
   })
-
+  // domaineForm = this.fb.group({
+  //   id: [null],
+  //   nom: [null, Validators.required],
+  //   adresse: [null, Validators.required],
+  //   telephne: [null],
+  //   email: [null, [Validators.required, Validators.email]],
+  //   description: [null],
+  //   dateInscription: [null, Validators.required],
+  //   typeClient: [null, Validators.required],
+  //   notes: [null],
+  // });
 
   constructor(private clientService: ClientServiceService,private fb: FormBuilder,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
@@ -92,7 +102,7 @@ export class AddClientComponent implements OnInit {
     console.log('test');
     try {
       const clientData: Client = this.domaineForm.value as Client;
-      if (this.id) {
+      if (this.id ) {
         console.log('iddddddddddd' + this.id);
 
         this.domaineForm.value.id = this.id;
@@ -105,13 +115,29 @@ export class AddClientComponent implements OnInit {
               // Handle error
             });
       } else {
-        this.clientService.addClient(clientData)
-            .subscribe((data: any) => {
+        if(this.domaineForm.valid) {
+          this.clientService.addClient(clientData)
+              .subscribe((data: any) => {
 
-              this.Return();
-            }, error => {
-              // Handle error
-            });
+                this.Return();
+              }, error => {
+                // Handle error
+              });
+
+        }else {
+            if (!this.domaineForm.value.nom) {
+              this.toastr.error('Merci de saisir le nom ');
+            }
+          if (!this.domaineForm.value.adresse) {
+            this.toastr.error('Merci de saisir l adresse ');
+          }
+          if (!this.domaineForm.value.telephne) {
+            this.toastr.error('Merci de saisir le numéro de téléphone ');
+          }
+          if (!this.domaineForm.value.email) {
+            this.toastr.error('Merci de saisir l email ');
+          }
+        }
       }
     } catch (e) {
       console.log(e);

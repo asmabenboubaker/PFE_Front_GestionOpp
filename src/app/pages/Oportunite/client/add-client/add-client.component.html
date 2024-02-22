@@ -2,21 +2,45 @@
     <div class="col-md-6">
         <label for="nom" class="form-label">Nom:</label>
         <input class="form-control" formControlName="nom" id="nom" type="text" required>
+        <div *ngIf="domaineForm.get('nom').invalid && (domaineForm.get('nom').dirty || domaineForm.get('nom').touched)"
+             class="alert alert-danger">
+            <div *ngIf="domaineForm.get('nom').errors.required">
+                Nom is required.
+            </div>
+        </div>
     </div>
 
     <div class="col-md-6">
         <label for="adresse" class="form-label">Adresse:</label>
         <input class="form-control" formControlName="adresse" id="adresse" type="text" required>
+        <div *ngIf="domaineForm.get('adresse').invalid && (domaineForm.get('adresse').dirty || domaineForm.get('adresse').touched)"
+             class="alert alert-danger">
+            <div *ngIf="domaineForm.get('adresse').errors.required">
+                Adresse is required.
+            </div>
+        </div>
     </div>
 
     <div class="col-md-6">
-        <label for="telephone" class="form-label">Téléphone:</label>
+        <label for="telephne" class="form-label">Téléphone:</label>
         <input class="form-control" formControlName="telephne" id="telephne" type="tel">
+        <div *ngIf="domaineForm.get('telephne').invalid && (domaineForm.get('telephne').dirty || domaineForm.get('telephne').touched)"
+             class="alert alert-danger">
+            <div *ngIf="domaineForm.get('telephne').errors.required">
+                telephne is required.
+            </div>
+        </div>
     </div>
 
     <div class="col-md-6">
         <label for="email" class="form-label">Email:</label>
         <input class="form-control" formControlName="email" id="email" type="email">
+        <div *ngIf="domaineForm.get('email').invalid && (domaineForm.get('email').dirty || domaineForm.get('email').touched)"
+             class="alert alert-danger">
+            <div *ngIf="domaineForm.get('email').errors.required">
+                email is required.
+            </div>
+        </div>
     </div>
 
 
