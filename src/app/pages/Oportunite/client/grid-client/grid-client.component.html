@@ -29,29 +29,22 @@
     <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 col-xl-12 col-xxl-12">
 
     <dx-data-grid
-        #dataGrid
+        #dataGridClient
     [dataSource]="dataSourceElement"
     [showBorders]="true"
 
-    class="dataGrid"
+    class="dataGridClient"
     (onToolbarPreparing)="onToolbarPreparing($event)"
     [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
     [columnAutoWidth]="true"
     (onRowDblClick)="Editclient($event)"
     [rowAlternationEnabled]="true"
     [showColumnLines]="true"
-    id="dataGrid"
+    id="dataGridClient"
     keyExpr="id"
 >
 
-    <dxo-editing
-            [allowDeleting]="false"
-            [allowUpdating]="false"
-            [confirmDelete]="true"
-            [useIcons]="true"
-            mode="row"
 
-    ></dxo-editing>
     <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-filter-row [visible]="true" applyFilter="true"></dxo-filter-row>

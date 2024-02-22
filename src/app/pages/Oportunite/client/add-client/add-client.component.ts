@@ -65,7 +65,7 @@ export class AddClientComponent implements OnInit {
       const clientId = +this.id;
       this.clientService.getClientById(clientId).subscribe(
           (client: Client) => {
-           
+
             this.domaineForm.patchValue(client);
           },
           (error) => {
@@ -80,7 +80,10 @@ export class AddClientComponent implements OnInit {
 
     Return() {
 
-        this.router.navigate(["/client/all"]);
+        // this.router.navigate(["/client/all"]);
+
+        this.add.emit(false)
+
   }
 
 
@@ -96,14 +99,15 @@ export class AddClientComponent implements OnInit {
 
         this.clientService.updateClient(clientData, this.id)
             .subscribe((data: any) => {
-              if (data.statut === true) {
-                this.Return();
-              }
+
+              this.Return();
+            }, error => {
+              // Handle error
             });
       } else {
         this.clientService.addClient(clientData)
             .subscribe((data: any) => {
-              console.log(this.domaineForm.value);
+
               this.Return();
             }, error => {
               // Handle error
