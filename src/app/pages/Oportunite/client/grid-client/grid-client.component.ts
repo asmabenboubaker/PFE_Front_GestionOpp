@@ -26,8 +26,10 @@ export class GridClientComponent implements OnInit {
   pageSize = this.env.pageSize;
   allowedPageSizes = this.env.allowedPageSizes;
   @ViewChild('editForm', { static: false }) editForm: DxFormComponent;
-  @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
-  formData: Client = { id: 0, nom: '', adresse: '', telephone: '', email: '', dateInscription: null, typeClient: '', notes: '' ,description:''};
+
+  @ViewChild('dataGrid', {static: false}) dataGrid: DxDataGridComponent;
+
+  formData: Client = { id: 0, nom: '', adresse: '', telephne: '', email: '', dateInscription: null, typeClient: '', notes: '' ,description:''};
   isNewRecord = true;
   visible = false;
   packageName = require('package.json').name;
@@ -71,7 +73,7 @@ export class GridClientComponent implements OnInit {
     this.refresh()
   }
   resetGrid() {
-    localStorage.removeItem(this.packageName + '_' + 'GridJuge');
+    localStorage.removeItem(this.packageName + '_' + 'dataGrid');
     window.location.reload();
   }
   getAllAdministration() {
@@ -93,7 +95,13 @@ export class GridClientComponent implements OnInit {
       });
     });
   }
-  refresh() {
+  // refresh() {
+  //
+  //   this.dataGrid.instance.refresh(true).then(r =>
+  //   console.log("refresh")
+  //   );
+  // }
+  refresh(): void {
     this.dataGrid.instance.refresh();
   }
 

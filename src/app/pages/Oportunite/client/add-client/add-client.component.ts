@@ -11,6 +11,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {TokenStorageService} from "../../../Global/shared-service/token-storage.service";
 import {Router} from "@angular/router";
+import {Components} from "formiojs";
+import number = Components.components.number;
 
 @Component({
   selector: 'app-add-client',
@@ -27,10 +29,10 @@ export class AddClientComponent implements OnInit {
     id: 0,
     nom: '',
     adresse: '',
-    telephone: '',
+    telephne: '',
     email: '',
     description: '',
-    dateInscription: '',
+    dateInscription: null,
     typeClient: '',
     notes: ''
   };
@@ -39,7 +41,7 @@ export class AddClientComponent implements OnInit {
     id: null,
     nom: null,
     adresse: null,
-    telephone: null,
+    telephne: null,
     email: null,
     description: null,
     dateInscription:null,
@@ -59,126 +61,60 @@ export class AddClientComponent implements OnInit {
     // Handle field data changes if needed
   }
   ngOnInit(): void {
+    if (this.id) {
+      const clientId = +this.id;
+      this.clientService.getClientById(clientId).subscribe(
+          (client: Client) => {
+           
+            this.domaineForm.patchValue(client);
+          },
+          (error) => {
+            console.error('Error fetching client details:', error);
+          }
+      );
+    }
+
   }
 
-  ngAfterViewInit():void{
 
-  }
-  Return() {
-    console.log("return")
-    this.add.emit(false);
-    this.router.navigate(['/client/all']);
+
+    Return() {
+
+        this.router.navigate(["/client/all"]);
   }
 
-  // onSubmit() {
-  //   console.log("HttpServicesComponent:", this.httpServicesComponent);
-  //   console.log("test   ")
-  //   try {
-  //
-  //     // if (!this.domaineForm.value.id && !this.domaineForm.value.nom) {
-  //     //   this.toastr.error('champs invalid ');
-  //     // }
-  //     // else{
-  //       if(this.id){
-  //         let paramsHttp = new HttpParam(
-  //             "put",
-  //             this.env.piOpp+ this.wsService.getClient+'/',
-  //             this.id,
-  //             this.domaineForm.value,
-  //             []
-  //         );
-  //         this.httpServicesComponent.method(paramsHttp).then((data) => {
-  //           if (data.statut === true) {
-  //             this.Return();
-  //           }
-  //         });
-  //       } else{
-  //
-  //         console.log("test if id null")
-  //         let paramsHttp = new HttpParam(
-  //             "POST",
-  //             this.env.piOpp + this.wsService.getClient,
-  //             '',
-  //             this.domaineForm.value,
-  //             []
-  //         );
-  //
-  //           this.httpServicesComponent.method(paramsHttp).then((data) => {
-  //             if (data.statut === true) {
-  //               this.Return();
-  //             }
-  //           });
-  //
-  //     }
-  //     //  if (this.domaineForm.valid) { // Vérifier si le formulaire est valide
-  //
-  //
-  //     // } else if (this.domaineForm.invalid) { // Le formulaire est invalide
-  //     //
-  //     //   if (!this.domaineForm.value.experts["name"]) {
-  //     //     this.toastr.error('Merci de séléctionner le nom expert ');
-  //     //   }
-  //     // }
-  //   } catch (e) {
-  //     // Gérer les erreurs
-  //     console.log(e)
-  //     this.translateService.get(this.msg).subscribe((res) => {
-  //       this.toastr.error(res, "", {
-  //         closeButton: true,
-  //         positionClass: "toast-top-right",
-  //         extendedTimeOut: this.env.extendedTimeOutToastr,
-  //         progressBar: true,
-  //         disableTimeOut: false,
-  //         timeOut: this.env.timeOutToastr,
-  //       });
-  //     });
-  //     return;
-  //   }
-  //
-  // }
+
 
   onSubmit() {
-    console.log("test   ");
+    console.log('test');
     try {
+      const clientData: Client = this.domaineForm.value as Client;
       if (this.id) {
-console.log("iddddddddddd"+this.id);
-        this.domaineForm.value.id = this.id;
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.tokenStorage.getToken()
-        });
-console.log("update:"+`${this.env.piOpp}${this.wsService.getClient}/${this.id}`);
-        this.http.put(`${this.env.piOpp}${this.wsService.getClient}/${this.id}`, this.domaineForm.value, { headers})
-            .subscribe((data: any) => {
+        console.log('iddddddddddd' + this.id);
 
+        this.domaineForm.value.id = this.id;
+
+        this.clientService.updateClient(clientData, this.id)
+            .subscribe((data: any) => {
               if (data.statut === true) {
                 this.Return();
               }
             });
       } else {
-
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.tokenStorage.getToken()
-        });
-
-        this.http.post(`${this.env.piOpp}${this.wsService.getClient}`, this.domaineForm.value, { headers })
+        this.clientService.addClient(clientData)
             .subscribe((data: any) => {
-
-              console.log(this.domaineForm.value)
-
-                this.Return();
-
-            },error => {
-
+              console.log(this.domaineForm.value);
+              this.Return();
+            }, error => {
+              // Handle error
             });
       }
     } catch (e) {
       console.log(e);
       this.translateService.get(this.msg).subscribe((res) => {
-        this.toastr.error(res, "", {
+        this.toastr.error(res, '', {
           closeButton: true,
-          positionClass: "toast-top-right",
+          positionClass: 'toast-top-right',
           extendedTimeOut: this.env.extendedTimeOutToastr,
           progressBar: true,
           disableTimeOut: false,
@@ -188,7 +124,5 @@ console.log("update:"+`${this.env.piOpp}${this.wsService.getClient}/${this.id}`)
       return;
     }
   }
-
-
 
 }

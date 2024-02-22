@@ -1,11 +1,11 @@
 export interface Client { 
-	id: number;  
+	id: number;
 	adresse: string;
-    telephone: string;
+    telephne: string;
     email: string;
     nom: string;
     description: string;
-    dateInscription: string;
+    dateInscription: Date;
     typeClient: string;
     notes: string;
 }
