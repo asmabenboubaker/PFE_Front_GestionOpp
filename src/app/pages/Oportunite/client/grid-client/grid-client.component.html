@@ -50,7 +50,7 @@
     <dxo-filter-row [visible]="true" applyFilter="true"></dxo-filter-row>
     <dxo-header-filter [visible]="false"></dxo-header-filter>
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
-    <dxo-export [allowExportSelectedData]="false" [enabled]="true"></dxo-export>
+
 
     <dxo-pager [allowedPageSizes]="allowedPageSizes" [showInfo]="true" [showPageSizeSelector]="true"
                [visible]="true"
@@ -73,25 +73,14 @@
     <dxi-column dataField="notes" dataType="string"></dxi-column>
         <div *dxTemplate="let data of 'cellTemplateActions'"
              style="display: flex; justify-content: center; align-items: center;">
-
-            <!--                        <a (click)="EditVille(data.data.id)" target="_blank" rel="noopener" title=""><i-->
-            <!--                                class="fa fa-pencil" style="color: rgb(32, 166, 219);"></i></a>-->
-            &nbsp;&nbsp;
             <a (click)="deleteclient(data.data.id)" target="_blank" rel="noopener" title="" >
                 <i class="fa fa-trash" style="color:#a63a3a;">
                 </i></a>
         </div>
-<!--    <dxi-column type="buttons">-->
-<!--        <dxi-button name="edit" [onClick]="editRow"></dxi-button>-->
-<!--        <dxi-button name="delete"></dxi-button>-->
-<!--    </dxi-column>-->
-<!--    <dxo-toolbar>-->
-<!--        <dxi-item location="after">-->
-<!--            <div *dxTemplate>-->
-<!--                <dx-button icon="plus" (onClick)="addRow()"></dx-button>-->
-<!--            </div>-->
-<!--        </dxi-item>-->
-<!--    </dxo-toolbar>-->
+        <div *dxTemplate="let data of 'ExportPDF'">
+            <dx-button (onClick)="exportGrid()" hint="{{ 'exportPDF' | translate }}" icon="exportpdf"
+                       id="exportButton"></dx-button>
+        </div>
 </dx-data-grid>
 
     </div>

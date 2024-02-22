@@ -46,30 +46,38 @@ export class GridClientComponent implements OnInit {
     this.getAllAdministration();
 
   }
-  exportGrid(e) {
-    if (e.format === 'xlsx') {
-      const workbook = new Workbook();
-      const worksheet = workbook.addWorksheet("Main sheet");
-      exportDataGrid({
-        worksheet: worksheet,
-        component: e.component,
-      }).then(function() {
-        workbook.xlsx.writeBuffer().then(function(buffer) {
-          saveAs(new Blob([buffer], { type: "application/octet-stream" }), "DataGrid.xlsx");
-        });
-      });
-    }
-    else if (e.format === 'pdf') {
-      const doc = new jsPDF();
-      exportDataGridToPdf({
-        jsPDFDocument: doc,
-        component: e.component,
-      }).then(() => {
-        doc.save('DataGrid.pdf');
-      });
-    }
+  // exportGrid(e) {
+  //   if (e.format === 'xlsx') {
+  //     const workbook = new Workbook();
+  //     const worksheet = workbook.addWorksheet("Main sheet");
+  //     exportDataGrid({
+  //       worksheet: worksheet,
+  //       component: e.component,
+  //     }).then(function() {
+  //       workbook.xlsx.writeBuffer().then(function(buffer) {
+  //         saveAs(new Blob([buffer], { type: "application/octet-stream" }), "DataGrid.xlsx");
+  //       });
+  //     });
+  //   }
+  //   else if (e.format === 'pdf') {
+  //     const doc = new jsPDF();
+  //     exportDataGridToPdf({
+  //       jsPDFDocument: doc,
+  //       component: e.component,
+  //     }).then(() => {
+  //       doc.save('DataGrid.pdf');
+  //     });
+  //   }
+  // }
+  exportGrid() {
+    const doc = new jsPDF();
+    exportDataGridToPdf({
+      jsPDFDocument: doc,
+      component: this.dataGridClient.instance
+    }).then(() => {
+      doc.save('Customers.pdf');
+    })
   }
-
   popupAdd
   popupEdit
   add(e){
@@ -82,31 +90,10 @@ export class GridClientComponent implements OnInit {
     window.location.reload();
   }
   getAllAdministration() {
-    // this.clientService.getClients().subscribe((data) => {
-    //   this.clients = data;
-    //   this.dataSourceElement = new CustomStore({
-    //     load: (loadOptions: any) => {
-    //       loadOptions.requireTotalCount = true;
-    //       const size = loadOptions.take || this.env.pageSize;
-    //       const startIndex = loadOptions.skip || 0;
-    //       const endIndex = startIndex + size;
-    //       const paginatedData = this.clients.slice(startIndex, endIndex);
-    //
-    //       return Promise.resolve({
-    //         data: paginatedData,
-    //         totalCount: this.clients.length,
-    //       });
-    //     },
-    //   });
-    // });
 
     this.dataSourceElement = new CustomStore({
       load: function (loadOptions: any) {
-        // if (loadOptions.filter == null || loadOptions.filter == undefined) {
-        //     this.reqDateDebutDateFin = '?size=100000&page=0&sort=arrivedDatetime,desc';
-        //     this.fromDate = null;
-        //     this.toDate = null;
-        // }
+
         loadOptions.requireTotalCount = true;
         var params = "";
         var paramsCount: any = '';
@@ -311,12 +298,7 @@ export class GridClientComponent implements OnInit {
 
 
   }
-  // refresh() {
-  //
-  //   this.dataGrid.instance.refresh(true).then(r =>
-  //   console.log("refresh")
-  //   );
-  // }
+
   refresh(): void {
     this.dataGridClient.instance.refresh();
   }
@@ -343,11 +325,11 @@ export class GridClientComponent implements OnInit {
   onToolbarPreparing(e) {
 
 
-    // e.toolbarOptions.items.unshift(
-    //     {
-    //       location: 'after',
-    //       template: 'ExportPDF'
-    //     });
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'after',
+          template: 'ExportPDF'
+        });
     e.toolbarOptions.items.unshift(
         {
           location: 'after',
