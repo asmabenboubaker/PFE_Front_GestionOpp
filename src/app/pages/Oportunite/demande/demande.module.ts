@@ -17,6 +17,7 @@ import {
     DxoPopupModule,
     DxoScrollingModule
 } from "devextreme-angular/ui/nested";
+import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
 
 export const routes: Routes  = [
   {
@@ -41,19 +42,20 @@ export const routes: Routes  = [
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
-        DxDataGridModule,
-        DxiItemModule,
-        DxiValidationRuleModule,
-        DxoEditingModule,
-        DxoExportModule,
-        DxoFilterRowModule,
-        DxoFormModule,
-        DxoHeaderFilterModule,
-        DxoPagerModule,
-        DxoPagingModule,
-        DxoPopupModule,
-        DxoScrollingModule,
-        DxPopupModule,
+        // DxDataGridModule,
+        // DxiItemModule,
+        // DxiValidationRuleModule,
+        // DxoEditingModule,
+        // DxoExportModule,
+        // DxoFilterRowModule,
+        // DxoFormModule,
+        // DxoHeaderFilterModule,
+        // DxoPagerModule,
+        // DxoPagingModule,
+        // DxoPopupModule,
+        // DxoScrollingModule,
+        // DxPopupModule,
+        SharedModuleModule,
     ]
 })
 

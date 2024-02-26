@@ -4,7 +4,7 @@
         [width]="900"
         [height]="'auto'"
         [showTitle]="true"
-        title="Add Client"
+        title="Ajouter Demande"
         [dragEnabled]="false"
         [closeOnOutsideClick]="true"
         [(visible)]="popupAdd">
@@ -32,17 +32,34 @@
         [columnAutoWidth]="true"
         [dataSource]="dataSourceElement"
         [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+    (onRowDblClick)="Editclient($event)"
+    (onContentReady)="onDataGridContentReady($event)"
         keyExpr="id"
     id="dataGridDemande"
     class="dataGridDemande"
 >
 
-    <dxo-filter-row [visible]="true" applyFilter="onClick"></dxo-filter-row>
 
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    <dxi-column dataField="nom" dataType="string"></dxi-column>
+    <dxi-column dataField="statut" dataType="string"></dxi-column>
 
+    <dxi-column dataField="description" dataType="string"></dxi-column>
+    <dxi-column dataField=" dateDeCreation" dataType="date"></dxi-column>
+    <dxi-column [allowResizing]="false"
+                [fixed]="false" caption="{{'' | translate}}"
+                cellTemplate="cellTemplateActions"
+    >
+    </dxi-column>
+    <div *dxTemplate="let data of 'cellTemplateActions'"
+         style="display: flex; justify-content: center; align-items: center;">
+        <a (click)="deletedemande(data.data.id)" target="_blank" rel="noopener" title="" >
+            <i class="fa fa-trash" style="color:#a63a3a;">
+            </i></a>
+    </div>
     <dxo-pager
             [allowedPageSizes]="allowedPageSizes"
             [showInfo]="true"
@@ -52,26 +69,5 @@
             [showNavigationButtons]="true"
     ></dxo-pager>
 
-    <dxo-editing
-            mode="popup"
-            [allowUpdating]="true"
-            [allowAdding]="true"
-            [allowDeleting]="true"
-            mode="row"
-            [confirmDelete]="false"
-    >
-        <dxo-popup width="700" height="525" [showTitle]="true" title="Modifier demande "></dxo-popup>
-        <dxo-form>
-            <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
-                <!-- Adjust the data fields based on the Demande entity properties -->
-                <dxi-item dataField="statutDemande">
-                    <dxi-validation-rule type="required"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="description"></dxi-item>
-                <dxi-item dataField="nom"></dxi-item>
-                <dxi-item dataField="dateDeCreation"></dxi-item>
-                <dxi-item dataField="statut"></dxi-item>
-            </dxi-item>
-        </dxo-form>
-    </dxo-editing>
+
 </dx-data-grid>

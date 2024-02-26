@@ -1,4 +1,4 @@
-<form [formGroup]="demandeForm" class="row g-3 needs-validation" novalidate>
+<form [formGroup]="demandeForm" class="row g-3 needs-validation custom-form" novalidate>
     <div class="col-md-6">
         <label for="nom" class="form-label">Nom:</label>
         <input class="form-control" formControlName="nom" id="nom" type="text" required>
@@ -23,15 +23,16 @@
     </div>
 
     <div class="col-md-6">
-        <label for="statutDemande" class="form-label">Statut Demande:</label>
-        <input class="form-control" formControlName="statutDemande" id="statutDemande" type="text">
-        <!-- Add validation for statutDemande if needed -->
-    </div>
-
-    <div class="col-md-6">
         <label for="statut" class="form-label">Statut:</label>
-        <input class="form-control" formControlName="statut" id="statut" type="text">
-        <!-- Add validation for statut if needed -->
+        <select class="form-select" formControlName="statut" id="statut">
+            <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+        </select>
+        <div *ngIf="demandeForm.get('statut').invalid && (demandeForm.get('statut').dirty || demandeForm.get('statut').touched)"
+             class="alert alert-danger">
+            <div *ngIf="demandeForm.get('statut').errors.required">
+                Statut is required.
+            </div>
+        </div>
     </div>
 
     <div class="col-12">

@@ -30,12 +30,23 @@ export class GridDemandeComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   @ViewChild('dataGridDemande', {static: false}) dataGridDemande: DxDataGridComponent;
   packageName = require('package.json').name;
+
   constructor(private demandeService: DemandeService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
               private http: HttpClient,private clientService: ClientServiceService,
               private env: EnvService,private router: Router,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getAllDemandes();
+  }
+
+  deletedemande(id) {
+    this.demandeService.deleteDemande(id).subscribe(data=>{
+          this.toastr.success("  successfully deleted ")
+          this.refresh();
+        },
+        error => {
+          this.toastr.error("error")
+        })
   }
   refresh(): void {
     this.dataGridDemande.instance.refresh();
@@ -46,6 +57,13 @@ export class GridDemandeComponent implements OnInit {
     this.popupAdd = e
     this.popupEdit = e
     this.refresh()
+  }
+  id
+  Editclient(id) {
+    this.id = id.data.id
+    console.log(this.id)
+    this.popupEdit = true
+
   }
   onToolbarPreparing(e) {
 

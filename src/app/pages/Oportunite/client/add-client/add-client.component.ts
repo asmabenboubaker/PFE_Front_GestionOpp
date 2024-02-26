@@ -24,7 +24,7 @@ export class AddClientComponent implements OnInit {
   @Input() id: string;
 
   private msg: string = 'defaultErrorMessageKey';
-
+  dataSourcePays
   newClient: Client = {
     id: 0,
     nom: '',
