@@ -65,6 +65,16 @@ export class GridDemandeComponent implements OnInit {
     this.popupEdit = true
 
   }
+  exportGrid() {
+    const doc = new jsPDF();
+    exportDataGridToPdf({
+      jsPDFDocument: doc,
+      component: this.dataGridDemande.instance
+    }).then(() => {
+      doc.save('Demandes.pdf');
+    })
+  }
+
   onToolbarPreparing(e) {
 
 

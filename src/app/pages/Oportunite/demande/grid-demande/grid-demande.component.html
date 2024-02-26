@@ -49,6 +49,7 @@
 
     <dxi-column dataField="description" dataType="string"></dxi-column>
     <dxi-column dataField="dateDeCreation" dataType="date"></dxi-column>
+
     <dxi-column [allowResizing]="false"
                 [fixed]="false" caption="{{'' | translate}}"
                 cellTemplate="cellTemplateActions"
@@ -59,6 +60,10 @@
         <a (click)="deletedemande(data.data.id)" target="_blank" rel="noopener" title="" >
             <i class="fa fa-trash" style="color:#a63a3a;">
             </i></a>
+    </div>
+    <div *dxTemplate="let data of 'ExportPDF'">
+        <dx-button (onClick)="exportGrid()" hint="{{ 'exportPDF' | translate }}" icon="exportpdf"
+                   id="exportButton"></dx-button>
     </div>
     <dxo-pager
             [allowedPageSizes]="allowedPageSizes"
