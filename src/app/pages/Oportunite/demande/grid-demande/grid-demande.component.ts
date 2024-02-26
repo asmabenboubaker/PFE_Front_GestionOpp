@@ -332,9 +332,11 @@ export class GridDemandeComponent implements OnInit {
         return this.http.get(this.env.piOpp + 'demandes' + "?" + params + filterText, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())})
             .toPromise()
             .then((data: any) => {
+              console.log(data)
                   this.count = data.totalElements
                   this.nbPage = data['totalPages']
                   return {'data': data.content, 'totalCount': data.totalElements};
+
                 },
                 error => {
                 });

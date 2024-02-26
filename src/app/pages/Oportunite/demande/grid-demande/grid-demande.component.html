@@ -35,7 +35,7 @@
     [rowAlternationEnabled]="true"
     [showColumnLines]="true"
     (onRowDblClick)="Editclient($event)"
-    (onContentReady)="onDataGridContentReady($event)"
+
         keyExpr="id"
     id="dataGridDemande"
     class="dataGridDemande"
@@ -48,7 +48,7 @@
     <dxi-column dataField="statut" dataType="string"></dxi-column>
 
     <dxi-column dataField="description" dataType="string"></dxi-column>
-    <dxi-column dataField=" dateDeCreation" dataType="date"></dxi-column>
+    <dxi-column dataField="dateDeCreation" dataType="date"></dxi-column>
     <dxi-column [allowResizing]="false"
                 [fixed]="false" caption="{{'' | translate}}"
                 cellTemplate="cellTemplateActions"
