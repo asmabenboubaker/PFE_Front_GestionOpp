@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import { Client } from 'src/app/Models/Client';
 import { ClientServiceService } from 'src/app/Service/client-service.service';
 import {FormBuilder,FormGroup,Validators } from "@angular/forms";
@@ -19,7 +19,7 @@ import number = Components.components.number;
   templateUrl: './add-client.component.html',
   styleUrls: ['./add-client.component.scss']
 })
-export class AddClientComponent implements OnInit {
+export class AddClientComponent implements OnInit,OnChanges  {
   @Output() add = new EventEmitter<boolean>();
   @Input() id: string;
 
@@ -71,18 +71,7 @@ export class AddClientComponent implements OnInit {
     // Handle field data changes if needed
   }
   ngOnInit(): void {
-    if (this.id) {
-      const clientId = +this.id;
-      this.clientService.getClientById(clientId).subscribe(
-          (client: Client) => {
 
-            this.domaineForm.patchValue(client);
-          },
-          (error) => {
-            console.error('Error fetching client details:', error);
-          }
-      );
-    }
 
   }
 
@@ -96,7 +85,23 @@ export class AddClientComponent implements OnInit {
 
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.changinID(changes.id.currentValue);
+  }
+  changinID(id){
+    if (this.id) {
+      const clientId = +this.id;
+      this.clientService.getClientById(clientId).subscribe(
+          (client: Client) => {
 
+            this.domaineForm.patchValue(client);
+          },
+          (error) => {
+            console.error('Error fetching client details:', error);
+          }
+      );
+    }
+  }
 
   onSubmit() {
     console.log('test');
