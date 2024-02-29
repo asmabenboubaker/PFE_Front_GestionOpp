@@ -91,9 +91,11 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       );
     }
   }
+
   Return() {
 
     this.add.emit(false)
+    this.router.navigate(['Demande/user']);
   }
   onSubmit() {
     console.log('test');
@@ -117,7 +119,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
           this.demandeService.addDemande(demandeData)
               .subscribe((data: any) => {
 
-                this.Return();
+                this.router.navigate(['Demande/user']);
               }, error => {
                 console.log("Handle error");
               });

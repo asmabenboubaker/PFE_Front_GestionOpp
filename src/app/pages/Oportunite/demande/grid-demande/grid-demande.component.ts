@@ -65,6 +65,17 @@ export class GridDemandeComponent implements OnInit {
     this.popupEdit = true
 
   }
+    adddemande() {
+        // Navigate to the add-demande component without an ID
+        this.router.navigate(['Demande/add']);
+    }
+    Editdemande(id) {
+        // Set the ID property
+        this.id = id.data.id;
+
+        // Navigate to the add-demande component with the specific ID
+        this.router.navigate(['Demande/edit', this.id]);
+    }
   exportGrid() {
     const doc = new jsPDF();
     exportDataGridToPdf({
@@ -118,7 +129,17 @@ export class GridDemandeComponent implements OnInit {
           template: 'titreGrid'
         }
     );
-
+      e.toolbarOptions.items.unshift(
+          {
+              location: 'after',
+              widget: 'dxButton',
+              options: {
+                  hint: 'Add',
+                  icon: 'plus',
+                  onClick: this.adddemande.bind(this),
+              },
+          }
+      );
 
   }
   openAddPage(e) {

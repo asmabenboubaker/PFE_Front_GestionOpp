@@ -18,6 +18,7 @@ import {
     DxoScrollingModule
 } from "devextreme-angular/ui/nested";
 import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
+import { EditdemandeComponent } from './editdemande/editdemande.component';
 
 export const routes: Routes  = [
   {
@@ -31,14 +32,16 @@ export const routes: Routes  = [
     component:  AddDemandeComponent,
     data: {breadcrumb: 'add demande'},
     pathMatch: 'full'
-}
+},
+    { path: 'edit/:id', component: EditdemandeComponent },
 
 ];
 
 @NgModule({
   declarations: [
   GridDemandeComponent,
-  AddDemandeComponent],
+  AddDemandeComponent,
+  EditdemandeComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
