@@ -114,15 +114,7 @@ export class GridDemandeComponent implements OnInit {
             onClick: this.refresh.bind(this),
           }
         });
-    e.toolbarOptions.items.unshift({
-      location: 'after',
-      widget: 'dxButton',
-      options: {
-        hint: 'Nouveau',
-        icon: 'plus',
-        onClick: this.openAddPage.bind(this),
-      },
-    });
+
     e.toolbarOptions.items.unshift(
         {
           location: 'center',
