@@ -46,4 +46,9 @@ export class DemandeService {
     console.log(url);
     return this.http.post<any>(url, demandeData);
   }
+
+  updateAndAssignToClient(clientId: number, demandeId: number, demandeData: Demande): Observable<any> {
+    const url = `${this.env.piOpp + this.Wservice.getdemandes}/assign-client/${demandeId}/${clientId}`;
+    return this.http.put<any>(url, demandeData);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DemandeService} from "../../../../Service/demande.service";
 import {ToastrService} from "ngx-toastr";
@@ -20,6 +20,7 @@ export class EditdemandeComponent implements OnInit {
   statusList: string[] = [];
   id
     clients: Client[] = [];
+    @ViewChild('clientSelect') clientSelect: ElementRef;
   constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService:ClientServiceService,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
               private translateService: TranslateService, private router: Router, private route: ActivatedRoute,) {
@@ -31,7 +32,7 @@ export class EditdemandeComponent implements OnInit {
       dateDeCreation: null,
       statutDemande: null,
       statut: [null, Validators.required],
-      client: null,
+
     });
   }
 
@@ -76,9 +77,11 @@ console.log(result)
     this.demandeForm.value.id = this.route.snapshot.params['id'];
     const demandeData: Demande = this.demandeForm.value as Demande;
 
+      const selectedClientId = this.clientSelect?.nativeElement.value;
+      console.log('Client Select Element:', this.clientSelect);
+      console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
 
-
-    this.demandeService.updateDemande(this.route.snapshot.params['id'], demandeData)
+      this.demandeService.updateAndAssignToClient(selectedClientId,this.route.snapshot.params['id'], demandeData)
         .subscribe((data: any) => {
 
           this.Return();

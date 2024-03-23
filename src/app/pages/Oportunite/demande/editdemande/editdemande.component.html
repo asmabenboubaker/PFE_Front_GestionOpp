@@ -11,7 +11,10 @@
     </div>
     <div class="col-md-6">
         <label for="client" class="form-label">Client:</label>
-        <select class="form-select" formControlName="client" id="client">
+<!--        <select class="form-select" formControlName="client" id="client">-->
+<!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+<!--        </select>-->
+        <select #clientSelect class="form-select" formControlName="client" id="client">
             <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
         </select>
     </div>
