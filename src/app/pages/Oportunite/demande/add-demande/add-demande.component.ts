@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Client} from "../../../../Models/Client";
 import {ClientServiceService} from "../../../../Service/client-service.service";
@@ -28,8 +38,10 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   pageSize = this.env.pageSize;
   allowedPageSizes = this.env.allowedPageSizes;
   statusList: string[] = [];
+  clients: Client[] = [];
+  @ViewChild('clientSelect') clientSelect: ElementRef;
   dataSourcePays
-  constructor(private fb: FormBuilder,private demandeService: DemandeService,
+  constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
               private translateService: TranslateService,
               private tokenStorage: TokenStorageService,
@@ -55,6 +67,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       dateDeCreation: null,
       statutDemande: null,
       statut: [null, Validators.required],
+      // client: [null, Validators.required]
     });
   }
   initializeForm(): void {
@@ -65,6 +78,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       dateDeCreation: [null],
       statutDemande: [null],
       statut: [null],
+
     });
   }
   ngOnInit(): void {
@@ -72,7 +86,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       this.statusList = statuses;
     });
 
-
+    this.loadClients();
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.changinID(changes.id.currentValue);
@@ -101,6 +115,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     console.log('test');
     try {
       const demandeData: Demande = this.demandeForm.value as Demande;
+      const selectedClientId = this.clientSelect.nativeElement.value;
+      console.log('Selected client ID:', selectedClientId);
       if (this.id ) {
 
 
@@ -115,8 +131,10 @@ export class AddDemandeComponent implements OnInit,OnChanges {
               console.log("Handle error");
             });
       } else {
+
         if(this.demandeForm.valid) {
-          this.demandeService.addDemande(demandeData)
+
+          this.demandeService.createDemandeAndAssignToClient(selectedClientId, demandeData)
               .subscribe((data: any) => {
 
                 this.router.navigate(['Demande/user']);
@@ -146,5 +164,14 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       return;
     }
   }
-
+  loadClients() {
+    this.clientService.getAllClientsWithoutPages().subscribe(
+        (clients: Client[]) => {
+          this.clients = clients;
+        },
+        (error) => {
+          console.error('Error fetching clients: ', error);
+        }
+    );
+  }
 }

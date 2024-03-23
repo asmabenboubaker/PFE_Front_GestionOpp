@@ -17,7 +17,7 @@ export class DemandeService {
 
   // Get demande by ID
   getDemandeById(id): Observable<Demande> {
-    const url = `${this.env.piOpp+this.Wservice.getdemandes}/${id}`;
+    const url = `${this.env.piOpp+this.Wservice.getdemandes}/byid/${id}`;
     return this.http.get<Demande>(url);
   }
 
@@ -41,5 +41,9 @@ export class DemandeService {
   getStatusList(): Observable<string[]> {
     return this.http.get<string[]>(`${this.env.piOpp}list`);
   }
-
+  createDemandeAndAssignToClient(clientId: Number, demandeData: Demande): Observable<any> {
+    const url = `${this.env.piOpp+this.Wservice.getdemandes}/client?clientId=${clientId}`;
+    console.log(url);
+    return this.http.post<any>(url, demandeData);
+  }
 }

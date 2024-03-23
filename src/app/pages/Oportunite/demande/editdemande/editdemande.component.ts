@@ -7,6 +7,8 @@ import {WsService} from "../../../../../ws.service";
 import {TranslateService} from "@ngx-translate/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Demande} from "../../../../Models/Demande";
+import {Client} from "../../../../Models/Client";
+import {ClientServiceService} from "../../../../Service/client-service.service";
 
 @Component({
   selector: 'app-editdemande',
@@ -16,8 +18,9 @@ import {Demande} from "../../../../Models/Demande";
 export class EditdemandeComponent implements OnInit {
   demandeForm: FormGroup;
   statusList: string[] = [];
-id
-  constructor(private fb: FormBuilder,private demandeService: DemandeService,
+  id
+    clients: Client[] = [];
+  constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService:ClientServiceService,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
               private translateService: TranslateService, private router: Router, private route: ActivatedRoute,) {
 
@@ -28,24 +31,30 @@ id
       dateDeCreation: null,
       statutDemande: null,
       statut: [null, Validators.required],
+      client: null,
     });
   }
 
   ngOnInit(): void {
+      this.loadClients();
     this.demandeService.getStatusList().subscribe((statuses) => {
       this.statusList = statuses;
     });
 // remplir les champs
 
       this.demandeService.getDemandeById(this.route.snapshot.params['id']).subscribe((result) => {
+console.log(result)
 
             this.demandeForm.get('id').setValue(result['id']);
             this.demandeForm.get('nom').setValue(result['nom']);
             this.demandeForm.get('description').setValue(result['description']);
             this.demandeForm.get('statut').setValue(result['statut']);
-        const dateDeCreation = result['dateDeCreation'] ? new Date(result['dateDeCreation']) : null;
-        this.demandeForm.get('dateDeCreation').setValue(this.formatDate(dateDeCreation));
+            const dateDeCreation = result['dateDeCreation'] ? new Date(result['dateDeCreation']) : null;
+            this.demandeForm.get('dateDeCreation').setValue(this.formatDate(dateDeCreation));
+// this.demandeForm.get('client').setValue(result['client']);
 
+              const clientId = result['client'] ? result['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
+              this.demandeForm.get('client').setValue(clientId);
           }
       );
 
@@ -78,4 +87,24 @@ id
           console.log("Handle error");
         });
   }
+
+    getClientName(): string {
+        const clientControl = this.demandeForm.get('client');
+        if (clientControl && clientControl.value && clientControl.value.nom) {
+            return clientControl.value.nom;
+        } else {
+            return 'xwxwx'; // or any default value you want to display
+        }
+    }
+
+    loadClients() {
+        this.clientService.getAllClientsWithoutPages().subscribe(
+            (clients: Client[]) => {
+                this.clients = clients;
+            },
+            (error) => {
+                console.error('Error fetching clients: ', error);
+            }
+        );
+    }
 }

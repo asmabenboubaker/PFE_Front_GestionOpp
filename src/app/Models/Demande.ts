@@ -1,3 +1,5 @@
+import {Client} from "./Client";
+
 export interface Demande {
     id: number;
     statutDemande: string;
@@ -5,4 +7,5 @@ export interface Demande {
     nom: string;
     dateDeCreation: Date;
     statut: string;
+
 }

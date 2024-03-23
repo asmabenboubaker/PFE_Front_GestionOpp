@@ -20,7 +20,10 @@ export class ClientServiceService {
     getClients(): Observable<Client[]> {
     return this.http.get<Client[]>(this.env.piOpp+this.Wservice.getClient);
   }
-
+  getAllClientsWithoutPages(): Observable<Client[]> {
+    const url = `${this.env.piOpp + this.Wservice.getClient}/WithoutPages`;
+    return this.http.get<Client[]>(url);
+  }
   addClient(client: Client): Observable<Client> {
     return this.http.post<Client>(this.env.piOpp+this.Wservice.getClient, client);
   }

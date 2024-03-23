@@ -9,11 +9,17 @@
             </div>
         </div>
     </div>
+    <div class="col-md-6">
+        <label for="client" class="form-label">Client:</label>
+        <select class="form-select" formControlName="client" id="client">
+            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+        </select>
+    </div>
 
     <div class="col-md-6">
         <label for="description" class="form-label">Description:</label>
         <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
-        <!-- Add validation for description if needed -->
+
     </div>
 
     <div class="col-md-6">
