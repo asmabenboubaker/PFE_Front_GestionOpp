@@ -19,6 +19,7 @@ import {
 } from "devextreme-angular/ui/nested";
 import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
 import { EditdemandeComponent } from './editdemande/editdemande.component';
+import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 
 export const routes: Routes  = [
   {
@@ -59,6 +60,7 @@ export const routes: Routes  = [
         // DxoScrollingModule,
         // DxPopupModule,
         SharedModuleModule,
+        WorkflowComponentModule,
     ]
 })
 

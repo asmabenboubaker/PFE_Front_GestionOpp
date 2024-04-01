@@ -42,10 +42,25 @@
         </div>
     </div>
 
-    <div class="col-12">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-            <button (click)="Return()" class="btn btn-light" type="button">Cancel</button>
-            <button (click)="onSubmit()" class="btn btn-success" type="submit">Save</button>
-        </div>
+<!--    <div class="col-12">-->
+<!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+<!--            <button (click)="Return()" class="btn btn-light" type="button">Cancel</button>-->
+<!--            <button (click)="onSubmit()" class="btn btn-success" type="submit">Save</button>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+        <app-workflow-decision (decisionEvent)="nextTask($event)" *ngIf="show_sous_comp"
+                               [access]="demande['userPermission'] === 'READ' || demande['userPermission'] === 'NONE'"
+                               [decisions]="demande['decisionsWF']"
+                               [object]="demande"
+                               class="col-md-12">
+        </app-workflow-decision>
+        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
     </div>
 </form>

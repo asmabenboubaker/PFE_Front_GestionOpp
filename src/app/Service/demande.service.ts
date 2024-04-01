@@ -1,16 +1,30 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {Demande} from "../Models/Demande";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {WsService} from "../../ws.service";
 import {EnvService} from "../../env.service";
+import {TokenStorageService} from "../pages/Global/shared-service/token-storage.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DemandeService {
 
-  constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService) { }
+  constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService,private httpclient: HttpClient,private tokenStorage: TokenStorageService) { }
+
+  postDemandeWF(demande, authors, readers, description) {
+    let params = new HttpParams();
+
+    params = params.append("authors", authors);
+    params = params.append("readers", readers);
+    params = params.append("description", description);
+    return this.httpclient.patch(`${this.env.piOpp}` + "demandes",
+
+        demande, {params, headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)});
+
+  }
+
   getDemandes(): Observable<Demande[]> {
     return this.http.get<Demande[]>(this.env.piOpp+this.Wservice.getdemandes);
   }

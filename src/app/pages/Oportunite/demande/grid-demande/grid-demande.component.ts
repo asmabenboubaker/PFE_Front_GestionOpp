@@ -15,6 +15,7 @@ import {CookieService} from "ngx-cookie-service";
 import {ClientServiceService} from "../../../../Service/client-service.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-grid-demande',
@@ -30,16 +31,58 @@ export class GridDemandeComponent implements OnInit {
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
   @ViewChild('dataGridDemande', {static: false}) dataGridDemande: DxDataGridComponent;
   packageName = require('package.json').name;
-
+  iddoc:any;
+  popupDeleteVisible: boolean=false;
   constructor(private demandeService: DemandeService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
               private http: HttpClient,private clientService: ClientServiceService,
-              private env: EnvService,private router: Router,private toastr: ToastrService) { }
+              private env: EnvService,private router: Router,private toastr: ToastrService,
+              private translateService:TranslateService
+              ) {
+
+  }
 
   ngOnInit(): void {
     this.getAllDemandes();
   }
+  popupDelete(id:any) {
+    this.popupDeleteVisible=true;
+    console.log("DELETE"+this.popupDeleteVisible.toString());
+    this.iddoc=id;
 
-  deletedemande(id) {
+  }
+  deletedemande() {
+    this.demandeService.deleteDemande(this.iddoc).subscribe(data=>{
+      this.refresh();
+      this.translateService.get("deleteWithSuccess").subscribe(
+          res => {
+            this.toastr.success(res, "", {
+              closeButton: true,
+              positionClass: 'toast-top-right',
+              extendedTimeOut: this.env.extendedTimeOutToastr,
+              progressBar: true,
+              disableTimeOut: false,
+              timeOut: this.env.timeOutToastr
+            })
+          }
+      )
+      this.popupDeleteVisible = false;
+    }, error => {
+      this.toastr.error(error.error.message, "", {
+        closeButton: true,
+        positionClass: 'toast-top-right',
+        extendedTimeOut: this.env.extendedTimeOutToastr,
+        progressBar: true,
+        disableTimeOut: false,
+        timeOut: this.env.timeOutToastr
+      })
+    })
+
+  }
+
+  fermerPopup() {
+    this.popupDeleteVisible=false;
+  }
+  deletedemande2(id) {
     this.demandeService.deleteDemande(id).subscribe(data=>{
           this.toastr.success("  successfully deleted ")
           this.refresh();

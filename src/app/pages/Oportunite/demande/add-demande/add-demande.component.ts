@@ -18,12 +18,14 @@ import {WsService} from "../../../../../ws.service";
 import {TranslateService} from "@ngx-translate/core";
 import {TokenStorageService} from "../../../Global/shared-service/token-storage.service";
 import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DemandeService} from "../../../../Service/demande.service";
 import {Demande} from "../../../../Models/Demande";
 import CustomStore from "devextreme/data/custom_store";
 import DataSource from "devextreme/data/data_source";
 import {Paging} from "../../../Global/ps-tools/class";
+import {DemandeDto} from "../../../../Models/DemandeDto";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-add-demande',
@@ -39,6 +41,17 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   allowedPageSizes = this.env.allowedPageSizes;
   statusList: string[] = [];
   clients: Client[] = [];
+  eventvalueworkflow:any;
+  disabled = true;
+  eventcontrole=false;
+  show_sous_comp: any = false;
+  identifiant;
+  iddemande: any;
+  popupDeleteVisible: boolean=false;
+  demande = new DemandeDto(null, null, null, null)
+  gridBoxValue = [];
+  gridBoxValueexp:any = [];
+  currentdate = new Date();
   @ViewChild('clientSelect') clientSelect: ElementRef;
   dataSourcePays
   constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
@@ -46,8 +59,22 @@ export class AddDemandeComponent implements OnInit,OnChanges {
               private translateService: TranslateService,
               private tokenStorage: TokenStorageService,
               private http: HttpClient,
-              private router: Router
+              private router: Router,
+              public route: ActivatedRoute,
+              private datePipe: DatePipe
               ) {
+    if (this.route.snapshot.params['id'] != undefined) {
+      this.demandeService.getDemandeById(this.route.snapshot.params['id']).subscribe((data: any) => {
+        this.demande = data;
+        this.identifiant = data.identifiant
+        this.iddemande = data.id
+       // this.Demandedossier(data.id, undefined)
+        this.show_sous_comp = true;
+      })
+
+    } else {
+      this.demande.datedemande = this.datePipe.transform(this.currentdate, 'dd-MM-yyyy');
+    }
     // this.initializeForm();
     // if(this.id){
     //   this.demandeService.getDemandeById(this.id).subscribe((result) => {
@@ -71,6 +98,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       // client: [null, Validators.required]
     });
   }
+
+
   initializeForm(): void {
     this.demandeForm = this.fb.group({
       id: [null],
@@ -88,6 +117,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     });
 
     this.loadClients();
+
+
+
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.changinID(changes.id.currentValue);
@@ -165,6 +197,48 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       return;
     }
   }
+  nextTask(e: any) {
+    this.eventvalueworkflow=e
+    this.disabled = true
+    if (!this.eventcontrole) {
+
+      let readers = null;
+
+      e.intervenants = this.gridBoxValue;
+      this.demandeService.postDemandeWF(e, null, null, e.commentaire).subscribe(data => {
+
+            this.disabled = false;
+            this.translateService.get("postWithSuccess").subscribe((res) => {
+              this.toastr.success(res, "", {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+              })
+            })
+          },
+          error => {
+            this.toastr.error(error.error.message, "", {
+              closeButton: true,
+              positionClass: 'toast-top-right',
+              extendedTimeOut: this.env.extendedTimeOutToastr,
+              progressBar: true,
+              disableTimeOut: false,
+              timeOut: this.env.timeOutToastr
+            })
+          })
+      this.router.navigate(['Archive/DemandeNumerisation']);
+
+    }else {
+
+
+
+    }
+
+  }
+
   loadClients() {
     this.clientService.getAllClientsWithoutPages().subscribe(
         (clients: Client[]) => {
