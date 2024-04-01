@@ -60,11 +60,12 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     //       }
     //   );
     // }
+    const currentDate = new Date();
     this.demandeForm = this.fb.group({
       id: null, // You might want to initialize other properties based on your requirements
       nom: ['', Validators.required],
       description: null,
-      dateDeCreation: null,
+      dateDeCreation: currentDate,
       statutDemande: null,
       statut: [null, Validators.required],
       // client: [null, Validators.required]
