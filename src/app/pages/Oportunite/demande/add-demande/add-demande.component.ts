@@ -151,7 +151,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       const selectedClientId = this.clientSelect.nativeElement.value;
       console.log('Selected client ID:', selectedClientId);
       if (this.id ) {
-
+        const demandeData: Demande = this.demandeForm.value as Demande;
 
         this.demandeForm.value.id = this.id;
 
@@ -197,6 +197,33 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       return;
     }
   }
+
+
+  Ajouteremprunt(f) {
+    const demandeData: Demande = this.demandeForm.value as Demande;
+    const selectedClientId = this.clientSelect.nativeElement.value;
+    //console.log(this.demandeemprunt)
+    this.demandeForm = f.value;
+    // //console.log("validite ",f.valid) ;
+
+    if (this.demandeForm.value === null) {
+      this.toastr.error("Type Demande Obligatoire")
+    } else {
+
+      //this.demandeemprunt.datedemande = this.datePipe.transform(this.currentdate, 'yyyy-MM-dd');
+      this.demandeService.createDemandeAndAssignToClient(selectedClientId, demandeData)
+          .subscribe((data: any) => {
+
+            this.router.navigate(['Demande/user']);
+          }, error => {
+            console.log("Handle error");
+          });
+
+    }
+
+
+  }
+
   nextTask(e: any) {
     this.eventvalueworkflow=e
     this.disabled = true

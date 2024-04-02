@@ -23,6 +23,7 @@
 
 <!--    <app-add-demande *ngIf="this.id" [id]="''+this.id" (add)="add($event)"></app-add-demande>-->
 <!--</dx-popup>-->
+
 <dx-data-grid
     #dataGridDemande
         [showBorders]="true"
@@ -58,6 +59,10 @@
     </dxi-column>
     <div *dxTemplate="let data of 'cellTemplateActions'"
          style="display: flex; justify-content: center; align-items: center;">
+        <a (click)="showbordereaux(data.data.id)" target="_blank"
+           title="Consulter Employer"><i
+                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
         <a (click)="popupDelete(data.data.id)" target="_blank"   title="" >
             <i class="fa fa-trash" style="color:#a63a3a;">
             </i></a>

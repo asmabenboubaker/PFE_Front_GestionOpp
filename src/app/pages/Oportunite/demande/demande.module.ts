@@ -20,6 +20,7 @@ import {
 import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
 import { EditdemandeComponent } from './editdemande/editdemande.component';
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
+import {CardsModule} from "angular-bootstrap-md";
 
 export const routes: Routes  = [
   {
@@ -29,11 +30,17 @@ export const routes: Routes  = [
       pathMatch: 'full'
   },
   {
-    path: 'add',
+    path: 'add/:id',
     component:  AddDemandeComponent,
     data: {breadcrumb: 'add demande'},
     pathMatch: 'full'
 },
+    {
+        path: 'add',
+        component:  AddDemandeComponent,
+        data: {breadcrumb: 'add demande 2'},
+        pathMatch: 'full'
+    },
     { path: 'edit/:id', component: EditdemandeComponent },
 
 ];
@@ -61,6 +68,7 @@ export const routes: Routes  = [
         // DxPopupModule,
         SharedModuleModule,
         WorkflowComponentModule,
+        CardsModule,
     ]
 })
 

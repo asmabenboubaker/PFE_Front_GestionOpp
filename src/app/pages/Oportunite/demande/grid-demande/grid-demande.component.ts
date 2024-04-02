@@ -82,14 +82,9 @@ export class GridDemandeComponent implements OnInit {
   fermerPopup() {
     this.popupDeleteVisible=false;
   }
-  deletedemande2(id) {
-    this.demandeService.deleteDemande(id).subscribe(data=>{
-          this.toastr.success("  successfully deleted ")
-          this.refresh();
-        },
-        error => {
-          this.toastr.error("error")
-        })
+  showbordereaux(id: any) {
+    this.router.navigate(["Demande/add/"+id])
+
   }
   refresh(): void {
     this.dataGridDemande.instance.refresh();
@@ -108,6 +103,7 @@ export class GridDemandeComponent implements OnInit {
     this.popupEdit = true
 
   }
+
     adddemande() {
         // Navigate to the add-demande component without an ID
         this.router.navigate(['Demande/add']);
