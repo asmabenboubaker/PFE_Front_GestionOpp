@@ -1,4 +1,4 @@
-export class DemandeDto{
+export class FactureDTO{
     private _identifiant:any;
     private _datedemande:any;
     private _typedemande:any;
@@ -6,11 +6,16 @@ export class DemandeDto{
     private _intervenants:any;
     private _id:any;
     //properties of the class
-    statutDemande: string;
+
+    dateFacture: Date;
     description: string;
+    serviceFournis: string;
+    isGenerate: boolean;
     nom: string;
-    dateDeCreation: Date;
-    statut: string;
+    paymentMethod: string;
+    totalAmount: number;
+    contactNumber: string;
+    uuid: string;
     //getters and setters for the properties
 
     get identifiant() {

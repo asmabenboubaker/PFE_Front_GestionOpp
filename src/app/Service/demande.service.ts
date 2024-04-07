@@ -19,7 +19,7 @@ export class DemandeService {
     params = params.append("authors", authors);
     params = params.append("readers", readers);
     params = params.append("description", description);
-    return this.httpclient.patch(`${this.env.piOpp}` + "demandes",
+    return this.httpclient.patch(`${this.env.piOpp}` + "submitDemande",
 
         demande, {params, headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)});
 
@@ -34,7 +34,10 @@ export class DemandeService {
     const url = `${this.env.piOpp+this.Wservice.getdemandes}/byid/${id}`;
     return this.http.get<Demande>(url);
   }
-
+getDemandeByid(id): Observable<any> {
+    const url = `${this.env.piOpp}demandeDTO/${id}`;
+    return this.http.get<any>(url);
+    }
   // Add new demande
   addDemande(demande: Demande): Observable<Demande> {
     return this.http.post<Demande>(this.env.piOpp+this.Wservice.getdemandes, demande);
@@ -63,6 +66,6 @@ export class DemandeService {
 
   updateAndAssignToClient(clientId: number, demandeId: number, demandeData: Demande): Observable<any> {
     const url = `${this.env.piOpp + this.Wservice.getdemandes}/assign-client/${demandeId}/${clientId}`;
-    return this.http.put<any>(url, demandeData);
+    return this.http.patch<any>(url, demandeData);
   }
 }

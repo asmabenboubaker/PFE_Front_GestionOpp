@@ -1,0 +1,102 @@
+
+<div class="justify-content-center content">
+    <!-- Card -->
+
+    <mdb-card>
+
+        <!--<div *ngIf="this.route.snapshot.params['id']===null || this.route.snapshot.params['id'] ===undefined"-->
+        <!--     class="card-header" style="background-color: #cccccc;">-->
+
+        <!--    <img (click)="Ajouteremprunt(f)" *ngIf="this.route.snapshot.params['id']===undefined"-->
+        <!--         src="./assets/icon/tompoan.png" style="height: 28px;float: left;cursor: pointer"-->
+        <!--         title="Identifier">-->
+
+        <!--    <h5 class="text-center"> {{'Modifier Demande'|translate}}</h5>-->
+
+        <!--    &lt;!&ndash;                <div class="text-center">&ndash;&gt;-->
+        <!--    &lt;!&ndash;                <h5 *ngIf="this.route.snapshot.params['id']===null || this.route.snapshot.params['id'] ===undefined"&ndash;&gt;-->
+        <!--    &lt;!&ndash;                    class="text-center"> {{'demande.ficheemprunt'|translate}}</h5>&ndash;&gt;-->
+        <!--    &lt;!&ndash;                <h5 *ngIf="this.route.snapshot.params['id']!=undefined"&ndash;&gt;-->
+        <!--    &lt;!&ndash;                    class="text-center"> {{'demande.ficheemprunt'|translate}}({{demandeemprunt.identifiant}})</h5>&ndash;&gt;-->
+
+
+        <!--</div>-->
+
+
+        <mdb-card-body>
+            <!--Title-->
+            <mdb-card-title>
+                <h4>Ajout Demande</h4>
+            </mdb-card-title>
+            <div class="row">
+                <form [formGroup]="factureForm" class="form-outline ml-3 row g-2 needs-validation" novalidate>
+                    <div class="col-md-6">
+                        <label for="nom" class="form-label">Nom:</label>
+                        <input class="form-control" formControlName="nom" id="nom" type="text" required>
+                        <div *ngIf="factureForm.get('nom').invalid && (factureForm.get('nom').dirty || demandeForm.get('nom').touched)"
+                             class="alert alert-danger">
+<!--                            <div *ngIf="factureForm.get('nom').errors.required">-->
+<!--                                Nom is required.-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="description" class="form-label">Description:</label>
+                        <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
+                        <!-- Add validation for description if needed -->
+                    </div>
+
+
+
+
+
+
+
+                </form>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+<!--                    <app-workflow-decision (decisionEvent)="nextTask($event)" *ngIf="show_sous_comp"-->
+<!--                                           [access]="demande['userPermission'] === 'READ' || demande['userPermission'] === 'NONE'"-->
+<!--                                           [decisions]="demande['decisionsWF']"-->
+<!--                                           [object]="demande"-->
+<!--                                           class="col-md-12">-->
+<!--                    </app-workflow-decision>-->
+                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+                </div>
+
+            </div>
+        </mdb-card-body>
+    </mdb-card>
+</div>
+<dx-popup
+        [maxWidth]="940"
+        [width]="500"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Confirmation"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupconfirmationsave">
+    <div>
+        <p> Les modifications que vous avez apportées ne seront peut-être pas enregistrées. </p>
+        <p>Voulez-vous continuer !</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2"
+                    (click)="fermerPopup()">Annuler
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button type="button" class="btn btn-success me-md-2"
+                    (click)="savevalide(eventvalueworkflow)">Continuer
+            </button>
+        </div>
+    </div>
+</dx-popup>
+

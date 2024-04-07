@@ -1,6 +1,6 @@
 <br/>
 <div class="row justify-content-center" style="margin-top: 10px;">
-    <div class="row mb-2">
+    <div class="row mb-2" style="display: none">
         <!--        <div class="col-md-4">-->
         <!--            <mdb-form-control>-->
         <!--              <mdb-select #departements [multiple]="true" [filter]="true" id="multipledepatement" name="simpleunique" class="form-control form-control-lg">-->
@@ -21,22 +21,102 @@
 
     <div  class="md-form row" style="margin-top: 10px;">
         <div class="col-md-12">
-            <div *ngFor="let decision of decisions" style="float: right;" [hidden]="access">
+            <div *ngFor="let decision of decisions " style="float: right;" [hidden]="access">
                 <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
                         class="btn btn-primary btn-rounded  mb-1 mr-1 butttons-style"
                         mdbRipple
                         style="    float: right;
-    background-color: #236d9f;
+    background-color: green;
     font-weight: bold;
     color: white;"
                         type="button">
                     {{decision}}
                 </button>
             </div>
-            <button (click)="Return()" *ngIf="!showInmodal" class="btn btn-primary btn-rounded" mdbRipple style="float: left; color: black;
-    background-color:#41c3d3; " type="button">Retour
+
+            <button (click)="Return()" *ngIf="!showInmodal" class="btn btn-primary btn-rounded" mdbRipple style="float: left; color: white;
+    background-color:#b60808; " type="button">retour
+            </button>
+            <button (click)="Save()" *ngIf="!showInmodal" [hidden]="access" class="btn btn-primary btn-rounded"
+                    mdbRipple
+                    style="float: left; background-color:#025a95;  color: white;border-color:#025a95 ;    margin-left: 1%;   " type="button">{{ 'Save' | translate }}
             </button>
         </div>
     </div>
 </div>
 <!--w-200p ; font-size: 85%;-->
+
+<!--****old***-->
+
+<!--        <div class="col-md-4">-->
+<!--            <mdb-form-control>-->
+<!--              <mdb-select #departements [multiple]="true" [filter]="true" id="multipledepatement" name="simpleunique" class="form-control form-control-lg">-->
+<!--                <mdb-option *ngFor="let departement of departements" [value]="departement">{{departement.departmentName}}</mdb-option>-->
+<!--              </mdb-select>-->
+<!--              <label mdbLabel class="form-label" for="multipledepatement">Departement</label>-->
+<!--            </mdb-form-control>-->
+<!--        </div>-->
+
+<!--        <mdb-form-control>-->
+<!--            <input #Commentaire [readonly]="access" class="form-control" id="Commentaire"-->
+<!--                   mdbInput type="text"/>-->
+<!--            &lt;!&ndash;              form-control-lg&ndash;&gt;-->
+<!--            <label class="form-label" for="Commentaire" mdbLabel>Commentaire</label>-->
+<!--        </mdb-form-control>-->
+
+<!--<form autocomplete="off" dir="rtl">-->
+
+
+<!--    <div class="row mb-2">-->
+
+<!--        <div class="col-md-12  row ">-->
+<!--            <div class="col-md-2 mt-4" style="margin-right: -14px" [hidden]="access">-->
+<!--                <label [lang]="languageAcual" style="text-align: right"-->
+<!--                       class=" col-form-label col-form-label-sm">{{ 'AffaireConsultative.Commentaire' | translate }}-->
+<!--                </label>-->
+<!--            </div>-->
+<!--            <div class="col-md-10 mt-4" [hidden]="access">-->
+
+<!--                <input id="Description" [lang]="languageAcual" #Commentaire [readonly]="access" type="text"-->
+<!--                       name="Description"-->
+
+<!--                />-->
+
+
+<!--            </div>-->
+
+
+<!--        </div>-->
+<!--        <div class="col-md-12 mt-3">-->
+<!--            <div *ngFor="let decision of decisions" style="float: right;" [hidden]="access">-->
+<!--                <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"-->
+<!--                        class="btn btn-primary btn-rounded  mb-1 mr-1 butttons-style"-->
+<!--                        mdbRipple-->
+<!--                        style="    float: right;width: 5em;height: 50px;font-size: larger;-->
+<!--    background-color: #3b9f20;-->
+<!--    font-weight: bold;-->
+<!--    color: white;-->
+<!--   border-color:#3b9f20"-->
+
+<!--                        type="button">-->
+<!--                    {{decision}}-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <button (click)="Return()" *ngIf="!showInmodal" class="btn btn-primary btn-rounded" mdbRipple style="float: left;-->
+<!--    background-color:#9f2a2a;    color: white;  width: 5em;height: 50px;font-size: larger;-->
+<!--   border-color:#9f2a2a " type="button">{{ 'Retour' | translate }}-->
+<!--                </button>-->
+<!--            </div>-->
+
+
+
+<!--        </div>-->
+<!--    </div>-->
+
+
+<!--</form>-->
+
+
+<!--w-200p ; font-size: 85%;-->
+<!--**************************-->

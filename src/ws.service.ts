@@ -11,4 +11,5 @@ export class WsService {
   getdemandes = 'demandes'
   getOpp='opportunites'
   getoffre='offres'
+  getFacture='factures'
 }

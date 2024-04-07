@@ -18,3 +18,15 @@
 .custom-form button {
   margin-top: 10px;
 }
+/* Add borders to input fields */
+.input-border {
+  border: 1px solid #ced4da; /* Add border color */
+  border-radius: 4px; /* Add border radius for rounded corners */
+  padding: 8px; /* Add padding for better appearance */
+}
+
+/* Optionally, add margin to input fields */
+.input-margin {
+  margin-bottom: 10px; /* Add bottom margin */
+}
+
