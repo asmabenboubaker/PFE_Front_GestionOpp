@@ -130,7 +130,10 @@ export class EditdemandeComponent implements OnInit {
                 console.log("Fetched Successfully :", data);
                 // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
                 const decisionsWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
-
+                const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
+                this.demandeForm.get('client').setValue(clientId);
+                //const decisionsWF = data.workflow.decisionsWF
+                console.log("DECICIONS WK ::: "+ decisionsWF);
                 // Créez un nouvel objet FormGroup en utilisant FormBuilder et initialisez-le avec les données récupérées
                 this.demandeForm = this.fb.group({
                     id: [data.id],

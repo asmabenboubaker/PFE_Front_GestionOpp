@@ -2,19 +2,19 @@
     <div class="col-md-6">
         <label for="nom" class="form-label">Nom:</label>
         <input class="form-control" formControlName="nom" id="nom" type="text" required>
-        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"
-             class="alert alert-danger">
-            <div *ngIf="demandeForm.get('nom').errors.required">
-                Nom is required.
-            </div>
-        </div>
+<!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+<!--             class="alert alert-danger">-->
+<!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+<!--                Nom is required.-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
     <div class="col-md-6">
         <label for="client" class="form-label">Client:</label>
         <!--        <select class="form-select" formControlName="client" id="client">-->
         <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
         <!--        </select>-->
-        <select #clientSelect class="form-select" formControlName="client" id="client">
+        <select #clientSelect class="form-select" formControlName="client" id="client" >
             <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
         </select>
     </div>
@@ -56,7 +56,7 @@
             (saveEvent)="onSubmit()"
             (RetournEvent)="Retourn()"
             [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-            [decisions]="demandeForm['workflow']['decisionsWF']"
+            [decisions]="demandeForm['workflow'] ? demandeForm['workflow']['decisionsWF'] : null"
             [object]="demandeForm"
             [SaveObject]="demandeForm">
     </app-workflow-decision>
