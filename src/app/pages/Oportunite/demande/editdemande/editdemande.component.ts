@@ -149,7 +149,6 @@ export class EditdemandeComponent implements OnInit {
                 //     activityName: [data.activityName],
                 //
                 // });
-
                 this.demandeForm.get('workflow').setValue(data['workflow']);
                 //get decissionWF
                 this.demandeForm.get('decissionWF').setValue(data['decissionWF']);
@@ -158,8 +157,6 @@ export class EditdemandeComponent implements OnInit {
                 this.demandeForm.get('workflow').setValue(data.workflow);
                 console.log("fetchdemande"+this.demandeForm.value);
                 console.log(" data.workflow.decisionsW"+this.demandeForm.workflow.value);
-
-
                 console.log("  this.demandeForm.get('workflow')"+  this.demandeForm.get('workflow').value);
             },
             error => {

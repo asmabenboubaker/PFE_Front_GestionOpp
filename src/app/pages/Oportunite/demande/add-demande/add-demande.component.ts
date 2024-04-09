@@ -61,9 +61,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     nom: new FormControl(''),
     description: new FormControl(''),
     dateDeCreation: new FormControl(''),
-    statutDemande: new FormControl(''),
     statut: new FormControl(''),
-    client: new FormControl(''),
 
   });
 
@@ -71,7 +69,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   acces:boolean=false;
   GRIDacces:boolean=false;
   DemandeDTO: any = {}
-  @Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+  //@Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   @Output() AppelWsGetById: EventEmitter<any> = new EventEmitter<any>();
   userPermission:any;
   decissionWF:any;
@@ -80,7 +78,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     nom: ['', Validators.required],
     description: null,
     dateDeCreation: null,
-    statutDemande: null,
+
     statut: [null, Validators.required],
     client: [null]
 
@@ -115,34 +113,19 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       nom: ['', Validators.required],
       description: null,
       dateDeCreation: currentDate,
-      statutDemande: null,
       statut: [null, Validators.required],
       // client: [null, Validators.required]
     });
   }
   GetjsonDowViewerFromAttatchement(e) {
-    this.JsonDocViewerFromFormToComponent.emit(e)
+   // this.JsonDocViewerFromFormToComponent.emit(e)
   }
   getById(id) {
     console.log("inWebServiceGetByID")
     this.AppelWsGetById.emit(true)
   }
 
-  initForm(item): void {
 
-    this.demandeF = item
-
-    this.demandeForm = new FormGroup({
-      id: new FormControl(item?.id),
-      caseId: new FormControl(item?.id),
-      dateDebut: new FormControl(item?.dateDebut),
-      subject: new FormControl(item?.subject),
-      partie: new FormControl(item?.partie),
-      description: new FormControl(item?.description),
-
-    });
-
-  }
   ngOnInit(): void {
     this.demandeService.getStatusList().subscribe((statuses) => {
       this.statusList = statuses;
@@ -248,8 +231,12 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     this.demandeDTO['description'] = formData['description'];
     this.demandeDTO['statut'] = formData['statut'];
     this.demandeDTO['dateDeCreation'] = formData['dateDeCreation'];
+    const selectedClientId = this.clientSelect?.nativeElement.value;
+    this.demandeDTO['client'] = selectedClientId;
+    console.log('Client Select Element:', this.clientSelect);
+    console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
     console.log("this.DemandeDTO save",this.demandeDTO)
-    this.demandeService.Demande_process_Submit(this.demande_Dto).subscribe(data => {
+    this.demandeService.Demande_process_Submit(formData).subscribe(data => {
           this.toastr.success("تمت الإضافة بنجاح " +
               "", "", {
             closeButton: true,
