@@ -21,6 +21,7 @@ import {SharedModuleModule} from "../../Global/shared-module/shared-module.modul
 import { EditdemandeComponent } from './editdemande/editdemande.component';
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 import {CardsModule} from "angular-bootstrap-md";
+import {AttachmentModule} from "../../Global/attachment/attachment.module";
 
 export const routes: Routes  = [
   {
@@ -69,6 +70,7 @@ export const routes: Routes  = [
         SharedModuleModule,
         WorkflowComponentModule,
         CardsModule,
+        AttachmentModule,
     ]
 })
 

@@ -19,10 +19,11 @@ import {
     templateUrl: './attachment.component.html',
     styleUrls: ['./attachment.component.scss']
 })
-export class AttachmentComponent implements OnInit {
-    @Input('objectData') objectData/*Model of Get by ID*/
+export class AttachmentComponent implements OnInit {@Input('objectData') objectData/*Model of Get by ID*/
     @Input('URL') URL;
+    @Input() withoutviewer: Boolean = false;
     @Input() classid: any;
+    @Input() ShowSplitter: Boolean = false;
     @Input() objectid: any;
     @Input() isPublic: any;
     @Input() ReadOnly: Boolean = false;
@@ -43,14 +44,10 @@ export class AttachmentComponent implements OnInit {
     @Input() canDonwloadfileDatagrid: Boolean = true
     @Input() canModiffileDatagrid: Boolean = true
     @Input() canShowfileDatagrid: Boolean = true
-    @Input() canEditorFileVisible: Boolean = true;
-    @Input() actionVisible: Boolean = true;
-    @Input() canAddfile: Boolean = true;
 
-
+    @Output() jsondocviewerEvent = new EventEmitter<any>();
     @Input() archiveButtonVisible: Boolean = true;
     @Input() flipedDatagridButtonVisible: Boolean = true;
-    @Input() gridSelectionMode  = "single";/*"multiple" | "none"*/
 
     /*Monitoring Datagrid actions*/
 
@@ -93,12 +90,15 @@ export class AttachmentComponent implements OnInit {
         }
         this.verifLicensePSTKDatagridAttachement()
     }
+
     listOfficeNotEmpty
+
     ngOnInit(): void {
-        let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel+'findOfficeTemplate', this.objectData)
-        this.httpServicesComponent.method(paramsHttp,  '', null, null, false).then(data => {
+
+        let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'findOfficeTemplate', this.objectData)
+        this.httpServicesComponent.method(paramsHttp, '', null, null, false).then(data => {
             if (data["statut"] == true) {
-                this.listOfficeNotEmpty = data["value"].length>0
+                this.listOfficeNotEmpty = data["value"].length > 0
             }
         })
         // /*FOR JRXML etc .....*/
@@ -112,20 +112,22 @@ export class AttachmentComponent implements OnInit {
         //         }
         //     )
         // }
+
     }
+
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }) {
         if (changes['objectData'] && changes['objectData'].previousValue != changes['objectData'].currentValue) {
-            if (this.objectData != null && this.objectData != undefined) {
+            if (this.objectData != null) {
                 if (this.objectData.remaingRequestFileDefinitions)
                     this.requestFileDef = this.objectData.remaingRequestFileDefinitions
                 if (this.objectData.attachements)
                     this.attachements = this.objectData.attachements
                 else
                     this.refresh()
-                if (this.objectData.securiteLevel != undefined && this.objectData.securiteLevel != null)
+                if (this.objectData.securiteLevel != undefined)
                     this.levelMin = this.objectData.securiteLevel
-                if (this.objectData.fileAccessToken != undefined && this.objectData.fileAccessToken != null)
+                if (this.objectData.fileAccessToken != undefined)
                     this.fileAccessToken = this.objectData.fileAccessToken
             }
             // if (changes['ReadOnly'] && changes['ReadOnly'].previousValue != changes['ReadOnly'].currentValue) {
@@ -160,7 +162,7 @@ export class AttachmentComponent implements OnInit {
     GetPermession() {
         let permerssionMode = false
         let permession: PermissionmMode
-        if (this.objectData && this.objectData.components && this.objectData.components != null && this.objectData.components != undefined)
+        if (this.objectData && this.objectData.components)
             permession = this.objectData.components.find(({name}) => name === 'AttachmentComponent');
         if (permession)
             return permession.mode
@@ -171,10 +173,23 @@ export class AttachmentComponent implements OnInit {
         return this.objectData.userPermission
     }
 
+    refreshedReqFileDef2
+
     /*REFRESH GRID OF ATTACHEMENT */
     refreshDataGrid(e) {
-        this.refreshedReqFileDef.emit()/*getbyid*/
+        console.log("ereeereee", e)
+        console.log("requestFileDefbeforeChange", this.requestFileDef)
+
+        const indexElement = this.requestFileDef.findIndex((b) => b.docTitle === e.docTitle);
+
+        if (indexElement !== -1) {
+            this.requestFileDef.splice(indexElement, 1);
+
+        }
+        // this.refreshedReqFileDef.emit(true)/*getbyid*/
         this.popUpSave = false
+        this.refreshedReqFileDef2 = e
+        console.log("requestFileDefAfterChange", this.requestFileDef)
     }
 
     /*thubnail*/
@@ -186,15 +201,20 @@ export class AttachmentComponent implements OnInit {
 
     popUpSave = false
 
+    jsondocviewerEventFunctionAttatchment(e) {
+        this.jsondocviewerEvent.emit(e)
+    }
+
     async ouvrirPopUpSave(e) {
-        if (e == true ) {/*&& this.attachements && this.attachements.length>0*/
+        if (e == true) {/*&& this.attachements && this.attachements.length>0*/
             this.popUpSave = true;
-            let  verifLicensePSTKScan:any =await this.communService.verifLicensePSTK(this.ModuleScan)
+            let verifLicensePSTKScan: any = await this.communService.verifLicensePSTK(this.ModuleScan)
             this.authorizationTokenScan = verifLicensePSTKScan
         }
     }
 
     selectedLicensepstk;
+
     async verifLicensePSTKDatagridAttachement() {
         this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true';
         if (!this.pstkEnabledAndRunning) {
@@ -211,7 +231,7 @@ export class AttachmentComponent implements OnInit {
             this.authorizationTokenScan = false;
             this.authorizationTokenOffice = false;
             // this.authorizationTokenSign = false;
-        }else{
+        } else {
             /*IN DATAGRID ATTACHEMENT ALL WE NEED MODULE PSTK OF SCAN && OFFICE*/
             let defaultPort;
 
@@ -226,67 +246,66 @@ export class AttachmentComponent implements OnInit {
                 && this.cookieService.get('selectedLicensepstk') != 'undefined' && this.cookieService.get('selectedLicensepstk') != 'null')
                 this.selectedLicensepstk = this.cookieService.get('selectedLicensepstk');
 
-                if ((this.cookieService.get(this.ModuleScan) === 'undefined'
-                || this.cookieService.get(this.ModuleScan) === undefined
-                || this.cookieService.get(this.ModuleScan) === '')
-&&
+            if ((this.cookieService.get(this.ModuleScan) === 'undefined'
+                    || this.cookieService.get(this.ModuleScan) === undefined
+                    || this.cookieService.get(this.ModuleScan) === '')
+                &&
                 (this.cookieService.get(this.ModuleOffice) === 'undefined'
-                || this.cookieService.get(this.ModuleOffice) === undefined
-                || this.cookieService.get(this.ModuleOffice) === '')) {
-                    if (this.selectedLicensepstk === 'Machine') {
-                        // return new Promise(async (resolve) => {
-                        await this.fileservice.checkPSTK(defaultPort, null, null, null, null).subscribe(async (res: any) => {
+                    || this.cookieService.get(this.ModuleOffice) === undefined
+                    || this.cookieService.get(this.ModuleOffice) === '')) {
+                if (this.selectedLicensepstk === 'Machine') {
+                    // return new Promise(async (resolve) => {
+                    await this.fileservice.checkPSTK(defaultPort, null, null, null, null).subscribe(async (res: any) => {
+                        if (res.result.Module.Module_Scan) {
+                            this.authorizationTokenScan = true;
+                        } else if (res.result.Module.Module_Office) {
+                            this.authorizationTokenOffice = true;
+                        }
+                    });
+                    // }).then(res => {
+                    //     return res;
+                    // })
+                } else if (this.selectedLicensepstk === 'Serveur') {
+                    let authorizationtokenScan
+                    let authorizationtokenOffice
+                    await this.fileservice.getToken(this.ModuleScan).then(
+                        (res: any) => {
+                            if (res && res.res.body.authorizationToken) {
+                                authorizationtokenScan = res.res.body.authorizationToken;
+                            }
+                        }, (error) => {
+                            // console.error(error);
+                            authorizationtokenScan = null;
+                        }
+                    );
+                    await this.fileservice.getToken(this.ModuleOffice).then(
+                        (res: any) => {
+                            if (res && res.res.body.authorizationToken) {
+                                authorizationtokenOffice = res.res.body.authorizationToken;
+                            }
+                        }, (error) => {
+                            // console.error(error);
+                            authorizationtokenOffice = null;
+                        }
+                    );
+                    await this.fileservice.checkPSTK(defaultPort, null, authorizationtokenScan, null, authorizationtokenOffice).subscribe((res: any) => {
+                            // if (res.result.Module.Module_Misc) {
+                            //     this.authorizationTokenMisc = true;
+                            // }
+                            // if (res.result.Module.Module_Sign) {
+                            //     this.authorizationTokenSign = true;
+                            // }
+                            if (res.result.Module.Module_Office)
+                                this.authorizationTokenOffice = true;
                             if (res.result.Module.Module_Scan) {
                                 this.authorizationTokenScan = true;
-                            } else if (res.result.Module.Module_Office) {
-                                this.authorizationTokenOffice = true;
                             }
-                        });
-                        // }).then(res => {
-                        //     return res;
-                        // })
-                    } else if (this.selectedLicensepstk === 'Serveur') {
-                        let authorizationtokenScan
-                        let authorizationtokenOffice
-                        await this.fileservice.getToken(this.ModuleScan).then(
-                            (res: any) => {
-                                if (res && res.res.body.authorizationToken) {
-                                    authorizationtokenScan = res.res.body.authorizationToken;
-                                }
-                            }, (error) => {
-                                // console.error(error);
-                                authorizationtokenScan = null;
-                            }
-                        );
-                        await this.fileservice.getToken(this.ModuleOffice).then(
-                            (res: any) => {
-                                if (res && res.res.body.authorizationToken) {
-                                    authorizationtokenOffice = res.res.body.authorizationToken;
-                                }
-                            }, (error) => {
-                                // console.error(error);
-                                authorizationtokenOffice = null;
-                            }
-                        );
-                        await this.fileservice.checkPSTK(defaultPort, null, authorizationtokenScan, null, authorizationtokenOffice).subscribe((res: any) => {
-                                // if (res.result.Module.Module_Misc) {
-                                //     this.authorizationTokenMisc = true;
-                                // }
-                                // if (res.result.Module.Module_Sign) {
-                                //     this.authorizationTokenSign = true;
-                                // }
-                                if (res.result.Module.Module_Office)
-                                    this.authorizationTokenOffice = true;
-                                if (res.result.Module.Module_Scan) {
-                                    this.authorizationTokenScan = true;
-                                }
-                            }
-                        )
-                    }
+                        }
+                    )
                 }
-             else if (this.cookieService.get(this.ModuleOffice) != 'undefined'
-            && this.cookieService.get(this.ModuleOffice) != undefined
-            && this.cookieService.get(this.ModuleOffice) != ''){
+            } else if (this.cookieService.get(this.ModuleOffice) != 'undefined'
+                && this.cookieService.get(this.ModuleOffice) != undefined
+                && this.cookieService.get(this.ModuleOffice) != '') {
                 if (this.selectedLicensepstk === 'Machine') {
                     // return new Promise(async (resolve) => {
                     await this.fileservice.checkPSTK(defaultPort, null, null, null, null).subscribe(async (res: any) => {
@@ -330,9 +349,9 @@ export class AttachmentComponent implements OnInit {
                     )
                 }
 
-            }else if (this.cookieService.get(this.ModuleScan) != 'undefined'
+            } else if (this.cookieService.get(this.ModuleScan) != 'undefined'
                 && this.cookieService.get(this.ModuleScan) != undefined
-                && this.cookieService.get(this.ModuleScan) != ''){
+                && this.cookieService.get(this.ModuleScan) != '') {
                 if (this.selectedLicensepstk === 'Machine') {
                     // return new Promise(async (resolve) => {
                     await this.fileservice.checkPSTK(defaultPort, null, null, null, null).subscribe(async (res: any) => {
@@ -376,7 +395,7 @@ export class AttachmentComponent implements OnInit {
                         }
                     )
                 }
-            } else{
+            } else {
                 let authorizationtokenScan
                 let authorizationtokenOffice
 
@@ -399,6 +418,13 @@ export class AttachmentComponent implements OnInit {
                 )
             }
         }
+
+    }
+
+    RecalFileTodelete(e: any) {
+        if (e.name != this.env.docPardefaut)
+            this.requestFileDef.push(e)
+
 
     }
 }

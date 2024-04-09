@@ -25,11 +25,6 @@
 
     </div>
 
-<!--    <div class="col-md-6">-->
-<!--        <label for="dateDeCreation" class="form-label">Date de Création:</label>-->
-<!--        <input class="form-control" formControlName="dateDeCreation" id="dateDeCreation" type="date">-->
-<!--        &lt;!&ndash; Add validation for dateDeCreation if needed &ndash;&gt;-->
-<!--    </div>-->
 
     <div class="col-md-6">
         <label for="statut" class="form-label">Statut:</label>
@@ -56,7 +51,7 @@
             (saveEvent)="onSubmit()"
             (RetournEvent)="Retourn()"
             [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-            [decisions]="demandeForm['workflow'] ? demandeForm['workflow']['decisionsWF'] : null"
+            [decisions]="decissionWF"
             [object]="demandeForm"
             [SaveObject]="demandeForm">
     </app-workflow-decision>

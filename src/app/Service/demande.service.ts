@@ -24,7 +24,12 @@ export class DemandeService {
         demande, {params, headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)});
 
   }
-
+  Initdemande() {
+    return this.http.patch(this.env.piOpp + 'initDemande', {}, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
+  }
+  Demande_process_Submit(obj) {
+    return this.http.patch(this.env.piOpp + 'submitDemande', obj, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
+  }
   getDemandes(): Observable<Demande[]> {
     return this.http.get<Demande[]>(this.env.piOpp+this.Wservice.getdemandes);
   }

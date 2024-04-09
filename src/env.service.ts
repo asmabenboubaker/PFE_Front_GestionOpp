@@ -5,7 +5,7 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export class EnvService {
-
+  public docPardefaut;
   // API url
   public apiUrlMetiers = '';
   public apiUrlkernel = 'http://localhost.picosoft.biz:4203';
@@ -18,6 +18,7 @@ export class EnvService {
   public apiFrontPSSIGN;
   public stylingMode;
   public labelMode;
+  public activityNameenCoursPreparation;
 public piOpp='http://localhost:8888/demo_war/api/';
   // Whether or not to enable debug mode
   public enableDebug = true;

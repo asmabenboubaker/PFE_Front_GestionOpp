@@ -43,7 +43,8 @@ export class EditdemandeComponent implements OnInit {
           dateDeCreation: null,
           statutDemande: null,
           statut: [null, Validators.required],
-          client: [null]
+
+
 
       });
   }
@@ -129,27 +130,37 @@ export class EditdemandeComponent implements OnInit {
             data => {
                 console.log("Fetched Successfully :", data);
                 // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
-                const decisionsWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
+                this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
                 const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
                 this.demandeForm.get('client').setValue(clientId);
+
+
                 //const decisionsWF = data.workflow.decisionsWF
-                console.log("DECICIONS WK ::: "+ decisionsWF);
+                console.log("DECICIONS WK ::: "+ this.decissionWF);
                 // Créez un nouvel objet FormGroup en utilisant FormBuilder et initialisez-le avec les données récupérées
-                this.demandeForm = this.fb.group({
-                    id: [data.id],
-                    nom: [data.nom, Validators.required],
-                    description: [data.description],
-                    dateDeCreation: [data.dateDeCreation],
-                    statutDemande: [data.statutDemande],
-                    statut: [data.statut],
-                    userPermission: [data.userPermission],
-                    activityName: [data.activityName],
-                    workflow: this.fb.group({
-                        decisionsWF: [decisionsWF], // Utilisez la valeur récupérée ou null si elle est indéfinie
-                        // Ajoutez d'autres propriétés de workflow si nécessaire
-                    })
-                });
+                // this.demandeForm = this.fb.group({
+                //     id: [data.id],
+                //     nom: [data.nom, Validators.required],
+                //     description: [data.description],
+                //     dateDeCreation: [data.dateDeCreation],
+                //     statutDemande: [data.statutDemande],
+                //     statut: [data.statut],
+                //     userPermission: [data.userPermission],
+                //     activityName: [data.activityName],
+                //
+                // });
+
+                this.demandeForm.get('workflow').setValue(data['workflow']);
+                //get decissionWF
+                this.demandeForm.get('decissionWF').setValue(data['decissionWF']);
+                //get decissionWF
+                this.decissionWF = data['workflow']['decisionsWF'];
+                this.demandeForm.get('workflow').setValue(data.workflow);
                 console.log("fetchdemande"+this.demandeForm.value);
+                console.log(" data.workflow.decisionsW"+this.demandeForm.workflow.value);
+
+
+                console.log("  this.demandeForm.get('workflow')"+  this.demandeForm.get('workflow').value);
             },
             error => {
                 console.log("Error :", error);

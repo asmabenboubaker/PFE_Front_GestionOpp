@@ -1,32 +1,29 @@
-<form [formGroup]="demandeForm" class="row g-3 needs-validation custom-form" novalidate>
+<form [formGroup]="demandeF" class="row g-3 needs-validation custom-form" novalidate>
     <div class="col-md-6">
         <label for="nom" class="form-label">Nom:</label>
         <input class="form-control" formControlName="nom" id="nom" type="text" required>
-        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"
-             class="alert alert-danger">
-            <div *ngIf="demandeForm.get('nom').errors.required">
-                Nom is required.
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <label for="client" class="form-label">Client:</label>
-        <select class="form-select" id="client" #clientSelect>
-            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
-        </select>
-        <!--        <div *ngIf="demandeForm.get('client').invalid && (demandeForm.get('client').dirty || demandeForm.get('client').touched)"-->
+        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
         <!--             class="alert alert-danger">-->
-        <!--            <div *ngIf="demandeForm.get('client').errors.required">-->
-        <!--                Client is required.-->
+        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+        <!--                Nom is required.-->
         <!--            </div>-->
         <!--        </div>-->
     </div>
     <div class="col-md-6">
-        <label for="description" class="form-label">Description:</label>
-        <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
-        <!-- Add validation for description if needed -->
+        <label for="client" class="form-label">Client:</label>
+        <!--        <select class="form-select" formControlName="client" id="client">-->
+        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+        <!--        </select>-->
+        <select #clientSelect class="form-select"  id="client" >
+            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+        </select>
     </div>
 
+    <div class="col-md-6">
+        <label for="description" class="form-label">Description:</label>
+        <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
+
+    </div>
 
 
     <div class="col-md-6">
@@ -34,33 +31,37 @@
         <select class="form-select" formControlName="statut" id="statut">
             <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
         </select>
-        <div *ngIf="demandeForm.get('statut').invalid && (demandeForm.get('statut').dirty || demandeForm.get('statut').touched)"
-             class="alert alert-danger">
-            <div *ngIf="demandeForm.get('statut').errors.required">
-                Statut is required.
-            </div>
-        </div>
+        <!--        <div *ngIf="demandeForm.get('statut').invalid && (demandeForm.get('statut').dirty || demandeForm.get('statut').touched)"-->
+        <!--             class="alert alert-danger">-->
+        <!--            <div *ngIf="demandeForm.get('statut').errors.required">-->
+        <!--                Statut is required.-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 
-    <!--    <div class="col-12">-->
-    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-    <!--            <button (click)="Return()" class="btn btn-light" type="button">Cancel</button>-->
-    <!--            <button (click)="onSubmit()" class="btn btn-success" type="submit">Save</button>-->
-    <!--        </div>-->
-    <!--    </div>-->
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-between">
         <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
         <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-        <app-workflow-decision (decisionEvent)="nextTask($event)" *ngIf="show_sous_comp"
-                               [access]="demande['userPermission'] === 'READ' || demande['userPermission'] === 'NONE'"
-                               [decisions]="demande['decisionsWF']"
-                               [object]="demande"
-                               class="col-md-12">
+        <app-workflow-decision
+                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                (decisionEvent)="Confirmation($event)"
+                (saveEvent)="save()"
+                (RetournEvent)="Retourn()"
+                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                [decisions]="decissionWF"
+                [object]="demandeForm"
+                [SaveObject]="demandeForm">
         </app-workflow-decision>
+
         <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
         <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
         <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
 
     </div>
+
 </form>
+
+
+
+
