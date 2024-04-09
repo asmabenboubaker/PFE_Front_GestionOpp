@@ -185,17 +185,21 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   }
 
   Confirmation(evt) {
+console.log("sdsdsdsddsdsdsdsdsd")
+    const formData = this.demandeF.value;
 
-    this.demandeDTO['nom'] = this.demandeF.get('nom').value
-    this.demandeDTO['description'] = this.demandeF.get('description').value
-    this.demandeDTO['statut'] = this.demande_Dto.get('statut').value
-    this.demandeDTO['dateDeCreation'] = this.demande_Dto.get('dateDeCreation').value
-    this.demandeDTO['client'] = this.demande_Dto.get('client').value
-    this.demandeDTO['decision'] = evt.decision
-    this.demandeDTO['wfCurrentComment ']= evt.wfCurrentComment
+    // Utiliser les valeurs extraites
+    this.demandeDTO['nom'] = formData['nom'];
+    this.demandeDTO['description'] = formData['description'];
+    this.demandeDTO['statut'] = formData['statut'];
+    this.demandeDTO['dateDeCreation'] = formData['dateDeCreation'];
+    // this.demandeDTO['decision'] = evt.decision
+    // this.demandeDTO['wfCurrentComment ']= evt.wfCurrentComment
+    formData['decision'] = evt.decision;
+    formData['wfCurrentComment'] = evt.wfCurrentComment;
     console.log("this.demanade CONFIRMATION",this.demandeF)
 
-    this.demandeService.Demande_process_Submit(this.demandeF).subscribe(data => {
+    this.demandeService.Demande_process_Submit(formData).subscribe(data => {
       this.toastr.success(" added successfully" +
           "", "", {
         closeButton: true,
@@ -231,6 +235,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     this.demandeDTO['description'] = formData['description'];
     this.demandeDTO['statut'] = formData['statut'];
     this.demandeDTO['dateDeCreation'] = formData['dateDeCreation'];
+    //ajouter decision to formData
+    formData['decision'] = "Pour Validation";
     const selectedClientId = this.clientSelect?.nativeElement.value;
     this.demandeDTO['client'] = selectedClientId;
     console.log('Client Select Element:', this.clientSelect);
