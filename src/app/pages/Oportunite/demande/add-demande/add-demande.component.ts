@@ -47,8 +47,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   disabled = true;
   eventcontrole=false;
   show_sous_comp: any = false;
-  identifiant;
-  iddemande: any;
+  demandeid:any;
   popupDeleteVisible: boolean=false;
   demande = new DemandeDto(null, null, null, null)
   gridBoxValue = [];
@@ -133,9 +132,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 
    this.loadClients();
     // recuperer id from url
-
-
-      this.demandeService.getDemandeByid(this.route.snapshot.params['id']).toPromise().then(
+    this.demandeService.Initdemande().subscribe(data => {
+        this.demandeid = data['id'];
+      this.demandeService.getDemandeByid(this.demandeid).toPromise().then(
           data => {
             this.demandeDTO=data
             this.demandeF.get('id').setValue(data.id);
@@ -148,8 +147,6 @@ export class AddDemandeComponent implements OnInit,OnChanges {
             console.log("Fetched Successfully :", data);
             // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
             this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
-
-
 
             //const decisionsWF = data.workflow.decisionsWF
             console.log("DECICIONS WK ::: "+ this.decissionWF);
@@ -174,6 +171,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
             console.log("Error :", error);
           }
       );
+      });
+
+
       console.log("this.demandeF",this.demandeF)
 
   }
@@ -209,6 +209,8 @@ console.log("sdsdsdsddsdsdsdsdsd")
         disableTimeOut: false,
         timeOut: this.env.timeOutToastr
       })
+      //redirect to demande list
+        this.router.navigate(['Demande/user']);
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
@@ -242,8 +244,8 @@ console.log("sdsdsdsddsdsdsdsdsd")
     console.log('Client Select Element:', this.clientSelect);
     console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
     console.log("this.DemandeDTO save",this.demandeDTO)
-    this.demandeService.Demande_process_Submit(formData).subscribe(data => {
-          this.toastr.success("تمت الإضافة بنجاح " +
+    this.demandeService.updateAndAssignToClient(selectedClientId,this.demandeid,formData).subscribe(data => {
+          this.toastr.success("added successfully" +
               "", "", {
             closeButton: true,
             positionClass: 'toast-top-right',
@@ -252,11 +254,12 @@ console.log("sdsdsdsddsdsdsdsdsd")
             disableTimeOut: false,
             timeOut: this.env.timeOutToastr
           })
-
+//redirect to demande list
+            this.router.navigate(['Demande/user']);
 
         },
         error => {
-          this.toastr.error("خطأ في تحميل البيانات ", "", {
+          this.toastr.error("Failed to add", "", {
             closeButton: true,
             positionClass: 'toast-top-right',
             extendedTimeOut: this.env.extendedTimeOutToastr,
