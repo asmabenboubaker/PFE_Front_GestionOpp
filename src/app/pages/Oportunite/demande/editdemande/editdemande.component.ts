@@ -40,11 +40,9 @@ export class EditdemandeComponent implements OnInit {
           id: null, // You might want to initialize other properties based on your requirements
           nom: ['', Validators.required],
           description: null,
-          dateDeCreation: null,
+
           statutDemande: null,
           statut: [null, Validators.required],
-
-
 
       });
   }
@@ -128,11 +126,20 @@ export class EditdemandeComponent implements OnInit {
     fetch_RequestCase_Data(id) {
         this.demandeService.getDemandeByid(id).toPromise().then(
             data => {
+                // remplir formulaire pas data
+                console.log("data", data)
+                this.demandeForm.get('id').setValue(data.id);
+                this.demandeForm.get('nom').setValue(data.nom);
+                this.demandeForm.get('description').setValue(data.description);
+                this.demandeForm.get('statut').setValue(data.statut);
+                // const dateDeCreation = data.dateDeCreation ? new Date(data.dateDeCreation) : null;
+                // this.demandeForm.get('dateDeCreation').setValue(this.formatDate(dateDeCreation));
                 console.log("Fetched Successfully :", data);
                 // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
                 this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
                 const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
-                this.demandeForm.get('client').setValue(clientId);
+                //set select client
+                this.clientSelect.nativeElement.value = clientId;
 
 
                 //const decisionsWF = data.workflow.decisionsWF
@@ -149,12 +156,12 @@ export class EditdemandeComponent implements OnInit {
                 //     activityName: [data.activityName],
                 //
                 // });
-                this.demandeForm.get('workflow').setValue(data['workflow']);
-                //get decissionWF
-                this.demandeForm.get('decissionWF').setValue(data['decissionWF']);
+                // this.demandeForm.get('workflow').setValue(data['workflow']);
+                // //get decissionWF
+                // this.demandeForm.get('decissionWF').setValue(data['decissionWF']);
                 //get decissionWF
                 this.decissionWF = data['workflow']['decisionsWF'];
-                this.demandeForm.get('workflow').setValue(data.workflow);
+                // this.demandeForm.get('workflow').setValue(data.workflow);
                 console.log("fetchdemande"+this.demandeForm.value);
                 console.log(" data.workflow.decisionsW"+this.demandeForm.workflow.value);
                 console.log("  this.demandeForm.get('workflow')"+  this.demandeForm.get('workflow').value);
@@ -173,7 +180,8 @@ export class EditdemandeComponent implements OnInit {
     onSubmit() {
         this.demandeForm.value.id = this.route.snapshot.params['id'];
         const demandeData: Demande = this.demandeForm.value as Demande;
-
+   // affecter id to demandeData
+        demandeData.id = this.route.snapshot.params['id'];
         const selectedClientId = this.clientSelect?.nativeElement.value;
         console.log('Client Select Element:', this.clientSelect);
         console.log('Client Select Value:', this.clientSelect?.nativeElement.value);

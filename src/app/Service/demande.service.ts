@@ -70,7 +70,7 @@ getDemandeByid(id): Observable<any> {
   }
 
   updateAndAssignToClient(clientId: number, demandeId: number, demandeData: Demande): Observable<any> {
-    const url = `${this.env.piOpp + this.Wservice.getdemandes}/assign-client/${demandeId}/${clientId}`;
-    return this.http.patch<any>(url, demandeData);
+    const url = `${this.env.piOpp}demandemm/${demandeId}/${clientId}`;
+    return this.http.put<any>(url, demandeData);
   }
 }
