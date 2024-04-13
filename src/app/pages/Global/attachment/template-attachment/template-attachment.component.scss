@@ -110,7 +110,7 @@
   padding: 0;
   outline: 0;
   -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
+  color-adjust: exact;
   color: #333;
   width: 100% !important;
   font-weight: 400;
@@ -309,9 +309,9 @@
   margin: -1px;
 }
 
-.hei-10 {
-  height: 10%;
-}
+//.hei-10 {
+//  height: 10%;
+//}
 
 .modif-popup-style {
   padding: 0.75rem 0.5rem;
@@ -327,3 +327,10 @@
 }
 
 /*_____________________________________________________________________________________________________________________________*/
+.card-height-fixed {
+  height: 100%; /* ou la hauteur que vous souhaitez */
+}
+
+.card-height-fixed .card {
+  height: 100%;
+}

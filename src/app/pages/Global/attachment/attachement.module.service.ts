@@ -10,11 +10,24 @@ import {CookieService} from 'ngx-cookie-service';
     providedIn: 'root'
 })
 export class AttachementModuleService {
+    public classid: any;
+    public objectid: any;
+
+
+
+
+
     private headers: HttpHeaders;
 
     constructor(private env: EnvService, private httpClient: HttpClient, private tokenStorage: TokenStorageService, private cookieService: CookieService) {
-        this.headers = new HttpHeaders().set('Authorization', this.tokenStorage.getToken()).append('application', require('package.json').name);
+        this.headers = new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)
 
+    }
+
+
+    getRequestFileDefinitions(className) {
+        let params =new HttpParams().set('className',className).set('objectId',1)
+        return this.httpClient.get(this.env.apiUrlkernel + "acl-class-fileDefinition", {params , headers: new HttpHeaders().append("Authorization", this.cookieService.get("token")).append("application", require('package.json').name)});
     }
 
     /*-------------------------------------------------------------------------- KERNEL ------------------------------------------------------------------*/
@@ -24,26 +37,22 @@ export class AttachementModuleService {
                 this.httpClient.get(`${this.env.apiUrlkernel}` + 'get-token/' + module, {
                     observe: 'response' as 'response',
                     withCredentials: true,
-                    headers: new HttpHeaders().set('Authorization', this.tokenStorage.getToken())
-                        .append('application', require('package.json').name).append('Cache-Control', 'Pragma').append('Pragma', 'no-cache')
+                    headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())
+                        .append("application", require('package.json').name).append("Cache-Control", 'Pragma').append('Pragma', 'no-cache')
                 }).toPromise().then(
                     async (res: any) => {
-                        try {
-                            const setCookieHeader = await res.headers.get('Cookie');
-                            // const setCookieHeader = await res.headers.get('Set-Cookie')
-                            let coockieVarSplited = setCookieHeader.split(';');
-                            let token = coockieVarSplited[0].split('=')[1];
-                            let maxAge = coockieVarSplited[3].split('=')[1];
+                        const setCookieHeader = await res.headers.get('Cookie')
+                        // const setCookieHeader = await res.headers.get('Set-Cookie')
+                        let coockieVarSplited = setCookieHeader.split(';')
+                        let token = coockieVarSplited[0].split('=')[1]
+                        let maxAge = coockieVarSplited[3].split('=')[1]
 
-                            const expirationDate = new Date();
-                            expirationDate.setTime(expirationDate.getTime() + (maxAge * 1000));
+                        const expirationDate = new Date();
+                        expirationDate.setTime(expirationDate.getTime() + (maxAge * 1000));
 
-                            this.cookieService.set(module, token, expirationDate, '/', window.location.hostname.substring(window.location.hostname.indexOf('.')));
+                        this.cookieService.set(module, token, expirationDate, "/", window.location.hostname.substring(window.location.hostname.indexOf('.')))
 
-                            resolve({res, setCookieHeader});
-                        }catch (e) {
-                            reject(e);
-                        }
+                        resolve({res, setCookieHeader});
                     }, error => {
                         // let maxAge = 3600
                         //
@@ -51,24 +60,24 @@ export class AttachementModuleService {
                         // expirationDate.setTime(expirationDate.getTime() + (maxAge * 1000));
                         // this.cookieService.set(module, null, expirationDate, "/", window.location.hostname.substring(window.location.hostname.indexOf('.')))
 
-                        reject(error);
+                        reject(error)
                     }
-                );
+                )
             }
-        );
+        )
     }
 
     /********************** createAttachement   **************************/
     createAttachement(obj, fileAccessToken) {
-        return this.httpClient.post(`${this.env.apiUrlkernel}` + 'createAttachement' + '&fileAccessToken=' + fileAccessToken, obj, {
+        return this.httpClient.post(`${this.env.apiUrlkernel}` + 'createAttachement' + "&fileAccessToken=" + fileAccessToken, obj, {
                 headers: this.headers,
             }
-        );
+        )
     }
 
     /*ClonedDocXToPdf*/
     ClonedDocXToPdf(id, obj, fileAccessToken): Observable<any> {
-        return this.httpClient.put(`${this.env.apiUrlkernel}` + 'AttachmentClonageDocxToPDF/' + id + '?fileAccessToken=' + fileAccessToken, obj, {
+        return this.httpClient.put(`${this.env.apiUrlkernel}` + "AttachmentClonageDocxToPDF/" + id + "?fileAccessToken=" + fileAccessToken, obj, {
             headers: this.headers,
         });
     }
@@ -77,8 +86,17 @@ export class AttachementModuleService {
 
     /*OutPut blob*/
 
+    extractfileByUIID(uuid, fileAccessToken): Observable<any> {
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "extractAttachment/" +  "?uuid="+ uuid + "&fileAccessToken=" + fileAccessToken, {
+            headers: this.headers,
+            responseType: 'arraybuffer' as 'json',
+            observe: 'response', // simply add this option
+        });
+    }
+
+
     extractfileById(id, fileAccessToken): Observable<any> {
-        return this.httpClient.get(`${this.env.apiUrlkernel}` + 'extractAttachment/' + id + '?fileAccessToken=' + fileAccessToken, {
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "extractAttachment/" + id + "?fileAccessToken=" + fileAccessToken, {
             headers: this.headers,
             responseType: 'blob',
             observe: 'response', // simply add this option
@@ -87,7 +105,7 @@ export class AttachementModuleService {
 
     /*OutPut Json*/
     extractfileByIdJson(id, fileAccessToken): Observable<any> {
-        return this.httpClient.get(`${this.env.apiUrlkernel}` + 'extractAttachment/' + id + '?fileAccessToken=' + fileAccessToken, {
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "extractAttachment/" + id + "?fileAccessToken=" + fileAccessToken, {
             headers: this.headers,
             responseType: 'arraybuffer' as 'json',
         });
@@ -95,14 +113,14 @@ export class AttachementModuleService {
 
     /********************* pdfgetDefaultInfo  ***************************/
     pdfgetDefaultInfo(obj): Observable<any> {
-        return this.httpClient.post(`${this.env.apiUrlkernel}` + 'pdfgetDefaultInfo', obj, {
+        return this.httpClient.post(`${this.env.apiUrlkernel}` + "pdfgetDefaultInfo", obj, {
             headers: this.headers,
         });
     }
 
     /********************* IsSigned  ***************************/
     IsSigned(data): Observable<any> {
-        return this.httpClient.post(`${this.env.apiUrlkernel}` + 'IsSigned', data, {
+        return this.httpClient.post(`${this.env.apiUrlkernel}` + "IsSigned", data, {
             headers: this.headers,
         });
     }
@@ -112,59 +130,41 @@ export class AttachementModuleService {
     // }
 
     getAllSL(): Observable<any> {
-        return this.httpClient.get(`${this.env.apiUrlkernel}` + 'securite-levels', {headers: new HttpHeaders().set('Authorization', this.tokenStorage.getToken()).append('application', require('package.json').name)});
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "securite-levels", {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)});
     }
 
     getFileById(id): Observable<any> {
-        return this.httpClient.get(`${this.env.apiUrlkernel}` + 'attachements/' + id, {headers: this.headers});
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "attachements/" + id, {headers: this.headers});
     }
 
     getscan_preferences(): Observable<any> {
-        return this.httpClient.get(`${this.env.apiUrlkernel}` + 'scan-preferences', {headers: this.headers});
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "scan-preferences", {headers: this.headers});
     }
 
     getscan_preferencesByName(ScanPrefrenceName): Observable<any> {
-        return this.httpClient.get(`${this.env.apiUrlkernel}` + 'scan-preferencesByname?name=' + ScanPrefrenceName, {headers: this.headers});
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "scan-preferencesByname?name=" + ScanPrefrenceName, {headers: this.headers});
     }
 
     getfilesByClassIdAndObjectId(classid, objectid, fileAccessToken): Observable<any> {
         let param = new HttpParams();
-        param.append('classId', classid);
-        param.append('objectId', objectid);
-        param.append('fileAccessToken', fileAccessToken);
+        param.append("classId", classid);
+        param.append("objectId", objectid);
+        param.append("fileAccessToken", fileAccessToken);
 
-        return this.httpClient.get(`${this.env.apiUrlkernel}` + 'AttachmentsByClassIdAndObjectId?classId=' + classid + '&objectId=' + objectid + '&fileAccessToken=' + fileAccessToken, {
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "AttachmentsByClassIdAndObjectId?classId=" + classid + "&objectId=" + objectid + "&fileAccessToken=" + fileAccessToken, {
             headers: this.headers
         });
     }
 
 
-    getfilesByClassIdAndObjectIdAndIsReportAndDocId(classid, objectid, fileAccessToken, docId): Observable<any> {
-        let param = new HttpParams();
-        param.append('classId', classid);
-        param.append('objectId', objectid);
-        param.append('fileAccessToken', fileAccessToken);
-        param.append('docId', docId);
-        if (docId != null &&docId != undefined) {
-            return this.httpClient.get(`${this.env.apiUrlkernel}` + 'AttachmentsByClassIdAndObjectIdAndIsReportAndDocId?classId=' + classid + '&objectId=' + objectid + '&fileAccessToken=' + fileAccessToken + '&docId=' + docId, {
-                headers: this.headers
-            });
-        } else {
-            return this.httpClient.get(`${this.env.apiUrlkernel}` + 'AttachmentsByClassIdAndObjectIdAndIsReportAndDocId?classId=' + classid + '&objectId=' + objectid + '&fileAccessToken=' + fileAccessToken, {
-                headers: this.headers
-            });
-        }
-    }
-
-
     editfile(filedto): Observable<any> {
-        return this.httpClient.patch(`${this.env.apiUrlkernel}` + 'attachements/' + filedto.id, filedto, {
+        return this.httpClient.patch(`${this.env.apiUrlkernel}` + "attachements/" + filedto.id, filedto, {
             headers: this.headers
         });
     }
 
     downloadtous(postattachmentDto, fileAccessToken): Observable<any> {
-        return this.httpClient.post(`${this.env.apiUrlkernel}` + 'zipAttachments?fileAccessToken=' + fileAccessToken, postattachmentDto, {
+        return this.httpClient.post(`${this.env.apiUrlkernel}` + "zipAttachments?fileAccessToken=" + fileAccessToken, postattachmentDto, {
             headers: this.headers,
             responseType: 'blob',
             observe: 'response', // simply add this option
@@ -178,7 +178,7 @@ export class AttachementModuleService {
                     this.httpClient.post(this.env.apiUrlkernel + 'findOfficeTemplate', data,
                         {
                             observe: 'body',
-                            headers: new HttpHeaders().set('Authorization', this.tokenStorage.getToken()).set('application', require('package.json').name)
+                            headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).set("application", require('package.json').name)
                         }
                     ).toPromise()
                         .then(
@@ -201,8 +201,32 @@ export class AttachementModuleService {
                 observe: 'response',
                 headers: this.headers
             }
-        );
+        )
     }
+  officeTemplateAttachfromDocGenerator(formData) {
+        return this.httpClient.post(this.env.apiUrlDocGenerateur + 'docGenerator', formData,
+            {
+                responseType: 'blob',
+                observe: 'response',
+                headers: this.headers
+            }
+        )
+    }
+
+    downloadofficetemplateOutput(id) : Observable<any> {
+        return this.httpClient.get(this.env.apiUrlkernel + 'download-office-templates/'+id, {
+
+            responseType: 'blob' as 'json',
+            headers: this.headers
+        });
+    }
+    officeTemplates(alias) : Observable<any> {
+        return this.httpClient.get(this.env.apiUrlkernel + 'office-templates?alias.equals='+alias, {
+
+            headers: this.headers
+        });
+    }
+
 
     /*-------------------------------------------------------------------------- KERNEL ------------------------------------------------------------------*/
 
@@ -224,19 +248,18 @@ export class AttachementModuleService {
         return new Promise(
             ((resolve, reject) => {
                 let headers = new HttpHeaders();
-                let option;
+                let option
                 if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-                    headers = headers.set('authorizationToken', authorizationToken);
-                    option = {observe: 'body', headers: headers};
+                    headers = headers.set('authorizationToken', authorizationToken)
+                    option = {observe: 'body', headers: headers}
                 } else {
-                    option = {observe: 'body'};
+                    option = {observe: 'body'}
                 }
-                let defaultPort;
-                if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '' && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+                let defaultPort
+                if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '' && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
                     defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-                } else {
-                    defaultPort = this.env.pstkport;
-                }
+                else
+                    defaultPort = this.env.pstkport
                 this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/scan', {
                         'functionName': functionName,
                         'selectedScannerName': selectedScannerName,
@@ -271,19 +294,18 @@ export class AttachementModuleService {
     //  WS to Get List Scanner
     GetListScanner(authorizationToken, functionName): Observable<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/scan',
             {'functionName': functionName}, option);
     }
@@ -302,24 +324,24 @@ export class AttachementModuleService {
 
     scanafter(authorizationToken, index, base64, base64FileScanned, functionName, selectedScannerName, SetIndicators, SetHideUI, fileType, EnableDuplex, SetResolutionInt, SetPixelType, SetBitDepth, SetPaperSize, blankpagemode, blankpagethreshold): Observable<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {headers: headers}
         } else {
-            option = {};
+            option = {}
         }
         // let in =1 ;
         if (EnableDuplex) {
             EnableDuplex = 1;
         } else {
-            EnableDuplex = 0;
+            EnableDuplex = 0
         }
         if (blankpagemode) {
             blankpagemode = 1;
 
         } else {
-            blankpagemode = 0;
+            blankpagemode = 0
         }
         let PaperSize;
 
@@ -330,12 +352,11 @@ export class AttachementModuleService {
         SetPixelType: ${SetPixelType} ,SetBitDepth: ${SetBitDepth} ,SetResolutionInt: ${SetResolutionInt} ,SetPaperSize: ${SetPaperSize},SetBlankPageMode: ${blankpagemode}
         ,CompressionMode: '',SetBlankPageThreshold: ${blankpagethreshold}`);
 
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
 
         return this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/pdfScanAfter', {
             'base64_Existant_Scanned': base64,
@@ -353,7 +374,7 @@ export class AttachementModuleService {
             'selectedScannerName': selectedScannerName,
             'blankpagethreshold': blankpagethreshold,
             'SetBlankPageMode': blankpagemode,
-        }, option);
+        }, option)
     }
 
     /**
@@ -365,21 +386,19 @@ export class AttachementModuleService {
      */
     getpdfinfo(authorizationToken, base64): Observable<any> {
         let headers = new HttpHeaders();
-        if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-        }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {})
+            headers = headers.set('authorizationToken', authorizationToken)
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
 
         return this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/pdfInfo/getpdfInfo', {
             'base64': base64,
         }, {
             headers: headers
-        });
+        })
     }
 
     /**
@@ -394,50 +413,48 @@ export class AttachementModuleService {
      */
     deletepagebyindex(authorizationToken, index, base64): Observable<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {headers: headers}
         } else {
-            option = {};
+            option = {}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/pdfRemovePage', {
             'base64': base64,
             'pageIndex': index - 1
-        }, option);
+        }, option)
     }
 
     getpageNbre(authorizationToken, base64): Promise<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return new Promise((resolve, reject) => {
                 this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/pdfInfo/getpdfPg', {'base64': base64,}, option).toPromise().then(
                     res => {
                         resolve(res);
                     }, error => {
-                        reject(error);
+                        reject(error)
                     }
-                );
+                )
             }
-        );
+        )
     }
 
     /*################################################################ Module Scan #################################################################################*/
@@ -448,26 +465,25 @@ export class AttachementModuleService {
     /*sign-pdf-with-token-license-verify*/
     signedPdfWithTokenLicenseVerify(authorizationToken, file, fileInputType, certif, pin, typeSign, privateKey): Observable<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
         let formData = new FormData();
-        formData.append('file', file);
-        formData.append('fileInputType', fileInputType);
-        formData.append('certif', certif);
-        formData.append('pin', pin);
-        formData.append('typeSign', typeSign);
-        formData.append('privateKey', privateKey);
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        formData.append("file", file);
+        formData.append("fileInputType", fileInputType);
+        formData.append("certif", certif);
+        formData.append("pin", pin);
+        formData.append("typeSign", typeSign);
+        formData.append("privateKey", privateKey);
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/sign-pdf-with-token-license-verify', formData, option);
     }
 
@@ -477,37 +493,35 @@ export class AttachementModuleService {
     /*################################################################ Module Misc #################################################################################*/
     scriptsList(authorizationToken): Observable<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return this.httpClient.get(this.env.pstoolkitURLhttps + defaultPort + '/scripts-list', option);
     }
 
     ZPLPrinter(authorizationToken, obj): Observable<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/zplPrinter', obj, option);
     }
 
@@ -518,21 +532,20 @@ export class AttachementModuleService {
 
     docXToPdf(authorizationToken, filename, transactionid, base64Content): Promise<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return new Promise((resolve, reject) => {
-                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/docxToPdf', {
+                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + "/docxToPdf", {
                         'filename': filename,
                         'base64Content': base64Content,
                         'transactionid': transactionid
@@ -541,31 +554,30 @@ export class AttachementModuleService {
                     res => {
                         resolve(res);
                     }, error => {
-                        reject(error);
+                        reject(error)
                     }
-                );
+                )
             }
-        );
+        )
     }
 
 
     openFileForEdit(authorizationToken, filename, transactionid, base64Content): Promise<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return new Promise((resolve, reject) => {
-                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/EditFile/openFileForEdit', {
+                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + "/EditFile/openFileForEdit", {
                         'filename': filename,
                         'base64Content': base64Content,
                         'transactionid': transactionid
@@ -574,30 +586,29 @@ export class AttachementModuleService {
                     res => {
                         resolve(res);
                     }, error => {
-                        reject(error);
+                        reject(error)
                     }
-                );
+                )
             }
-        );
+        )
     }
 
     SaveFileAfterEdit(authorizationToken, filename, transactionid, enableDelete): Promise<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return new Promise((resolve, reject) => {
-                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/EditFile/SaveFileAfterEdit',
+                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + "/EditFile/SaveFileAfterEdit",
                     {
                         'filename': filename,
                         'transactionid': transactionid,
@@ -607,30 +618,29 @@ export class AttachementModuleService {
                     res => {
                         resolve(res);
                     }, error => {
-                        reject(error);
+                        reject(error)
                     }
-                );
+                )
             }
-        );
+        )
     }
 
     checkIfFileExist(authorizationToken, filename, transactionid): Promise<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return new Promise((resolve, reject) => {
-                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/EditFile/checkIfFileExist',
+                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + "/EditFile/checkIfFileExist",
                     {
                         'filename': filename,
                         'transactionid': transactionid
@@ -639,30 +649,29 @@ export class AttachementModuleService {
                     res => {
                         resolve(res);
                     }, error => {
-                        reject(error);
+                        reject(error)
                     }
-                );
+                )
             }
-        );
+        )
     }
 
     checkIfFileBusy(authorizationToken, filename, transactionid, base64Content): Promise<any> {
         let headers = new HttpHeaders();
-        let option;
+        let option
         if (authorizationToken && authorizationToken != null && authorizationToken != undefined && authorizationToken != {}) {
-            headers = headers.set('authorizationToken', authorizationToken);
-            option = {observe: 'body', headers: headers};
+            headers = headers.set('authorizationToken', authorizationToken)
+            option = {observe: 'body', headers: headers}
         } else {
-            option = {observe: 'body'};
+            option = {observe: 'body'}
         }
-        let defaultPort;
-        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '') {
+        let defaultPort
+        if (this.cookieService.get('PstkPort') != null && this.cookieService.get('PstkPort') != undefined && this.cookieService.get('PstkPort') != '')
             defaultPort = JSON.parse(this.cookieService.get('PstkPort'));
-        } else {
-            defaultPort = this.env.pstkport;
-        }
+        else
+            defaultPort = this.env.pstkport
         return new Promise((resolve, reject) => {
-                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + '/EditFile/checkIfFileBusy',
+                this.httpClient.post(this.env.pstoolkitURLhttps + defaultPort + "/EditFile/checkIfFileBusy",
                     {
                         'filename': filename,
                         'transactionid': transactionid,
@@ -674,9 +683,9 @@ export class AttachementModuleService {
                     }, error => {
                         reject(error);
                     }
-                );
+                )
             }
-        );
+        )
     }
 
     /*################################################################ Module office #################################################################################*/
@@ -714,21 +723,23 @@ export class AttachementModuleService {
     getVariables(variableName): Observable<any> {
         return this.httpClient.get(this.env.apiUrlkernel + 'variables-by-name?variableName=' + variableName, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
     }
-    /*################################################################ PS SIGN APP API #################################################################################*/
 
-    initSignature(objet): Observable<any> {
-        return this.httpClient.post(this.env.apiBackPSSIGN + 'signatures', objet,
-            {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append('application', this.env.PSSIGNAPPNAME)
-            });
+
+    viewerURL(nodeId, FileName, versionfile = "1.0"): any {
+        let ws = "viewerURL"
+        // let ws = "viewerURLwithoutrendition"
+
+
+
+        return this.httpClient.get(`${this.env.apiUrlMetiers}` + ws + '?nodeRefFile=' + nodeId + '&FileName=' + FileName + '&versionfile=' + versionfile,
+            {
+                responseType: "text", headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())
+            }
+        );
+
+
     }
 
-    extractSignedAttachment(id) {
-        return this.httpClient.get(this.env.apiBackPSSIGN + 'extractSignedAttachment/' + id, {
-            headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append('application',  this.env.PSSIGNAPPNAME),
-            responseType: 'arraybuffer' as 'json',
-
-        });
-    }
     /*################################################################ PS SIGN APP API #################################################################################*/
 
     VerifPcTk(authorizationToken): Observable<any> {

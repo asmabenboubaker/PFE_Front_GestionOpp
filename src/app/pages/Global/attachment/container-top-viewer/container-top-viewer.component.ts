@@ -551,7 +551,7 @@ export class ContainerTopViewerComponent implements OnInit {
         let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+"attachements/" + this.idAttachement, jsonFile)
         this.Ref.value= this.FileNameToSigned
 
-        this.httpServicesComponent.method(paramsHttp,   this.Ref, "ATTACHEMENT.MessageMiseajour", null).then(data => {
+        this.httpServicesComponent.method(paramsHttp,   this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
             if (data["statut"] == true) {
                 this.openPopupOcr = false
                 this.ConfirmeOCR = true

@@ -37,54 +37,44 @@
             <dxi-item name="showNavPane" [visible]="false"></dxi-item>
             <dxi-item name="separator"></dxi-item>
             <dxi-item name="create"></dxi-item>
-
-
-
             <dxi-item
-                    *ngIf="flipedDatagridButtonVisible"
-                    widget="dxMenu"
-                    location="after"
-                    [options]="flipedDatagridButtonOpt"
-            ></dxi-item>
-
-
-
-
-
-            <dxi-item
-                    *ngIf="ContainerViewer && canAddfile"
+                    *ngIf="ContainerViewer"
                     widget="dxMenu"
                     location="after"
                     [options]="addfileButtonOpt"
             ></dxi-item>
-
-
+            <dxi-item
+                    widget="dxMenu"
+                    location="after"
+                    [options]="refreshButtonOpt"
+            ></dxi-item>
             <dxi-item
                     *ngIf="archiveButtonVisible"
                     widget="dxMenu"
                     location="after"
                     [options]="archiveButtonOpt"
             ></dxi-item>
-
-
+            <dxi-item name="separator" location="after"></dxi-item>
             <dxi-item
+                    *ngIf="flipedDatagridButtonVisible"
                     widget="dxMenu"
                     location="after"
-                    [options]="refreshButtonOpt"
+                    [options]="flipedDatagridButtonOpt"
             ></dxi-item>
-            <!--            <dxi-item name="separator" location="after"></dxi-item>-->
-<!--            <dxi-item-->
-<!--                    *ngIf="this.mode==='thumbnails' && flipedDatagridButtonVisible"-->
-<!--                    widget="dxMenu"-->
-<!--                    location="after"-->
-<!--                    [options]="detailslayoutDatagridButtonOpt"-->
-<!--            ></dxi-item>-->
-            <!--<dxi-item
+            <!--                            <dxi-item name="refresh"></dxi-item>-->
+            <dxi-item name="separator" location="after"></dxi-item>
+            <dxi-item
+                    *ngIf="this.mode==='thumbnails' && flipedDatagridButtonVisible"
+                    widget="dxMenu"
+                    location="after"
+                    [options]="detailslayoutDatagridButtonOpt"
+            ></dxi-item>
+            <dxi-item
                     *ngIf="this.mode==='details' && flipedDatagridButtonVisible"
                     widget="dxMenu"
                     location="after"
                     [options]="thumbnaillayoutDatagridButtonOpt"
-            ></dxi-item>-->
+            ></dxi-item>
             <!--                            <dxi-item name="switchView"></dxi-item>-->
             <dxi-file-selection-item
                     widget="dxMenu"
@@ -165,7 +155,7 @@
 <dx-popup
         [(visible)]="popupDeleteFileVisible"
         [showTitle]="true"
-        [hideOnOutsideClick]="true"
+        [closeOnOutsideClick]="true"
         [maxWidth]="'100%'"
         [width]="'20%'"
         [height]="'auto'"
@@ -196,7 +186,7 @@
 <dx-popup
         [(visible)]="popupModifFileVisible"
         [showTitle]="true"
-        [hideOnOutsideClick]="false"
+        [closeOnOutsideClick]="false"
         [maxWidth]="'100%'"
         [width]="'30%'"
         [height]="'auto'"
@@ -332,7 +322,7 @@
 <dx-popup
         [(visible)]="upladPopUP"
         [showTitle]="true"
-        [hideOnOutsideClick]="false"
+        [closeOnOutsideClick]="false"
         [maxWidth]="'100%'"
         [width]="'30%'"
         [height]="'auto'"
@@ -419,7 +409,7 @@
 <dx-popup
         [(visible)]="popupDeleteFileVisibleAttached"
         [showTitle]="true"
-        [hideOnOutsideClick]="true"
+        [closeOnOutsideClick]="true"
         [maxWidth]="'100%'"
         [width]="'20%'"
         [height]="'auto'"
@@ -450,7 +440,7 @@
 <dx-popup
         [(visible)]="openOfficePopUp"
         [showTitle]="true"
-        [hideOnOutsideClick]="true"
+        [closeOnOutsideClick]="true"
         [maxWidth]="'100%'"
         [width]="'55%'"
         [height]="'auto'"
@@ -507,9 +497,8 @@
         >
             <dxo-state-storing [enabled]="true" type="localStorage"
                                [storageKey]="this.packageName+'_'+'gridofficeTempalte'"></dxo-state-storing>
-            <dxo-column-chooser title="{{ 'ATTACHEMENT.SelecteurColonnes' | translate }}"
-                                [enabled]="true"></dxo-column-chooser>
-            <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+
+            <dxo-export [enabled]="false" [allowExportSelectedData]="true"></dxo-export>
             <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
             <dxo-load-panel [enabled]="true"></dxo-load-panel>
             <dxo-filter-row [visible]="false" applyFilter="false"></dxo-filter-row>
@@ -523,7 +512,7 @@
                         [allowEditing]="true" [allowReordering]="false" [allowResizing]="true"></dxi-column>
 
             <dxi-column dataField="title"
-                        caption="{{'Titre' | translate}}"
+                        caption="{{'title' | translate}}"
                         alignment="center"
                         width="150"
                         [allowEditing]="false"
@@ -547,7 +536,7 @@
             <!--            </dxi-column>-->
 
             <dxi-column dataField="description"
-                        caption="{{'Description' | translate}}"
+                        caption="{{'description' | translate}}"
                         alignment="center"
                         [allowEditing]="false"
                         [visible]="true"
@@ -562,7 +551,7 @@
                         alignment="center"
                         width="150"
                         [allowEditing]="false"
-                        [visible]="false"
+                        [visible]="true"
                         [allowFiltering]="false"
                         [allowHeaderFiltering]="false"
                         [allowReordering]="false"
@@ -576,20 +565,20 @@
             </div>
 
             <dxi-column [allowEditing]="false" [allowHeaderFiltering]="false"
-                        [visible]="false" caption="{{'Date creation' | translate}}" dataField="syscreatedBy">
+                        [visible]="false" caption="{{'syscreatedBy' | translate}}" dataField="syscreatedBy">
             </dxi-column>
 
             <dxi-column [allowEditing]="false" [allowHeaderFiltering]="true" [visible]="false" sortOrder="desc"
-                        caption="{{'Date creation' | translate}}" cellTemplate="cellTemplateSysdateCreated"
+                        caption="{{'sysdateCreated' | translate}}" cellTemplate="cellTemplateSysdateCreated"
                         dataField="sysdateCreated" dataType="date">
             </dxi-column>
 
             <dxi-column [allowEditing]="false" [allowHeaderFiltering]="false"
-                        [visible]="false" caption="{{'Date mise à jour' | translate}}" dataField="sysupdatedBy">
+                        [visible]="false" caption="{{'sysupdatedBy' | translate}}" dataField="sysupdatedBy">
             </dxi-column>
 
             <dxi-column [allowEditing]="false" [allowHeaderFiltering]="true" [visible]="true"
-                        caption="{{'Date mise à jour' | translate}}"
+                        caption="{{'sysdateUpdated' | translate}}"
                         cellTemplate="cellTemplateSysdateUpdated" dataField="sysdateUpdated" dataType="date">
             </dxi-column>
 
@@ -607,17 +596,17 @@
                         [allowResizing]="false"
                         fixedPosition="right" alignment="center"></dxi-column>
 
-            <div *dxTemplate="let data of 'cellTemplateActions'">
-                <a (click)="officeTemplateAttach(data.data.title,this.classid, this.objectid)">
-<!--                    {{ 'ATTACHEMENT.select' | translate }}-->
+            <div *dxTemplate="let data of 'cellTemplateActions'" class="txt-center">
+                <button type="button" class="btn btn-outline-primary"
+                        (click)="officeTemplateAttach(data.data.title,this.classid, this.objectid)">
+                    {{ 'ATTACHEMENT.select' | translate }}
                     <i [ngStyle]="{'color': data.data.filesTypeDTO.bgColor}"
                        class={{data.data.filesTypeDTO.icon}}
                        data-toggle="tooltip"
                     ></i>
-                </a>
+                </button>
 
             </div>
-
 
         </dx-data-grid>
 
@@ -636,41 +625,3 @@
 </dx-load-panel>
 
 
-<dx-popup
-        [(visible)]="digigoPopUp"
-        [showTitle]="true"
-        [hideOnOutsideClick]="false"
-        [width]="'60%'"
-        [height]="'70%'"
-        [dragEnabled]="true"
-        resizeEnabled="true"
-        titleTemplate="titleTemplate">
-    <div *dxTemplate="let data of 'titleTemplate'" class="p-1 m-0 ">
-        <div class="d-flex justify-content-between">
-            <div>
-                Signature PAdes avec {{this.signatureType}}
-            </div>
-            <div>
-                <!--                <a  (click)="saveSignedAttachement()" style="color: #808080;" role="button"-->
-                <!--                   title="{{ 'Sauvgarder' | translate }}">-->
-                <!--                    <i  class=" menuIcon fa-solid fas fa-save fa-xl"></i>-->
-                <!--                </a>-->
-                <button type="btn btn-success float-md-right" class="btn-close" title="{{ 'close' | translate }}"
-                        (click)="fermerSignatureModal()"
-                        aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
-    <dx-scroll-view width="100%" height="100%">
-        <!--    <div [innerHTML]="innerAppContent"></div>-->
-        <iframe [src]="externalLinkUrl" width="100%" height="900px"  autocomplete="off"></iframe>
-        <!--    <a [href]="externalLinkUrl" target="_blank">Open Popup</a>-->
-        <div class="d-flex" style="height:20%">
-            <div class=" col-sm-12 col-md-12 col-xs-12 col-lg-12 col-xl-12 col-xxl-12 alignRight">
-                <button mdbRipple type="button" class="btn btn-primary m-1" *ngIf="activeStepIndex()===true"
-                        (click)="saveSignedAttachement()">{{'Confirmer' | translate}}</button>
-            </div>
-        </div>
-    </dx-scroll-view>
-
-</dx-popup>

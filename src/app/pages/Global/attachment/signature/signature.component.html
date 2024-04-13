@@ -17,13 +17,11 @@
             </dx-select-box>
         </div>
         <!--PIN OF CERTIF OF USB-->
-        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3 "
-             style="padding:0px !important;margin-top: -0.5%; ">
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3 " style="padding:0px !important;margin-top: -0.5%; ">
             <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.Signpin'| translate }}
                 <span class="spanRequired">*</span></div>
             <div style="width: 100%; ;display: flex;">
-                <mdb-form-control class="form-outline "
-                                  style="background: white ;  padding: 0 !important;border-radius: 10%; height:25px   !important;">
+                <mdb-form-control class="form-outline " style="background: white ;  padding: 0 !important;border-radius: 10%; height:25px   !important;">
                     <input mdbValidate mdbInput formControlName="pinCode" [type]="show ? 'text' : 'password'"
                            id="pinCode" name="pinCode" required class="form-control " autocomplete="disabled"/>
                 </mdb-form-control>
@@ -61,8 +59,7 @@
             </dx-select-box>
         </div>
         <!--Password-->
-        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3  "
-             style="padding:0px !important;margin-top: -0.5%;  ">
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3  " style="padding:0px !important;margin-top: -0.5%;  ">
             <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.labelPassword'| translate }}
                 <span class="spanRequired">*</span></div>
             <div style="width: 100%; ;display: flex;">
@@ -97,50 +94,9 @@
     </div>
 </mdb-form-control>
 
-
-<mdb-form-control *ngIf="selected_TypeSign=='Avec Digigo'">
-    <div class="d-flex justify-content-between" style="margin:0px !important">
-        <!--Selected Sign type-->
-        <div class="col-sm-5 col-md-5 col-xs-5 col-lg-5 col-xl-5 col-xxl-5 " style="
-    padding: 0px 5px 0px 0px!important;
-    margin-top: -0.5%;
-    height:80%!important;
-">
-            <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.Signtype'| translate }}
-                <span class="spanRequired">*</span></div>
-            <dx-select-box
-                    style="height: 56%"
-                    [items]="types"
-                    [value]="selected_TypeSign"
-                    (onSelectionChanged)="onChangeType($event)"
-            >
-            </dx-select-box>
-        </div>
-        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4 mb-3  "
-             style="padding:0px !important;margin-top: -0.5%;  ">
-            <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'DIGIGO mail'| translate }}
-                <span class="spanRequired">*</span></div>
-            <div style="width: 100%; ;display: flex;">
-                <mdb-form-control class="form-outline "
-                                  style="background: white ; padding : 0 !important;border-radius: 10%; height:25px  !important;">
-                    <input mdbValidate mdbInput type="email" pattern=".+@globex\.com" [(ngModel)]="email"
-                           id="mail" name="mail" required class="form-control "/>
-                </mdb-form-control>
-            </div>
-        </div>
-        <!--sign button -->
-        <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 col-xl-2 col-xxl-2 alignRight " style="padding:0px !important">
-            <div class=" p-2 col-md-12" style="width: 100%; ;display: flex;     margin-top: 5%;">
-                <button type="submit" class="btn btn-success btn-sm" (click)="PreSignedPDf()">
-                    <i class="fas fa-signature" title="{{'ATTACHEMENT.sign' | translate }}"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</mdb-form-control>
 <!--input button of certif file -->
-<input #input (change)="CertifChange(input) ; input.value = null" class="file-upload-btn" hidden
-       id="addSignature" type="file"/>
+<input  #input (change)="CertifChange(input) ; input.value = null" class="file-upload-btn" hidden
+        id="addSignature" type="file"/>
 <!--input button of certif file -->
 
 
@@ -148,7 +104,7 @@
 <dx-popup
         [(visible)]="popupRslt"
         [showTitle]="true"
-        [hideOnOutsideClick]="false"
+        [closeOnOutsideClick]="false"
         [dragEnabled]="false"
         [maxWidth]="'100%'"
         [width]="'40%'"
@@ -169,7 +125,7 @@
         </div>
         <div class="row d-flex" *ngIf="succes===true">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="float-md-right">
+                <div class="float-md-right" >
                     <button (click)="closeSuccess()" class="btn btn-success mr-1" type="submit">{{'close' | translate}}
                     </button>
                 </div>
@@ -201,8 +157,7 @@
         <div class="row " *ngIf="succes===false">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="float-md-right">
-                    <button (click)="closeFailed()" class="btn btn-danger mr-1"
-                            type="button">{{'close' | translate}}</button>
+                    <button (click)="closeFailed()" class="btn btn-danger mr-1" type="button">{{'close' | translate}}</button>
                 </div>
             </div>
         </div>
@@ -232,7 +187,7 @@
 <dx-popup
         [(visible)]="popupConfirmSign"
         [showTitle]="true"
-        [hideOnOutsideClick]="false"
+        [closeOnOutsideClick]="false"
         [maxWidth]="'100%'"
         [width]="'30%'"
         [height]="'auto'"
@@ -269,37 +224,3 @@
     [showPane]="true"
     shadingColor="rgba(0,0,0,0.4)">
 </dx-load-panel>
-
-
-<dx-popup
-        [(visible)]="digigoPopUp"
-        [showTitle]="true"
-        [hideOnOutsideClick]="false"
-        [maxWidth]="'100%'"
-        [width]="'60%'"
-        [height]="'80%'"
-        [maxHeight]="'100%'"
-        [dragEnabled]="false"
-        resizeEnabled="true"
-        titleTemplate="titleTemplate">
-    <div *dxTemplate="let data of 'titleTemplate'" class="p-1 m-0 ">
-        <div class="d-flex justify-content-between">
-            <div>
-                Signature PAdes avec Digigo
-            </div>
-            <div>
-                <!--                <a  (click)="saveSignedAttachement()" style="color: #808080;" role="button"-->
-                <!--                   title="{{ 'Sauvgarder' | translate }}">-->
-                <!--                    <i  class=" menuIcon fa-solid fas fa-save fa-xl"></i>-->
-                <!--                </a>-->
-                <button type="btn btn-success float-md-right" class="btn-close" title="{{ 'close' | translate }}"
-                        (click)="saveSignedAttachement()"
-                        aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
-    <!--    <div [innerHTML]="innerAppContent"></div>-->
-    <iframe [src]="externalLinkUrl" width="100%" height="1000px" ></iframe>
-    <!--    <a [href]="externalLinkUrl" target="_blank">Open Popup</a>-->
-
-</dx-popup>

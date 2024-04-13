@@ -5,7 +5,10 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export class EnvService {
+  public apiUrlDocEditor = '';
   public docPardefaut;
+  public RoleCanAddDoc ;
+  public RoleCanDeleteDoc ;
   // API url
   public apiUrlMetiers = '';
   public apiUrlkernel = 'http://localhost.picosoft.biz:4203';
@@ -65,6 +68,9 @@ public piOpp='http://localhost:8888/demo_war/api/';
   public stateStoring = false;
   public allowedPageSizes = [10, 15, 25, 50];
   public pageSize = 10;
+  //document
+  public apiUrlDocGenerateur;
+  public RoleCanEditDoc = '';
   //cloud pstk
 
   cloudMsiPSTK:any;
@@ -79,5 +85,10 @@ public piOpp='http://localhost:8888/demo_war/api/';
   apiUrlfrontkernel:any;
   theme = 'sndp';
   public defaultCountry = "Tunisie"
+  //
+  public activityNameDemandeEnCours;
+  public activityNameDemandeenAttendAvis;
+  public activityNameDemande;
+  public activityNamedemandeaccept;
   constructor() { }
 }

@@ -7,28 +7,19 @@ import {AttachementModuleService} from '../attachement.module.service';
 import {ClipboardService} from 'ngx-clipboard';
 import {CookieService} from 'ngx-cookie-service';
 import {CommunFuncService} from '../Commun/commun-func.service';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-signature',
     templateUrl: './signature.component.html',
     styleUrls: ['./signature.component.scss']
 })
-// <!--        <div class="col-5" style="border-right: 5px solid #ccc;  height: 100%;" *ngIf="PcTkExist">-->
-// <!--            <app-signature *ngIf=" permissionDeniedSig"-->
-// <!--                           [BASE64_Input]="BASE64_Input"-->
-// <!--                           [FileNameToSigned]=FileNameToSigned-->
-// <!--                           (fileSigned)="signedEvent($event)">-->
-//     <!--            </app-signature>-->
-// <!--            <i *ngIf="!permissionDeniedSig" class="fa fa-exclamation-triangle p-1" style="font-size: 200%;color:red; display:flex; justify-content: center" title=" {{'ATTACHEMENT.signLicensePstk'| translate}} Ou {{'ATTACHEMENT.pstkerror'| translate}} Ou {{'ATTACHEMENT.PermissionFichier'| translate}}"></i>-->
-// <!--        </div>-->
+
 export class SignatureComponent implements OnInit {
     @Output() visibleFalse = new EventEmitter<any>();/*modal of rslt*/
     @Output() fileSigned = new EventEmitter<any>();/*File signed output*/
 
     @Input() FileNameToSigned;/*File name to signed*/
     @Input() BASE64_Input; /*Blob of file to signed*/
-    externalLinkUrl: SafeResourceUrl;
 
     selected_TypeSign = 'Avec clé USB';/*Default Selected value of type sign*/
 
@@ -48,7 +39,7 @@ export class SignatureComponent implements OnInit {
     });
 
     /*Liste de type de signature*/
-    types: any = ['Avec certificat local', 'Avec clé USB', 'Avec Digigo'];
+    types: any = ['Avec certificat local', 'Avec clé USB'];
     // types: any = ['Avec certificat local', 'Avec clé USB', 'Avec certificat local et clé'];
 
 
@@ -75,30 +66,22 @@ export class SignatureComponent implements OnInit {
     showSuccess = false;
     erreurcomplete;
     succescomplete;
-    packageName = require('package.json').name;
-    digigoPopUp = false;
-    email: string; // Declare the variable to bind with ngModel
-    signatureUUID;
-
-    /*To Copie Erreur msg */
-
-    constructor(private sanitizer: DomSanitizer, public communService: CommunFuncService, private env: EnvService, private cookieService: CookieService, private clipboardApi: ClipboardService, private fb: FormBuilder,
+    packageName =  require('package.json').name
+    constructor( public communService: CommunFuncService,private env: EnvService, private cookieService: CookieService, private clipboardApi: ClipboardService, private fb: FormBuilder,
                 private fileservice: AttachementModuleService, private toastr: ToastrService, private translateService: TranslateService, private communFuncService: CommunFuncService) {
     }
-
-    //Change CERTIF File
 
     get passwordCertif(): AbstractControl {
         return this.signedLOCALForm.get('passwordCertif');
     }
-
-    /*private key change ############ Avec certificat local et clé ################*/
 
     /**private certif ############ Avec certificat local et clé && Avec certificat local################* */
 
     get pinCertif(): AbstractControl {
         return this.signedUSBForm.get('pinCode');
     }
+
+    /*To Copie Erreur msg */
 
     //Change CERTIF File
     CertifChange(event) {
@@ -117,6 +100,8 @@ export class SignatureComponent implements OnInit {
         }
     }
 
+    //Change CERTIF File
+
     /*To Copie Erreur msg */
     copyText() {
         this.clipboardApi.copyFromContent(this.erreurcomplete);
@@ -131,6 +116,8 @@ export class SignatureComponent implements OnInit {
             });
         });
     }
+
+    /*private key change ############ Avec certificat local et clé ################*/
 
     /*private key change ############ Avec certificat local et clé ################*/
     KeyChange(event) {
@@ -179,55 +166,6 @@ export class SignatureComponent implements OnInit {
                     });
                 });
             }
-        } else if (this.selected_TypeSign === 'Avec Digigo') {
-            if (!this.email) {
-                this.toastr.error('Plz enter your email', '', {
-                    closeButton: true,
-                    positionClass: 'toast-top-right',
-                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                    progressBar: true,
-                    disableTimeOut: false,
-                    timeOut: this.env.timeOutToastr
-                });
-            } else {
-                if (this.BASE64_Input != null && this.BASE64_Input != undefined && this.BASE64_Input != '' && this.FileNameToSigned != null && this.FileNameToSigned != undefined && this.FileNameToSigned != '') {
-                    this.loadingVisible = true;
-                    /*LOCAL sTORAGE*/
-                    localStorage.setItem(this.packageName + '_' + 'typeSign', this.selected_TypeSign);
-                    let arraybuffer = this.communFuncService.base64ToArrayBuffer(this.BASE64_Input);
-                    /* New File to be signed */
-                    var file = new File([arraybuffer], this.FileNameToSigned, {type: 'application/pdf'});
-
-
-                    let obj = new FormData();
-                    obj.append('forSignedFile', file);
-                    obj.append('clientMail', this.email);
-                    this.fileservice.initSignature(obj).subscribe((response: any) => {
-                        this.signatureUUID = response.id;
-
-                        this.cookieService.set('signature-UUID', this.signatureUUID);
-
-                        this.digigoPopUp = true;
-                        this.externalLinkUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.env.apiFrontPSSIGN);
-                    }, error => {
-                        this.toastr.error(error.message, '', {
-                            closeButton: true,
-                            positionClass: 'toast-top-right',
-                            extendedTimeOut: this.env.extendedTimeOutToastr,
-                            progressBar: true,
-                            disableTimeOut: false,
-                            timeOut: this.env.timeOutToastr
-                        });
-                        this.loadingVisible = false;
-
-                    });
-
-                }
-
-
-            }
-
-
         }
         /*        else if (this.selected_TypeSign === 'Avec certificat local et clé') {
                     if (this.signedLOCAL_KEYForm.valid) {
@@ -246,36 +184,11 @@ export class SignatureComponent implements OnInit {
                     }
                 }*/
     }
-    saveSignedAttachement(){
-        this.digigoPopUp=false
 
-        this.fileservice.extractSignedAttachment(this.signatureUUID).subscribe(async (response: any) => {
-            let base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
-
-            let arraybuffer = this.communFuncService.base64ToArrayBuffer(base64);
-
-            let fileContent = new File([arraybuffer], this.FileNameToSigned, {type: 'application/pdf'});
-
-            this.fileSigned.emit(fileContent);
-
-            this.loadingVisible = false
-        }, error => {
-            this.toastr.error(error.message, "", {
-                closeButton: true,
-                positionClass: 'toast-top-right',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
-            this.loadingVisible = false
-        })
-
-    }
     ngOnInit(): void {
         /*LOCAL STORAGE of formulaire*/
-        if (localStorage.getItem(this.packageName + '_' + 'typeSign') != null) {
-            this.selected_TypeSign = localStorage.getItem(this.packageName + '_' + 'typeSign');
+        if (localStorage.getItem(this.packageName+'_'+'typeSign') != null) {
+            this.selected_TypeSign = localStorage.getItem(this.packageName+'_'+'typeSign');
         }
     }
 
@@ -312,7 +225,6 @@ export class SignatureComponent implements OnInit {
 
     closeFailed() {
         this.popupRslt = false;
-        this.cookieService.delete('signature-UUID');
     }
 
 
@@ -320,14 +232,14 @@ export class SignatureComponent implements OnInit {
         if (this.BASE64_Input != null && this.BASE64_Input != undefined && this.BASE64_Input != '' && this.FileNameToSigned != null && this.FileNameToSigned != undefined && this.FileNameToSigned != '') {
             this.loadingVisible = true;
             /*LOCAL sTORAGE*/
-            localStorage.setItem(this.packageName + '_' + 'typeSign', this.selected_TypeSign);
+            localStorage.setItem(this.packageName+'_'+'typeSign', this.selected_TypeSign);
             let arraybuffer = this.communFuncService.base64ToArrayBuffer(this.BASE64_Input);
             /* New File to be signed */
             var file = new File([arraybuffer], this.FileNameToSigned, {type: 'application/pdf'});
 
             let values;
             /*verify Module Scan*/
-            let authorizationtokenSign = await this.communService.authorizationToken(this.ModuleSign);
+            let authorizationtokenSign = await this.communService.authorizationToken(this.ModuleSign)
 
             /*verify Module Scan*/
 

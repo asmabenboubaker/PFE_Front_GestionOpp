@@ -18,7 +18,7 @@ import {EnvService} from "../../../../../env.service";
 import {WsService} from "../../../../../ws.service";
 import {TranslateService} from "@ngx-translate/core";
 import {TokenStorageService} from "../../../Global/shared-service/token-storage.service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DemandeService} from "../../../../Service/demande.service";
 import {Demande} from "../../../../Models/Demande";
@@ -46,9 +46,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   eventvalueworkflow:any;
   disabled = true;
   eventcontrole=false;
-  show_sous_comp: any = false;
+
   demandeid:any;
-  popupDeleteVisible: boolean=false;
+
   demande = new DemandeDto(null, null, null, null)
   gridBoxValue = [];
   gridBoxValueexp:any = [];
@@ -64,25 +64,11 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 
   });
 
-  showComment:boolean=false;
-  acces:boolean=false;
-  GRIDacces:boolean=false;
-  DemandeDTO: any = {}
-  //@Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   @Output() AppelWsGetById: EventEmitter<any> = new EventEmitter<any>();
   userPermission:any;
   decissionWF:any;
-  demande_Dto = this.fb.group({
-    id: null, // You might want to initialize other properties based on your requirements
-    nom: ['', Validators.required],
-    description: null,
-    dateDeCreation: null,
-
-    statut: [null, Validators.required],
-    client: [null]
-
-  });
-  dataSourcePays
+ //document
+  @Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
               private translateService: TranslateService,
@@ -117,7 +103,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     });
   }
   GetjsonDowViewerFromAttatchement(e) {
-   // this.JsonDocViewerFromFormToComponent.emit(e)
+    this.JsonDocViewerFromFormToComponent.emit(e)
   }
   getById(id) {
     console.log("inWebServiceGetByID")
@@ -126,6 +112,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 
 
   ngOnInit(): void {
+
     this.demandeService.getStatusList().subscribe((statuses) => {
       this.statusList = statuses;
     });
@@ -197,7 +184,7 @@ console.log("sdsdsdsddsdsdsdsdsd")
     // this.demandeDTO['wfCurrentComment ']= evt.wfCurrentComment
     formData['decision'] = evt.decision;
     formData['wfCurrentComment'] = evt.wfCurrentComment;
-    console.log("this.demanade CONFIRMATION",this.demandeF)
+    console.log("this.demanade CONFIRMATION",formData)
 
     this.demandeService.Demande_process_Submit(formData).subscribe(data => {
       this.toastr.success(" added successfully" +
@@ -398,4 +385,7 @@ console.log("sdsdsdsddsdsdsdsdsd")
         }
     );
   }
+
+  //document
+
 }

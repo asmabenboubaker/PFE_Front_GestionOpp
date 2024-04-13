@@ -13,13 +13,15 @@ import {
     HttpParamMethodPost,
     HttpParamMethodPutNEwFormat
 } from '../../../pages/Global/ps-tools/class';
+import {FormatDate} from "../shared-service/formatDate";
 
 @Component({
     selector: 'app-attachment',
     templateUrl: './attachment.component.html',
     styleUrls: ['./attachment.component.scss']
 })
-export class AttachmentComponent implements OnInit {@Input('objectData') objectData/*Model of Get by ID*/
+export class AttachmentComponent implements OnInit {
+    @Input('objectData') objectData/*Model of Get by ID*/
     @Input('URL') URL;
     @Input() withoutviewer: Boolean = false;
     @Input() classid: any;
@@ -27,7 +29,7 @@ export class AttachmentComponent implements OnInit {@Input('objectData') objectD
     @Input() objectid: any;
     @Input() isPublic: any;
     @Input() ReadOnly: Boolean = false;
-    @Output() refreshedReqFileDef = new EventEmitter<any>();
+    @Output() AppelWsGetById = new EventEmitter<any>();
     @Input() ModeGridVsThumbnail: boolean = false;/*true === cad thumbnail // false === cad grid */
     requestFileDef = [];
     attachements;
@@ -90,33 +92,31 @@ export class AttachmentComponent implements OnInit {@Input('objectData') objectD
         }
         this.verifLicensePSTKDatagridAttachement()
     }
+    @Output()
+    listOfficeNotEmpty = new EventEmitter<any>();
 
-    listOfficeNotEmpty
 
     ngOnInit(): void {
-
         let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'findOfficeTemplate', this.objectData)
         this.httpServicesComponent.method(paramsHttp, '', null, null, false).then(data => {
             if (data["statut"] == true) {
-                this.listOfficeNotEmpty = data["value"].length > 0
+                if(data["value"].length > 0){
+                    this.listOfficeNotEmpty.emit(true)
+
+                }else{
+                    this.listOfficeNotEmpty.emit(false)
+
+                }
+
             }
         })
-        // /*FOR JRXML etc .....*/
-        // if (this.objectData === undefined || this.objectData === null) {
-        //     let id = 15
-        //     let url = 'jrxmlTemplate/'
-        //      this.http.get(this.env.BackUrl + this.url).subscribe((res) => {
-        //             if (res != undefined) {
-        //                 this.objectData =res
-        //             }
-        //         }
-        //     )
-        // }
+
 
     }
 
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+        console.log("changes",changes)
         if (changes['objectData'] && changes['objectData'].previousValue != changes['objectData'].currentValue) {
             if (this.objectData != null) {
                 if (this.objectData.remaingRequestFileDefinitions)
@@ -141,6 +141,7 @@ export class AttachmentComponent implements OnInit {@Input('objectData') objectD
                 this.ContainerViewer = false
             // }
         }
+
     }
 
     /*refresh get by id*/
@@ -177,19 +178,18 @@ export class AttachmentComponent implements OnInit {@Input('objectData') objectD
 
     /*REFRESH GRID OF ATTACHEMENT */
     refreshDataGrid(e) {
-        console.log("ereeereee", e)
-        console.log("requestFileDefbeforeChange", this.requestFileDef)
 
-        const indexElement = this.requestFileDef.findIndex((b) => b.docTitle === e.docTitle);
+        // const indexElement = this.requestFileDef.findIndex((b) => b.docTitle === e.docTitle);
+        //
+        // if (indexElement !== -1) {
+        //     this.requestFileDef.splice(indexElement, 1);
+        //
+        // }
 
-        if (indexElement !== -1) {
-            this.requestFileDef.splice(indexElement, 1);
 
-        }
-        // this.refreshedReqFileDef.emit(true)/*getbyid*/
+        this.AppelWsGetById.emit(true)/*getbyid*/
         this.popUpSave = false
         this.refreshedReqFileDef2 = e
-        console.log("requestFileDefAfterChange", this.requestFileDef)
     }
 
     /*thubnail*/
@@ -422,8 +422,8 @@ export class AttachmentComponent implements OnInit {@Input('objectData') objectD
     }
 
     RecalFileTodelete(e: any) {
-        if (e.name != this.env.docPardefaut)
-            this.requestFileDef.push(e)
+        // if(e.name!=this.env.docPardefaut)
+        //     this.requestFileDef.push(e)
 
 
     }
@@ -434,3 +434,4 @@ export class PermissionmMode {
     name
     mode
 }
+

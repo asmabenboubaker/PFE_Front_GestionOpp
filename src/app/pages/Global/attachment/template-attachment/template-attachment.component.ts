@@ -19,13 +19,13 @@ import {TokenStorageService} from '../../shared-service/token-storage.service';
     styleUrls: ['./template-attachment.component.scss']
 })
 export class TemplateAttachmentComponent implements OnInit {
-    packageName =  require('package.json').name
+    packageName = require('package.json').name
     //All variables
     formatDate = new FormatDate(this.env);
     loadingVisible: any = false;
     maxUploadMultiPartFile = this.env.maxUploadMultiPartFile;
     @ViewChild(DxFormComponent, {static: false}) form: DxFormComponent;/*To access to the card formulaire input */
-    @ViewChild( 'gridofficeTempalte', {static: false}) gridofficeTempalte: DxDataGridComponent;
+    @ViewChild('gridofficeTempalte', {static: false}) gridofficeTempalte: DxDataGridComponent;
     //___________________________________________________________________All compoment input__________________________________________________________________________
     @Input() classid: any;/*Id  of class metier*/
     @Input() objectid: any;/*Id of object metier*/
@@ -34,7 +34,7 @@ export class TemplateAttachmentComponent implements OnInit {
     @Input() fileTemplate;/*request file definition ex : Doc, CIN*/
     @Input() isPublic: any;/* to mention public objet metier : like jrxmltemplate*/
     @Input() showButton = false/* to disable/enable button of attachement widget*/
-    @Input('readOnly') readOnly=false
+    @Input('readOnly') readOnly = false
     @Input() fileAccessToken;/*access token to acces to webs services of attchements */
     //___________________________________________________________________All compoment output__________________________________________________________________________
     @Output() newFile = new EventEmitter();/*to emit event of save new attachement and catch this event */
@@ -115,9 +115,10 @@ export class TemplateAttachmentComponent implements OnInit {
 
     //All variables
     RefUserName
-
+    arabe = false;
+    arabertl = "ltr";
     constructor(private cookieService: CookieService, private communService: CommunFuncService, private toastr: ToastrService, private env: EnvService, private fileservice: AttachementModuleService, private translateService: TranslateService, private tokenService: TokenStorageService, private router: Router, private route: ActivatedRoute) {
-        if (this.cookieService.get('displayname')){
+        if (this.cookieService.get('displayname')) {
             this.RefUserName = {displayName: this.cookieService.get('displayname')};
         } else {
             this.RefUserName = {displayName: 'utilisateur'};
@@ -140,9 +141,22 @@ export class TemplateAttachmentComponent implements OnInit {
         });
         //init pstk
         this.pstkEnabledAndRunning = this.cookieService.get("envPstkRunning") === 'true' && this.cookieService.get("PstkEnabled") === 'true'
+        if (localStorage.getItem(this.packageName + '_' + 'locale') == 'ar') {
 
+            this.arabe = true;
+            this.arabertl = 'rtl';
+
+
+        } else {
+            this.arabe = false;
+            this.arabertl = 'ltr';
+
+
+        }
     }
+
     ngOnInit(): void {
+
 
         //init style of file card
         if (this.objectData) {
@@ -190,21 +204,8 @@ export class TemplateAttachmentComponent implements OnInit {
         if (this.fileTemplate && this.fileTemplate.description !== null && this.fileTemplate.description !== undefined && this.fileTemplate.description !== "" && this.fileTemplate.description !== {})
             this.massageExpressionRegulier += this.fileTemplate.description
     }
-    ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-        console.log(changes,this.fileTemplate)
-        if (this.fileTemplate && this.fileTemplate.label !== null && this.fileTemplate.label !== undefined && this.fileTemplate.label !== "" && this.fileTemplate.label !== {})
-            this.label = this.fileTemplate.label
-        let newLabel = this.findInseredDocumentLabel(this.label, 1)
-        this.editorOptionsName = {
-            value: newLabel,
-            readOnly: !this.labelEditable,
-        }
-        this.editorOptionsNameButtonFalse = {
-            value: newLabel,
-            readOnly: !this.labelEditable || this.readOnly
-        }
-    }
-    ngAfterViewChecked(){
+
+    ngAfterViewChecked() {
         //init fields of card input
         (this.fileTemplate && this.fileTemplate.fileRequired && this.fileTemplate.fileRequired == true) ? this.requiredFile = "required" : this.requiredFile = ""
         if (this.fileTemplate && this.fileTemplate.maxCopies && this.fileTemplate.maxCopies != null && this.fileTemplate.maxCopies != undefined && this.fileTemplate.maxCopies != 0)
@@ -238,19 +239,20 @@ export class TemplateAttachmentComponent implements OnInit {
             this.hasLockButton = this.fileTemplate.hasLockButton
         if (this.fileTemplate && this.fileTemplate.hasModelOfficeButton !== null && this.fileTemplate.hasModelOfficeButton !== undefined && this.fileTemplate.hasModelOfficeButton !== "" && this.fileTemplate.hasModelOfficeButton !== {})
             this.hasModelOfficeButton = this.fileTemplate.hasModelOfficeButton
-        // let newLabel = this.findInseredDocumentLabel(this.label, 1)
-        // this.editorOptionsName = {
-        //     value: newLabel,
-        //     readOnly: !this.labelEditable,
-        // }
-        // this.editorOptionsNameButtonFalse = {
-        //     value: newLabel,
-        //     readOnly: !this.labelEditable || this.readOnly
-        // }
+        let newLabel = this.findInseredDocumentLabel(this.label, 1)
+        this.editorOptionsName = {
+            value: newLabel,
+            readOnly: !this.labelEditable,
+        }
+        this.editorOptionsNameButtonFalse = {
+            value: newLabel,
+            readOnly: !this.labelEditable || this.readOnly
+        }
         this.editorOptionsIdentificateur = {
             readOnly: this.readOnly,
         }
     }
+
     //return size of scren
     screen() {
         return 'sm';
@@ -258,7 +260,7 @@ export class TemplateAttachmentComponent implements OnInit {
 
     //auto increment card labem
     findInseredDocumentLabel(label, index) {
-        if(this.attachements && this.attachements.length>0) {
+        if (this.attachements && this.attachements.length > 0) {
             let inseredDocumentNbr = this.attachements.filter(x => (x.docTitle == label)).map(x => x).length
             if (inseredDocumentNbr != 1) {
                 return label
@@ -269,11 +271,10 @@ export class TemplateAttachmentComponent implements OnInit {
                 index++
                 return this.findInseredDocumentLabel(newLabel, index)
             }
-        }else{
+        } else {
             return label
         }
     }
-
 
 
     /*FOR SCANNER */
@@ -292,29 +293,29 @@ export class TemplateAttachmentComponent implements OnInit {
                 obj.objectId = this.objectid;
             }
 
-            this.fileservice.getscan_preferencesByName( this.cookieService.get('scannerProfil')).subscribe(async(data: any) => {
-                let selectedprofile = await data
+            this.fileservice.getscan_preferencesByName(this.cookieService.get('scannerProfil')).subscribe(async (data: any) => {
+                    let selectedprofile = await data
 
-                obj.preferenceName = (this.cookieService.get('scannerProfil'));
+                    obj.preferenceName = (this.cookieService.get('scannerProfil'));
 
-                if (JSON.stringify(this.objectData) != undefined && JSON.stringify(this.objectData) != null) {
-                    obj.objectData = JSON.stringify(this.objectData);
-                }
-                this.fileservice.pdfgetDefaultInfo(obj).subscribe(
-                    async (res) => {
-                        let authorizationtokenScan = await this.communService.authorizationToken(this.ModuleScan)
-                        this.loadingVisible = false;
-
-                        this.Scanner(this.cookieService.get('scannerName'), selectedprofile, 'new', res.title, authorizationtokenScan);
-                        this.saveFromScanner = true;
-
-                    }, error => {
-                        this.loadingVisible = false;
-
-                        this.saveFromScanner = false;
-                        // console.error(error);
+                    if (JSON.stringify(this.objectData) != undefined && JSON.stringify(this.objectData) != null) {
+                        obj.objectData = JSON.stringify(this.objectData);
                     }
-                );
+                    this.fileservice.pdfgetDefaultInfo(obj).subscribe(
+                        async (res) => {
+                            let authorizationtokenScan = await this.communService.authorizationToken(this.ModuleScan)
+                            this.loadingVisible = false;
+
+                            this.Scanner(this.cookieService.get('scannerName'), selectedprofile, 'new', res.title, authorizationtokenScan);
+                            this.saveFromScanner = true;
+
+                        }, error => {
+                            this.loadingVisible = false;
+
+                            this.saveFromScanner = false;
+                            // console.error(error);
+                        }
+                    );
                 }
             );
 
@@ -373,28 +374,28 @@ export class TemplateAttachmentComponent implements OnInit {
                 jsonScanPreference.showlankpagethreshold,
                 title,
                 jsonScanPreference.enableOcr
-            ).then(async(res) => {
-                this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true'
-                this.fileType = res.result.fileMimeType;
-                this.fileName = res.result.tmpFileName;
-                this.base64 = res.result.data;
-                this.pgNbr = res.result.pgNbr;
-                let verifLicensePSTKScan:any = await this.communService.verifLicensePSTK(this.ModuleScan)
+            ).then(async (res) => {
+                    this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true'
+                    this.fileType = res.result.fileMimeType;
+                    this.fileName = res.result.tmpFileName;
+                    this.base64 = res.result.data;
+                    this.pgNbr = res.result.pgNbr;
+                    let verifLicensePSTKScan: any = await this.communService.verifLicensePSTK(this.ModuleScan)
 
-                this.permissionToScanAction = (this.fileType === this.pdfMimeType && this.pstkEnabledAndRunning && verifLicensePSTKScan);
-                this.permissionToTopViewer = (this.fileType === this.pdfMimeType);
-                const byteArray = new Uint8Array(atob(this.base64).split('').map(char => char.charCodeAt(0)));
-                this.fileContent = new File([byteArray], this.fileName, {type: this.fileType});
-                this.sizeInput = this.communService.formatBytes(byteArray.length);
-                let arraybuffer = this.communService.base64ToArrayBuffer(this.base64);/*prepare data to be append in the comming scan if use enable it*/
-                //verif max size
-                if (byteArray.length > this.maxUploadMultiPartFile)/*presq 1MO*/{
-                    this.disableSave = true;
-                    this.displayErrorToasterOfMaxFileSize();
-                } else {
-                    this.disableSave = false;
+                    this.permissionToScanAction = (this.fileType === this.pdfMimeType && this.pstkEnabledAndRunning && verifLicensePSTKScan);
+                    this.permissionToTopViewer = (this.fileType === this.pdfMimeType);
+                    const byteArray = new Uint8Array(atob(this.base64).split('').map(char => char.charCodeAt(0)));
+                    this.fileContent = new File([byteArray], this.fileName, {type: this.fileType});
+                    this.sizeInput = this.communService.formatBytes(byteArray.length);
+                    let arraybuffer = this.communService.base64ToArrayBuffer(this.base64);/*prepare data to be append in the comming scan if use enable it*/
+                    //verif max size
+                    if (byteArray.length > this.maxUploadMultiPartFile)/*presq 1MO*/{
+                        this.disableSave = true;
+                        this.displayErrorToasterOfMaxFileSize();
+                    } else {
+                        this.disableSave = false;
                     }
-                this.loadingVisible = false;
+                    this.loadingVisible = false;
                     if (decision) {
                         do {
                             this.translateService.get('ATTACHEMENT.chargepagescanner').subscribe(title => {
@@ -449,23 +450,25 @@ export class TemplateAttachmentComponent implements OnInit {
 
     /*DELETE FILE FROM CARD */
     deleteFile() {
+
         this.fileName = null
         this.fileContent = null
         this.popupDeleteFileVisible = false
         this.saveFromScanner = false;
         this.pgNbr = null
         this.sizeInput = null
+        this.showsave = false
     }
 
     /*ON SELECTED FILE  CHANGE*/
     async viewFile() {
-        if(this.fileType === "application/json" || this.fileType === "text/plain" || this.fileType === "image/jpeg" ||
+        if (this.fileType === "application/json" || this.fileType === "text/plain" || this.fileType === "image/jpeg" ||
             this.fileType === "image/png" || this.fileType === "image/gif" || this.fileType === "image/tiff" || this.fileType === "image/bmp" ||
-            this.fileType === "image/svg+xml" || this.fileType === "application/pdf"){
+            this.fileType === "image/svg+xml" || this.fileType === "application/pdf") {
             if (this.fileContent != null || this.blobFile != null) {
                 this.loadingVisible = true;
                 this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true'
-                let verifLicensePSTKSign : any = await this.communService.verifLicensePSTK(this.ModuleSign);
+                let verifLicensePSTKSign: any = await this.communService.verifLicensePSTK(this.ModuleSign);
 
                 this.permissionToSigAction = (this.fileType === this.pdfMimeType && this.pstkEnabledAndRunning && verifLicensePSTKSign)
                 this.permissionToTopViewer = (this.fileType === this.pdfMimeType)
@@ -478,9 +481,9 @@ export class TemplateAttachmentComponent implements OnInit {
                     let obj = new FormData()
                     if (this.fileContent != null && this.fileContent != undefined)
                         obj.append("multipartFiles", this.fileContent)
-                    let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel+'IsSigned', obj)
+                    let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'IsSigned', obj)
                     this.Ref.value = this.fileName
-                    this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.rattachement", null, false).then(data => {
+                    this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.rattachement", "ATTACHEMENT.rattachmentEroor", false).then(data => {
                         if (data["statut"] == true)
                             this.avertismentPopUp = data["value"]
                     })
@@ -488,7 +491,7 @@ export class TemplateAttachmentComponent implements OnInit {
                 }
 
 
-                let verifLicensePSTKScan:any = await this.communService.verifLicensePSTK(this.ModuleScan)
+                let verifLicensePSTKScan: any = await this.communService.verifLicensePSTK(this.ModuleScan)
 
                 this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true'
                 /*if pdf and pstk enabled get nbr pag pf pdf*/
@@ -507,7 +510,7 @@ export class TemplateAttachmentComponent implements OnInit {
                 this.showViewerModal = true;
 
             }
-        }else{
+        } else {
             var fileURL = URL.createObjectURL(this.blobFile);
 
 // create a link element
@@ -546,10 +549,12 @@ export class TemplateAttachmentComponent implements OnInit {
         this.FormatDisplayDateExpiration = this.formatDate.formatDFshortNEW(e.value)
         this.editorOptionsDateExpiration = {
             min: this.minDateExpiration,
-            readOnly:this.readOnly,
+            readOnly: this.readOnly,
             displayFormat: this.FormatDisplayDateExpiration,
         }
     }
+
+    showsave: boolean = false
 
     /*ATTACHED FILE FROM CARD INTERFACE*/
     attached() {
@@ -564,7 +569,7 @@ export class TemplateAttachmentComponent implements OnInit {
     }
 
     /*DETECTE AND CAPT FILE ADD FROM INTERFACE FRONT */
-   async fileChange(input) {
+    async fileChange(input) {
         this.loadingVisible = true
         this.fileContent = input.files[0]
         this.fileName = this.fileContent.name
@@ -578,7 +583,7 @@ export class TemplateAttachmentComponent implements OnInit {
         } else {
             this.disableSave = false
             this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true'
-            let verifLicensePSTKScan:any = await this.communService.verifLicensePSTK(this.ModuleScan)
+            let verifLicensePSTKScan: any = await this.communService.verifLicensePSTK(this.ModuleScan)
 
             this.permissionToScanAction = (this.fileType === this.pdfMimeType && this.pstkEnabledAndRunning && verifLicensePSTKScan)
             this.permissionToTopViewer = (this.fileType === this.pdfMimeType)
@@ -615,8 +620,9 @@ export class TemplateAttachmentComponent implements OnInit {
 
             });
             this.loadingVisible = false
+            this.showsave = true
             /*Save Automatique aprés rattachement */
-            this.save()
+            // this.save()
         }
     }
 
@@ -632,7 +638,7 @@ export class TemplateAttachmentComponent implements OnInit {
             let obj = new FormData()
             if (this.fileContent != null && this.fileContent != undefined)
                 obj.append("multipartFiles", this.fileContent)
-            else if(this.fileContent === null || this.fileContent === undefined){
+            else if (this.fileContent === null || this.fileContent === undefined) {
                 this.translateService.get("ATTACHEMENT.fileEmpty", this.Ref).subscribe((res) => {
                     this.toastr.warning(res, "", {
                         closeButton: true,
@@ -665,7 +671,7 @@ export class TemplateAttachmentComponent implements OnInit {
             if (this.fileTemplate.name != undefined)
                 obj.append("reqFileDefName", this.fileTemplate.name)
             if (this.form.instance.option("formData").docTitle != undefined)
-                obj.append("docTitle", this.form.instance.option("formData").docTitle)
+            obj.append("docTitle", this.form.instance.option("formData").docTitle)
             if (this.classid != undefined)
                 obj.append("classId", this.classid)
             if (this.objectid != undefined)
@@ -673,12 +679,16 @@ export class TemplateAttachmentComponent implements OnInit {
             if (this.isPublic != undefined)
                 obj.append("Public", this.isPublic)
             obj.append("locked", JSON.stringify(this.lockedValue))
+
             this.Ref.value = this.form.instance.option("formData").docTitle
-            let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel+'createAttachement' + "?fileAccessToken=" + this.fileAccessToken, obj)
+            let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'createAttachement' + "?fileAccessToken=" + this.fileAccessToken, obj)
             this.httpServicesComponent.method(paramsHttp, this.Ref).then(data => {
-                if (data["statut"] == true)
+                if (data["statut"] == true) {
                     this.newFile.emit(this.fileTemplate)
+                }
                 this.loadingVisible = false
+                this.showsave = false
+
 
             })
         } else if ((this.fileContent == null || this.fileContent == undefined) && this.fileTemplate.fileRequired == true) {
@@ -695,6 +705,83 @@ export class TemplateAttachmentComponent implements OnInit {
                 })
             })
         }
+
+    }
+
+saveNewFile(title) {
+        this.loadingVisible = true
+        if (this.form.instance.validate().isValid && !(this.fileContent == null && this.fileTemplate.fileRequired == true)) {
+            let obj = new FormData()
+            if (this.fileContent != null && this.fileContent != undefined)
+                obj.append("multipartFiles", this.fileContent)
+            else if (this.fileContent === null || this.fileContent === undefined) {
+                this.translateService.get("ATTACHEMENT.fileEmpty", this.Ref).subscribe((res) => {
+                    this.toastr.warning(res, "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    })
+                })
+            }
+            if (JSON.stringify(this.objectData) != undefined && JSON.stringify(this.objectData) != null)
+                obj.append("objectData", JSON.stringify(this.objectData));
+            if ((this.objectData) != undefined && (this.objectData) != null && (this.objectData).securiteLevel != null && (this.objectData).securiteLevel != undefined)
+                obj.append("objectDatasecuriteLevel", (this.objectData).securiteLevel);
+            if (this.saveFromScanner == true) {
+                if ((this.cookieService.get('scannerProfil')) != undefined)
+                    obj.append("preferenceName", (this.cookieService.get('scannerProfil')));
+            }
+            if (this.formatDate.formatDFshort(this.form.instance.option("formData").dateExpiration) != undefined && (this.fileTemplate.hasExpirationDate === 'MANDATORY' || this.fileTemplate.hasExpirationDate === 'OPTIONAL'))
+                obj.append("docExpirationDate", this.formatDate.formatDshort(this.form.instance.option("formData").dateExpiration))
+            if (this.formatDate.formatDFshort(this.form.instance.option("formData").dateEmission) != undefined && (this.fileTemplate.hasIssueDate === 'MANDATORY' || this.fileTemplate.hasIssueDate === 'OPTIONAL'))
+                obj.append("docIssueDate", this.formatDate.formatDshort(this.form.instance.option("formData").dateEmission))
+            if (this.form.instance.option("formData").lieuEmission != undefined && (this.fileTemplate.hasIssueAdress === 'MANDATORY' || this.fileTemplate.hasIssueAdress === 'OPTIONAL'))
+                obj.append("issueAdress", this.form.instance.option("formData").lieuEmission)
+            if (this.form.instance.option("formData").docId != undefined)
+                obj.append("docId", this.form.instance.option("formData").docId)
+            if (this.form.instance.option("formData").docCopies != undefined)
+                obj.append("docCopies", this.form.instance.option("formData").docCopies)
+            if (this.fileTemplate.name != undefined)
+                obj.append("reqFileDefName", this.fileTemplate.name)
+            if (this.form.instance.option("formData").docTitle != undefined)
+            obj.append("docTitle", title)
+            if (this.classid != undefined)
+                obj.append("classId", this.classid)
+            if (this.objectid != undefined)
+                obj.append("objectId", this.objectid)
+            if (this.isPublic != undefined)
+                obj.append("Public", this.isPublic)
+            obj.append("locked", JSON.stringify(this.lockedValue))
+
+            this.Ref.value = this.form.instance.option("formData").docTitle
+            let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'createAttachement' + "?fileAccessToken=" + this.fileAccessToken, obj)
+            this.httpServicesComponent.method(paramsHttp, this.Ref).then(data => {
+                if (data["statut"] == true) {
+                    this.newFile.emit(this.fileTemplate)
+                }
+                this.loadingVisible = false
+                this.showsave = false
+
+
+            })
+        } else if ((this.fileContent == null || this.fileContent == undefined) && this.fileTemplate.fileRequired == true) {
+            this.loadingVisible = false
+            this.Ref.value = this.form.instance.option("formData").docTitle
+            this.translateService.get("ATTACHEMENT.fileRequired", this.Ref).subscribe((res) => {
+                this.toastr.error(res, "", {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                    progressBar: true,
+                    disableTimeOut: false,
+                    timeOut: this.env.timeOutToastr
+                })
+            })
+        }
+
     }
 
 
@@ -748,8 +835,8 @@ export class TemplateAttachmentComponent implements OnInit {
 
     /*Office template*/
     OfficeTemplatePopUpOpen() {
-        let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel+'findOfficeTemplate', this.objectData)
-        this.httpServicesComponent.method(paramsHttp, '', "ATTACHEMENT.OfficeTemplateSucces", null, false).then(data => {
+        let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'findOfficeTemplate', this.objectData)
+        this.httpServicesComponent.method(paramsHttp, '', "ATTACHEMENT.OfficeTemplateSucces", "ATTACHEMENT.OfficeTemplateError", false).then(data => {
             if (data["statut"] == true) {
                 this.officeTemplateList = data["value"]
                 this.openOfficePopUp = true
@@ -792,7 +879,7 @@ export class TemplateAttachmentComponent implements OnInit {
     }
 
     resetGrid() {
-        localStorage.removeItem(this.packageName+'_'+'gridofficeTempalte');
+        localStorage.removeItem(this.packageName + '_' + 'gridofficeTempalte');
         window.location.reload();
     }
 
@@ -801,54 +888,68 @@ export class TemplateAttachmentComponent implements OnInit {
     }
 
 
-    async officeTemplateAttach(title, classid, objectid, objectData) {
+    async officeTemplateAttach(alias, type, title, classid, objectid, objectData) {
         this.loadingVisible = true
         try {
-            await this.fileservice.officeTemplateAttach(title, classid, objectid, objectData).subscribe(async (res: any) => {
-                    this.fileType = res.headers.get('Content-Type')
-                    this.fileName = await res.headers.get('filename')
-                    this.blobFile = new Blob([(res.body)], {type: this.fileType});
-                    this.sizeInput = this.communService.formatBytes(res.body.size);
-                    this.fileContent = new File([(res.body)], this.fileName, {type: this.fileType});
-                    this.openOfficePopUp = false;
-                    if (res.body.size > this.maxUploadMultiPartFile)/*presq 1MO*/
-                    {
-                        this.disableSave = true;
-                        this.displayErrorToasterOfMaxFileSize();
-                    } else {
-                        this.disableSave = false;
-                    }
-                    this.Ref.value = this.fileName;
-                    this.translateService.get('ATTACHEMENT.ModeleSucces', this.Ref).subscribe((res) => {
-                        this.toastr.success(res, '', {
-                            closeButton: true,
-                            positionClass: 'toast-top-right',
-                            extendedTimeOut: this.env.extendedTimeOutToastr,
-                            progressBar: true,
-                            disableTimeOut: false,
-                            timeOut: this.env.timeOutToastr
-                        });
-                    });
-                    this.loadingVisible = false;
 
-                    /*Save Automatique aprés rattachement */
-                    this.save();
-                }, () => {
-                    this.loadingVisible = false
-                    this.Ref.value = this.fileName
+            //office-templates
 
-                    this.translateService.get("ATTACHEMENT.Modeleechec", this.Ref).subscribe((res) => {
-                        this.toastr.error(res, "", {
-                            closeButton: true,
-                            positionClass: 'toast-top-right',
-                            extendedTimeOut: this.env.extendedTimeOutToastr,
-                            progressBar: true,
-                            disableTimeOut: false,
-                            timeOut: this.env.timeOutToastr
-                        })
-                    })
-                }
-            )
+            // await this.fileservice.officeTemplates(alias).subscribe(async data => {
+            //     await this.fileservice.downloadofficetemplateOutput(data[0].id).subscribe(async data => {
+            //
+            //         // let file = new Blob([data], {type: type});
+            //         let file = new File([(data)], title+".docx", {type: type});
+            //
+            //         var formData = new FormData()
+            //         formData.append('file', file)
+            //         formData.append('data', JSON.stringify(objectData))
+                    await this.fileservice.officeTemplateAttach(title, classid, objectid, objectData).subscribe(async (res: any) => {
+                    // await this.fileservice.officeTemplateAttachfromDocGenerator(formData).subscribe(async (res: any) => {
+                            this.fileType = res.headers.get('Content-Type')
+                            this.fileName = res.headers.get('filename')
+                            this.blobFile = new Blob([(res.body)], {type: this.fileType});
+                            this.sizeInput = this.communService.formatBytes(res.body.size);
+                            this.fileContent = new File([(res.body)], this.fileName, {type: this.fileType});
+                            this.openOfficePopUp = false;
+                            if (res.body.size > this.maxUploadMultiPartFile)/*presq 1MO*/
+                            {
+                                this.disableSave = true;
+                                this.displayErrorToasterOfMaxFileSize();
+                            } else {
+                                this.disableSave = false;
+                            }
+                            this.Ref.value = this.fileName;
+                            this.translateService.get('ATTACHEMENT.ModeleSucces', this.Ref).subscribe((res) => {
+                                this.toastr.success(res, '', {
+                                    closeButton: true,
+                                    positionClass: 'toast-top-right',
+                                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                                    progressBar: true,
+                                    disableTimeOut: false,
+                                    timeOut: this.env.timeOutToastr
+                                });
+                            });
+                            this.loadingVisible = false;
+                            this.save()
+                            /*Save Automatique aprés rattachement */
+                        }, () => {
+                            this.loadingVisible = false
+                            this.Ref.value = this.fileName
+
+                            this.translateService.get("ATTACHEMENT.Modeleechec", this.Ref).subscribe((res) => {
+                                this.toastr.error(res, "", {
+                                    closeButton: true,
+                                    positionClass: 'toast-top-right',
+                                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                                    progressBar: true,
+                                    disableTimeOut: false,
+                                    timeOut: this.env.timeOutToastr
+                                })
+                            })
+                        }
+                    )
+            //     })
+            // });
         } catch (error) {
             this.Ref.value = this.fileName
             this.translateService.get("ATTACHEMENT.SaveAfterEditError", this.Ref).subscribe((res) => {
@@ -863,9 +964,14 @@ export class TemplateAttachmentComponent implements OnInit {
             })
             this.loadingVisible = false
         }
+
     }
 
     /*office template*/
+    ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+
+
+    }
 
 }
 

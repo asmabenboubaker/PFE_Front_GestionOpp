@@ -77,6 +77,12 @@
         <div class="col-5" style="display: flex;justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"  *ngIf="!PcTkExist" >
         </div>
         <div class="col-5" style="border-right: 5px solid #ccc;  height: 100%;" *ngIf="PcTkExist">
+            <app-signature *ngIf=" permissionDeniedSig"
+                           [BASE64_Input]="BASE64_Input"
+                           [FileNameToSigned]=FileNameToSigned
+                           (fileSigned)="signedEvent($event)">
+            </app-signature>
+            <i *ngIf="!permissionDeniedSig" class="fa fa-exclamation-triangle p-1" style="font-size: 200%;color:red; display:flex; justify-content: center" title=" {{'ATTACHEMENT.signLicensePstk'| translate}} Ou {{'ATTACHEMENT.pstkerror'| translate}} Ou {{'ATTACHEMENT.PermissionFichier'| translate}}"></i>
         </div>
         <div class="col-5" style="display: flex;justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"  *ngIf="!PcTkExist" >
         </div>
@@ -115,7 +121,7 @@
 <dx-popup
         [(visible)]="popupDeleteWaterMarker"
         [showTitle]="true"
-        [hideOnOutsideClick]="true"
+        [closeOnOutsideClick]="true"
         [maxWidth]="'100%'"
         [width]="'30%'"
         [height]="'auto'"
@@ -144,7 +150,7 @@
 <dx-popup
         [(visible)]="openPopupOcr"
         [showTitle]="true"
-        [hideOnOutsideClick]="true"
+        [closeOnOutsideClick]="true"
         [maxWidth]="'100%'"
         [width]="'20%'"
         [height]="'auto'"
@@ -207,7 +213,7 @@
 <dx-popup
         [(visible)]="openPopupWaterMarker"
         [showTitle]="true"
-        [hideOnOutsideClick]="true"
+        [closeOnOutsideClick]="true"
         [maxWidth]="'100%'"
         [width]="'30%'"
         [height]="'auto'"
@@ -349,7 +355,7 @@
 <dx-popup
         [(visible)]="ConfirmeOCR"
         [showTitle]="true"
-        [hideOnOutsideClick]="true"
+        [closeOnOutsideClick]="true"
         [maxWidth]="'100%'"
         [width]="'20%'"
         [height]="'auto'"
@@ -385,7 +391,7 @@
 <dx-load-panel
     #loadPanel
     [(visible)]="loadingVisible"
-    [hideOnOutsideClick]="false"
+    [closeOnOutsideClick]="false"
     [position]="{ of: '#positionLoadPanel' }"
     [shading]="true"
     [showIndicator]="true"
