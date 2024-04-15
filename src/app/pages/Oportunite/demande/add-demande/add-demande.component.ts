@@ -119,8 +119,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 
    this.loadClients();
     // recuperer id from url
-    this.demandeService.Initdemande().subscribe(data => {
-        this.demandeid = data['id'];
+    // this.demandeService.Initdemande().subscribe(data => {
+    //     this.demandeid = data['id'];
+    this.demandeid=this.route.snapshot.paramMap.get('id');
       this.demandeService.getDemandeByid(this.demandeid).toPromise().then(
           data => {
             this.demandeDTO=data
@@ -158,8 +159,6 @@ export class AddDemandeComponent implements OnInit,OnChanges {
             console.log("Error :", error);
           }
       );
-      });
-
 
       console.log("this.demandeF",this.demandeF)
 

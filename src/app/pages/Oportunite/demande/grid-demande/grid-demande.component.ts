@@ -108,11 +108,11 @@ export class GridDemandeComponent implements OnInit {
 
     adddemande() {
         // Navigate to the add-demande component without an ID
-      // init nab3ith id mta3 demande url
-      // this.demandeService.Initdemande().subscribe(data => {
-      //   this.demandeadd = data['id'];
-        this.router.navigate(['Demande/add']);
-      // });
+
+      this.demandeService.Initdemande().subscribe(data => {
+        this.demandeadd = data['id'];
+       this.router.navigate(['Demande/add/'+this.demandeadd]);
+      });
 
     }
     Editdemande(id) {
@@ -120,7 +120,7 @@ export class GridDemandeComponent implements OnInit {
         this.id = id.data.id;
 
         // Navigate to the add-demande component with the specific ID
-        this.router.navigate(['Demande/edit', this.id]);
+        this.router.navigate(['Demande/add', this.id]);
     }
   exportGrid() {
     const doc = new jsPDF();

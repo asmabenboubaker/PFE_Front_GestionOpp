@@ -162,9 +162,9 @@ export class EditdemandeComponent implements OnInit {
                 //get decissionWF
                 this.decissionWF = data['workflow']['decisionsWF'];
                 // this.demandeForm.get('workflow').setValue(data.workflow);
-                console.log("fetchdemande"+this.demandeForm.value);
-                console.log(" data.workflow.decisionsW"+this.demandeForm.workflow.value);
-                console.log("  this.demandeForm.get('workflow')"+  this.demandeForm.get('workflow').value);
+                // console.log("fetchdemande"+this.demandeForm.value);
+                // console.log(" data.workflow.decisionsW"+this.demandeForm.workflow.value);
+                // console.log("  this.demandeForm.get('workflow')"+  this.demandeForm.get('workflow').value);
             },
             error => {
                 console.log("Error :", error);
