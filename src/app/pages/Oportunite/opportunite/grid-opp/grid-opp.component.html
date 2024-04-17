@@ -1,20 +1,76 @@
-<dx-data-grid
 
-        [showBorders]="true"
-        [allowColumnResizing]="true"
-        id="gridContainer"
-        [columnAutoWidth]="true"
-        [dataSource]="dataSourceElement"
-        [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-        keyExpr="id"
+<!--<dx-popup-->
+<!--        [maxWidth]="940"-->
+<!--        [width]="900"-->
+<!--        [height]="'auto'"-->
+<!--        [showTitle]="true"-->
+<!--        title="Ajouter Demande"-->
+<!--        [dragEnabled]="false"-->
+<!--        [closeOnOutsideClick]="true"-->
+<!--        [(visible)]="popupAdd">-->
+
+<!--    <app-add-demande [id]="" (add)="add($event)"></app-add-demande>-->
+<!--</dx-popup>-->
+<!--<dx-popup-->
+<!--        [maxWidth]="940"-->
+<!--        [width]="900"-->
+<!--        [height]="'auto'"-->
+<!--        [showTitle]="true"-->
+<!--        title=" edit client"-->
+<!--        [dragEnabled]="false"-->
+<!--        [closeOnOutsideClick]="true"-->
+<!--        [(visible)]="popupEdit">-->
+
+<!--    <app-add-demande *ngIf="this.id" [id]="''+this.id" (add)="add($event)"></app-add-demande>-->
+<!--</dx-popup>-->
+
+<dx-data-grid
+    #dataGridDemande
+    [showBorders]="true"
+    [allowColumnResizing]="true"
+    id="gridContainer"
+    (onToolbarPreparing)="onToolbarPreparing($event)"
+    [columnAutoWidth]="true"
+    [dataSource]="dataSourceElement"
+    [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+    (onRowDblClick)="EditOpp($event)"
+
+    keyExpr="id"
+    id="dataGridDemande"
+    class="dataGridDemande"
 >
-    <dxo-export [enabled]="true" [formats]="['xlsx', 'pdf']"></dxo-export>
-    <dxo-header-filter [visible]="true"></dxo-header-filter>
-    <dxo-filter-row [visible]="true" applyFilter="onClick"></dxo-filter-row>
+
 
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    <dxi-column dataField="nom" dataType="string"></dxi-column>
+    <dxi-column dataField="montantEstime" dataType="Number"></dxi-column>
 
+    <dxi-column dataField="description" dataType="string"></dxi-column>
+    <dxi-column dataField="createAt" dataType="date"></dxi-column>
+
+
+    <dxi-column [allowResizing]="false"
+                [fixed]="false" caption="{{'' | translate}}"
+                cellTemplate="cellTemplateActions"
+    >
+    </dxi-column>
+    <div *dxTemplate="let data of 'cellTemplateActions'"
+         style="display: flex; justify-content: center; align-items: center;">
+        <a (click)="showbordereaux(data.data.id)" target="_blank"
+           title="Consulter demande"><i
+                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
+        <a (click)="popupDelete(data.data.id)" target="_blank"   title="" >
+            <i class="fa fa-trash" style="color:#a63a3a;">
+            </i></a>
+    </div>
+    <div *dxTemplate="let data of 'ExportPDF'">
+        <dx-button (onClick)="exportGrid()" hint="{{ 'exportPDF' | translate }}" icon="exportpdf"
+                   id="exportButton"></dx-button>
+    </div>
     <dxo-pager
             [allowedPageSizes]="allowedPageSizes"
             [showInfo]="true"
@@ -24,26 +80,31 @@
             [showNavigationButtons]="true"
     ></dxo-pager>
 
-    <dxo-editing
-            mode="popup"
-            [allowUpdating]="true"
-            [allowAdding]="true"
-            [allowDeleting]="true"
 
-            [confirmDelete]="false"
-    >
-        <dxo-popup width="700" height="525" [showTitle]="true" title="Modifier opportunite "></dxo-popup>
-        <dxo-form>
-            <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
-                <!-- Adjust the data fields based on the Opportunite entity properties -->
-                <dxi-item dataField="nom">
-                    <dxi-validation-rule type="required"></dxi-validation-rule>
-                </dxi-item>
-                <dxi-item dataField="description"></dxi-item>
-                <dxi-item dataField="createdBy"></dxi-item>
-                <dxi-item dataField="createAt"></dxi-item>
-                <dxi-item dataField="montantEstime"></dxi-item>
-            </dxi-item>
-        </dxo-form>
-    </dxo-editing>
+
 </dx-data-grid>
+<dx-popup
+        [maxWidth]="940"
+        [width]="500"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Confirmation de la suppression"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupDeleteVisible">
+    <div>
+        <p> Êtes-vous sûr de vouloir supprimer cet élément ? </p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2"
+                    (click)="fermerPopup()">Annuler
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button type="submit" class="btn btn-success me-md-2"
+                    (click)="deleteOpp()">Confirmer
+            </button>
+        </div>
+    </div>
+</dx-popup>

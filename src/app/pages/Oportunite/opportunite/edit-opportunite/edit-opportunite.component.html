@@ -1,0 +1,52 @@
+<form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
+    <div class="col-md-6">
+        <label for="nom" class="form-label">Nom:</label>
+        <input class="form-control" formControlName="nom" id="nom" type="text" required>
+        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+        <!--             class="alert alert-danger">-->
+        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+        <!--                Nom is required.-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </div>
+    <div class="col-md-6">
+        <label for="description" class="form-label">Description:</label>
+        <input class="form-control" formControlName="description" id="description" type="text" required>
+        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+        <!--             class="alert alert-danger">-->
+        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+        <!--                Nom is required.-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </div>
+    <div class="col-md-6">
+        <label for="montantEstime" class="form-label">Montant Estime:</label>
+        <input class="form-control" formControlName="montantEstime" id="montantEstime" type="text" required>
+        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+        <!--             class="alert alert-danger">-->
+        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+        <!--                Nom is required.-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+        <app-workflow-decision
+                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                (decisionEvent)="Confirmation($event)"
+                (saveEvent)="oppForm()"
+                (RetournEvent)="Retourn()"
+                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                [decisions]="decissionWF"
+                [object]="oppForm"
+                [SaveObject]="oppForm">
+        </app-workflow-decision>
+
+        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+    </div>
+</form>
+
