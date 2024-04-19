@@ -37,9 +37,11 @@ export class PopupAttachmentViewerComponent implements OnInit {
     close(e) {
         this.closeModal.emit(e)
     }
-    updateWaterMarkers(e){
+
+    updateWaterMarkers(e) {
         this.updateWaterMarker.emit(e)
     }
+
     Output_Save(e) {
         this.BASE64_Output_Save.emit(e)
     }

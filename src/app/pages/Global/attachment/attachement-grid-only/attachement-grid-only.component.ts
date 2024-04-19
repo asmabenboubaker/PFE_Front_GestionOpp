@@ -2,11 +2,11 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    HostListener, inject,
+    HostListener,
     Input, OnChanges,
     OnInit,
     Output,
-    SimpleChange, TemplateRef,
+    SimpleChange,
     ViewChild
 } from '@angular/core';
 import {DxDataGridComponent, DxFormComponent} from "devextreme-angular";
@@ -41,7 +41,6 @@ import arMessages from "devextreme/localization/messages/ar.json";
 import {ColorState} from "../../shared-service/colorState";
 import CustomStore from "devextreme/data/custom_store";
 import notify from "devextreme/ui/notify";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-attachement-grid-only',
@@ -74,11 +73,9 @@ export class AttachementGridOnlyComponent implements OnInit, OnChanges {
     @ViewChild(HttpServicesComponent, {static: true}) private httpServicesComponent: HttpServicesComponent;
     @Output() AppelWsGetById: EventEmitter<any> = new EventEmitter<any>();
     @Output() jsondocviewerEventFromGrid = new EventEmitter<any>();
-    @ViewChild('longContent') longContent: TemplateRef<any>;
 
-    private modalService = inject(NgbModal);
 
-    constructor(private sanitizer: DomSanitizer, private ref: ChangeDetectorRef,  public env: EnvService, private router: Router, private http: HttpClient, private toastr: ToastrService,
+    constructor(private sanitizer: DomSanitizer, private ref: ChangeDetectorRef, public env: EnvService, private router: Router, private http: HttpClient, private toastr: ToastrService,
                 private tokenStorage: TokenStorageService, private translateService: TranslateService, private cookieService: CookieService, public communService: CommunFuncService, private fileservice: AttachementModuleService) {
 
         this.showHeaderFilter = true;
@@ -162,7 +159,7 @@ export class AttachementGridOnlyComponent implements OnInit, OnChanges {
                     // Header Filter
                     'dxDataGrid-headerFilterEmptyValue': '(فارغة)',
                     'dxDataGrid-headerFilterOK': 'موافق',
-                    'dxDataGrid-headerFilterCancel': 'عودة',
+                    'dxDataGrid-headerFilterCancel': 'إلغاء',
 
                     // Filter Builder
                     'dxDataGrid-filterBuilderGroupAnd': 'و',
@@ -537,59 +534,60 @@ export class AttachementGridOnlyComponent implements OnInit, OnChanges {
 
         this.fileName = data.data.fileName;
         this.filebyId = data.data;
-        this.objectFile = data.data
 
         this.id = data.data.id;
+        this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true'
 
 
         this.idFileViewer = data.data.id
-
         this.idcmis = data.data.cmisId
         this.fileType = data.data.fileType
         if (this.idFileViewer != null) {
 
             try {
+                let verifLicensePSTKScan: any
+                let verifLicensePSTKSign: any
 
-
-                this.fileservice.extractfileByUIID(data.data.uuid, this.fileAccessToken).subscribe(async (response: any) => {
+                this.fileservice.extractfileByIdJson(this.idFileViewer, this.fileAccessToken).subscribe(async (response: any) => {
                     if (this.fileType) {
-
-
+                        this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                         if (this.fileType == 'application/pdf') {
-                            let blobFile = new Blob([new Uint8Array(response.body)], {type: this.fileType});
-                            var fileURL = URL.createObjectURL(blobFile);
-                            this.jsondocviewer.visionneuse = 'url';
-                            this.jsondocviewer.pdfSrcc = fileURL
-
-                            this.pdfSrcc=fileURL ;
-
-
-
+                            this.permissionToTopViewer = true;
+                            verifLicensePSTKScan = await this.communService.verifLicensePSTK(this.ModuleScan)
+                            this.permissionDenied = data.data.locked == false && (!this.ReadOnly) && this.pstkEnabledAndRunning && verifLicensePSTKScan;
+                            verifLicensePSTKSign = await this.communService.verifLicensePSTK(this.ModuleSign);
+                            this.permissionDeniedSig = (!(this.ReadOnly) && this.pstkEnabledAndRunning && verifLicensePSTKSign);
                         } else {
-                            this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response.body));
-                            this.jsondocviewer.fileContent = this.base64
+                            this.permissionToTopViewer = false;
                         }
-
+                        let blobFile = new Blob([new Uint8Array(response)], {type: this.fileType});
+                        var fileURL = URL.createObjectURL(blobFile);
+                        this.jsondocviewer.visionneuse = 'url';
+                        this.jsondocviewer.pdfSrcc = fileURL
                         this.jsondocviewer.fileType = this.fileType
                         this.jsondocviewer.fileName = data.data.docTitle
                         this.jsondocviewer.docTitle = data.data.fileName
-
+                        this.jsondocviewer.fileContent = this.base64
                         this.jsondocviewer.id = data.data.id
                         this.jsondocviewer.securityLevel = data.data.securiteLevel
                         this.jsondocviewer.fileAccessToken = this.fileAccessToken
                         this.jsondocviewer.objectData = this.objectData
-                        if (!ShowPopupBoolean)
-                            this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
-                        else {
-                            this.fileExtractedContent = this.base64
-                            this.modalService.open(this.longContent, {
-                                scrollable: true,
-                                size: 'xl',
-                                backdrop: 'static'
+                        this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
+                        if (this.fileType === 'application/pdf' && this.pstkEnabledAndRunning && verifLicensePSTKScan) {
+                            let authorizationtokenScan = await this.communService.authorizationToken(this.ModuleScan)
+
+                            this.fileservice.getpageNbre(authorizationtokenScan, this.base64).then(res => {
+                                this.pgNbr = res.result.totalpage;
+                                this.loadingVisible = false;
+                                this.visibleTrueModal = ShowPopupBoolean;
+                            }, err => {
+                                this.loadingVisible = false;
+                                this.visibleTrueModal = ShowPopupBoolean;
                             });
-
+                        } else {
+                            this.loadingVisible = false
+                            this.visibleTrueModal = ShowPopupBoolean
                         }
-
 
                     }
                 }, error => {
@@ -627,11 +625,10 @@ export class AttachementGridOnlyComponent implements OnInit, OnChanges {
 
 
     downloadFile(dataa: any) {
-        console.log("downloaaaaaaaaaaaaaaaaad")
         try {
 
             this.loadingVisible = true;
-            this.fileservice.extractfileByUIID(dataa.row.data.uuid, this.fileAccessToken).subscribe(async (data: any) => {
+            this.fileservice.extractfileById(dataa.row.data.id, this.fileAccessToken).subscribe(async (data: any) => {
                 var fileName = await data.headers.get('filename')
                 const f1 = new Blob([(data.body)], {type: dataa.row.data.fileType});
                 // window.open(data)
@@ -748,36 +745,14 @@ export class AttachementGridOnlyComponent implements OnInit, OnChanges {
         }
     }
 
-    // consulterPjs(data) {
-    //     console.log(data)
-    //     this.objectFile = data
-    //
-    //     // var fileURL = URL.createObjectURL(data.file);
-    //     this.visible = true
-    //
-    //     this.reloadViewer(data.data, data.docTitle)
-    // }
-    fileExtractedContent
-
-    consulterPjs(data, longContent) {
+    consulterPjs(data) {
+        console.log(data)
         this.objectFile = data
 
+        // var fileURL = URL.createObjectURL(data.file);
         this.visible = true
-        let docTitle = data['docTitle'];
 
-
-        this.fileservice.extractfileByUIID(data.uuid, this.fileAccessToken).subscribe(async (file: any) => {
-
-            if (this.objectFile.fileType === 'application/pdf')
-                this.reloadViewer(file.body, docTitle)
-            else
-                this.fileExtractedContent = this.communService.arrayBufferToBase64(new Uint8Array(file.body));
-
-
-            this.modalService.open(longContent, {scrollable: true, size: 'xl', backdrop: 'static'});
-        })
-
-
+        this.reloadViewer(data.data, data.docTitle)
     }
 
     close() {
@@ -828,11 +803,11 @@ export class AttachementGridOnlyComponent implements OnInit, OnChanges {
 
     objectFile: any
 
-    reloadViewer(arraybuffer, filename) {
-        console.log("filename ::> ", filename)
-        console.log("arraybuffer ::> ", arraybuffer)
+    reloadViewer(base64, filename) {
+        console.log("file", filename)
+        console.log("base64", base64)
+        let arraybuffer = this.communService.base64ToArrayBuffer(base64);
         this.fileContent = new File([arraybuffer], filename, {type: 'application/pdf'});
-        console.log(URL.createObjectURL(this.fileContent));
         this.pdfSrcc = URL.createObjectURL(this.fileContent);
         this.visionneuse = 'url';
     }
@@ -866,7 +841,7 @@ export class AttachementGridOnlyComponent implements OnInit, OnChanges {
         console.log("eeeeeeeeeeee=>", this.FileToDelete)
         this.popupDeleteFileVisible = false;
         console.log("this.popupDeleteFileVisible", this.popupDeleteFileVisible)
-        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?uuid=" + this.FileToDelete.row.data.uuid + "&fileAccessToken=" + this.fileAccessToken, '')
+        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?id=" + this.FileToDelete.row.data.id + "&fileAccessToken=" + this.fileAccessToken, '')
         this.Ref.value = this.FileToDelete.row.data.docTitle
 
         this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.deleted", "ATTACHEMENT.deleteError").then(data => {

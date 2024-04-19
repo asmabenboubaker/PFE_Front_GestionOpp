@@ -1,27 +1,30 @@
-:host ::ng-deep.dx-datagrid-rowsview .dx-lookup-field {
+::ng-deep.dx-datagrid-rowsview .dx-lookup-field {
   padding-left: 0px;
   padding-top: 0px;
   padding-bottom: 2px;
 }
 
 
-:host ::ng-deep.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-edit-with-icons .dx-link {
+::ng-deep.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-edit-with-icons .dx-link {
   font-size: inherit !important;
 }
-:host ::ng-deep .dx-datagrid .dx-row > td,.dx-datagrid .dx-row > tr > td {
+
+::ng-deep .dx-datagrid .dx-row > td, .dx-datagrid .dx-row > tr > td {
   margin-left: 0px;
   padding-left: 0px;
 }
 
-:host ::ng-deep .dx-datagrid .dx-row > td,.dx-datagrid .dx-row > tr > td {
+::ng-deep .dx-datagrid .dx-row > td, .dx-datagrid .dx-row > tr > td {
   padding: 0px !important;
 }
-:host ::ng-deep .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-select {
+
+::ng-deep .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-select {
   padding: 0px;
   width: 25px !important;
   min-width: 25px !important;
   max-width: 25px !important;
 }
-:host ::ng-deep .dx-dropdownlist-popup-wrapper .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item-content {
+
+::ng-deep .dx-dropdownlist-popup-wrapper .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item-content {
   padding: 1px 7px !important;
 }

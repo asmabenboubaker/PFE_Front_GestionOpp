@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {DemandeService} from "../../../../Service/demande.service";
 import {ClientServiceService} from "../../../../Service/client-service.service";
@@ -11,6 +11,7 @@ import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
+import {Client} from "../../../../Models/Client";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -29,7 +30,8 @@ export class EditOpportuniteComponent implements OnInit {
     montantEstime: new FormControl(''),
 
   });
-
+  demandes: any[] = [];
+  @ViewChild('demandeSelect') demandeSelect: ElementRef;
   constructor(private fb: FormBuilder, private opportuniteService: OpportuniteService, private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService, private wsService: WsService,
               private translateService: TranslateService,
@@ -50,6 +52,7 @@ export class EditOpportuniteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loaddemandes();
     this.oppid = this.route.snapshot.paramMap.get('id');
     this.opportuniteService.getOppByid(this.oppid).toPromise().then(
         data => {
@@ -129,9 +132,50 @@ export class EditOpportuniteComponent implements OnInit {
     // this.closepopupMeeting();
   }
 
+
+  save(){
+    const selectedClientId = this.demandeSelect?.nativeElement.value;
+    console.log("selected demande:"+selectedClientId);
+    this.opportuniteService.updateAndAssignToDemande(this.oppid,selectedClientId,this.oppF.value).subscribe(data => {
+      this.toastr.success(" updated successfully" +
+          "", "", {
+        closeButton: true,
+        positionClass: 'toast-top-right',
+        extendedTimeOut: this.env.extendedTimeOutToastr,
+        progressBar: true,
+        disableTimeOut: false,
+        timeOut: this.env.timeOutToastr
+      })
+      //redirect to demande list
+      this.router.navigate(['opportunite/all']);
+    }, error => {
+      this.toastr.error("failed to update ", "", {
+        closeButton: true,
+        positionClass: 'toast-top-right',
+        extendedTimeOut: this.env.extendedTimeOutToastr,
+        progressBar: true,
+        disableTimeOut: false,
+        timeOut: this.env.timeOutToastr
+      })
+      console.log("error", error)
+    })
+  }
   Save() {
 }
   Retourn(){
 
+  }
+
+  loaddemandes()
+  {
+    this.opportuniteService.getAllDemandesWithoutPages().subscribe(
+        (clients: Client[]) => {
+          console.log('Demande: ', clients);
+          this.demandes = clients;
+        },
+        (error) => {
+          console.error('Error fetching clients: ', error);
+        }
+    );
   }
 }

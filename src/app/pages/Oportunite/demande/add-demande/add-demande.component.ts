@@ -67,6 +67,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   @Output() AppelWsGetById: EventEmitter<any> = new EventEmitter<any>();
   userPermission:any;
   decissionWF:any;
+  objectData:any;
  //document
   @Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
@@ -105,7 +106,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   GetjsonDowViewerFromAttatchement(e) {
     this.JsonDocViewerFromFormToComponent.emit(e)
   }
-  getById(id) {
+  getById() {
     console.log("inWebServiceGetByID")
     this.AppelWsGetById.emit(true)
   }
@@ -124,7 +125,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     this.demandeid=this.route.snapshot.paramMap.get('id');
       this.demandeService.getDemandeByid(this.demandeid).toPromise().then(
           data => {
-            this.demandeDTO=data
+            this.objectData=data
             this.demandeF.get('id').setValue(data.id);
             this.demandeF.get('nom').setValue(data.nom);
             this.demandeF.get('description').setValue(data.description);
@@ -160,7 +161,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
           }
       );
 
-      console.log("this.demandeF",this.demandeF)
+      console.log("this.demandeF",this.objectData)
 
   }
 

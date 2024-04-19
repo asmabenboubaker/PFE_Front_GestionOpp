@@ -29,13 +29,22 @@
         <!--            </div>-->
         <!--        </div>-->
     </div>
+    <div class="col-md-6">
+        <label for="client" class="form-label">Demande:</label>
+        <!--        <select class="form-select" formControlName="client" id="client">-->
+        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+        <!--        </select>-->
+        <select #demandeSelect class="form-select"  id="client" >
+            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
+        </select>
+    </div>
     <div class="d-grid gap-2 d-md-flex justify-content-md-between">
         <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
         <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
         <app-workflow-decision
                 *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
                 (decisionEvent)="Confirmation($event)"
-                (saveEvent)="oppForm()"
+                (saveEvent)="save()"
                 (RetournEvent)="Retourn()"
                 [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
                 [decisions]="decissionWF"

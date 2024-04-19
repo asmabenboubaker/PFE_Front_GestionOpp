@@ -6,13 +6,13 @@
 
 
         <app-data-grid-attachments
+                class="dx-swatch-custom"
                 [classid]="classid"
                 [objectid]="objectid"
                 [flipped]="ModeGridVsThumbnail"
                 [objectData]="objectData"
                 [attachements]="attachements"
                 [ContainerViewer]="!ContainerViewer"
-                [ReadOnly]="ReadOnly"
                 [Refresh]="refreshedReqFileDef2"
                 (newFile)="refreshDataGrid($event)"
                 (filppedout)="changeFlipped($event)"
@@ -58,6 +58,40 @@
         </app-data-grid-attachments>
 
 
+        <app-thumbnail *ngIf="ModeGridVsThumbnail"
+                       [classid]="classid"
+                       [objectid]="objectid"
+                       [flipped]="ModeGridVsThumbnail"
+                       [objectData]="objectData"
+                       [fileToThumbnail]="attachements"
+                       [ContainerViewer]="ContainerViewer"
+
+                       [canDelete]="canDeleteDatagrid"
+                       [canlock]="canlockDatagrid"
+                       [canUploadfile]="canUploadfileDatagrid"
+                       [canTransfert]="canTransfertDatagrid"
+                       [canActionPDF]="canActionPDFDatagrid"
+                       [canClone]="canCloneDatagrid"
+                       [canDonwloadfile]="canDonwloadfileDatagrid"
+                       [canModiffile]="canModiffileDatagrid"
+                       [canShowfile]="canShowfileDatagrid"
+
+
+                       [archiveButtonVisible]="archiveButtonVisible"
+                       [flipedDatagridButtonVisible]="flipedDatagridButtonVisible"
+
+                       (ouvrirPopUpSave)="ouvrirPopUpSave($event)"
+
+
+                       (outputFilpped)="changeFlipped($event)"
+                       (getAllbyId)="refreshDataGrid($event)"
+                       [fileAccessToken]="fileAccessToken"
+                       [listOfficeNotEmpty]="listOfficeNotEmpty"
+
+
+                       [authorizationTokenOffice]="authorizationTokenOffice"
+        >
+        </app-thumbnail>
     </div>
 </div>
 
@@ -103,7 +137,7 @@
 
                     [authorizationTokenScan]="authorizationTokenScan"
             >
-
+                >
             </app-template-attachment>
         </div>
     </div>

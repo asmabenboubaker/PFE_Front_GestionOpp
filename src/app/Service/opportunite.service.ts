@@ -5,6 +5,7 @@ import {EnvService} from "../../env.service";
 import {Observable} from "rxjs";
 import {Opportunite} from "../Models/Opportunite";
 import {TokenStorageService} from "../pages/Global/shared-service/token-storage.service";
+import {Client} from "../Models/Client";
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,13 @@ export class OpportuniteService {
   }
   Opp_process_Submit(obj) {
     return this.http.patch(this.env.piOpp + 'submitOpp', obj, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
+  }
+  updateAndAssignToDemande(OppId: number, deId: number, oppData: any): Observable<any> {
+    const url = `${this.env.piOpp}updateOpp/${OppId}/${deId}`;
+    return this.http.put<any>(url, oppData);
+  }
+  getAllDemandesWithoutPages(): Observable<Client[]> {
+    const url = `${this.env.piOpp + this.Wservice.getdemandes}/WithoutPages`;
+    return this.http.get<Client[]>(url);
   }
 }

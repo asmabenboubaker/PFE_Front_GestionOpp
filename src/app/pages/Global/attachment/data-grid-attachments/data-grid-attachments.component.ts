@@ -81,24 +81,12 @@ export class DataGridAttachmentsComponent implements OnInit {
     @Input() levelMin: number;
     @Input() attachements: any;
     @Input() ContainerViewer;
-    @Input() ReadOnly;
     @Input() fileAccessToken;
     @Input() Refresh;
     canUnLock: boolean;
     @Output() filppedout = new EventEmitter();
     @Output() newFile = new EventEmitter();
-    jsondocviewer = {
-        pdfSrcc: "",
-        visionneuse: "url",
-        fileName: null,
-        docTitle: null,
-        fileType: null,
-        fileContent: null,
-        id: null,
-        fileAccessToken: null,
-        securityLevel: null,
-        objectData: null
-    };/*Viewer*/
+    jsondocviewer = {pdfSrcc: "", visionneuse: "url"};/*Viewer*/
     loadingVisible: any = false;
     filedatasource: any = []
     count: any;
@@ -191,7 +179,7 @@ export class DataGridAttachmentsComponent implements OnInit {
     @ViewChild(HttpServicesComponent, {static: true}) private httpServicesComponent: HttpServicesComponent;
     @Input() authorizationTokenScan = false;
     @Input() authorizationTokenOffice = false;
-    @Input() listOfficeNotEmpty;
+    @Input() listOfficeNotEmpty = false;
     // @Input() authorizationTokenSign = false;
     // @Input() authorizationTokenMisc = false;
     currentlang
@@ -286,9 +274,10 @@ export class DataGridAttachmentsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        console.log("refresh3", this.Refresh)
 
         this.getfilesByClassIdAndObjectId(this.classid, this.objectid, this.fileAccessToken);
-        this.OfficeTemplatePopUpOpen();
+
 
     }
 
@@ -300,8 +289,8 @@ export class DataGridAttachmentsComponent implements OnInit {
             obj.append("objectData", JSON.stringify(this.objectData))
             obj.append("objectDatasecuriteLevel", "0")
             obj.append("reqFileDefName", this.env.docPardefaut)
-            obj.append("classId", this.classid)
-            obj.append("objectId", this.objectid)
+            obj.append("classId", this.objectData.classId)
+            obj.append("objectId", this.objectData.id)
             obj.append("locked", "false")
             obj.append("Public", "false")
             if (this.fileContent != null)
@@ -371,9 +360,13 @@ export class DataGridAttachmentsComponent implements OnInit {
             this.getSL();
             this.visible = true
         }
+        console.log("refresh", changes['Refresh'])
+        console.log("changes['Refresh'].previousValue", changes['Refresh'].previousValue)
+        console.log("changes['Refresh'].currentValue", changes['Refresh'].currentValue)
 
 
         if (changes['Refresh'] && changes['Refresh'].previousValue != changes['Refresh'].currentValue) {
+            console.log("refresh", this.Refresh)
             this.refresh()
 
 
@@ -400,10 +393,6 @@ export class DataGridAttachmentsComponent implements OnInit {
             } else if (this.count != 0) {
                 this.isarchiveiconDisabled = false;
             }
-        }
-        if (changes['listOfficeNotEmpty'] && changes['listOfficeNotEmpty'].previousValue != changes['listOfficeNotEmpty'].currentValue) {
-            this.listOfficeNotEmpty=this.listOfficeNotEmpty
-
         }
     }
 
@@ -681,7 +670,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         if ((this.objectData) != undefined && (this.objectData) != null && (this.objectData).securiteLevel != null && (this.objectData).securiteLevel != undefined)
             obj.append("objectDatasecuriteLevel", (this.objectData).securiteLevel);
 
-        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.selectedRowKeys.uuid + '?fileAccessToken=' + this.fileAccessToken, obj);
+        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.selectedRowKeys.id + '?fileAccessToken=' + this.fileAccessToken, obj);
         this.Ref.value = this.selectedRowKeys.docTitle
         this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.NiveausecuriteMiseajour", "ATTACHEMENT.ErrorupdatesecurtylFile").then(data => {
             this.refresh();
@@ -941,7 +930,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         }
         this.Ref.value = this.UploadFile.docTitle;
         this.loadingVisible = false;
-        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.UploadFile.uuid + '?fileAccessToken=' + this.fileAccessToken, obj);
+        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.UploadFile.id + '?fileAccessToken=' + this.fileAccessToken, obj);
         this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
             this.refresh();
 
@@ -1081,8 +1070,9 @@ export class DataGridAttachmentsComponent implements OnInit {
             const fileType = evt.row.data.filesTypeDTO.type;
             if (fileType === "application/json" || fileType === "text/plain" || fileType === "image/jpeg" ||
                 fileType === "image/png" || fileType === "image/gif" || fileType === "image/tiff" || fileType === "image/bmp" ||
-                fileType === "image/svg+xml" || fileType === "application/pdf" || fileType === "application/x-tika-ooxml" || fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || fileType === 'application/msword' || fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.template' || fileType === 'application/vnd.ms-word.template.macroEnabled.12') {
+                fileType === "image/svg+xml" || fileType === "application/pdf") {
                 if (this.showSplliter == true) {
+                    console.log("UIN Splitter", evt)
 
                     this.viewFile(evt, false);
 
@@ -1106,6 +1096,8 @@ export class DataGridAttachmentsComponent implements OnInit {
         //     this.popupModifFileVisible = false;
         // } else {
         this.popupModifFileVisible = true;
+
+        console.log("ici ::> ", evt)
 
 
         this.fileTemplate = evt.row.data;
@@ -1569,7 +1561,7 @@ export class DataGridAttachmentsComponent implements OnInit {
                         obj.append("objectDatasecuriteLevel", (this.objectData).securiteLevel);
                     this.Ref.value = data.docTitle
 
-                    let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + data.uuid + '?fileAccessToken=' + this.fileAccessToken, obj)
+                    let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + data.id + '?fileAccessToken=' + this.fileAccessToken, obj)
                     this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.save_delete", "ATTACHEMENT.save_deleteMAJfailed").then(data => {
                         // if (data["statut"] == true) {
                         this.refresh();
@@ -1963,7 +1955,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         if (data.signed === true && data.locked === false && this.pstkEnabledAndRunning) {
             this.avertismentPopUp = ShowPopupBoolean;
         }
-        this.idFileViewer = data.uuid
+        this.idFileViewer = data.id
         this.idcmis = data.cmisId
         this.fileType = data.fileType
         if (this.idFileViewer != null) {
@@ -1988,13 +1980,6 @@ export class DataGridAttachmentsComponent implements OnInit {
                         var fileURL = URL.createObjectURL(blobFile);
                         this.jsondocviewer.visionneuse = 'url';
                         this.jsondocviewer.pdfSrcc = fileURL
-                        this.jsondocviewer.fileType = this.fileType
-                        this.jsondocviewer.fileName = data.row.data.docTitle
-                        this.jsondocviewer.fileContent = this.base64
-                        this.jsondocviewer.id = data.row.data.id
-                        this.jsondocviewer.securityLevel = data.row.data.securiteLevel
-                        this.jsondocviewer.fileAccessToken = this.fileAccessToken
-                        this.jsondocviewer.objectData = this.objectData
                         this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
                         if (this.fileType === 'application/pdf' && this.pstkEnabledAndRunning && verifLicensePSTKScan) {
                             let authorizationtokenScan = await this.communService.authorizationToken(this.ModuleScan)
@@ -2050,6 +2035,7 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     /*view file in popup */
     async viewFile(data, ShowPopupBoolean) {
+        console.log("data", data)
         this.loadingVisible = true;
 
         this.fileName = data.row.data.fileName;
@@ -2070,7 +2056,8 @@ export class DataGridAttachmentsComponent implements OnInit {
             try {
                 let verifLicensePSTKScan: any
                 let verifLicensePSTKSign: any
-                this.fileservice.extractfileByUIID(data.row.data.uuid, this.fileAccessToken).subscribe(async (response: any) => {
+
+                this.fileservice.extractfileByIdJson(this.idFileViewer, this.fileAccessToken).subscribe(async (response: any) => {
                     if (this.fileType) {
                         this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                         if (this.fileType == 'application/pdf') {
@@ -2082,19 +2069,10 @@ export class DataGridAttachmentsComponent implements OnInit {
                         } else {
                             this.permissionToTopViewer = false;
                         }
-                        let blobFile = new File ([response.body], data.row.data.docTitle, {type: this.fileType});
+                        let blobFile = new Blob([new Uint8Array(response)], {type: this.fileType});
                         var fileURL = URL.createObjectURL(blobFile);
                         this.jsondocviewer.visionneuse = 'url';
                         this.jsondocviewer.pdfSrcc = fileURL
-                        this.jsondocviewer.fileType = this.fileType
-                        this.jsondocviewer.fileName = data.row.data.docTitle
-                        this.jsondocviewer.docTitle = data.row.data.fileName
-                        this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response.body));
-                        this.jsondocviewer.fileContent = this.base64
-                        this.jsondocviewer.id = data.row.data.id
-                        this.jsondocviewer.securityLevel = data.row.data.securiteLevel
-                        this.jsondocviewer.fileAccessToken = this.fileAccessToken
-                        this.jsondocviewer.objectData = this.objectData
                         this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
                         if (this.fileType === 'application/pdf' && this.pstkEnabledAndRunning && verifLicensePSTKScan) {
                             let authorizationtokenScan = await this.communService.authorizationToken(this.ModuleScan)
@@ -2331,86 +2309,49 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     /*datagrid attachement prepare*/
     onToolbarPreparinggridfile(e) {
-
-        this.translateService.use("ar");
-        this.translateService.get("plus").subscribe((res) => {
-            const value = res;
-            if (!this.ReadOnly) {
-                e.toolbarOptions.items.unshift(
-                    {
-                        location: 'after',
-                        widget: 'dxButton',
-                        options: {
-                            icon: 'plus',
-                            hint: value,
-                            onClick: this.ouvrirPopUpSaveFunction.bind(this),
-                        }
+        if (this.ContainerViewer) {
+            e.toolbarOptions.items.unshift(
+                {
+                    location: 'after',
+                    widget: 'dxButton',
+                    options: {
+                        icon: 'plus',
+                        onClick: this.ouvrirPopUpSaveFunction.bind(this),
                     }
-                );
-            }
-        });
-  if(!(this.ReadOnly) && (this.cookieService.get("roles").includes(this.env.RoleCanEditDoc))) {
-
-      e.toolbarOptions.items.unshift(
-          {
-              location: 'after',
-              template: 'customtoolbar'
-          }
-      );
-  }
-        // this.translateService.get("AjouteraMododule").subscribe((res) => {
-        //     const value2 = res;
-        //     // if(this.listOfficeNotEmpty && this.env.RoleCanEditDoc.includes(this.cookieService.get("roles"))){
-        //     e.toolbarOptions.items.unshift({
-        //         location: 'after',
-        //         widget: 'dxDropDownButton', // Utilisation de dxDropDownButton au lieu de dxButton
-        //         options: {
-        //             text: value2,
-        //             onClick: this.ajouterModule.bind(this),
-        //             stylingMode: 'text',  // Utilisez 'text' pour permettre le style du texte
-        //             elementAttr: {
-        //                 style: {
-        //                     background: '#050404',  // Remplacez cette couleur par la couleur souhaitée
-        //                     color: '#ffffff' // Couleur du texte
-        //                 }
-        //             },
-        //             items: this.menuItems,
-        //
-        //         }
-        //     });
-        //     // }
-        // })
-        this.translateService.get("refresh").subscribe((res) => {
-            const value3 = res;
-
-            e.toolbarOptions.items.unshift({
+                }
+            );
+        }
+        e.toolbarOptions.items.unshift(
+            {
                 location: 'after',
                 widget: 'dxButton',
                 options: {
-                    hint: value3,
+                    hint: 'Rafraîchir',
                     icon: 'refresh',
-                    onClick: this.refresh.bind(this),
+                    onClick: this.refresh.bind(this)
                 }
-            });
+            },
+            // {
+            //     location: 'center',
+            //     template: 'titreGrid'
+            // },
 
-        });
-
-
+        )
+        if (this.isarchiveiconDisabled) {
+            e.toolbarOptions.items.unshift(
+                {
+                    location: 'after',
+                    template: 'bouttonarchive'
+                },
+            );
+        }
 
     }
 
-    menuItems = []
-
-    ajouterModule() {
-        this.OfficeTemplatePopUpOpen()
-    }
     ouvrirPopUpSaveFunction() {
-        console.log("objectData",this.objectData)
-
-        if (this.objectData.remaingRequestFileDefinitions == null || this.objectData.remaingRequestFileDefinitions.length == 0) {
+        if (this.objectData.remaingRequestFileDefinitions.length == 0) {
             document.getElementById("NewFile").click();
         } else {
-
             this.ouvrirPopUpSave.emit(true)
 
         }
@@ -2426,14 +2367,14 @@ export class DataGridAttachmentsComponent implements OnInit {
     /*DELETE AND CONFIRME DELETE FILE*/
     Confirmdelete() {
         this.popupDeleteFileVisible = false;
-        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?uuid=" + this.fileTodelete.uuid + "&fileAccessToken=" + this.fileAccessToken, '')
+        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?id=" + this.fileTodelete.id + "&fileAccessToken=" + this.fileAccessToken, '')
         this.Ref.value = this.fileTodelete.docTitle
 
         this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.deleted", "ATTACHEMENT.deleteError").then(data => {
             if (data["statut"] == true) {
                 this.refresh();
-                this.newFile.emit(this.fileTemplate);
-                // this.FileDeletedToAddToremaingFileDefPopup.emit(this.fileTodelete.requestFileDefinition)
+                // this.newFile.emit(this.fileTemplate);
+                this.FileDeletedToAddToremaingFileDefPopup.emit(this.fileTodelete.requestFileDefinition)
             }
         })
     }
@@ -2442,6 +2383,7 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     deletefile(e: any) {
         this.fileTodelete = e.row.data;
+        console.log("fileTodelete", this.fileTodelete.requestFileDefinition)
 
         this.popupDeleteFileVisible = true;
     }
@@ -2463,8 +2405,9 @@ export class DataGridAttachmentsComponent implements OnInit {
     /*DONWLOAD FILE*/
     downloadFile(dataa: any) {
         try {
+
             this.loadingVisible = true;
-            this.fileservice.extractfileByUIID(dataa.row.data.uuid, this.fileAccessToken).subscribe(async (data: any) => {
+            this.fileservice.extractfileById(dataa.row.data.id, this.fileAccessToken).subscribe(async (data: any) => {
                 var fileName = await data.headers.get('filename')
                 const f1 = new Blob([(data.body)], {type: dataa.row.data.fileType});
                 // window.open(data)
@@ -2535,22 +2478,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         this.httpServicesComponent.method(paramsHttp, '', "ATTACHEMENT.OfficeTemplateSucces", "ATTACHEMENT.OfficeTemplateError", false).then(data => {
             if (data["statut"] == true) {
                 this.officeTemplateList = data["value"]
-                for (let t of this.officeTemplateList) {
-                    let json = {
-                        text: t.title,
-                        width: 150,
-                        onClick: () => {
-                            this.officeTemplateAttach(t.alias, t.filesTypeDTO.type, t.title, this.classid, this.objectid, this.objectData)
-
-                        },
-                        cssClass: 'custom-dropdown-item'
-                    }
-                    this.menuItems.push(json)
-                }
-
-                // this.menuItems=data["value"];
-                console.log("menuItems", this.menuItems)
-                // this.openOfficePopUp = true
+                this.openOfficePopUp = true
             }
         })
     }
@@ -2588,79 +2516,79 @@ export class DataGridAttachmentsComponent implements OnInit {
         window.location.reload();
     }
 
-    // async officeTemplateAttach(title, classid, objectid) {
-    //     let mmInbound = this.objectData
-    //     this.loadingVisible = true
-    //     try {
-    //         await this.fileservice.officeTemplateAttach(title, classid, objectid, mmInbound).subscribe(async (res: any) => {
-    //                 this.fileType = res.headers.get('Content-Type')
-    //                 this.fileName = await res.headers.get('filename')
-    //                 this.blobContent = new Blob([(res.body)], {type: this.fileType});
-    //                 this.sizeInput = this.communService.formatBytes(res.body.size);
-    //                 this.fileContent = new File([(res.body)], this.fileName, {type: this.fileType});
-    //                 this.openOfficePopUp = false
-    //                 if (res.body.size > this.env.maxUploadMultiPartFile)/*presq 1MO*/
-    //                 {
-    //                     this.disableSave = true
-    //                     this.translateService.get("ATTACHEMENT.errorMaxSize").subscribe((res) => {
-    //                             this.toastr.error(res + this.communService.formatBytes(this.env.maxUploadMultiPartFile), "", {
-    //                                 closeButton: true,
-    //                                 positionClass: 'toast-top-right',
-    //                                 extendedTimeOut: this.env.extendedTimeOutToastr,
-    //                                 progressBar: true,
-    //                                 disableTimeOut: false,
-    //                                 timeOut: this.env.timeOutToastr
-    //                             })
-    //                         }
-    //                     )
-    //                 } else {
-    //                     this.disableSave = false;
-    //                 }
-    //                 this.Ref.value = this.fileName;
-    //                 this.loadingVisible = false;
-    //                 this.translateService.get('ATTACHEMENT.ModeleSucces', this.Ref).subscribe((res) => {
-    //                     this.toastr.success(res, '', {
-    //                         closeButton: true,
-    //                         positionClass: 'toast-top-right',
-    //                         extendedTimeOut: this.env.extendedTimeOutToastr,
-    //                         progressBar: true,
-    //                         disableTimeOut: false,
-    //                         timeOut: this.env.timeOutToastr
-    //                     });
-    //                 });
-    //             }
-    //             , err => {
-    //                 this.loadingVisible = false
-    //                 this.Ref.value = this.fileName
-    //
-    //                 this.translateService.get("ATTACHEMENT.Modeleechec", this.Ref).subscribe((res) => {
-    //                     this.toastr.error(res, "", {
-    //                         closeButton: true,
-    //                         positionClass: 'toast-top-right',
-    //                         extendedTimeOut: this.env.extendedTimeOutToastr,
-    //                         progressBar: true,
-    //                         disableTimeOut: false,
-    //                         timeOut: this.env.timeOutToastr
-    //                     })
-    //                 })
-    //             }
-    //         )
-    //     } catch (error) {
-    //         this.Ref.value = this.fileName
-    //
-    //         this.translateService.get("ATTACHEMENT.SaveAfterEditError", this.Ref).subscribe((res) => {
-    //             this.toastr.error(res, " ", {
-    //                 closeButton: true,
-    //                 positionClass: 'toast-top-right',
-    //                 extendedTimeOut: this.env.extendedTimeOutToastr,
-    //                 progressBar: true,
-    //                 disableTimeOut: false,
-    //                 timeOut: this.env.timeOutToastr
-    //             })
-    //         })
-    //         this.loadingVisible = false
-    //     }
-    // }
+    async officeTemplateAttach(title, classid, objectid) {
+        let mmInbound = this.objectData
+        this.loadingVisible = true
+        try {
+            await this.fileservice.officeTemplateAttach(title, classid, objectid, mmInbound).subscribe(async (res: any) => {
+                    this.fileType = res.headers.get('Content-Type')
+                    this.fileName = await res.headers.get('filename')
+                    this.blobContent = new Blob([(res.body)], {type: this.fileType});
+                    this.sizeInput = this.communService.formatBytes(res.body.size);
+                    this.fileContent = new File([(res.body)], this.fileName, {type: this.fileType});
+                    this.openOfficePopUp = false
+                    if (res.body.size > this.env.maxUploadMultiPartFile)/*presq 1MO*/
+                    {
+                        this.disableSave = true
+                        this.translateService.get("ATTACHEMENT.errorMaxSize").subscribe((res) => {
+                                this.toastr.error(res + this.communService.formatBytes(this.env.maxUploadMultiPartFile), "", {
+                                    closeButton: true,
+                                    positionClass: 'toast-top-right',
+                                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                                    progressBar: true,
+                                    disableTimeOut: false,
+                                    timeOut: this.env.timeOutToastr
+                                })
+                            }
+                        )
+                    } else {
+                        this.disableSave = false;
+                    }
+                    this.Ref.value = this.fileName;
+                    this.loadingVisible = false;
+                    this.translateService.get('ATTACHEMENT.ModeleSucces', this.Ref).subscribe((res) => {
+                        this.toastr.success(res, '', {
+                            closeButton: true,
+                            positionClass: 'toast-top-right',
+                            extendedTimeOut: this.env.extendedTimeOutToastr,
+                            progressBar: true,
+                            disableTimeOut: false,
+                            timeOut: this.env.timeOutToastr
+                        });
+                    });
+                }
+                , err => {
+                    this.loadingVisible = false
+                    this.Ref.value = this.fileName
+
+                    this.translateService.get("ATTACHEMENT.Modeleechec", this.Ref).subscribe((res) => {
+                        this.toastr.error(res, "", {
+                            closeButton: true,
+                            positionClass: 'toast-top-right',
+                            extendedTimeOut: this.env.extendedTimeOutToastr,
+                            progressBar: true,
+                            disableTimeOut: false,
+                            timeOut: this.env.timeOutToastr
+                        })
+                    })
+                }
+            )
+        } catch (error) {
+            this.Ref.value = this.fileName
+
+            this.translateService.get("ATTACHEMENT.SaveAfterEditError", this.Ref).subscribe((res) => {
+                this.toastr.error(res, " ", {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                    progressBar: true,
+                    disableTimeOut: false,
+                    timeOut: this.env.timeOutToastr
+                })
+            })
+            this.loadingVisible = false
+        }
+    }
 
     selelectedRowdata: any;
 
@@ -2688,7 +2616,7 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     lockedValue = false;/*LOCKED INITAL*/
 
-    saveNewFile(docTitle) {
+    saveNewFile() {
         this.loadingVisible = true
         let obj = new FormData()
         if (this.fileContent != null)
@@ -2715,8 +2643,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         }
 
 
-        obj.append("reqFileDefName", "dos")
-        obj.append("docTitle", docTitle)
+        obj.append("reqFileDefName", "وثائق أخرى")
         if (this.classid != undefined)
             obj.append("classId", this.classid)
         if (this.objectid != undefined)
@@ -2728,110 +2655,12 @@ export class DataGridAttachmentsComponent implements OnInit {
         this.httpServicesComponent.method(paramsHttp, this.Ref).then(data => {
 
 
-            if (data["statut"] == true) {
-                this.loadingVisible = false;
-                this.refresh();
-                this.loadingVisible = false;
-
-            } else {
-                this.loadingVisible = false;
-            }
-        }, error => {
-            this.loadingVisible = false;
-
-
         })
-    }
-
-
-    async officeTemplateAttach(alias, type, title, classid, objectid, objectData) {
-        this.loadingVisible = true
-        try {
-
-            //office-templates
-
-            // await this.fileservice.officeTemplates(alias).subscribe(async data => {
-            //     console.log("data of model", data)
-                // await this.fileservice.downloadofficetemplateOutput(data[0].id).subscribe(async data => {
-                //
-                //     // let file = new Blob([data], {type: type});
-                //     let file = new File([(data)], title + ".docx", {type: type});
-                //
-                //     var formData = new FormData()
-                //     formData.append('file', file)
-                //     formData.append('data', JSON.stringify(objectData))
-                    await this.fileservice.officeTemplateAttach(title, classid, objectid, objectData).subscribe(async (res: any) => {
-                    // await this.fileservice.officeTemplateAttachfromDocGenerator(formData).subscribe(async (res: any) => {
-                            this.fileType = res.headers.get('Content-Type')
-                            this.fileName = res.headers.get('filename')
-                            this.blobFile = new Blob([(res.body)], {type: this.fileType});
-                            this.sizeInput = this.communService.formatBytes(res.body.size);
-                            this.fileContent = new File([(res.body)], this.fileName, {type: this.fileType});
-                            this.openOfficePopUp = false;
-                            if (res.body.size > this.maxUploadMultiPartFile)/*presq 1MO*/
-                            {
-                                this.disableSave = true;
-                                this.displayErrorToasterOfMaxFileSize();
-                            } else {
-                                this.disableSave = false;
-                            }
-                            this.Ref.value = this.fileName;
-                            this.translateService.get('ATTACHEMENT.ModeleSucces', this.Ref).subscribe((res) => {
-                                this.toastr.success(res, '', {
-                                    closeButton: true,
-                                    positionClass: 'toast-top-right',
-                                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                                    progressBar: true,
-                                    disableTimeOut: false,
-                                    timeOut: this.env.timeOutToastr
-                                });
-                            });
-                            this.loadingVisible = false;
-                            this.saveNewFile(title)
-                            /*Save Automatique aprés rattachement */
-                        }, () => {
-                            this.loadingVisible = false
-                            this.Ref.value = this.fileName
-
-                            this.translateService.get("ATTACHEMENT.Modeleechec", this.Ref).subscribe((res) => {
-                                this.toastr.error(res, "", {
-                                    closeButton: true,
-                                    positionClass: 'toast-top-right',
-                                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                                    progressBar: true,
-                                    disableTimeOut: false,
-                                    timeOut: this.env.timeOutToastr
-                                })
-                            })
-                        }
-                    )
-            //     })
-            // });
-        } catch (error) {
-            this.Ref.value = this.fileName
-            this.translateService.get("ATTACHEMENT.SaveAfterEditError", this.Ref).subscribe((res) => {
-                this.toastr.error(res, " ", {
-                    closeButton: true,
-                    positionClass: 'toast-top-right',
-                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                    progressBar: true,
-                    disableTimeOut: false,
-                    timeOut: this.env.timeOutToastr
-                })
-            })
-            this.loadingVisible = false
-        }
-
-    }
-
-
-    executeOffice(e: any) {
-        this.officeTemplateList
-        if (this.officeTemplateList.length > 0)
-            this.officeTemplateAttach(this.officeTemplateList[0].alias, this.officeTemplateList[0].filesTypeDTO.type, this.officeTemplateList[0].title, this.classid, this.objectid, this.objectData)
 
 
     }
 
 }
+
+
 

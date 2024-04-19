@@ -1,7 +1,7 @@
 <!--<div *ngFor="let group of groupItemsPerThreeTAB">-->
 <div class="attachment-container ">
 
-    <div *ngFor="let item of datsourcesFiles; let i = index" [lang]="languageAcual" class="col-md-4"  style="padding-right:0 !important;">
+    <div *ngFor="let item of datsourcesFiles; let i = index" [lang]="languageAcual" class="col-md-6"  style="padding-right:0 !important;">
         <div class="attachment-item mt-2">
             <span *ngIf="item.fileRequired" class="requiredetoile">*</span>
             <label [lang]="languageAcual" class="attachment-label">{{ item.label }}</label>
@@ -10,13 +10,13 @@
 
                     <span (click)="consulterPjs(item.attachement,longContent)" *ngIf="item.attachement " class="view-icon"><i
                             class="fa fa-eye"></i></span>
-                    <span *ngIf="AddVisible(item.attachement)" (click)="fun(idRef('input', i))" class="file-icon"><i
+                    <span *ngIf="AddVisible(item.attachement)" (click)="fun(idRef('inputFile', i))" class="file-icon"><i
                             class="fa fa-paperclip"></i></span>
                     <span (click)="OpenPopupDelete(item.attachement)" *ngIf="DeleteVisible(item.attachement)"
                           class="remove-icon"><i class="fa fa-trash"></i></span>
                 </div>
             </div>
-            <input (change)="onFileChange($event, i, item)" [id]="idRef('input', i)" hidden type="file"
+            <input (change)="onFileChange($event, i, item)" [id]="idRef('inputFile', i)" hidden type="file"
                    class="file-input">
         </div>
     </div>

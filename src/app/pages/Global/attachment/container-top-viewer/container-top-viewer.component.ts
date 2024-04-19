@@ -73,7 +73,8 @@ export class ContainerTopViewerComponent implements OnInit {
     selected
     itemsList = []
     disableOCR = false
-    constructor(private env: EnvService,private communService: CommunFuncService,  private fb: FormBuilder, private toastr: ToastrService, private cookieService: CookieService, private translateService: TranslateService, private fileservice: AttachementModuleService) {
+
+    constructor(private env: EnvService, private communService: CommunFuncService, private fb: FormBuilder, private toastr: ToastrService, private cookieService: CookieService, private translateService: TranslateService, private fileservice: AttachementModuleService) {
         this.translateService.get(["ATTACHEMENT.4", "ATTACHEMENT.0", "ATTACHEMENT.1", "ATTACHEMENT.2"]).subscribe((res) => {
             let itemTitle = res
             this.itemsList.push({
@@ -120,7 +121,9 @@ export class ContainerTopViewerComponent implements OnInit {
                     this.selected = this.itemsList[2];
                 else if (this.filebyId.ocrState === 2) {
                     this.selected = this.itemsList[3];
-                    this.disableOCR = true                }            }
+                    this.disableOCR = true
+                }
+            }
             if (this.filebyId.ocrLang != null && this.filebyId.ocrLang != undefined)
                 this.selected_Item = this.filebyId.ocrLang
         }
@@ -225,10 +228,13 @@ export class ContainerTopViewerComponent implements OnInit {
             })
         }
     }
+
     advencedState = false
-    switchchange(e){
+
+    switchchange(e) {
         this.advencedState = e.value
     }
+
     async ScanAfter(before, base64, pageindex, base64FileScanned, scannerName, scannerProfil) {
         this.loadingVisible = true;
         let jsonscanpreference = (scannerProfil);
@@ -325,8 +331,8 @@ export class ContainerTopViewerComponent implements OnInit {
             //TODO VERIFICATION CONFIG SCANNER VALIDE
             if ((this.cookieService.get('scannerName')) && (this.cookieService.get('scannerProfil'))) {
                 this.Indexvalueaux = this.Indexvalue;
-                this.fileservice.getscan_preferencesByName( this.cookieService.get('scannerProfil')).subscribe((data: any) => {
-                    this.ScanAfter(true, this.BASE64_Input, this.Indexvalue - 2, "", this.cookieService.get('scannerName'),data)
+                this.fileservice.getscan_preferencesByName(this.cookieService.get('scannerProfil')).subscribe((data: any) => {
+                    this.ScanAfter(true, this.BASE64_Input, this.Indexvalue - 2, "", this.cookieService.get('scannerName'), data)
                 })
             } else {
                 this.translateService.get("ATTACHEMENT.Configscannernonvalide").subscribe((res) => {
@@ -361,8 +367,8 @@ export class ContainerTopViewerComponent implements OnInit {
             //TODO VERIFICATION CONFIG SCANNER VALIDE
             if ((this.cookieService.get('scannerName')) && (this.cookieService.get('scannerProfil'))) {
                 this.Indexvalueaux = this.Indexvalue;
-                this.fileservice.getscan_preferencesByName( this.cookieService.get('scannerProfil')).subscribe((data: any) => {
-                    this.ScanAfter(false, this.BASE64_Input, this.Indexvalue - 1, "", this.cookieService.get('scannerName'),data)
+                this.fileservice.getscan_preferencesByName(this.cookieService.get('scannerProfil')).subscribe((data: any) => {
+                    this.ScanAfter(false, this.BASE64_Input, this.Indexvalue - 1, "", this.cookieService.get('scannerName'), data)
                 })
             } else {
                 this.translateService.get("ATTACHEMENT.Configscannernonvalide").subscribe((res) => {
@@ -430,6 +436,7 @@ export class ContainerTopViewerComponent implements OnInit {
     ocmTopx(cm) {
         return cm / 0.026458
     }
+
     Ref = {value: ''};
 
     submit() {
@@ -483,8 +490,8 @@ export class ContainerTopViewerComponent implements OnInit {
         let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'AddWatermarkPDF?fileAccessToken=' + this.fileAccessToken, obj);
         this.httpServicesComponent.method(paramsHttp, this.Ref).then(data => {
             if (data['statut'] == true) {
-                this.BASE64_Output_Reload.emit( data["value"].base64);
-                this.BASE64_Input =  data["value"].base64;
+                this.BASE64_Output_Reload.emit(data["value"].base64);
+                this.BASE64_Input = data["value"].base64;
                 this.openPopupWaterMarker = false
 
             }
@@ -511,13 +518,13 @@ export class ContainerTopViewerComponent implements OnInit {
         }
 
 
-        this.Ref.value= this.FileNameToSigned
+        this.Ref.value = this.FileNameToSigned
 
-        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+'RemovetWatermarkPDF?fileAccessToken=' + this.fileAccessToken, obj)
-        this.httpServicesComponent.method(paramsHttp,  this.Ref).then(data => {
+        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'RemovetWatermarkPDF?fileAccessToken=' + this.fileAccessToken, obj)
+        this.httpServicesComponent.method(paramsHttp, this.Ref).then(data => {
             if (data["statut"] == true) {
-                this.BASE64_Output_Reload.emit( data["value"].base64);
-                this.BASE64_Input =  data["value"].base64;
+                this.BASE64_Output_Reload.emit(data["value"].base64);
+                this.BASE64_Input = data["value"].base64;
             }
             this.loadingVisible = false
 
@@ -548,10 +555,10 @@ export class ContainerTopViewerComponent implements OnInit {
             jsonFile.ocrState = 0
         jsonFile.ocrDate = new Date()
         jsonFile.ocrLang = this.selected_Item
-        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+"attachements/" + this.idAttachement, jsonFile)
-        this.Ref.value= this.FileNameToSigned
+        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + "attachements/" + this.idAttachement, jsonFile)
+        this.Ref.value = this.FileNameToSigned
 
-        this.httpServicesComponent.method(paramsHttp,   this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
+        this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
             if (data["statut"] == true) {
                 this.openPopupOcr = false
                 this.ConfirmeOCR = true

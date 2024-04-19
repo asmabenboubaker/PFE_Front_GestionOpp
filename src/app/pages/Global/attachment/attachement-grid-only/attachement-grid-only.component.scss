@@ -81,7 +81,7 @@
 }
 
 /*icon style actions in data grid*/
-:host ::ng-deep.IconStyle {
+::ng-deep.IconStyle {
   //margin-right: 4% !important;
   color: $iconColor
 }
@@ -181,13 +181,13 @@
 
 //____________________________________________________________________
 
-:host ::ng-deep .dx-button-mode-contained .dx-icon {
+::ng-deep .dx-button-mode-contained .dx-icon {
   color: $buttondatagridcolor;
 }
 
 /*ROW data GRID background*/
 
-:host ::ng-deep #gridContainer .dx-datagrid-rowsview .dx-selection.dx-row > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > td, .dx-datagrid-rowsview .dx-selection.dx-row > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > tr > td {
+::ng-deep #gridContainer .dx-datagrid-rowsview .dx-selection.dx-row > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > td, .dx-datagrid-rowsview .dx-selection.dx-row > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > tr > td {
   //background-color: rgb(72 58 13 / 19%) !important;
   background-color: $backgrounddatagridcolor;
   color: $colortxtdatagridcolor;

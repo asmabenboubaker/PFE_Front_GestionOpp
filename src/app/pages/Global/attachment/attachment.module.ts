@@ -12,42 +12,12 @@ import {ClipboardModule} from 'ngx-clipboard';
 import {PopupAttachmentViewerComponent} from './popup-attachment-viewer/popup-attachment-viewer.component';
 import {ContainerTopViewerComponent} from './container-top-viewer/container-top-viewer.component';
 import {SharedModuleModule} from '../shared-module/shared-module.module';
-import { PsToolsModule } from '../ps-tools/ps-tools.module';
+import {PsToolsModule} from '../ps-tools/ps-tools.module';
+import {ListeattachementparametresComponent} from "./listeattachementparametres/listeattachementparametres.component";
 import {DocumentEditorComponent} from "./document-editor/document-editor.component";
 import {DocumentEditorContainerModule} from "@syncfusion/ej2-angular-documenteditor";
-import { DialogModule, TooltipModule } from '@syncfusion/ej2-angular-popups';
-
-import {
-    DropDownButtonModule,
-    SplitButtonModule
-} from '@syncfusion/ej2-angular-splitbuttons';
-
-import { CheckBoxModule, ButtonModule } from '@syncfusion/ej2-angular-buttons';
-
-import {
-    SliderModule,
-    NumericTextBoxModule,
-    ColorPickerModule
-} from '@syncfusion/ej2-angular-inputs';
-
-import { ListViewAllModule } from '@syncfusion/ej2-angular-lists';
-
-import {
-    DropDownListModule,
-    ComboBoxModule,
-    DropDownListAllModule,
-    MultiSelectAllModule
-} from '@syncfusion/ej2-angular-dropdowns';
-
-import {
-    DocumentEditorAllModule,
-    DocumentEditorContainerAllModule
-} from '@syncfusion/ej2-angular-documenteditor';
-
-import { ToolbarModule, TabModule } from '@syncfusion/ej2-angular-navigations';
-import { AttachementGridOnlyComponent } from './attachement-grid-only/attachement-grid-only.component';
-import { DataGridAttachementWithoutTemplateComponent } from './data-grid-attachement-without-template/data-grid-attachement-without-template.component';
-import { ListeattachementparametresComponent } from './listeattachementparametres/listeattachementparametres.component';
+import {AttachementGridOnlyComponent} from "./attachement-grid-only/attachement-grid-only.component";
+import { ListeattachementparametresCaseComponent } from './listeattachementparametres-case/listeattachementparametres-case.component';
 
 @NgModule({
     declarations: [
@@ -59,10 +29,11 @@ import { ListeattachementparametresComponent } from './listeattachementparametre
         ThumbnailComponent,
         ContainerTopViewerComponent,
         PopupAttachmentViewerComponent,
+        ListeattachementparametresComponent,
         DocumentEditorComponent,
         AttachementGridOnlyComponent,
-        DataGridAttachementWithoutTemplateComponent,
-        ListeattachementparametresComponent
+        ListeattachementparametresCaseComponent,
+
     ],
     imports: [
         CommonModule,
@@ -71,25 +42,8 @@ import { ListeattachementparametresComponent } from './listeattachementparametre
         ClipboardModule,
         SharedModuleModule,
         PsToolsModule,
-        ToolbarModule,
-        DropDownListAllModule,
-        ColorPickerModule,
-        SplitButtonModule,
-        ComboBoxModule,
-        TabModule,
-        DocumentEditorAllModule,
-        DocumentEditorContainerAllModule,
-        DropDownListModule,
-        SliderModule,
-        TooltipModule,
-        NumericTextBoxModule,
-        CheckBoxModule,
-        ButtonModule,
-        DropDownButtonModule,
-        DialogModule,
-        MultiSelectAllModule,
-        ListViewAllModule,
-        DocumentEditorContainerModule
+        DocumentEditorContainerModule,
+
     ],
     exports: [
         AttachmentComponent,
@@ -98,12 +52,13 @@ import { ListeattachementparametresComponent } from './listeattachementparametre
         TemplateAttachmentComponent,
         ThumbnailComponent,
         DocViewerComponent,
-        DocumentEditorComponent,
         PsToolsModule,
         PopupAttachmentViewerComponent,
+        ListeattachementparametresComponent,
+        DocumentEditorComponent,
         AttachementGridOnlyComponent,
-        DataGridAttachementWithoutTemplateComponent,
-        ListeattachementparametresComponent
+        ListeattachementparametresCaseComponent
+
 
     ]
 })

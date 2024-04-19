@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChange, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DxDataGridComponent, DxFormComponent} from 'devextreme-angular';
 import {TranslateService} from '@ngx-translate/core';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -115,8 +115,7 @@ export class TemplateAttachmentComponent implements OnInit {
 
     //All variables
     RefUserName
-    arabe = false;
-    arabertl = "ltr";
+
     constructor(private cookieService: CookieService, private communService: CommunFuncService, private toastr: ToastrService, private env: EnvService, private fileservice: AttachementModuleService, private translateService: TranslateService, private tokenService: TokenStorageService, private router: Router, private route: ActivatedRoute) {
         if (this.cookieService.get('displayname')) {
             this.RefUserName = {displayName: this.cookieService.get('displayname')};
@@ -141,22 +140,10 @@ export class TemplateAttachmentComponent implements OnInit {
         });
         //init pstk
         this.pstkEnabledAndRunning = this.cookieService.get("envPstkRunning") === 'true' && this.cookieService.get("PstkEnabled") === 'true'
-        if (localStorage.getItem(this.packageName + '_' + 'locale') == 'ar') {
 
-            this.arabe = true;
-            this.arabertl = 'rtl';
-
-
-        } else {
-            this.arabe = false;
-            this.arabertl = 'ltr';
-
-
-        }
     }
 
     ngOnInit(): void {
-
 
         //init style of file card
         if (this.objectData) {
@@ -571,6 +558,7 @@ export class TemplateAttachmentComponent implements OnInit {
     /*DETECTE AND CAPT FILE ADD FROM INTERFACE FRONT */
     async fileChange(input) {
         this.loadingVisible = true
+        console.log("input.files[0]", input.files[0])
         this.fileContent = input.files[0]
         this.fileName = this.fileContent.name
         this.fileType = this.fileContent.type
@@ -671,6 +659,7 @@ export class TemplateAttachmentComponent implements OnInit {
             if (this.fileTemplate.name != undefined)
                 obj.append("reqFileDefName", this.fileTemplate.name)
             if (this.form.instance.option("formData").docTitle != undefined)
+                console.log("this.form.instance.option(\"formData\").docTitle", this.form.instance.option("formData").docTitle)
             obj.append("docTitle", this.form.instance.option("formData").docTitle)
             if (this.classid != undefined)
                 obj.append("classId", this.classid)
@@ -679,89 +668,11 @@ export class TemplateAttachmentComponent implements OnInit {
             if (this.isPublic != undefined)
                 obj.append("Public", this.isPublic)
             obj.append("locked", JSON.stringify(this.lockedValue))
-
             this.Ref.value = this.form.instance.option("formData").docTitle
             let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'createAttachement' + "?fileAccessToken=" + this.fileAccessToken, obj)
             this.httpServicesComponent.method(paramsHttp, this.Ref).then(data => {
-                if (data["statut"] == true) {
+                if (data["statut"] == true)
                     this.newFile.emit(this.fileTemplate)
-                }
-                this.loadingVisible = false
-                this.showsave = false
-
-
-            })
-        } else if ((this.fileContent == null || this.fileContent == undefined) && this.fileTemplate.fileRequired == true) {
-            this.loadingVisible = false
-            this.Ref.value = this.form.instance.option("formData").docTitle
-            this.translateService.get("ATTACHEMENT.fileRequired", this.Ref).subscribe((res) => {
-                this.toastr.error(res, "", {
-                    closeButton: true,
-                    positionClass: 'toast-top-right',
-                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                    progressBar: true,
-                    disableTimeOut: false,
-                    timeOut: this.env.timeOutToastr
-                })
-            })
-        }
-
-    }
-
-saveNewFile(title) {
-        this.loadingVisible = true
-        if (this.form.instance.validate().isValid && !(this.fileContent == null && this.fileTemplate.fileRequired == true)) {
-            let obj = new FormData()
-            if (this.fileContent != null && this.fileContent != undefined)
-                obj.append("multipartFiles", this.fileContent)
-            else if (this.fileContent === null || this.fileContent === undefined) {
-                this.translateService.get("ATTACHEMENT.fileEmpty", this.Ref).subscribe((res) => {
-                    this.toastr.warning(res, "", {
-                        closeButton: true,
-                        positionClass: 'toast-top-right',
-                        extendedTimeOut: this.env.extendedTimeOutToastr,
-                        progressBar: true,
-                        disableTimeOut: false,
-                        timeOut: this.env.timeOutToastr
-                    })
-                })
-            }
-            if (JSON.stringify(this.objectData) != undefined && JSON.stringify(this.objectData) != null)
-                obj.append("objectData", JSON.stringify(this.objectData));
-            if ((this.objectData) != undefined && (this.objectData) != null && (this.objectData).securiteLevel != null && (this.objectData).securiteLevel != undefined)
-                obj.append("objectDatasecuriteLevel", (this.objectData).securiteLevel);
-            if (this.saveFromScanner == true) {
-                if ((this.cookieService.get('scannerProfil')) != undefined)
-                    obj.append("preferenceName", (this.cookieService.get('scannerProfil')));
-            }
-            if (this.formatDate.formatDFshort(this.form.instance.option("formData").dateExpiration) != undefined && (this.fileTemplate.hasExpirationDate === 'MANDATORY' || this.fileTemplate.hasExpirationDate === 'OPTIONAL'))
-                obj.append("docExpirationDate", this.formatDate.formatDshort(this.form.instance.option("formData").dateExpiration))
-            if (this.formatDate.formatDFshort(this.form.instance.option("formData").dateEmission) != undefined && (this.fileTemplate.hasIssueDate === 'MANDATORY' || this.fileTemplate.hasIssueDate === 'OPTIONAL'))
-                obj.append("docIssueDate", this.formatDate.formatDshort(this.form.instance.option("formData").dateEmission))
-            if (this.form.instance.option("formData").lieuEmission != undefined && (this.fileTemplate.hasIssueAdress === 'MANDATORY' || this.fileTemplate.hasIssueAdress === 'OPTIONAL'))
-                obj.append("issueAdress", this.form.instance.option("formData").lieuEmission)
-            if (this.form.instance.option("formData").docId != undefined)
-                obj.append("docId", this.form.instance.option("formData").docId)
-            if (this.form.instance.option("formData").docCopies != undefined)
-                obj.append("docCopies", this.form.instance.option("formData").docCopies)
-            if (this.fileTemplate.name != undefined)
-                obj.append("reqFileDefName", this.fileTemplate.name)
-            if (this.form.instance.option("formData").docTitle != undefined)
-            obj.append("docTitle", title)
-            if (this.classid != undefined)
-                obj.append("classId", this.classid)
-            if (this.objectid != undefined)
-                obj.append("objectId", this.objectid)
-            if (this.isPublic != undefined)
-                obj.append("Public", this.isPublic)
-            obj.append("locked", JSON.stringify(this.lockedValue))
-
-            this.Ref.value = this.form.instance.option("formData").docTitle
-            let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'createAttachement' + "?fileAccessToken=" + this.fileAccessToken, obj)
-            this.httpServicesComponent.method(paramsHttp, this.Ref).then(data => {
-                if (data["statut"] == true) {
-                    this.newFile.emit(this.fileTemplate)
-                }
                 this.loadingVisible = false
                 this.showsave = false
 
@@ -888,68 +799,53 @@ saveNewFile(title) {
     }
 
 
-    async officeTemplateAttach(alias, type, title, classid, objectid, objectData) {
+    async officeTemplateAttach(title, classid, objectid, objectData) {
         this.loadingVisible = true
         try {
+            await this.fileservice.officeTemplateAttach(title, classid, objectid, objectData).subscribe(async (res: any) => {
+                    this.fileType = res.headers.get('Content-Type')
+                    this.fileName = await res.headers.get('filename')
+                    this.blobFile = new Blob([(res.body)], {type: this.fileType});
+                    this.sizeInput = this.communService.formatBytes(res.body.size);
+                    this.fileContent = new File([(res.body)], this.fileName, {type: this.fileType});
+                    this.openOfficePopUp = false;
+                    if (res.body.size > this.maxUploadMultiPartFile)/*presq 1MO*/
+                    {
+                        this.disableSave = true;
+                        this.displayErrorToasterOfMaxFileSize();
+                    } else {
+                        this.disableSave = false;
+                    }
+                    this.Ref.value = this.fileName;
+                    this.translateService.get('ATTACHEMENT.ModeleSucces', this.Ref).subscribe((res) => {
+                        this.toastr.success(res, '', {
+                            closeButton: true,
+                            positionClass: 'toast-top-right',
+                            extendedTimeOut: this.env.extendedTimeOutToastr,
+                            progressBar: true,
+                            disableTimeOut: false,
+                            timeOut: this.env.timeOutToastr
+                        });
+                    });
+                    this.loadingVisible = false;
 
-            //office-templates
+                    /*Save Automatique aprés rattachement */
+                }, () => {
+                    this.loadingVisible = false
+                    this.Ref.value = this.fileName
 
-            // await this.fileservice.officeTemplates(alias).subscribe(async data => {
-            //     await this.fileservice.downloadofficetemplateOutput(data[0].id).subscribe(async data => {
-            //
-            //         // let file = new Blob([data], {type: type});
-            //         let file = new File([(data)], title+".docx", {type: type});
-            //
-            //         var formData = new FormData()
-            //         formData.append('file', file)
-            //         formData.append('data', JSON.stringify(objectData))
-                    await this.fileservice.officeTemplateAttach(title, classid, objectid, objectData).subscribe(async (res: any) => {
-                    // await this.fileservice.officeTemplateAttachfromDocGenerator(formData).subscribe(async (res: any) => {
-                            this.fileType = res.headers.get('Content-Type')
-                            this.fileName = res.headers.get('filename')
-                            this.blobFile = new Blob([(res.body)], {type: this.fileType});
-                            this.sizeInput = this.communService.formatBytes(res.body.size);
-                            this.fileContent = new File([(res.body)], this.fileName, {type: this.fileType});
-                            this.openOfficePopUp = false;
-                            if (res.body.size > this.maxUploadMultiPartFile)/*presq 1MO*/
-                            {
-                                this.disableSave = true;
-                                this.displayErrorToasterOfMaxFileSize();
-                            } else {
-                                this.disableSave = false;
-                            }
-                            this.Ref.value = this.fileName;
-                            this.translateService.get('ATTACHEMENT.ModeleSucces', this.Ref).subscribe((res) => {
-                                this.toastr.success(res, '', {
-                                    closeButton: true,
-                                    positionClass: 'toast-top-right',
-                                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                                    progressBar: true,
-                                    disableTimeOut: false,
-                                    timeOut: this.env.timeOutToastr
-                                });
-                            });
-                            this.loadingVisible = false;
-                            this.save()
-                            /*Save Automatique aprés rattachement */
-                        }, () => {
-                            this.loadingVisible = false
-                            this.Ref.value = this.fileName
-
-                            this.translateService.get("ATTACHEMENT.Modeleechec", this.Ref).subscribe((res) => {
-                                this.toastr.error(res, "", {
-                                    closeButton: true,
-                                    positionClass: 'toast-top-right',
-                                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                                    progressBar: true,
-                                    disableTimeOut: false,
-                                    timeOut: this.env.timeOutToastr
-                                })
-                            })
-                        }
-                    )
-            //     })
-            // });
+                    this.translateService.get("ATTACHEMENT.Modeleechec", this.Ref).subscribe((res) => {
+                        this.toastr.error(res, "", {
+                            closeButton: true,
+                            positionClass: 'toast-top-right',
+                            extendedTimeOut: this.env.extendedTimeOutToastr,
+                            progressBar: true,
+                            disableTimeOut: false,
+                            timeOut: this.env.timeOutToastr
+                        })
+                    })
+                }
+            )
         } catch (error) {
             this.Ref.value = this.fileName
             this.translateService.get("ATTACHEMENT.SaveAfterEditError", this.Ref).subscribe((res) => {
@@ -964,14 +860,9 @@ saveNewFile(title) {
             })
             this.loadingVisible = false
         }
-
     }
 
     /*office template*/
-    ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-
-
-    }
 
 }
 

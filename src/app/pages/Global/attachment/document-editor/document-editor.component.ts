@@ -11,7 +11,6 @@ import {
   CustomToolbarItemModel,
   DocumentEditorContainerComponent,
 } from '@syncfusion/ej2-angular-documenteditor';
-
 import { L10n, isNullOrUndefined } from '@syncfusion/ej2-base';
 import {HttpClient} from "@angular/common/http";
 import {EnvService} from "../../../../../env.service";
@@ -33,6 +32,7 @@ import { showSpinner ,hideSpinner,createSpinner} from '@syncfusion/ej2-popups';
 })
 export class DocumentEditorComponent implements OnInit, OnChanges, DoCheck {
   public hostUrl: string = this.env.apiUrlDocEditor;
+  // public hostUrl: string = 'https://devtribunal.picosoft.biz/document-editor/';
   @ViewChild('documenteditor_default')
   public container: DocumentEditorContainerComponent;
   showTextBlock = false;

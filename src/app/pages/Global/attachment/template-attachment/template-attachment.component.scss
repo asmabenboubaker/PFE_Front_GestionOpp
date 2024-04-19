@@ -1,13 +1,13 @@
 @import "../Commun/Variable";
 
-:host ::ng-deep .first-group {
+::ng-deep .first-group {
   background-color: rgb(255, 255, 255);
   padding: 2%;
   margin: 1%;
   box-shadow: 0 1px 4px 0 rgb(0, 0, 0);
 }
 
-:host ::ng-deep.dx-layout-manager .dx-label-h-align.dx-flex-layout .dx-field-item-content,
+::ng-deep.dx-layout-manager .dx-label-h-align.dx-flex-layout .dx-field-item-content,
 .dx-layout-manager .dx-label-h-align.dx-flex-layout .dx-field-item-content-wrapper {
   background-color: #bfd9efb5;
   -webkit-flex-shrink: 1;
@@ -23,13 +23,13 @@
   display: block;
 }
 
-:host ::ng-deep .ligne {
+::ng-deep .ligne {
   margin-left: 0%;
   margin-top: 0%;
   margin-right: 0%;
 }
 
-:host ::ng-deep .principal {
+::ng-deep .principal {
   margin-left: -2%;
   margin-top: -2%;
   margin-inline-start: -2%;
@@ -37,27 +37,27 @@
 }
 
 
-:host ::ng-deep .espace {
+::ng-deep .espace {
   margin-top: 3% !important;
 
 }
 
-:host ::ng-deep .espace1 {
+::ng-deep .espace1 {
   margin-top: 0%;
 }
 
-:host ::ng-deep .dx-layout-manager .dx-field-item:not(.dx-first-row) {
+::ng-deep .dx-layout-manager .dx-field-item:not(.dx-first-row) {
   padding-top: 2px;
 }
 
-:host ::ng-deep .dx-editor-outlined.dx-texteditor-with-floating-label, .dx-editor-outlined.dx-texteditor-with-label {
+::ng-deep .dx-editor-outlined.dx-texteditor-with-floating-label, .dx-editor-outlined.dx-texteditor-with-label {
   border: 0;
   outline: 0;
   position: relative;
   margin-top: 3.5%;
 }
 
-:host ::ng-deep .dx-texteditor-input {
+::ng-deep .dx-texteditor-input {
   margin: 0;
   padding: 7px 9px 8px;
   background: rgba(0, 0, 0, 0);
@@ -67,31 +67,31 @@
   min-height: 4px;
 }
 
-:host ::ng-deep .dx-button-has-text .dx-button-content {
+::ng-deep .dx-button-has-text .dx-button-content {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 1px 17px 8px;
 }
 
-:host ::ng-deep .card-header {
+::ng-deep .card-header {
   padding: 0rem 3.25rem !important;
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, .03);
   border-bottom: 1px solid rgba(0, 0, 0, .125);
 }
 
-:host ::ng-deep .buttonAdd {
+::ng-deep .buttonAdd {
   text-align: left;
   margin-left: 93%;
   margin-top: -4%;
 }
 
-:host ::ng-deep .titre {
+::ng-deep .titre {
   font-weight: bold;
 }
 
-:host ::ng-deep .dx-texteditor-input {
+::ng-deep .dx-texteditor-input {
   margin: 0;
   padding: 7px 9px 8px;
   background: rgba(0, 0, 0, 0);
@@ -101,7 +101,7 @@
   min-height: 4px;
 }
 
-:host ::ng-deep .dx-widget {
+::ng-deep .dx-widget {
   display: block;
   -ms-content-zooming: none;
   -webkit-tap-highlight-color: transparent;
@@ -119,7 +119,7 @@
   line-height: 1.35715;
 }
 
-:host ::ng-deep .dx-item.dx-box-item.test {
+::ng-deep .dx-item.dx-box-item.test {
   margin-right: -9% !important;
 }
 
@@ -128,37 +128,37 @@
 }
 
 /*NSAGHAR F TAILLE MT3 ITEM */
-:host ::ng-deep.dx-field-item.dx-flex-layout {
+::ng-deep.dx-field-item.dx-flex-layout {
   padding: 0px 2px 5px !important;
 }
 
-:host ::ng-deep.dx-first-row.dx-field-item.dx-field-item-optional.dx-flex-layout {
-  padding: 0px 2px 5px !important;
-}
-
-
-:host ::ng-deep.dx-last-row.dx-field-item-optional.dx-flex-layout {
+::ng-deep.dx-first-row.dx-field-item.dx-field-item-optional.dx-flex-layout {
   padding: 0px 2px 5px !important;
 }
 
 
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label .dx-texteditor-label .dx-label span, .dx-editor-outlined.dx-texteditor-with-label .dx-texteditor-label .dx-label span {
+::ng-deep.dx-last-row.dx-field-item-optional.dx-flex-layout {
+  padding: 0px 2px 5px !important;
+}
+
+
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label .dx-texteditor-label .dx-label span, .dx-editor-outlined.dx-texteditor-with-label .dx-texteditor-label .dx-label span {
   font-size: 9px;
 
 }
 
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-dropdowneditor-active.dx-state-focused .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-dropdowneditor-active.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-state-focused .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-textarea.dx-state-focused .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-textarea.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-dropdowneditor-active.dx-state-focused .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-dropdowneditor-active.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-state-focused .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-textarea.dx-state-focused .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-textarea.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span {
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-dropdowneditor-active.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-dropdowneditor-active.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-textarea.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-textarea.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-dropdowneditor-active.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-dropdowneditor-active.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-textarea.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-textarea.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span {
   font-size: 9px;
   transform: translate(0, -7.5px);
   line-height: 1.35715;
@@ -171,8 +171,8 @@
   padding-bottom: 25px;
 }
 
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-lookup-empty .dx-texteditor-label .dx-label span,
-:host ::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-texteditor-empty .dx-texteditor-label .dx-label span {
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-lookup-empty .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-texteditor-empty .dx-texteditor-label .dx-label span {
   transition: font-size .2s cubic-bezier(0, 0, .2, 1), transform .2s cubic-bezier(0, 0, .2, 1), top .2s cubic-bezier(0, 0, .2, 1);
   transform: translate(0, 0);
   font-size: 9px;
@@ -182,13 +182,13 @@
   line-height: 1.35715;
 }
 
-:host ::ng-deep.dx-datebox.dx-auto-width .dx-texteditor-input,
-:host ::ng-deep.dx-datebox:not(.dx-texteditor-empty).dx-auto-width .dx-texteditor-input {
+::ng-deep.dx-datebox.dx-auto-width .dx-texteditor-input,
+::ng-deep.dx-datebox:not(.dx-texteditor-empty).dx-auto-width .dx-texteditor-input {
   padding-right: 0px;
 }
 
-:host ::ng-deep.dx-datebox.dx-auto-width .dx-texteditor-input,
-:host ::ng-deep.dx-datebox:not(.dx-texteditor-empty).dx-auto-width .dx-texteditor-input {
+::ng-deep.dx-datebox.dx-auto-width .dx-texteditor-input,
+::ng-deep.dx-datebox:not(.dx-texteditor-empty).dx-auto-width .dx-texteditor-input {
   padding-right: 0px;
 }
 
@@ -210,11 +210,11 @@
   }
 }
 
-:host ::ng-deep.dx-first-row.dx-last-col.dx-last-row.dx-field-item.dx-col-2.dx-field-item-optional.dx-flex-layout {
+::ng-deep.dx-first-row.dx-last-col.dx-last-row.dx-field-item.dx-col-2.dx-field-item-optional.dx-flex-layout {
   padding: 0 !important;
 }
 
-:host ::ng-deep a {
+::ng-deep a {
   color: #2a73ae !important;
 }
 
@@ -322,8 +322,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display:block;
-  width : 130%; /* this could be defined on any parent */
+  display: block;
+  width: 130%; /* this could be defined on any parent */
 }
 
 /*_____________________________________________________________________________________________________________________________*/
