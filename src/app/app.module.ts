@@ -31,6 +31,8 @@ import {ConfigPstkModule} from "./pages/Global/config-pstk/config-pstk.module";
 import {AffectationRoutesModule} from "./pages/Global/affectation-routes/affectation-routes.module";
 import {TokenInterceptor} from "./core/auth/token.interceptor";
 import { GridProjetComponent } from './pages/Oportunite/projet/grid-projet/grid-projet.component';
+import {DxButtonModule, DxDataGridModule, DxPopupModule, DxTemplateModule} from "devextreme-angular";
+import {DxiColumnModule, DxoPagerModule, DxoPagingModule, DxoScrollingModule} from "devextreme-angular/ui/nested";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -64,6 +66,14 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         headerComponentsModules,
         ConfigPstkModule,
         AffectationRoutesModule,
+        DxButtonModule,
+        DxDataGridModule,
+        DxPopupModule,
+        DxTemplateModule,
+        DxiColumnModule,
+        DxoPagerModule,
+        DxoPagingModule,
+        DxoScrollingModule,
     ],
     declarations: [
         AppComponent,

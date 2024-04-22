@@ -1,0 +1,73 @@
+<form [formGroup]="projetF" class="row g-3 needs-validation custom-form" novalidate>
+    <div class="col-md-6">
+        <label for="nom" class="form-label">Nom:</label>
+        <input class="form-control" formControlName="nom" id="nom" type="text" required>
+        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+        <!--             class="alert alert-danger">-->
+        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+        <!--                Nom is required.-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </div>
+    <div class="col-md-6">
+        <label for="responsable" class="form-label">Responsable:</label>
+        <input class="form-control" formControlName="responsable" id="responsable" type="text" required>
+
+    </div>
+
+    <div class="col-md-6">
+        <label for="participants" class="form-label">Participants:</label>
+        <input class="form-control" formControlName="participants" id="participants" type="text" required>
+
+    </div>
+    <div class="col-md-6">
+        <label for="objectif" class="form-label">objectif:</label>
+        <input class="form-control" formControlName="objectif" id="objectif" type="text" required>
+
+    </div>
+    <div class="col-md-6">
+        <label for="lieu" class="form-label">lieu:</label>
+        <input class="form-control" formControlName="objectif" id="lieu" type="text" required>
+
+    </div>
+    <div class="col-md-6">
+        <label for="type" class="form-label">type:</label>
+        <input class="form-control" formControlName="type" id="type" type="text" required>
+
+    </div>
+    <div class="col-md-6">
+        <label for="commentaires" class="form-label">commentaires:</label>
+        <input class="form-control" formControlName="type" id="commentaires" type="text" required>
+
+    </div>
+
+
+
+    <div class="col-md-6">
+        <label for="priorite" class="form-label">priorite:</label>
+        <input class="form-control" formControlName="priorite" id="priorite" type="Number" required>
+
+    </div>
+    <div class="col-md-6">
+        <label for="budget" class="form-label">budget:</label>
+        <input class="form-control" formControlName="priorite" id="budget" type="Number" required>
+
+    </div>
+    <div class="col-md-6">
+        <label for="description" class="form-label">description:</label>
+        <input class="form-control" formControlName="description" id="description" type="text" required>
+
+    </div>
+    <div class="col-md-6">
+        <label for="JiraProject" class="form-label">Créer le projet dans Jira :</label>
+        <select class="form-control" formControlName="JiraProject" id="JiraProject">
+            <option value="oui">Oui</option>
+            <option value="non">Non</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Soumettre</button>
+    </div>
+</form>
+
