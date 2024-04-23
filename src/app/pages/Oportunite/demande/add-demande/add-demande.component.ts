@@ -61,6 +61,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     description: new FormControl(''),
     dateDeCreation: new FormControl(''),
     statut: new FormControl(''),
+    source: new FormControl(''),
+    commentaires: new FormControl(''),
+    // deadline: new FormControl('')
 
   });
 
@@ -100,7 +103,10 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       description: null,
       dateDeCreation: currentDate,
       statut: [null, Validators.required],
-      // client: [null, Validators.required]
+      source: [''],
+      commentaires: ['']
+
+      // deadline: ['']
     });
   }
   GetjsonDowViewerFromAttatchement(e) {
@@ -131,6 +137,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
             this.demandeF.get('description').setValue(data.description);
             this.demandeF.get('dateDeCreation').setValue(data.dateDeCreation);
             this.demandeF.get('statut').setValue(data.statut);
+            this.demandeF.get('source').setValue(data.source);
+            this.demandeF.get('commentaires').setValue(data.commentaires);
+            // this.demandeF.get('deadline').setValue(data.deadline);
             // const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
             // this.demandeF.get('client').setValue(clientId);
             console.log("Fetched Successfully :", data);
@@ -172,7 +181,12 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   }
 
   Confirmation(evt) {
-console.log("sdsdsdsddsdsdsdsdsd")
+    // const deadlineString = this.demandeF.get('deadline').value;
+    // const deadlineDate = new Date(deadlineString);
+    // const deadlineISO = deadlineDate.toISOString();
+    // // set deadline to the form
+    // this.demandeF.get('deadline').setValue(deadlineISO);
+
     const formData = this.demandeF.value;
 
     // Utiliser les valeurs extraites
@@ -180,6 +194,7 @@ console.log("sdsdsdsddsdsdsdsdsd")
     this.demandeDTO['description'] = formData['description'];
     this.demandeDTO['statut'] = formData['statut'];
     this.demandeDTO['dateDeCreation'] = formData['dateDeCreation'];
+
     // this.demandeDTO['decision'] = evt.decision
     // this.demandeDTO['wfCurrentComment ']= evt.wfCurrentComment
     formData['decision'] = evt.decision;
@@ -197,7 +212,7 @@ console.log("sdsdsdsddsdsdsdsdsd")
         timeOut: this.env.timeOutToastr
       })
       //redirect to demande list
-        this.router.navigate(['Demande/user']);
+      //   this.router.navigate(['Demande/user']);
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
@@ -225,12 +240,12 @@ console.log("sdsdsdsddsdsdsdsdsd")
     this.demandeDTO['statut'] = formData['statut'];
     this.demandeDTO['dateDeCreation'] = formData['dateDeCreation'];
     //ajouter decision to formData
-    formData['decision'] = "Pour Validation";
+     formData['decision'] = "Pour Validation";
     const selectedClientId = this.clientSelect?.nativeElement.value;
     this.demandeDTO['client'] = selectedClientId;
     console.log('Client Select Element:', this.clientSelect);
     console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
-    console.log("this.DemandeDTO save",this.demandeDTO)
+    console.log("data save",formData)
     this.demandeService.updateAndAssignToClient(selectedClientId,this.demandeid,formData).subscribe(data => {
           this.toastr.success("added successfully" +
               "", "", {
@@ -242,7 +257,7 @@ console.log("sdsdsdsddsdsdsdsdsd")
             timeOut: this.env.timeOutToastr
           })
 //redirect to demande list
-            this.router.navigate(['Demande/user']);
+//             this.router.navigate(['Demande/user']);
 
         },
         error => {

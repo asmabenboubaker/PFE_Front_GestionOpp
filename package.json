@@ -67,6 +67,7 @@
     "formio": "2.5.3",
     "formiojs": "4.13.8",
     "google-libphonenumber": "^3.2.31",
+    "iconify-icon": "^1.0.8",
     "intl": "1.2.5",
     "jquery": "3.6.0",
     "jspdf": "^2.3.1",

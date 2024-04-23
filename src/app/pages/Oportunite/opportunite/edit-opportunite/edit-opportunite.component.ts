@@ -19,6 +19,11 @@ import {Client} from "../../../../Models/Client";
   styleUrls: ['./edit-opportunite.component.scss']
 })
 export class EditOpportuniteComponent implements OnInit {
+//set selectedDemand false
+  selectedDemande = false;
+
+  demandeF: FormGroup;
+
   oppForm: any;
   oppid: any;
   decissionWF: any;
@@ -39,7 +44,9 @@ export class EditOpportuniteComponent implements OnInit {
               private http: HttpClient,
               private router: Router,
               public route: ActivatedRoute,
-              private datePipe: DatePipe) {
+              private datePipe: DatePipe,
+              private demandeService: DemandeService
+              ) {
     const currentDate = new Date();
     this.oppForm = this.fb.group({
       id: null, // You might want to initialize other properties based on your requirements
@@ -48,6 +55,15 @@ export class EditOpportuniteComponent implements OnInit {
       createAt: currentDate,
       montantEstime: [null, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]], // Définir comme nombre à virgule flottante avec validation de modèle
 
+    });
+    this.demandeF = this.fb.group({
+      nom: [''],
+      client: [''],
+      statut: [''],
+      source: [''],
+      commentaires: [''],
+      deadline: [''],
+      description: ['']
     });
   }
 
@@ -178,4 +194,28 @@ export class EditOpportuniteComponent implements OnInit {
         }
     );
   }
+
+
+  selectedTeam = '';
+  onSelected(value:string): void {
+    this.selectedTeam = value;
+    console.log("selectedTeam",this.selectedTeam)
+    this.selectedDemande= true;
+    // findbyid demande and set it to demandeF
+    this.demandeService.getDemandeById(this.selectedTeam).subscribe(
+        (data) => {
+          this.demandeF.get('nom').setValue(data.nom);
+          this.demandeF.get('client').setValue(data.client);
+          this.demandeF.get('statut').setValue(data.statut);
+          this.demandeF.get('source').setValue(data.source);
+          this.demandeF.get('commentaires').setValue(data.commentaires);
+          this.demandeF.get('deadline').setValue(data.deadline);
+          this.demandeF.get('description').setValue(data.description);
+        },
+        (error) => {
+          console.error('Error fetching demande by id: ', error);
+        }
+    );
+  }
+
 }

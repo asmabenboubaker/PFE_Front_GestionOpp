@@ -35,7 +35,7 @@ export class DemandeService {
   }
 
   // Get demande by ID
-  getDemandeById(id): Observable<Demande> {
+  getDemandeById(id): Observable<any> {
     const url = `${this.env.piOpp+this.Wservice.getdemandes}/byid/${id}`;
     return this.http.get<Demande>(url);
   }
@@ -49,9 +49,9 @@ getDemandeByid(id): Observable<any> {
   }
 
   // Update demande
-  updateDemande(id, demande: Demande): Observable<Demande> {
+  updateDemande(id, demande: any): Observable<any> {
     const url = `${this.env.piOpp+this.Wservice.getdemandes}/${id}`;
-    return this.http.put<Demande>(url, demande);
+    return this.http.put<any>(url, demande);
   }
 
   // Delete demande
@@ -63,7 +63,7 @@ getDemandeByid(id): Observable<any> {
   getStatusList(): Observable<string[]> {
     return this.http.get<string[]>(`${this.env.piOpp}list`);
   }
-  createDemandeAndAssignToClient(clientId: Number, demandeData: Demande): Observable<any> {
+  createDemandeAndAssignToClient(clientId: Number, demandeData: any): Observable<any> {
     const url = `${this.env.piOpp+this.Wservice.getdemandes}/client?clientId=${clientId}`;
     console.log(url);
     return this.http.post<any>(url, demandeData);
