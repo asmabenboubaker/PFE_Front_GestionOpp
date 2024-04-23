@@ -18,6 +18,11 @@ import {ProjectService} from "../../../../Service/project.service";
   styleUrls: ['./edit-project.component.scss']
 })
 export class EditProjectComponent implements OnInit {
+
+
+
+
+
   oppForm: any;
   oppid: any;
   decissionWF: any;
