@@ -205,7 +205,7 @@ export class EditOpportuniteComponent implements OnInit {
     this.demandeService.getDemandeById(this.selectedTeam).subscribe(
         (data) => {
           this.demandeF.get('nom').setValue(data.nom);
-          this.demandeF.get('client').setValue(data.client);
+          this.demandeF.get('client').setValue(data.client.nom);
           this.demandeF.get('statut').setValue(data.statut);
           this.demandeF.get('source').setValue(data.source);
           this.demandeF.get('commentaires').setValue(data.commentaires);

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {Offre} from "../Models/Offre";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {WsService} from "../../ws.service";
 import {EnvService} from "../../env.service";
+import {TokenStorageService} from "../pages/Global/shared-service/token-storage.service";
+import {Client} from "../Models/Client";
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,24 @@ export class OffreService {
     const url = `${this.env.piOpp+this.Wservice.getoffre}/${id}`;
     return this.http.delete<void>(url);
   }
-  constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService) { }
+  InitOffre() {
+    return this.http.patch(this.env.piOpp + 'initOffre', {}, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
+  }
+
+  updateAndAssignToOpp(oppId: number, offreId: number, offreData: any): Observable<any> {
+    const url = `${this.env.piOpp}offreupdate/${offreId}/${oppId}`;
+    return this.http.put<any>(url, offreData);
+  }
+  Offre_process_Submit(obj) {
+    return this.http.patch(this.env.piOpp + 'submitOffre', obj, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
+  }
+  getAllOppWithoutPages(): Observable<Client[]> {
+    const url = `${this.env.piOpp + this.Wservice.getOpp}/withoutpage`;
+    return this.http.get<Client[]>(url);
+  }
+  getOffreByid(id): Observable<any> {
+    const url = `${this.env.piOpp}offreById/${id}`;
+    return this.http.get<any>(url);
+  }
+  constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService,private tokenStorage: TokenStorageService) { }
 }

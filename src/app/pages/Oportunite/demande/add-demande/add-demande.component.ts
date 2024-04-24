@@ -181,11 +181,6 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   }
 
   Confirmation(evt) {
-    // const deadlineString = this.demandeF.get('deadline').value;
-    // const deadlineDate = new Date(deadlineString);
-    // const deadlineISO = deadlineDate.toISOString();
-    // // set deadline to the form
-    // this.demandeF.get('deadline').setValue(deadlineISO);
 
     const formData = this.demandeF.value;
 
@@ -212,7 +207,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
         timeOut: this.env.timeOutToastr
       })
       //redirect to demande list
-      //   this.router.navigate(['Demande/user']);
+        this.router.navigate(['Demande/user']);
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
@@ -257,7 +252,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
             timeOut: this.env.timeOutToastr
           })
 //redirect to demande list
-//             this.router.navigate(['Demande/user']);
+            this.router.navigate(['Demande/user']);
 
         },
         error => {

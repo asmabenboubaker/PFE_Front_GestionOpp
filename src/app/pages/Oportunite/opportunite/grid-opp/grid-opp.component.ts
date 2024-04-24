@@ -90,7 +90,7 @@ export class GridOppComponent implements OnInit {
 
   }
   resetGrid() {
-    localStorage.removeItem(this.packageName + '_' + 'dataGridDemande');
+    localStorage.removeItem(this.packageName + '_' + 'dataGridOpp');
     window.location.reload();
   }
   refresh(): void {

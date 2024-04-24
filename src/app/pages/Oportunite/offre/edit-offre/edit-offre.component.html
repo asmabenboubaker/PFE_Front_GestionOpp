@@ -1,0 +1,56 @@
+<form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="modePaiement" class="form-label">mode de Paiement:</label>
+            <input class="form-control" formControlName="modePaiement" id="modePaiement" type="text" required>
+
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="montant" class="form-label">montant:</label>
+            <input class="form-control" formControlName="montant" id="montant" type="text" required>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="description" class="form-label">Description:</label>
+        <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
+
+    </div>
+    <div class="form-group">
+        <label for="opp" class="form-label">Opprotunité Associée :</label>
+        <!--        <select class="form-select" formControlName="client" id="client">-->
+        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+        <!--        </select>-->
+        <select #OppSelect  class="custom-select my-1 mr-sm-2"  id="opp" >
+            <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="dateLivraison" class="form-label">Date de livraison:</label>
+        <input class="form-control" formControlName="dateLivraison" id="dateLivraison" type="date" required>
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+        <app-workflow-decision
+                *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                (decisionEvent)="Confirmation($event)"
+                (saveEvent)="save()"
+                (RetournEvent)="Retourn()"
+                [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                [decisions]="decissionWF"
+                [object]="offreForm"
+                [SaveObject]="offreForm">
+        </app-workflow-decision>
+
+        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+    </div>
+</form>
+
