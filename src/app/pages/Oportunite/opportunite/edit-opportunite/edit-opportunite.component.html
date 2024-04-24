@@ -38,38 +38,105 @@
             <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
         </select>
     </div>
-    <div *ngIf="selectedDemande">
-        <h2>Demande Information</h2>
-        <div class="form-group">
-            <label for="nomDemande" class="form-label">Nom Demande:</label>
-            <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>
-        </div>
-        <div class="form-group">
-            <label for="client" class="form-label">Client:</label>
-            <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>
-        </div>
-        <div class="form-group">
-            <label for="statut" class="form-label">Statut:</label>
-            <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>
-        </div>
-        <div class="form-group">
-            <label for="source" class="form-label">Source:</label>
-            <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>
-        </div>
-        <div class="form-group">
-            <label for="commentaires" class="form-label">Commentaires:</label>
-            <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>
-        </div>
-        <div class="form-group">
-            <label for="deadline" class="form-label">Deadline:</label>
-            <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>
-        </div>
-        <div class="form-group">
-            <label for="descriptionDemande" class="form-label">Description Demande:</label>
-            <input class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly>
-        </div>
-    </div>
+<!--    <div *ngIf="selectedDemande">-->
 
+<!--        <div class="form-group">-->
+<!--            <label for="nomDemande" class="form-label">Nom Demande:</label>-->
+<!--            <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="client" class="form-label">Client:</label>-->
+<!--            <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="statut" class="form-label">Statut:</label>-->
+<!--            <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="source" class="form-label">Source:</label>-->
+<!--            <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="commentaires" class="form-label">Commentaires:</label>-->
+<!--            <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="deadline" class="form-label">Deadline:</label>-->
+<!--            <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="descriptionDemande" class="form-label">Description Demande:</label>-->
+<!--            <input class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <section class="light" >
+        <div class="container py-2">
+            <div class="h1 text-center text-dark" id="pageHeaderTitle1"></div>
+
+
+            <article class="postcard light green">
+                <a class="postcard__img_link" href="#">
+                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                </a>
+
+            </article>
+
+        </div>
+    </section>
+
+
+    <section class="light" *ngIf="selectedDemande">
+        <div class="container py-2">
+            <div class="h1 text-center text-dark" id="pageHeaderTitle"></div>
+
+
+            <article class="postcard light green">
+                <a class="postcard__img_link" href="#">
+<!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                </a>
+                <div class="postcard__text t-dark">
+                    <h1 class="postcard__title green"><a href="#">Demande informations</a></h1>
+                    <div class="postcard__subtitle small">
+                        <time datetime="2020-05-25 12:00:00">
+                            <i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
+                        </time>
+                    </div>
+                    <div class="postcard__bar"></div>
+<!--                    <div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>-->
+                    <div class="form-group">
+                        <label for="nomDemande" class="form-label">Nom Demande:</label>
+                        <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="client" class="form-label">Client:</label>
+                        <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="statut" class="form-label">Statut:</label>
+                        <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="source" class="form-label">Source:</label>
+                        <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentaires" class="form-label">Commentaires:</label>
+                        <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="deadline" class="form-label">Deadline:</label>
+                        <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionDemande" class="form-label">Description Demande:</label>
+                        <input class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-between">
         <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->

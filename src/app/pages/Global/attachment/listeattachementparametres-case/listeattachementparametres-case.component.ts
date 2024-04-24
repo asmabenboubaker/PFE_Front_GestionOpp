@@ -186,6 +186,7 @@ export class ListeattachementparametresCaseComponent implements OnInit {
   fileAccessToken = ""
 
   CreateAttatchment(reqFileDef) {
+    console.log("reqFileDef ATTACHAMANET in listattachementparametres-case.components.ts")
     let obj = new FormData()
     obj.append("docTitle", this.filename)
     obj.append("objectData", JSON.stringify(this.objectData))

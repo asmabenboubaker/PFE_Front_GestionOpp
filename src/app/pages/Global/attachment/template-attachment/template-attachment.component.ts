@@ -621,6 +621,7 @@ export class TemplateAttachmentComponent implements OnInit {
 
     /******************* createAttachement *************/
     save() {
+    console.log("SAVINNNNG")
         this.loadingVisible = true
         if (this.form.instance.validate().isValid && !(this.fileContent == null && this.fileTemplate.fileRequired == true)) {
             let obj = new FormData()
@@ -669,6 +670,7 @@ export class TemplateAttachmentComponent implements OnInit {
                 obj.append("Public", this.isPublic)
             obj.append("locked", JSON.stringify(this.lockedValue))
             this.Ref.value = this.form.instance.option("formData").docTitle
+
             let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'createAttachement' + "?fileAccessToken=" + this.fileAccessToken, obj)
             this.httpServicesComponent.method(paramsHttp, this.Ref).then(data => {
                 if (data["statut"] == true)
