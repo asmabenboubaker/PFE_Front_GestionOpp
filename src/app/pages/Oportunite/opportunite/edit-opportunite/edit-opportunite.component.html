@@ -1,43 +1,5 @@
 <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
-    <div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="nom" class="form-label">Nom:</label>
-        <input class="form-control" formControlName="nom" id="nom" type="text" required>
-        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-        <!--             class="alert alert-danger">-->
-        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-        <!--                Nom is required.-->
-        <!--            </div>-->
-        <!--        </div>-->
-    </div>
-
-    <div class="form-group col-md-6">
-        <label for="montantEstime" class="form-label">Budget alloué:</label>
-        <input class="form-control" formControlName="montantEstime" id="montantEstime" type="text" required>
-        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-        <!--             class="alert alert-danger">-->
-        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-        <!--                Nom is required.-->
-        <!--            </div>-->
-        <!--        </div>-->
-    </div>
-    </div>
-
-        <div class="form-group">
-            <label for="description" class="form-label">Description:</label>
-            <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
-
-        </div>
-    <div class="form-group">
-        <label for="demande" class="form-label">Demande Associée :</label>
-        <!--        <select class="form-select" formControlName="client" id="client">-->
-        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-        <!--        </select>-->
-        <select #demandeSelect class="form-select"  id="demande"   (change)="onSelected(demandeSelect.value)">
-            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
-        </select>
-    </div>
 <!--    <div *ngIf="selectedDemande">-->
 
 <!--        <div class="form-group">-->
@@ -72,14 +34,53 @@
 
     <section class="light" >
         <div class="container py-2">
-            <div class="h1 text-center text-dark" id="pageHeaderTitle1"></div>
+            <div class="h1 text-center text-dark" id="pageHeaderTitle2"></div>
 
 
             <article class="postcard light green">
                 <a class="postcard__img_link" href="#">
                     <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
                 </a>
+                <div class="postcard__text t-dark">
+                    <h1 class="postcard__title green"><a href="#">Demande informations</a></h1>
+                    <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="nom" class="form-label">Nom:</label>
+                        <input class="form-control" formControlName="nom" id="nom" type="text" required>
+                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                        <!--             class="alert alert-danger">-->
+                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                        <!--                Nom is required.-->
+                        <!--            </div>-->
+                        <!--        </div>-->
+                    </div>
 
+                    <div class="form-group col-md-6">
+                        <label for="montantEstime" class="form-label">Budget alloué:</label>
+                        <input class="form-control" formControlName="montantEstime" id="montantEstime" type="text" required>
+                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                        <!--             class="alert alert-danger">-->
+                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                        <!--                Nom is required.-->
+                        <!--            </div>-->
+                        <!--        </div>-->
+                    </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="description" class="form-label">Description:</label>
+                        <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
+
+                    </div>
+                    <div class="form-group ">
+                        <label for="demande" class="form-label">Demande Associée :</label>
+                        <!--        <select class="form-select" formControlName="client" id="client">-->
+                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                        <!--        </select>-->
+                        <select #demandeSelect class="form-select"  id="demande"   (change)="onSelected(demandeSelect.value)">
+                            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
+                        </select>
+                    </div>
+                </div>
             </article>
 
         </div>
@@ -104,33 +105,39 @@
                     </div>
                     <div class="postcard__bar"></div>
 <!--                    <div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>-->
-                    <div class="form-group">
+                    <div class="form-row">
+                    <div class="form-group col-md-6">
                         <label for="nomDemande" class="form-label">Nom Demande:</label>
                         <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                         <label for="client" class="form-label">Client:</label>
                         <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>
                     </div>
-                    <div class="form-group">
+                    </div>
+                    <div class="form-row">
+                    <div class="form-group col-md-6">
                         <label for="statut" class="form-label">Statut:</label>
                         <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                         <label for="source" class="form-label">Source:</label>
                         <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>
                     </div>
-                    <div class="form-group">
+                    </div>
+                    <div class="form-row">
+                    <div class="form-group col-md-6">
                         <label for="commentaires" class="form-label">Commentaires:</label>
                         <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                         <label for="deadline" class="form-label">Deadline:</label>
                         <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>
                     </div>
+                    </div>
                     <div class="form-group">
                         <label for="descriptionDemande" class="form-label">Description Demande:</label>
-                        <input class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly>
+                        <textarea class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly></textarea>
                     </div>
                 </div>
             </article>
