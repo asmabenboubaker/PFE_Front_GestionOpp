@@ -37,6 +37,11 @@ export class EditOpportuniteComponent implements OnInit {
   });
   demandes: any[] = [];
   @ViewChild('demandeSelect') demandeSelect: ElementRef;
+  creationOpp = false;
+  Affectaionequipe = false;
+  etude = false;
+  rapport = false;
+
   constructor(private fb: FormBuilder, private opportuniteService: OpportuniteService, private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService, private wsService: WsService,
               private translateService: TranslateService,
@@ -86,22 +91,18 @@ export class EditOpportuniteComponent implements OnInit {
 
           //const decisionsWF = data.workflow.decisionsWF
           console.log("DECICIONS WK ::: " + this.decissionWF);
-          // Créez un nouvel objet FormGroup en utilisant FormBuilder et initialisez-le avec les données récupérées
-          // this.demandeForm = this.fb.group({
-          //     id: [data.id],
-          //     nom: [data.nom, Validators.required],
-          //     description: [data.description],
-          //     dateDeCreation: [data.dateDeCreation],
-          //     statutDemande: [data.statutDemande],
-          //     statut: [data.statut],
-          //     userPermission: [data.userPermission],
-          //     activityName: [data.activityName],
-          //
-          // });
 
           //get decissionWF
           this.decissionWF = data['workflow']['decisionsWF'];
 
+          if(this.decissionWF=="Affecter Equipe"){
+            this.Affectaionequipe=true;
+            console.log("Affecter Equipe"+this.Affectaionequipe)
+          }else if(this.decissionWF=="Etude"){
+            this.etude=true;
+          }else if(this.decissionWF=="Rapport"){
+            this.rapport = true;
+          }
         },
         error => {
           console.log("Error :", error);
