@@ -71,6 +71,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   userPermission:any;
   decissionWF:any;
   objectData:any;
+
+  pourvalidation : boolean=false;
+  elsedesision:boolean=false;
  //document
   @Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
@@ -163,12 +166,19 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 
             //get decissionWF
             this.decissionWF = data['workflow']['decisionsWF'];
-
+            //check decision
+            if(this.decissionWF=="Pour Validation"){
+              this.pourvalidation=true;
+              console.log("pourvalidation",this.pourvalidation)
+            }else {
+              this.pourvalidation=false;
+            }
           },
           error => {
             console.log("Error :", error);
           }
       );
+
 
       console.log("this.demandeF",this.objectData)
 

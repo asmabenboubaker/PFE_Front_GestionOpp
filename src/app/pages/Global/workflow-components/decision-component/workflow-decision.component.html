@@ -21,11 +21,11 @@
 
 
     <div  class="md-form row" style="margin-top: 10px;">
-        <div class="col-md-12 d-flex justify-content-between">
+        <div class="col-md-12">
 
 
-
-            <button class="btn2 btn btn-primary btn-rounded" (click)="Return()" *ngIf="!showInmodal" mdbRipple
+            <div class="d-flex justify-content-end">
+            <button class="btn2  btn-primary btn-rounded" (click)="Return()" *ngIf="!showInmodal" mdbRipple
                     style="background-color: #b60808; color: white;">
                 <i class="animation"></i>retour<i class="animation"></i>
             </button>
@@ -46,6 +46,7 @@
                         type="button">
                     {{decision}}
                 </button>
+            </div>
             </div>
             </div>
         </div>
