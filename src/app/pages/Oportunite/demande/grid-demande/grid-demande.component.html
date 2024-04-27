@@ -31,9 +31,11 @@
         id="gridContainer"
     (onToolbarPreparing)="onToolbarPreparing($event)"
         [columnAutoWidth]="true"
+
         [dataSource]="dataSourceElement"
         [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-    [rowAlternationEnabled]="true"
+    [rowAlternationEnabled]="false"
+
     [showColumnLines]="true"
     (onRowDblClick)="Editdemande($event)"
 
@@ -108,3 +110,4 @@
         </div>
     </div>
 </dx-popup>
+

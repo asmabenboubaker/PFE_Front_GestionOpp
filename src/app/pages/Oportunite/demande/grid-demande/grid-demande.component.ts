@@ -418,12 +418,7 @@ export class GridDemandeComponent implements OnInit {
   }
 
 
-  calculateClientValue(data) {
-    // Récupérer les données du client de la demande
-    const client = data.client;
 
-    // Si le client est disponible, renvoyer le nom du client
-    // Sinon, renvoyer une chaîne vide
-    return client ? client.nom : '';
-  }
+
+
 }

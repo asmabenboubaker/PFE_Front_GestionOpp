@@ -19,9 +19,23 @@
     </div>
 
 
+
     <div  class="md-form row" style="margin-top: 10px;">
-        <div class="col-md-12">
+        <div class="col-md-12 d-flex justify-content-between">
+
+
+
+            <button class="btn2 btn btn-primary btn-rounded" (click)="Return()" *ngIf="!showInmodal" mdbRipple
+                    style="background-color: #b60808; color: white;">
+                <i class="animation"></i>retour<i class="animation"></i>
+            </button>
+            <button class="btn" (click)="Save()" *ngIf="!showInmodal" [hidden]="access" class="btn btn-primary btn-rounded"
+                    mdbRipple
+                    style="float: left; background-color:#025a95;  color: white;border-color:#025a95 ;    margin-left: 1%;   " type="button"><i class="animation"></i>{{ 'Save' | translate }}<i class="animation"></i>
+            </button>
+
             <div *ngFor="let decision of decisions " style="float: right;" [hidden]="access">
+
                 <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
                         class="btn btn-primary btn-rounded  mb-1 mr-1 butttons-style"
                         mdbRipple
@@ -33,17 +47,18 @@
                     {{decision}}
                 </button>
             </div>
-
-            <button (click)="Return()" *ngIf="!showInmodal" class="btn btn-primary btn-rounded" mdbRipple style="float: left; color: white;
-    background-color:#b60808; " type="button">retour
-            </button>
-            <button (click)="Save()" *ngIf="!showInmodal" [hidden]="access" class="btn btn-primary btn-rounded"
-                    mdbRipple
-                    style="float: left; background-color:#025a95;  color: white;border-color:#025a95 ;    margin-left: 1%;   " type="button">{{ 'Save' | translate }}
-            </button>
+            </div>
         </div>
-    </div>
+
+
+
+
 </div>
+
+
+
+
+
 <!--w-200p ; font-size: 85%;-->
 
 <!--****old***-->

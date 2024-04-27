@@ -218,4 +218,29 @@ export class EditOpportuniteComponent implements OnInit {
     );
   }
 
+
+  onFileChange(event: any) {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      const file: File = fileList[0];
+      const formData: FormData = new FormData();
+      formData.append('file', file);
+
+      this.uploadFile(formData);
+    }
+  }
+
+  uploadFile(formData: FormData) {
+    this.http.post('https://kernel.picosoft.biz/kernel-v1/api/createAttachement', formData)
+        .subscribe(
+            (response: any) => {
+              console.log('File uploaded successfully:', response);
+              // Handle response data or update UI accordingly
+            },
+            (error: any) => {
+              console.error('Failed to upload file:', error);
+              // Handle error or display error message
+            }
+        );
+  }
 }

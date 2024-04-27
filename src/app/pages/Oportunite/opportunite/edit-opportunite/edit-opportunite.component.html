@@ -80,10 +80,37 @@
                             <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
                         </select>
                     </div>
+                    <div class="upload-container">
+                    <div class="input-div">
+                        <input class="input" name="file" type="file" (change)="onFileChange($event)" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>
+                    </div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                        <app-workflow-decision
+                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                                (decisionEvent)="Confirmation($event)"
+                                (saveEvent)="save()"
+                                (RetournEvent)="Retourn()"
+                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                                [decisions]="decissionWF"
+                                [object]="oppForm"
+                                [SaveObject]="oppForm">
+                        </app-workflow-decision>
+
+                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+                    </div>
                 </div>
+
             </article>
 
         </div>
+
     </section>
 
 
@@ -145,24 +172,8 @@
         </div>
     </section>
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-        <app-workflow-decision
-                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                (decisionEvent)="Confirmation($event)"
-                (saveEvent)="save()"
-                (RetournEvent)="Retourn()"
-                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                [decisions]="decissionWF"
-                [object]="oppForm"
-                [SaveObject]="oppForm">
-        </app-workflow-decision>
 
-        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
 
-    </div>
 </form>
+
 

@@ -18,6 +18,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MdbFormsModule} from "mdb-angular-ui-kit/forms";
 import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
 import {HttpServicesComponent} from "../../Global/ps-tools/http-services/http-services.component";
+import { ClientsListComponent } from './clients-list/clients-list.component';
 
 export const routes: Routes  = [
   {
@@ -31,13 +32,20 @@ export const routes: Routes  = [
     component:  AddClientComponent,
     data: {breadcrumb: 'add client'},
     pathMatch: 'full'
-}
+},
+    {
+        path: 'list',
+        component:  ClientsListComponent,
+        data: {breadcrumb: 'Liste des clients'},
+        pathMatch: 'full'
+    }
 ];
 
 @NgModule({
   declarations: [
     GridClientComponent,
     AddClientComponent,
+    ClientsListComponent,
 
   ],
   exports: [

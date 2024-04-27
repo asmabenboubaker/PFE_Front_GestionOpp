@@ -39,12 +39,7 @@
 <!--        </div>-->
     </div>
 
-<!--    <div class="col-12">-->
-<!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-<!--            <button (click)="Return()" class="btn btn-light" type="button">Cancel</button>-->
-<!--            <button (click)="onSubmit()" class="btn btn-success" type="submit">Save</button>-->
-<!--        </div>-->
-<!--    </div>-->
+
     <app-workflow-decision
             *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
             (decisionEvent)="Ouvrir()"
@@ -56,35 +51,4 @@
             [SaveObject]="demandeForm">
     </app-workflow-decision>
 </form>
-
-
-
-<!--<dx-popup-->
-<!--        [width]="'25%'"-->
-<!--        [height]="'auto'"-->
-<!--        [rtlEnabled]="true"-->
-<!--        [(visible)]="PopupConfirmationCreation"-->
-<!--        [showTitle]="true"-->
-<!--        title="{{ 'ConfirmationCreationTitle' | translate}}"-->
-<!--        [dragEnabled]="false"-->
-<!--        [closeOnOutsideClick]="true"-->
-<!--        style="text-align: right"-->
-<!--&gt;-->
-<!--    <div>-->
-<!--        <p>{{ 'ConfirmationCreation' | translate }} </p>-->
-<!--    </div>-->
-<!--    <div class="row">-->
-<!--        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">-->
-<!--            <button type="submit" class="btn btn-success me-md-2"-->
-<!--                    (click)="routerCaseRequest()">{{ 'Confirmer' | translate }}-->
-<!--            </button>-->
-<!--        </div>-->
-<!--        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">-->
-<!--            <button type="button" class="btn btn-outline-secondary me-md-2" style="float: left"-->
-<!--                    (click)="PopupConfirmationCreation=false">{{ 'Annuler' | translate }}-->
-<!--            </button>-->
-<!--        </div>-->
-
-<!--    </div>-->
-<!--</dx-popup>-->
 
