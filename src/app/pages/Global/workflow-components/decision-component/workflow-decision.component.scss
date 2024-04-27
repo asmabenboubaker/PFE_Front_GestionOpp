@@ -67,3 +67,36 @@
     box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.1), 0 0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 60px rgba(255, 255, 255, 0.1), 0 0 0 80px rgba(255, 255, 255, 0);
   }
 }
+cont{
+  width: 100%;
+
+}
+.button-container1{
+  width: 100%;
+
+
+}.button-container2{
+  width: 100%;
+
+
+  padding: 0 !important;
+}
+.button-subcontainer{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width:100%;
+
+}
+
+.buttonGroup1 {
+  display: flex;
+  justify-content: space-between;
+}
+.buttonGroup2 button{
+  height: 100% !important;
+}
+.buttonGroup2 {
+
+  padding: 0;
+}

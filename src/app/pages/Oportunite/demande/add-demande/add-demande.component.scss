@@ -1,82 +1,4 @@
-//.custom-form {
-//  margin: 20px;
-//  padding: 20px;
-//  background-color: #f8f9fa;
-//  border: 1px solid #dee2e6;
-//  border-radius: 8px;
-//}
-//
-//.custom-form label {
-//  font-weight: bold;
-//}
-//
-//.custom-form input,
-//.custom-form textarea {
-//  margin-bottom: 10px;
-//}
-//
-//.custom-form button {
-//  margin-top: 10px;
-//}
-///* Add borders to input fields */
-//.input-border {
-//  border: 1px solid #ced4da; /* Add border color */
-//  border-radius: 4px; /* Add border radius for rounded corners */
-//  padding: 8px; /* Add padding for better appearance */
-//}
-//
-///* Optionally, add margin to input fields */
-//.input-margin {
-//  margin-bottom: 10px; /* Add bottom margin */
-//}
-//
-//
-//// CHOSE
-//.input-container {
-//
-//
-//  input[type="text"] {
-//    font-size: 20px;
-//    width: 100%;
-//    border: none;
-//    border-bottom: 2px solid #ccc;
-//    padding: 5px 0;
-//    background-color: transparent;
-//    outline: none;
-//
-//    &:focus ~ .label,
-//    &:valid ~ .label {
-//      top: -20px;
-//      font-size: 16px;
-//      color: #333;
-//    }
-//
-//    &:focus ~ .underline,
-//    &:valid ~ .underline {
-//      transform: scaleX(1);
-//    }
-//  }
-//
-//  .label {
-//    position: absolute;
-//    top: 0;
-//    left: 0;
-//    color: #ccc;
-//    transition: all 0.3s ease;
-//    pointer-events: none;
-//  }
-//
-//  .underline {
-//    position: absolute;
-//    bottom: 0;
-//    left: 0;
-//    height: 2px;
-//    width: 100%;
-//    background-color: #333;
-//    transform: scaleX(0);
-//    transition: all 0.3s ease;
-//  }
-//}
+
 
 // add tabs for workflow
 @import url(https://fonts.googleapis.com/css?family=Gabriela);
@@ -93,12 +15,12 @@ html, body {
   font-size: 13px;
   line-height: 1.55;
 }
-h1 {
+h2 {
   padding: 40px 0 20px;
-  font: 40px/60px Gabriela, Georgia, serif;
+  //font: 40px/60px Gabriela, Georgia, serif;
   text-align: center;
-  text-shadow: 3px 3px rgba(0,0,0,0.1);
-  color: #40B3A2;
+  //text-shadow: 3px 3px rgba(0,0,0,0.1);
+  color: #009688;
 }
 p {
   margin-bottom: 40px;
@@ -119,22 +41,45 @@ a:hover {
   height: 100%;
 }
 .page {
+
   position: relative;
-  max-width: 980px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 20px 40px;
 }
-
+ul {
+  border: none !important;
+  height: fit-content;
+}
 /**/
 /* main styles */
 /**/
+
+
 .pcss3t {
   margin: 0;
   padding: 0;
-  border: 0;
+
   outline: none;
   font-size: 0;
   text-align: left;
+}
+.pcss3t ul {
+  overflow: hidden;
+}
+.pcss3t ul li {
+  overlow-y: auto;
+}
+.tab-content{
+  border: none !important
+}
+.tab-content {
+  overflow: hidden !important;
+  //border: solid yellow 2px !important;
+}
+.tab-content > * {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .pcss3t > input {
   position: absolute;
@@ -325,7 +270,7 @@ a:hover {
   padding: 0;
   font-family: Gabriela, Georgia, serif;
   text-align: left;
-  color: #333;
+  color: #009688;
 }
 .pcss3t .typography h1 {
   font-size: 40px;
@@ -399,7 +344,7 @@ a:hover {
 }
 .pcss3t .typography a {
   text-decoration: underline;
-  color: #1889e6;
+  color: #009688;
 }
 .pcss3t .typography a:hover {
   text-decoration: none;
@@ -417,7 +362,7 @@ a:hover {
 }
 .pcss3t .typography .link {
   text-decoration: underline;
-  color: #1889e6;
+  color: #009688;
   cursor: pointer;
 }
 .pcss3t .typography .link:hover {
@@ -871,7 +816,7 @@ a:hover {
   padding-bottom: 5px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-  color: #2b82d9;
+  color: #009688;
   opacity: 1;
 }
 .pcss3t-theme-1 > ul {
@@ -1083,4 +1028,9 @@ a:hover {
 .pcss3t > ul,
 .pcss3t > ul > li {
   height: 500px;
+}
+
+.workflow-container{
+  width: 100%;
+
 }

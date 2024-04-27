@@ -216,8 +216,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
         disableTimeOut: false,
         timeOut: this.env.timeOutToastr
       })
-      //redirect to demande list
-        this.router.navigate(['Demande/user']);
+      //redirect to demande add id
+        this.router.navigate(['Demande/add/']+this.demandeid);
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,

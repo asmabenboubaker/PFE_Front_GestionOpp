@@ -1,5 +1,5 @@
 <br/>
-<div class="row justify-content-center" style="margin-top: 10px;">
+<div class="row justify-content-center cont" style="margin-top: 10px;">
     <div class="row mb-2" style="display: none">
         <!--        <div class="col-md-4">-->
         <!--            <mdb-form-control>-->
@@ -20,34 +20,38 @@
 
 
 
-    <div  class="md-form row" style="margin-top: 10px;">
-        <div class="col-md-12">
+    <div  class="md-form row button-container1" style="margin-top: 10px;">
+        <div class="col-md-12 button-container2">
 
 
-            <div class="d-flex justify-content-end">
-            <button class="btn2  btn-primary btn-rounded" (click)="Return()" *ngIf="!showInmodal" mdbRipple
-                    style="background-color: #b60808; color: white;">
-                <i class="animation"></i>retour<i class="animation"></i>
-            </button>
-            <button class="btn" (click)="Save()" *ngIf="!showInmodal" [hidden]="access" class="btn btn-primary btn-rounded"
-                    mdbRipple
-                    style="float: left; background-color:#025a95;  color: white;border-color:#025a95 ;    margin-left: 1%;   " type="button"><i class="animation"></i>{{ 'Save' | translate }}<i class="animation"></i>
-            </button>
+            <div class="d-flex button-subcontainer">
+               <div class="buttonGroup1">
+                   <button class="btn  btn-primary btn-rounded" (click)="Return()" *ngIf="!showInmodal" mdbRipple
+                           style="background-color: #b60808 !important; color: white;">
+                       <i class="animation"></i>retour<i class="animation"></i>
+                   </button>
+                   <button class="btn btn-primary btn-rounded" (click)="Save()" *ngIf="!showInmodal" [hidden]="access" class="btn btn-primary btn-rounded"
+                           mdbRipple
+                           style="float: left; background-color:#025a95;  color: white;border-color:#025a95 ;    margin-left: 1%;   " type="button"><i class="animation"></i>{{ 'Save' | translate }}<i class="animation"></i>
+                   </button>
+               </div>
 
-            <div *ngFor="let decision of decisions " style="float: right;" [hidden]="access">
+               <div class="buttonGroup2">
+                   <div *ngFor="let decision of decisions " style="float: right;" [hidden]="access">
 
-                <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
-                        class="btn btn-primary btn-rounded  mb-1 mr-1 butttons-style"
-                        mdbRipple
-                        style="    float: right;
-    background-color: green;
-    font-weight: bold;
-    color: white;"
-                        type="button">
-                    {{decision}}
-                </button>
-            </div>
-            </div>
+                       <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
+                               class="btn btn-primary btn-rounded  mb-1 mr-1 butttons-style"
+                               mdbRipple
+                               style="    float: right;
+                            background-color: green;
+                            font-weight: bold;
+                            color: white;"
+                               type="button">
+                           {{decision}}
+                       </button>
+                   </div>
+               </div>
+               </div>
             </div>
         </div>
 
