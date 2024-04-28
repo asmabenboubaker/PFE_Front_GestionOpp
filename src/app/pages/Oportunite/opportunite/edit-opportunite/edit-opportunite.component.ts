@@ -138,7 +138,7 @@ this.decissionWF=data.workflow.decisionsWF;
         timeOut: this.env.timeOutToastr
       })
       //redirect to demande list
-      this.router.navigate(['opportunite/all']);
+        this.router.navigate(['opportunite/add/']+this.oppid);
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
@@ -167,8 +167,10 @@ this.decissionWF=data.workflow.decisionsWF;
         disableTimeOut: false,
         timeOut: this.env.timeOutToastr
       })
-      //redirect to demande list
-      this.router.navigate(['opportunite/all']);
+      //redirect to add opp by id
+        this.router.navigate(['opportunite/all']);
+
+
     }, error => {
       this.toastr.error("failed to update ", "", {
         closeButton: true,
