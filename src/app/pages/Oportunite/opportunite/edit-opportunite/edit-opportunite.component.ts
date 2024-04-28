@@ -87,20 +87,24 @@ export class EditOpportuniteComponent implements OnInit {
           // this.demandeF.get('client').setValue(clientId);
           console.log("Fetched Successfully :", data);
           // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
-          this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
-
+         // this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
+this.decissionWF=data.workflow.decisionsWF;
           //const decisionsWF = data.workflow.decisionsWF
-          console.log("DECICIONS WK ::: " + this.decissionWF);
+          console.log("DECICIONS WK ::: " + data['workflow']['decisionsWF'])  ;
+          // afficher les donnes de data
+            console.log("data", data.workflow.decisionsWF);
 
           //get decissionWF
           this.decissionWF = data['workflow']['decisionsWF'];
 
-          if(this.decissionWF=="Affecter Equipe"){
-            this.Affectaionequipe=true;
-            console.log("Affecter Equipe"+this.Affectaionequipe)
+          if(this.decissionWF=="Affecter Equipe\n"){
+            this.creationOpp= true;
+
           }else if(this.decissionWF=="Etude"){
-            this.etude=true;
+            this.Affectaionequipe = true;
           }else if(this.decissionWF=="Rapport"){
+            this.etude = true;
+          }else {
             this.rapport = true;
           }
         },

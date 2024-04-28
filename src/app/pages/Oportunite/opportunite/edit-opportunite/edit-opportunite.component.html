@@ -177,9 +177,7 @@
 <!--</form>-->
 
 <!--add tabs for workwflow-->
-<!DOCTYPE html>
 
-<html>
 <head>
     <title>Creation demande </title>
     <meta charset="utf-8">
@@ -188,23 +186,23 @@
 </head>
 <body>
 
-<div class="page">
+<div class="page" >
     <h2>Creation Opportunité</h2>
     <!-- tabs -->
-    <div class="pcss3t pcss3t-effect-scale pcss3t-theme-1">
+    <div class="pcss3t pcss3t-effect-scale pcss3t-theme-1" >
         <input type="radio" name="pcss3t"   id="tab1"class="tab-content-first" [checked]="creationOpp" [disabled]="!creationOpp">
         <label for="tab1"><i class="icon-edit"></i>Création Opportunité</label>
 
-        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2" [checked]="Affectaionequipe" [disabled]="!Affectaionequipe">
-        <label for="tab2"><i class="icon-check"></i>Affectation Equipes</label>
+        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2" [checked]="rapport" [disabled]="!rapport">
+        <label for="tab2"><i class="icon-check"></i>Rapport Technique </label>
 
         <input type="radio" name="pcss3t" id="tab3" class="tab-content-3" [checked]="etude" [disabled]="!etude">
         <label for="tab3"><i class="icon-adjust"></i>Etude d'Opportunité </label>
 
-        <input type="radio" name="pcss3t" id="tab5" class="tab-content-last" [checked]="rapport" [disabled]="!rapport">
-        <label for="tab5"><i class="icon-file-alt"></i>Rapport Technique</label>
+        <input type="radio" name="pcss3t" id="tab5" class="tab-content-last"  [checked]="Affectaionequipe" [disabled]="!Affectaionequipe">
+        <label for="tab5"><i class="icon-file-alt"></i>Affectation Equipes</label>
 
-        <ul>
+        <ul >
             <li class="tab-content tab-content-first typography" >
                 <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
@@ -294,7 +292,7 @@
 <!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                                    <div class="workflow-container">
                                         <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                                         <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
                                         <app-workflow-decision
@@ -386,10 +384,47 @@
 
             </li>
 
-            <li class="tab-content tab-content-2 typography" >
+            <li class="tab-content tab-content-2 typography">
+                <form class="file-upload-form" style="flex-direction: column">
+                    <div class="file-upload-container" style="">
+                        <label for="file" class="file-upload-label">
+                            <div class="file-upload-design">
+                                <svg viewBox="0 0 640 512" height="1em">
+                                    <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>
+                                </svg>
+                                <p>Drag and Drop</p>
+                                <p>or</p>
+                                <span class="browse-button">Browse file</span>
+                            </div>
+                            <input id="file" type="file" />
+                        </label>
 
-                <h1> Demande dans l'étape de creation</h1>
+
+                    </div>
+
+                </form>
+
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="oppForm"
+                            [SaveObject]="oppForm">
+                    </app-workflow-decision>
+
+                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+                </div>
             </li>
+
             <li class="tab-content tab-content-3 typography">
                 <h1>Leonardo da Vinci</h1>
                 <p>Italian Renaissance polymath: painter, sculptor, architect, musician, mathematician, engineer, inventor, anatomist, geologist, cartographer, botanist, and writer. His genius, perhaps more than that of any other figure, epitomized the Renaissance humanist ideal. Leonardo has often been described as the archetype of the Renaissance Man, a man of "unquenchable curiosity" and "feverishly inventive imagination". He is widely considered to be one of the greatest painters of all time and perhaps the most diversely talented person ever to have lived. According to art historian Helen Gardner, the scope and depth of his interests were without precedent and "his mind and personality seem to us superhuman, the man himself mysterious and remote". Marco Rosci states that while there is much speculation about Leonardo, his vision of the world is essentially logical rather than mysterious, and that the empirical methods he employed were unusual for his time.</p>
@@ -404,10 +439,12 @@
                 </div>
             </li>
         </ul>
+
     </div>
+
     <!--/ tabs -->
 </div>
+
+
+
 </body>
-</html>
-
-
