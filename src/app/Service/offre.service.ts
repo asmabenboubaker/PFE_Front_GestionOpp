@@ -6,7 +6,7 @@ import {WsService} from "../../ws.service";
 import {EnvService} from "../../env.service";
 import {TokenStorageService} from "../pages/Global/shared-service/token-storage.service";
 import {Client} from "../Models/Client";
-
+import * as jsPDF from 'jspdf';
 @Injectable({
   providedIn: 'root'
 })
@@ -51,6 +51,13 @@ export class OffreService {
   getOffreByid(id): Observable<any> {
     const url = `${this.env.piOpp}offreById/${id}`;
     return this.http.get<any>(url);
+  }
+  generatePdf(formData: any) {
+    const doc = new jsPDF.default();
+    // Generate PDF content based on formData
+    doc.text('Hello, World!', 10, 10);
+    // Save the PDF
+    doc.save('example.pdf');
   }
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService,private tokenStorage: TokenStorageService) { }
 }

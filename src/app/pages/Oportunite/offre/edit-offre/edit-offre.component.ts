@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Client} from "../../../../Models/Client";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
 import {OffreService} from "../../../../Service/offre.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {DemandeService} from "../../../../Service/demande.service";
 import {ClientServiceService} from "../../../../Service/client-service.service";
 import {ToastrService} from "ngx-toastr";
@@ -173,4 +173,8 @@ this.offreF.get('description').setValue(data.description);
         })
   }
 
+    downloadPdfOnClick() {
+        const formData = this.offreF.value;
+        this.offreService.generatePdf(formData);
+    }
 }

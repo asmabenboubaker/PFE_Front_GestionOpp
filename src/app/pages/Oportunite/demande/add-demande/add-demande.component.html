@@ -286,9 +286,40 @@
                 <h1 *ngIf="pourvalidation"> Demande dans l'étape de creation</h1>
             </li>
             <li class="tab-content tab-content-3 typography">
-                <h1>Leonardo da Vinci</h1>
-                <p>Italian Renaissance polymath: painter, sculptor, architect, musician, mathematician, engineer, inventor, anatomist, geologist, cartographer, botanist, and writer. His genius, perhaps more than that of any other figure, epitomized the Renaissance humanist ideal. Leonardo has often been described as the archetype of the Renaissance Man, a man of "unquenchable curiosity" and "feverishly inventive imagination". He is widely considered to be one of the greatest painters of all time and perhaps the most diversely talented person ever to have lived. According to art historian Helen Gardner, the scope and depth of his interests were without precedent and "his mind and personality seem to us superhuman, the man himself mysterious and remote". Marco Rosci states that while there is much speculation about Leonardo, his vision of the world is essentially logical rather than mysterious, and that the empirical methods he employed were unusual for his time.</p>
-                <p class="text-right"><em>Find out more about Leonardo da Vinci from <a href="http://en.wikipedia.org/wiki/Leonardo_da_Vinci" target="_blank">Wikipedia</a>.</em></p>
+                <form class="file-upload-form" style="flex-direction: column">
+                    <div class="file-upload-container" style="">
+                        <label for="file" class="file-upload-label">
+                            <div class="file-upload-design">
+                                <svg viewBox="0 0 640 512" height="1em">
+                                    <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>
+                                </svg>
+                                <p>Drag and Drop</p>
+                                <p>or</p>
+                                <span class="browse-button">Browse file</span>
+                            </div>
+                            <input id="file" type="file" />
+                        </label>
+
+
+                    </div>
+
+                </form>
+
+                <div class="workflow-container">
+                    <app-workflow-decision
+                            *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="demandeForm"
+                            [SaveObject]="demandeForm">
+                    </app-workflow-decision>
+
+                </div>
+
+
             </li>
 
         </ul>
