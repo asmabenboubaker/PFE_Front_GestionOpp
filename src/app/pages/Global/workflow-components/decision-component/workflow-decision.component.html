@@ -40,14 +40,14 @@
                    <div *ngFor="let decision of decisions " style="float: right;" [hidden]="access">
 
                        <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
-                               class="btn btn-primary btn-rounded  mb-1 mr-1 butttons-style"
+                               class="btn btn-primary btn-rounded "
                                mdbRipple
                                style="    float: right;
                             background-color: green;
                             font-weight: bold;
                             color: white;"
                                type="button">
-                           {{decision}}
+                           <i class="animation"></i> {{decision}}<i class="animation"></i>
                        </button>
                    </div>
                </div>

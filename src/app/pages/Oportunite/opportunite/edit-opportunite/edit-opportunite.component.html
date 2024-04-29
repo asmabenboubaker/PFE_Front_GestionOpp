@@ -193,14 +193,14 @@
         <input type="radio" name="pcss3t"   id="tab1"class="tab-content-first" [checked]="creationOpp" [disabled]="!creationOpp">
         <label for="tab1"><i class="icon-edit"></i>Création Opportunité</label>
 
-        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2" [checked]="rapport" [disabled]="!rapport">
-        <label for="tab2"><i class="icon-check"></i>Rapport Technique </label>
+        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2"  [checked]="Affectaionequipe" [disabled]="!Affectaionequipe">
+        <label for="tab2"><i class="icon-check"></i>Affectation Equipes </label>
 
         <input type="radio" name="pcss3t" id="tab3" class="tab-content-3" [checked]="etude" [disabled]="!etude">
         <label for="tab3"><i class="icon-adjust"></i>Etude d'Opportunité </label>
 
-        <input type="radio" name="pcss3t" id="tab5" class="tab-content-last"  [checked]="Affectaionequipe" [disabled]="!Affectaionequipe">
-        <label for="tab5"><i class="icon-file-alt"></i>Affectation Equipes</label>
+        <input type="radio" name="pcss3t" id="tab5" class="tab-content-last" [checked]="rapport" [disabled]="!rapport">
+        <label for="tab5"><i class="icon-file-alt"></i>Rapport Technique</label>
 
         <ul >
             <li class="tab-content tab-content-first typography" >
@@ -385,6 +385,72 @@
             </li>
 
             <li class="tab-content tab-content-2 typography">
+                <div class="form-group ">
+                    <label for="demande" class="form-label">Equipe :</label>
+                    <!--        <select class="form-select" formControlName="client" id="client">-->
+                    <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                    <!--        </select>-->
+                    <select #equipeSelect class="form-select"  id="equipe ">
+                        <option>Equipe 1</option>
+                        <option>Equipe 2</option>
+                        <option>Equipe 3</option>
+                        <option>Equipe 4</option>
+
+                    </select>
+                </div>
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="oppForm"
+                            [SaveObject]="oppForm">
+                    </app-workflow-decision>
+
+                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+                </div>
+            </li>
+
+            <li class="tab-content tab-content-3 typography">
+                
+
+<form class="row g-3 needs-validation custom-form">
+                <div class="form-group col-md-6">
+                    <label for="membres" class="form-label">Nombre de membres dans l'équipe de développement est :</label>
+                    <input class="form-control" formControlName="membres" id="membres" type="text" >
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="specialite" class="form-label">Specialite:</label>
+                    <input class="form-control" formControlName="specialite" id="specialite" type="text" >
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="nbreHours" class="form-label">Le nombre total d'heures de développement pour l'application:</label>
+                    <input class="form-control" formControlName="nbreHours" id="nbreHours" type="text" >
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="complexite" class="form-label">Complexite:</label>
+                    <input class="form-control" formControlName="complexite" id="complexite" type="text">
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="evaluation" class="form-label">Description:</label>
+                    <textarea class="form-control" formControlName="evaluation" id="evaluation" type="text"></textarea>
+
+                </div>
+</form>
+            </li>
+            <li class="tab-content tab-content-last typography">
                 <form class="file-upload-form" style="flex-direction: column">
                     <div class="file-upload-container" style="">
                         <label for="file" class="file-upload-label">
@@ -423,20 +489,7 @@
                     <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
 
                 </div>
-            </li>
 
-            <li class="tab-content tab-content-3 typography">
-                <h1>Leonardo da Vinci</h1>
-                <p>Italian Renaissance polymath: painter, sculptor, architect, musician, mathematician, engineer, inventor, anatomist, geologist, cartographer, botanist, and writer. His genius, perhaps more than that of any other figure, epitomized the Renaissance humanist ideal. Leonardo has often been described as the archetype of the Renaissance Man, a man of "unquenchable curiosity" and "feverishly inventive imagination". He is widely considered to be one of the greatest painters of all time and perhaps the most diversely talented person ever to have lived. According to art historian Helen Gardner, the scope and depth of his interests were without precedent and "his mind and personality seem to us superhuman, the man himself mysterious and remote". Marco Rosci states that while there is much speculation about Leonardo, his vision of the world is essentially logical rather than mysterious, and that the empirical methods he employed were unusual for his time.</p>
-                <p class="text-right"><em>Find out more about Leonardo da Vinci from <a href="http://en.wikipedia.org/wiki/Leonardo_da_Vinci" target="_blank">Wikipedia</a>.</em></p>
-            </li>
-            <li class="tab-content tab-content-last typography">
-                <div class="typography">
-                    <h1>Isaac Newton</h1>
-                    <p>English physicist and mathematician who is widely regarded as one of the most influential scientists of all time and as a key figure in the scientific revolution. His book Philosophiæ Naturalis Principia Mathematica ("Mathematical Principles of Natural Philosophy"), first published in 1687, laid the foundations for most of classical mechanics. Newton also made seminal contributions to optics and shares credit with Gottfried Leibniz for the invention of the infinitesimal calculus.</p>
-                    <p>Newton's Principia formulated the laws of motion and universal gravitation that dominated scientists' view of the physical universe for the next three centuries. It also demonstrated that the motion of objects on the Earth and that of celestial bodies could be described by the same principles. By deriving Kepler's laws of planetary motion from his mathematical description of gravity, Newton removed the last doubts about the validity of the heliocentric model of the cosmos.</p>
-                    <p class="text-right"><em>Find out more about Isaac Newton from <a href="http://en.wikipedia.org/wiki/Isaac_Newton" target="_blank">Wikipedia</a>.</em></p>
-                </div>
             </li>
         </ul>
 

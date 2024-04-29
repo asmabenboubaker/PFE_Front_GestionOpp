@@ -41,7 +41,8 @@ export class EditOpportuniteComponent implements OnInit {
   Affectaionequipe = false;
   etude = false;
   rapport = false;
-
+elsebool = false;
+evaluer:boolean=false;
   constructor(private fb: FormBuilder, private opportuniteService: OpportuniteService, private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService, private wsService: WsService,
               private translateService: TranslateService,
@@ -97,16 +98,30 @@ this.decissionWF=data.workflow.decisionsWF;
           //get decissionWF
           this.decissionWF = data['workflow']['decisionsWF'];
 
-          if(this.decissionWF=="Affecter Equipe\n"){
-            this.creationOpp= true;
+          // if(this.decissionWF=="Affecter Equipe\n"){
+          //   this.creationOpp= true;
+          //
+          // }else if(this.decissionWF=="Etude\n"){
+          //   this.Affectaionequipe = true;
+          // }else if(this.decissionWF=="Rapport\n"){
+          //   this.etude = true;
+          // }else {
+          //   this.elsebool = true;
+          // }
+if(this.decissionWF=="Affecter Equipe\n"){
+    this.creationOpp= true;
 
-          }else if(this.decissionWF=="Etude"){
-            this.Affectaionequipe = true;
-          }else if(this.decissionWF=="Rapport"){
-            this.etude = true;
-          }else {
-            this.rapport = true;
-          }
+}else if (this.decissionWF=="Etude \n"){
+    this.Affectaionequipe = true;
+}
+else if (this.decissionWF=="Rapport\n"){
+    this.etude = true;
+}else if (this.decissionWF=="Evaluer\n"){
+    this.rapport = true;
+}
+else {
+    this.elsebool = true;
+}
         },
         error => {
           console.log("Error :", error);
@@ -138,7 +153,8 @@ this.decissionWF=data.workflow.decisionsWF;
         timeOut: this.env.timeOutToastr
       })
       //redirect to demande list
-        this.router.navigate(['opportunite/add/']+this.oppid);
+        window.location.reload();
+
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
