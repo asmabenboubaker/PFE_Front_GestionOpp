@@ -25,6 +25,10 @@ export class EditOffreComponent implements OnInit {
   offreForm: any;
   decissionWF:any;
     objectData:any;
+    creationOffre: boolean = false;
+    validation: boolean = false;
+    reponse: boolean = false;
+    elsebool: boolean = false;
   offreF= new FormGroup({
     id: new FormControl(''),
     modePaiement: new FormControl(''),
@@ -78,8 +82,21 @@ this.offreF.get('description').setValue(data.description);
 
           //get decissionWF
           this.decissionWF = data['workflow']['decisionsWF'];
+ if(this.decissionWF=="Validation"){
+     this.creationOffre= true;
+ }
+//['Accepter\n', 'Rejeter\n']
+ else if(this.decissionWF[0]=="Accepter\n" || this.decissionWF[1]=="Rejeter\n") {
+     this.validation = true;
+ }
+            //['Abandonner', 'Continuer']
+    else if(this.decissionWF[0]=="Abandonner" || this.decissionWF[1]=="Continuer") {
+        this.reponse = true;
+            }else {
+        this.elsebool= true;
+            }
 
-        },
+ },
         error => {
           console.log("Error :", error);
         }
@@ -172,6 +189,7 @@ this.offreF.get('description').setValue(data.description);
           console.log("error", error)
         })
   }
+
 
     downloadPdfOnClick() {
         const formData = this.offreF.value;
