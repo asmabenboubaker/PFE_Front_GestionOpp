@@ -42,6 +42,7 @@ export class EditOpportuniteComponent implements OnInit {
   etude = false;
   rapport = false;
 elsebool = false;
+elsebool1 = false;
 evaluer:boolean=false;
   constructor(private fb: FormBuilder, private opportuniteService: OpportuniteService, private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService, private wsService: WsService,
@@ -119,9 +120,14 @@ else if (this.decissionWF=="Rapport\n"){
 }else if (this.decissionWF=="Evaluer\n"){
     this.rapport = true;
 }
-else {
+//['Accepter\n', 'Rejeter\n']
+else if(this.decissionWF[0]=="Accepter\n" || this.decissionWF[1]=="Rejeter\n"){
     this.elsebool = true;
 }
+else {
+    this.elsebool1 = true;
+}
+
         },
         error => {
           console.log("Error :", error);
@@ -167,6 +173,7 @@ else {
       console.log("error", error)
     })
     // this.closepopupMeeting();
+
   }
 
 
