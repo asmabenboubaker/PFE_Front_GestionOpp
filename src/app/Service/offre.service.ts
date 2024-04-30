@@ -82,7 +82,7 @@ export class OffreService {
       ],
       theme: 'plain',
       styles: {
-        fillColor: '#3366ff'
+        fillColor: '#67282d'
       }
     });
 
@@ -161,7 +161,7 @@ export class OffreService {
             styles: {
               halign:'right',
               fontSize: 20,
-              textColor: '#67282d'
+              textColor: '#0d39e3'
             }
           }
         ],

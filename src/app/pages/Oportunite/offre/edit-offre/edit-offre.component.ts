@@ -82,15 +82,17 @@ this.offreF.get('description').setValue(data.description);
 
           //get decissionWF
           this.decissionWF = data['workflow']['decisionsWF'];
- if(this.decissionWF=="Validation"){
+          console.log("fdfdf"+data['workflow']['decisionsWF'])
+ if(data.workflow.decisionsWF=="Validation\n"){
+ 
      this.creationOffre= true;
  }
 //['Accepter\n', 'Rejeter\n']
- else if(this.decissionWF[0]=="Accepter\n" || this.decissionWF[1]=="Rejeter\n") {
+ else if(this.decissionWF[0]=="Rejeter\n" || this.decissionWF[1]=="Accepter") {
      this.validation = true;
  }
             //['Abandonner', 'Continuer']
-    else if(this.decissionWF[0]=="Abandonner" || this.decissionWF[1]=="Continuer") {
+    else if(this.decissionWF[0]=="Continuer" || this.decissionWF[1]=="Abandonner") {
         this.reponse = true;
             }else {
         this.elsebool= true;
@@ -136,7 +138,7 @@ this.offreF.get('description').setValue(data.description);
         timeOut: this.env.timeOutToastr
       })
       //redirect to demande list
-        this.router.navigate(['offre/user']);
+        this.router.navigate(['offre/edit/'+this.oppid]);
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
@@ -194,5 +196,8 @@ this.offreF.get('description').setValue(data.description);
     downloadPdfOnClick() {
         const formData = this.offreF.value;
         this.offreService.generatePdf(formData);
+    }
+    Retourn(){
+
     }
 }
