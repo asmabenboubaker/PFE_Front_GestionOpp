@@ -25,35 +25,36 @@
 
 
             <div class="d-flex button-subcontainer">
-               <div class="buttonGroup1">
-                   <button class="btn  btn-primary btn-rounded" (click)="Return()" *ngIf="!showInmodal" mdbRipple
-                           style="background-color: #b60808 !important; color: white;">
-                       <i class="animation"></i>retour<i class="animation"></i>
-                   </button>
-                   <button class="btn btn-primary btn-rounded" (click)="Save()" *ngIf="!showInmodal" [hidden]="access" class="btn btn-primary btn-rounded"
-                           mdbRipple
-                           style="float: left; background-color:#025a95;  color: white;border-color:#025a95 ;    margin-left: 1%;   " type="button"><i class="animation"></i>{{ 'Save' | translate }}<i class="animation"></i>
-                   </button>
-               </div>
+                <div class="buttonGroup1">
+                    <button class="btn" (click)="Return()" *ngIf="!showInmodal" mdbRipple
+                            style="background-color: #b60808 !important; color: white;">
+                        <i class="animation"></i>retour<i class="animation"></i>
+                    </button>
+                    <button class="btn  btn-rounded" (click)="Save()" *ngIf="!showInmodal" [hidden]="access"
+                            mdbRipple
 
-               <div class="buttonGroup2">
-                   <div *ngFor="let decision of decisions " style="float: right;" [hidden]="access">
+                             style="color: white" type="button"><i class="animation"></i>{{ 'Save' | translate }}<i class="animation"></i>
+                    </button>
+                </div>
 
-                       <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
-                               class="btn btn-primary btn-rounded "
-                               mdbRipple
-                               style="    float: right;
+                <div class="buttonGroup2">
+                    <div *ngFor="let decision of decisions " style="float: right;" [hidden]="access">
+
+                        <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
+                                class="btn btn-rounded "
+                                mdbRipple
+                                style="    float: right;
                             background-color: green;
                             font-weight: bold;
                             color: white;"
-                               type="button">
-                           <i class="animation"></i> {{decision}}<i class="animation"></i>
-                       </button>
-                   </div>
-               </div>
-               </div>
+                                type="button">
+                            <i class="animation"></i> {{decision}}<i class="animation"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
 
 

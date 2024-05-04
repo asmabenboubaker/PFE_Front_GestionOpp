@@ -1,330 +1,218 @@
-<!--<form [formGroup]="demandeF" class="row g-3 needs-validation custom-form" novalidate>-->
-<!--    <div   class="form-group">-->
-<!--        <label for="nom" class="form-label">Nom:</label>-->
-<!--        <input class="form-control" formControlName="nom" id="nom" type="text" required>-->
-<!--        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--    </div>-->
-
-<!--    <div class="form-row">-->
-<!--        <div class="form-group col-md-6">-->
-<!--            <label for="client" class="form-label">Client:</label>-->
-<!--            &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
-<!--            &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
-<!--            &lt;!&ndash;        </select>&ndash;&gt;-->
-<!--            <select #clientSelect  class="custom-select my-1 mr-sm-2"  id="client" >-->
-<!--                <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-<!--            </select>-->
-<!--        </div>-->
-<!--        <div class="form-group col-md-6">-->
-<!--            <label for="statut" class="form-label">Statut:</label>-->
-<!--            <select  class="custom-select my-1 mr-sm-2" formControlName="statut" id="statut">-->
-<!--                <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>-->
-<!--            </select>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    <div   class="form-group">-->
-<!--        <label for="source" class="form-label">Source de la demande</label>-->
-<!--        <input class="form-control" formControlName="source" id="source" type="text" >-->
-<!--        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--    </div>-->
-
-<!--    <div   class="form-group">-->
-<!--        <label for="commentaires" class="form-label">Commentaires</label>-->
-<!--        <input class="form-control" formControlName="commentaires" id="commentaires" type="text" >-->
-<!--        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--    </div>-->
-<!--    <div class="form-group">-->
-<!--        <label for="deadline" class="form-label">Date de deadline:</label>-->
-<!--        <input class="form-control"  id="deadline" type="date">-->
-<!--    </div>-->
+<!doctype html>
+<html lang="en">
 
 
-<!--    <div class="form-group">-->
-<!--        <label for="description" class="form-label">Description:</label>-->
-<!--        <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>-->
-
-<!--    </div>-->
-
-
-<!--    <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-<!--         <app-workflow-decision-->
-<!--                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "-->
-<!--                (decisionEvent)="Confirmation($event)"-->
-<!--                (saveEvent)="save()"-->
-<!--                (RetournEvent)="Retourn()"-->
-<!--                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"-->
-<!--                [decisions]="decissionWF"-->
-<!--                [object]="demandeForm"-->
-<!--                [SaveObject]="demandeForm">-->
-<!--        </app-workflow-decision>-->
-
-<!--    </div>-->
-
-<!--</form>-->
-<!--<app-attachment-->
-
-<!--        [classid]="27"-->
-
-<!--        [objectid]="demandeid"-->
-
-<!--        [objectData]="objectData"-->
-
-<!--        (refreshedReqFileDef)="getById()"-->
-
-<!--        [URL]="'/tesst'"-->
-
-<!--&gt;</app-attachment>-->
-
-
-<!--add tabs for workwflow-->
-<!DOCTYPE html>
-
-<html>
+<!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:41 GMT -->
 <head>
-    <title>Creation demande </title>
+    <title>:: Iconic :: Form Validation</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Iconic Bootstrap 4.5.0 Admin Template">
+    <meta name="author" content="WrapTheme, design by: ThemeMakker.com">
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/parsleyjs/css/parsley.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/toastr/toastr.min.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="/assets/iconic/assets/css/main.css">
+
 </head>
-<body>
+<body data-theme="light" class="layout-fullwidth">
 
-<div class="page">
-    <h2>Creation Demande</h2>
-    <!-- tabs -->
-    <div class="pcss3t pcss3t-effect-scale pcss3t-theme-1">
-        <input type="radio" name="pcss3t"   id="tab1"class="tab-content-first" [checked]="pourvalidation" [disabled]="!pourvalidation">
-        <label for="tab1"><i class="icon-edit"></i>Création Demande</label>
+<div id="wrapper" class="theme-cyan">
 
-        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2" [checked]="!pourvalidation" [disabled]="pourvalidation">
-        <label for="tab2"><i class="icon-check"></i>Validation</label>
 
-        <input type="radio" name="pcss3t" id="tab3" class="tab-content-3">
-        <label for="tab3"><i class="icon-file-alt"></i>upload file </label>
 
-        <ul>
-            <li class="tab-content tab-content-first typography" >
-                <form [formGroup]="demandeF" class="row g-3 needs-validation custom-form" novalidate *ngIf="pourvalidation">
-                    <div   class="form-group">
-                        <label for="nom" class="form-label">Nom:</label>
-                        <input class="form-control" formControlName="nom" id="nom" type="text" required>
-                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                        <!--             class="alert alert-danger">-->
-                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                        <!--                Nom is required.-->
-                        <!--            </div>-->
-                        <!--        </div>-->
+    <!-- mani page content body part -->
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <h2 *ngIf="pourvalidation">Etape de création Demande</h2>
+                        <h2 *ngIf="pourvalidation2">Etape de validation Demande</h2>
+                        <h2 *ngIf="elsedesision">Modifier Demande</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-dashboard"></i></a></li>
+                            <li class="breadcrumb-item">Demande</li>
+                            <li class="breadcrumb-item active">Ajouter Demande</li>
+                        </ul>
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="client" class="form-label">Client:</label>
-                            <!--        <select class="form-select" formControlName="client" id="client">-->
-                            <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                            <!--        </select>-->
-                            <select #clientSelect  class="custom-select my-1 mr-sm-2"  id="client" >
-                                <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="statut" class="form-label">Statut:</label>
-                            <select  class="custom-select my-1 mr-sm-2" formControlName="statut" id="statut">
-                                <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div   class="form-group">
-                        <label for="source" class="form-label">Source de la demande</label>
-                        <input class="form-control" formControlName="source" id="source" type="text" >
-                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                        <!--             class="alert alert-danger">-->
-                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                        <!--                Nom is required.-->
-                        <!--            </div>-->
-                        <!--        </div>-->
-                    </div>
-
-                    <div   class="form-group">
-                        <label for="commentaires" class="form-label">Commentaires</label>
-                        <input class="form-control" formControlName="commentaires" id="commentaires" type="text" >
-                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                        <!--             class="alert alert-danger">-->
-                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                        <!--                Nom is required.-->
-                        <!--            </div>-->
-                        <!--        </div>-->
-                    </div>
-                    <div class="form-group">
-                        <label for="deadline" class="form-label">Date de deadline:</label>
-                        <input class="form-control"  id="deadline" type="date">
-                    </div>
-
-
-                    <div class="form-group">
-                        <label  class="form-label">Description:</label>
-                        <textarea class="form-control" formControlName="description"  rows="3"></textarea>
-
-                    </div>
-
-
-                    <div class="workflow-container">
-                        <app-workflow-decision
-                                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="demandeForm"
-                                [SaveObject]="demandeForm">
-                        </app-workflow-decision>
-
-                    </div>
-
-                </form>
-
-                <h1 *ngIf="!pourvalidation"> Demande dans l'étape de validation</h1>
-            </li>
-
-            <li class="tab-content tab-content-2 typography" >
-                <form [formGroup]="demandeF" class="row g-3 needs-validation custom-form" novalidate *ngIf="!pourvalidation">
-                    <div   class="form-group">
-                        <label for="nom" class="form-label">Nom:</label>
-                        <input class="form-control" formControlName="nom"   type="text" required>
-                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                        <!--             class="alert alert-danger">-->
-                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                        <!--                Nom is required.-->
-                        <!--            </div>-->
-                        <!--        </div>-->
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="client" class="form-label">Client:</label>
-                            <!--        <select class="form-select" formControlName="client" id="client">-->
-                            <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                            <!--        </select>-->
-                            <select #clientSelect  class="custom-select my-1 mr-sm-2"   >
-                                <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="statut" class="form-label">Statut:</label>
-                            <select  class="custom-select my-1 mr-sm-2" formControlName="statut" >
-                                <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div   class="form-group">
-                        <label for="source" class="form-label">Source de la demande</label>
-                        <input class="form-control" formControlName="source" type="text" >
-                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                        <!--             class="alert alert-danger">-->
-                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                        <!--                Nom is required.-->
-                        <!--            </div>-->
-                        <!--        </div>-->
-                    </div>
-
-                    <div   class="form-group">
-                        <label for="commentaires" class="form-label">Commentaires</label>
-                        <input class="form-control" formControlName="commentaires" type="text" >
-                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                        <!--             class="alert alert-danger">-->
-                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                        <!--                Nom is required.-->
-                        <!--            </div>-->
-                        <!--        </div>-->
-                    </div>
-                    <div class="form-group">
-                        <label for="deadline" class="form-label">Date de deadline:</label>
-                        <input class="form-control"   type="date">
-                    </div>
-
-
-                    <div class="form-group">
-                        <label  class="form-label">Description:</label>
-                        <textarea class="form-control" formControlName="description" rows="3"></textarea>
-
-                    </div>
-
-
-                    <div class="workflow-container">
-                        <app-workflow-decision
-                                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="demandeForm"
-                                [SaveObject]="demandeForm">
-                        </app-workflow-decision>
-
-                    </div>
-
-                </form>
-
-                <h1 *ngIf="pourvalidation"> Demande dans l'étape de creation</h1>
-            </li>
-            <li class="tab-content tab-content-3 typography">
-                <form class="file-upload-form" style="flex-direction: column">
-                    <div class="file-upload-container" style="">
-                        <label for="file" class="file-upload-label">
-                            <div class="file-upload-design">
-                                <svg viewBox="0 0 640 512" height="1em">
-                                    <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>
-                                </svg>
-                                <p>Drag and Drop</p>
-                                <p>or</p>
-                                <span class="browse-button">Browse file</span>
-                            </div>
-                            <input id="file" type="file" />
-                        </label>
-
-
-                    </div>
-
-                </form>
-
-                <div class="workflow-container">
-                    <app-workflow-decision
-                            *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                            (decisionEvent)="Confirmation($event)"
-                            (saveEvent)="save()"
-                            (RetournEvent)="Retourn()"
-                            [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                            [decisions]="decissionWF"
-                            [object]="demandeForm"
-                            [SaveObject]="demandeForm">
-                    </app-workflow-decision>
 
                 </div>
+            </div>
 
+            <div class="row clearfix">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Basic Validation</h2>
+                        </div>
+                        <div class="body">
+                            <form  [formGroup]="demandeF" id="basic-form" method="post" novalidate>
+                                <div class="form-group">
+                                    <label>Nom:</label>
+                                    <input type="text" formControlName="nom" id="nom" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Client</label>
+                                    <select #clientSelect class="form-control" id="client" >
+                                        <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+                                    </select>
+                                </div>
 
-            </li>
+                                <div class="form-group">
+                                    <label>Statut:</label>
+                                    <select class="form-control" formControlName="statut" id="statut">
+                                        <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Source de la demande</label>
+                                    <input class="form-control" formControlName="source" id="source" type="text" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="deadline" class="form-label">Date de deadline:</label>
+                                    <input class="form-control"  id="deadline" type="date">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description:</label>
+                                    <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+                                </div>
 
-        </ul>
+                                <div class="workflow-container">
+                                    <app-workflow-decision
+                                            *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                                            (decisionEvent)="Confirmation($event)"
+                                            (saveEvent)="save()"
+                                            (RetournEvent)="Retourn()"
+                                            [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                                            [decisions]="decissionWF"
+                                            [object]="demandeForm"
+                                            [SaveObject]="demandeForm">
+                                    </app-workflow-decision>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-    <!--/ tabs -->
+
 </div>
+
+<!-- Javascript -->
+<script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
+<script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
+
+<script src="/assets/iconic/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+<script src="/assets/iconic/assets/vendor/parsleyjs/js/parsley.min.js"></script>
+
+
+<!-- page js file -->
+<script src="/assets/iconic/assets/bundles/mainscripts.bundle.js"></script>
+<script>
+    $(function() {
+        // validation needs name of the element
+        $('#food').multiselect();
+
+        // initialize after multiselect
+        $('#basic-form').parsley();
+    });
+</script>
+
+<script>
+    $(function() {
+        toastr.options.timeOut = "false";
+        toastr.options.closeButton = true;
+        toastr.options.positionClass = 'toast-bottom-right';
+        toastr['info']('Hi there, this is notification demo with HTML support. So, you can add HTML elements like <a href="javascript:void(0);">this link</a>');
+
+        $('.btn-toastr').on('click', function() {
+            $context = $(this).data('context');
+            $message = $(this).data('message');
+            $position = $(this).data('position');
+
+            if ($context === '') {
+                $context = 'info';
+            }
+
+            if ($position === '') {
+                $positionClass = 'toast-bottom-right';
+            } else {
+                $positionClass = 'toast-' + $position;
+            }
+
+            toastr.remove();
+            toastr[$context]($message, '', {
+                positionClass: $positionClass
+            });
+        });
+
+        $('#toastr-callback1').on('click', function() {
+            $message = $(this).data('message');
+
+            toastr.options = {
+                "timeOut": "300",
+                "onShown": function() {
+                    alert('onShown callback');
+                },
+                "onHidden": function() {
+                    alert('onHidden callback');
+                }
+            };
+
+            toastr['info']($message);
+        });
+
+        $('#toastr-callback2').on('click', function() {
+            $message = $(this).data('message');
+
+            toastr.options = {
+                "timeOut": "10000",
+                "onclick": function() {
+                    alert('onclick callback');
+                },
+            };
+
+            toastr['info']($message);
+
+        });
+
+        $('#toastr-callback3').on('click', function() {
+            $message = $(this).data('message');
+
+            toastr.options = {
+                "timeOut": "10000",
+                "closeButton": true,
+                "onCloseClick": function() {
+                    alert('onCloseClick callback');
+                }
+            };
+
+            toastr['info']($message);
+        });
+    });
+</script>
+<script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
+<script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
+
+<script src="/assets/iconic/assets/vendor/toastr/toastr.js"></script>
+
+
+<!-- page js file -->
+<script src="/assets/iconic/assets/bundles/mainscripts.bundle.js"></script>
 </body>
+
+<!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:42 GMT -->
 </html>
+

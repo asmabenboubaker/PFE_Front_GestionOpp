@@ -11,6 +11,7 @@ import {DOCUMENT} from '@angular/common';
 import {environment} from '../environments/environment.prod';
 import {LocalizationService} from "./pages/Global/shared-service/localization.service";
 
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

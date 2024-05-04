@@ -1,29 +1,264 @@
 
+<!--<!DOCTYPE html>-->
+
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Creation demande </title>-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" />-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div class="page">-->
+<!--    <h2>Creation Demande</h2>-->
+<!--    &lt;!&ndash; tabs &ndash;&gt;-->
+<!--    <div class="pcss3t pcss3t-effect-scale pcss3t-theme-1">-->
+<!--        <input type="radio" name="pcss3t"   id="tab1"class="tab-content-first" [checked]="pourvalidation" [disabled]="!pourvalidation">-->
+<!--        <label for="tab1"><i class="icon-edit"></i>Création Demande</label>-->
+
+<!--        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2" [checked]="!pourvalidation" [disabled]="pourvalidation">-->
+<!--        <label for="tab2"><i class="icon-check"></i>Validation</label>-->
+
+<!--        <input type="radio" name="pcss3t" id="tab3" class="tab-content-3">-->
+<!--        <label for="tab3"><i class="icon-file-alt"></i>upload file </label>-->
+
+<!--        <ul>-->
+<!--            <li class="tab-content tab-content-first typography" >-->
+<!--                <form [formGroup]="demandeF" class="row g-3 needs-validation custom-form" novalidate *ngIf="pourvalidation">-->
+<!--                    <div   class="form-group">-->
+<!--                        <label for="nom" class="form-label">Nom:</label>-->
+<!--                        <input class="form-control" formControlName="nom" id="nom" type="text" required>-->
+<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
+<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
+<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
+<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--                    </div>-->
+
+<!--                    <div class="form-row">-->
+<!--                        <div class="form-group col-md-6">-->
+<!--                            <label for="client" class="form-label">Client:</label>-->
+<!--                            &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
+<!--                            &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
+<!--                            &lt;!&ndash;        </select>&ndash;&gt;-->
+<!--                            <select #clientSelect  class="custom-select my-1 mr-sm-2"  id="client" >-->
+<!--                                <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="form-group col-md-6">-->
+<!--                            <label for="statut" class="form-label">Statut:</label>-->
+<!--                            <select  class="custom-select my-1 mr-sm-2" formControlName="statut" id="statut">-->
+<!--                                <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div   class="form-group">-->
+<!--                        <label for="source" class="form-label">Source de la demande</label>-->
+<!--                        <input class="form-control" formControlName="source" id="source" type="text" >-->
+<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
+<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
+<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
+<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--                    </div>-->
+
+<!--                    <div   class="form-group">-->
+<!--                        <label for="commentaires" class="form-label">Commentaires</label>-->
+<!--                        <input class="form-control" formControlName="commentaires" id="commentaires" type="text" >-->
+<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
+<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
+<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
+<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="deadline" class="form-label">Date de deadline:</label>-->
+<!--                        <input class="form-control"  id="deadline" type="date">-->
+<!--                    </div>-->
+
+
+<!--                    <div class="form-group">-->
+<!--                        <label  class="form-label">Description:</label>-->
+<!--                        <textarea class="form-control" formControlName="description"  rows="3"></textarea>-->
+
+<!--                    </div>-->
+
+
+<!--                    <div class="workflow-container">-->
+<!--                        <app-workflow-decision-->
+<!--                                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "-->
+<!--                                (decisionEvent)="Confirmation($event)"-->
+<!--                                (saveEvent)="save()"-->
+<!--                                (RetournEvent)="Retourn()"-->
+<!--                                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"-->
+<!--                                [decisions]="decissionWF"-->
+<!--                                [object]="demandeForm"-->
+<!--                                [SaveObject]="demandeForm">-->
+<!--                        </app-workflow-decision>-->
+
+<!--                    </div>-->
+
+<!--                </form>-->
+
+<!--                <h1 *ngIf="!pourvalidation"> Demande dans l'étape de validation</h1>-->
+<!--            </li>-->
+
+<!--            <li class="tab-content tab-content-2 typography" >-->
+<!--                <form [formGroup]="demandeF" class="row g-3 needs-validation custom-form" novalidate *ngIf="!pourvalidation">-->
+<!--                    <div   class="form-group">-->
+<!--                        <label for="nom" class="form-label">Nom:</label>-->
+<!--                        <input class="form-control" formControlName="nom"   type="text" required>-->
+<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
+<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
+<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
+<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--                    </div>-->
+
+<!--                    <div class="form-row">-->
+<!--                        <div class="form-group col-md-6">-->
+<!--                            <label for="client" class="form-label">Client:</label>-->
+<!--                            &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
+<!--                            &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
+<!--                            &lt;!&ndash;        </select>&ndash;&gt;-->
+<!--                            <select #clientSelect  class="custom-select my-1 mr-sm-2"   >-->
+<!--                                <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="form-group col-md-6">-->
+<!--                            <label for="statut" class="form-label">Statut:</label>-->
+<!--                            <select  class="custom-select my-1 mr-sm-2" formControlName="statut" >-->
+<!--                                <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div   class="form-group">-->
+<!--                        <label for="source" class="form-label">Source de la demande</label>-->
+<!--                        <input class="form-control" formControlName="source" type="text" >-->
+<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
+<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
+<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
+<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--                    </div>-->
+
+<!--                    <div   class="form-group">-->
+<!--                        <label for="commentaires" class="form-label">Commentaires</label>-->
+<!--                        <input class="form-control" formControlName="commentaires" type="text" >-->
+<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
+<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
+<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
+<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="deadline" class="form-label">Date de deadline:</label>-->
+<!--                        <input class="form-control"   type="date">-->
+<!--                    </div>-->
+
+
+<!--                    <div class="form-group">-->
+<!--                        <label  class="form-label">Description:</label>-->
+<!--                        <textarea class="form-control" formControlName="description" rows="3"></textarea>-->
+
+<!--                    </div>-->
+
+
+<!--                    <div class="workflow-container">-->
+<!--                        <app-workflow-decision-->
+<!--                                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "-->
+<!--                                (decisionEvent)="Confirmation($event)"-->
+<!--                                (saveEvent)="save()"-->
+<!--                                (RetournEvent)="Retourn()"-->
+<!--                                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"-->
+<!--                                [decisions]="decissionWF"-->
+<!--                                [object]="demandeForm"-->
+<!--                                [SaveObject]="demandeForm">-->
+<!--                        </app-workflow-decision>-->
+
+<!--                    </div>-->
+
+<!--                </form>-->
+
+<!--                <h1 *ngIf="pourvalidation"> Demande dans l'étape de creation</h1>-->
+<!--            </li>-->
+<!--            <li class="tab-content tab-content-3 typography">-->
+<!--                <form class="file-upload-form" style="flex-direction: column">-->
+<!--                    <div class="file-upload-container" style="">-->
+<!--                        <label for="file" class="file-upload-label">-->
+<!--                            <div class="file-upload-design">-->
+<!--                                <svg viewBox="0 0 640 512" height="1em">-->
+<!--                                    <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>-->
+<!--                                </svg>-->
+<!--                                <p>Drag and Drop</p>-->
+<!--                                <p>or</p>-->
+<!--                                <span class="browse-button">Browse file</span>-->
+<!--                            </div>-->
+<!--                            <input id="file" type="file" />-->
+<!--                        </label>-->
+
+
+<!--                    </div>-->
+
+<!--                </form>-->
+
+<!--                <div class="workflow-container">-->
+<!--                    <app-workflow-decision-->
+<!--                            *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "-->
+<!--                            (decisionEvent)="Confirmation($event)"-->
+<!--                            (saveEvent)="save()"-->
+<!--                            (RetournEvent)="Retourn()"-->
+<!--                            [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"-->
+<!--                            [decisions]="decissionWF"-->
+<!--                            [object]="demandeForm"-->
+<!--                            [SaveObject]="demandeForm">-->
+<!--                    </app-workflow-decision>-->
+
+<!--                </div>-->
+
+
+<!--            </li>-->
+
+<!--        </ul>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;/ tabs &ndash;&gt;-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!doctype html>
+<html lang="en">
+
+
+<!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:47 GMT -->
 <head>
+    <title>:: Iconic :: Form Wizard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Iconic Bootstrap 4.5.0 Admin Template">
+    <meta name="author" content="WrapTheme, design by: ThemeMakker.com">
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/iconic/assets/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/iconic/assets/vendor/sweetalert/sweetalert.css"/>
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="/assets/iconic/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/iconic/assets/css/inbox.css">
-    <script>
-        .btn-outline-secondary {
-            color: #6c757d !important;
-            border-color: #6c757d;
-        }
-        .badge .badge-info {
-            background: transparent !important;
-            border-color: #3C89DA;
-            color: #3C89DA;
-        }
-    </script>
 </head>
-
-<body data-theme="light" class="layout-fullwidth">
+<body data-theme="light" class="font-nunito">
 
 <div id="wrapper" class="theme-cyan">
+
 
     <!-- mani page content body part -->
     <div id="main-content">
@@ -31,11 +266,11 @@
             <div class="block-header">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12">
-                        <h2>Inbox</h2>
+                        <h2>Form Wizard</h2>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-dashboard"></i></a></li>
-                            <li class="breadcrumb-item">App</li>
-                            <li class="breadcrumb-item active">Inbox</li>
+                            <li class="breadcrumb-item">Forms</li>
+                            <li class="breadcrumb-item active">Form Wizard</li>
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12">
@@ -53,266 +288,65 @@
             </div>
 
             <div class="row clearfix">
-                <div class="col-lg-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
-                        <div class="mobile-left">
-                            <a class="btn btn-primary toggle-email-nav collapsed" data-toggle="collapse" href="#email-nav" role="button" aria-expanded="false" aria-controls="email-nav">
-                                <span class="btn-label"><i class="la la-bars"></i></span>
-                                Menu
-                            </a>
+                        <div class="header">
+                            <h2>Basic Example - Horizontal Layout</h2>
+                            <ul class="header-dropdown">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another Action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="mail-inbox">
-                            <div class="mail-left collapse" id="email-nav">
-                                <div class="mail-compose m-b-20">
-                                    <a href="app-compose.html" class="btn btn-danger btn-block">Compose</a>
-                                </div>
-                                <div class="mail-side">
-                                    <ul class="nav">
-                                        <li class="active"><a href="javascript:void(0);"><i class="icon-envelope"></i>Inbox<span class="badge badge-primary float-right">6</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-cursor"></i>Sent</a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-envelope-open"></i>Draft<span class="badge badge-info float-right">3</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-action-redo"></i>Outbox</a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-star"></i>Starred<span class="badge badge-warning float-right">6</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="icon-trash"></i>Trash<span class="badge badge-danger float-right">9</span></a></li>
-                                    </ul>
-                                    <h3 class="label">Labels <a href="#" class="float-right m-r-10" title="Add New Labels"><i class="icon-plus"></i></a></h3>
-                                    <ul class="nav">
-                                        <li><a href="javascript:void(0);"><i class="fa fa-circle text-danger"></i>Web Design<span class="badge badge-primary float-right">5</span></a></li>
-                                        <li><a href="javascript:void(0);"><i class="fa fa-circle text-info"></i>Recharge</a></li>
-                                        <li><a href="javascript:void(0);"><i class="fa fa-circle text-dark"></i>Paypal</a></li>
-                                        <li><a href="javascript:void(0);"><i class="fa fa-circle text-primary"></i>Family</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="mail-right">
-                                <div class="header d-flex align-center">
-                                    <h2>Inbox</h2>
-                                    <form class="ml-auto">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search Mail" aria-label="Search Mail" aria-describedby="search-mail">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="mail-action clearfix">
-                                    <div class="float-left">
-                                        <div class="fancy-checkbox d-inline-block">
-                                            <label>
-                                                <input class="select-all" type="checkbox" name="checkbox">
-                                                <span></span>
-                                            </label>
-                                        </div>
-                                        <div class="btn-group">
-                                            <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm hidden-sm">Refresh</a>
-                                            <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm hidden-sm">Archive</a>
-                                            <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm">Trash</a>
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tags</button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="javascript:void(0);">Tag 1</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Tag 2</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Tag 3</a>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="javascript:void(0);">Mark as read</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Mark as unread</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Spam</a>
-                                                <div role="separator" class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="float-right ml-auto">
-                                        <div class="pagination-email d-flex align-items-center">
-                                            <p>1-50/295</p>
-                                            <div class="btn-group ml-2">
-                                                <button type="button" class="btn btn-outline-secondary btn-sm"><i class="fa fa-angle-left"></i></button>
-                                                <button type="button" class="btn btn-outline-secondary btn-sm"><i class="fa fa-angle-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mail-list">
-                                    <ul class="list-unstyled">
-                                        <li class="clearfix">
-                                            <div class="mail-detail-left">
-                                                <label class="fancy-checkbox">
-                                                    <input type="checkbox" name="checkbox" class="checkbox-tick">
-                                                    <span></span>
-                                                </label>
-                                                <a href="javascript:void(0);" class="mail-star active"><i class="fa fa-star"></i></a>
-                                            </div>
-                                            <div class="mail-detail-right">
-                                                <h6 class="sub"><a href="javascript:void(0);" class="mail-detail-expand">Herman Beck</a> <span class="badge badge-default mb-0">Marketing</span></h6>
-                                                <p class="dep"><span class="m-r-10">[ThemeForest]</span>Lorem Ipsum is simply dumm dummy text of the printing and typesetting industry.</p>
-                                                <span class="time">23 Jun</span>
-                                            </div>
-                                            <div class="hover-action">
-                                                <a class="btn btn-warning mr-2" href="javascript:void(0);"><i class="fa fa-archive"></i></a>
-                                                <button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                            </div>
-                                        </li>
-                                        <li class="clearfix">
-                                            <div class="mail-detail-left">
-                                                <label class="fancy-checkbox">
-                                                    <input type="checkbox" name="checkbox" class="checkbox-tick">
-                                                    <span></span>
-                                                </label>
-                                                <a href="javascript:void(0);" class="mail-star"><i class="fa fa-star-o"></i></a>
-                                            </div>
-                                            <div class="mail-detail-right">
-                                                <h6 class="sub"><a href="javascript:void(0);" class="mail-detail-expand">Mary Adams</a></h6>
-                                                <p class="dep"><span class="m-r-10">[Support]</span>There are many variations of passages of Lorem Ipsum available, but the majority</p>
-                                                <span class="time"><i class="fa fa-paperclip"></i> 22 Jun</span>
-                                            </div>
-                                            <div class="hover-action">
-                                                <a class="btn btn-warning mr-2" href="javascript:void(0);"><i class="fa fa-archive"></i></a>
-                                                <button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                            </div>
-                                        </li>
-                                        <li class="clearfix unread">
-                                            <div class="mail-detail-left">
-                                                <label class="fancy-checkbox">
-                                                    <input type="checkbox" name="checkbox" class="checkbox-tick">
-                                                    <span></span>
-                                                </label>
-                                                <a href="javascript:void(0);" class="mail-star"><i class="fa fa-star-o"></i></a>
-                                            </div>
-                                            <div class="mail-detail-right">
-                                                <h6 class="sub"><a href="javascript:void(0);" class="mail-detail-expand">June Lane</a><span class="badge badge-info">Family</span></h6>
-                                                <p class="dep"><span class="m-r-10">[Support]</span>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                                <span class="time">20 Jun</span>
-                                            </div>
-                                            <div class="hover-action">
-                                                <a class="btn btn-warning mr-2" href="javascript:void(0);"><i class="fa fa-archive"></i></a>
-                                                <button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                            </div>
-                                        </li>
-                                        <li class="clearfix">
-                                            <div class="mail-detail-left">
-                                                <label class="fancy-checkbox">
-                                                    <input type="checkbox" name="checkbox" class="checkbox-tick">
-                                                    <span></span>
-                                                </label>
-                                                <a href="javascript:void(0);" class="mail-star"><i class="fa fa-star-o"></i></a>
-                                            </div>
-                                            <div class="mail-detail-right">
-                                                <h6 class="sub"><a href="javascript:void(0);" class="mail-detail-expand">Rose Rivera</a></h6>
-                                                <p class="dep"><span class="m-r-10">[CSS]</span>There are many variations of passages of Lorem Ipsum available, but the majority</p>
-                                                <span class="time">14 Jun</span>
-                                            </div>
-                                            <div class="hover-action">
-                                                <a class="btn btn-warning mr-2" href="javascript:void(0);"><i class="fa fa-archive"></i></a>
-                                                <button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                            </div>
-                                        </li>
-                                        <li class="clearfix">
-                                            <div class="mail-detail-left">
-                                                <label class="fancy-checkbox">
-                                                    <input type="checkbox" name="checkbox" class="checkbox-tick">
-                                                    <span></span>
-                                                </label>
-                                                <a href="javascript:void(0);" class="mail-star"><i class="fa fa-star-o"></i></a>
-                                            </div>
-                                            <div class="mail-detail-right">
-                                                <h6 class="sub"><a href="javascript:void(0);" class="mail-detail-expand">Frank Camly</a><span class="badge badge-danger">Themeforest</span></h6>
-                                                <p class="dep"><span class="m-r-10">[WrapTheme]</span>Lorem Ipsum is simply dumm dummy text of the printing and typesetting industry.</p>
-                                                <span class="time"><i class="fa fa-paperclip"></i> 11 Jun</span>
-                                            </div>
-                                            <div class="hover-action">
-                                                <a class="btn btn-warning mr-2" href="javascript:void(0);"><i class="fa fa-archive"></i></a>
-                                                <button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                            </div>
-                                        </li>
-                                        <li class="clearfix">
-                                            <div class="mail-detail-left">
-                                                <label class="fancy-checkbox">
-                                                    <input type="checkbox" name="checkbox" class="checkbox-tick">
-                                                    <span></span>
-                                                </label>
-                                                <a href="javascript:void(0);" class="mail-star"><i class="fa fa-star-o"></i></a>
-                                            </div>
-                                            <div class="mail-detail-right">
-                                                <h6 class="sub"><a href="javascript:void(0);" class="mail-detail-expand">Rose Rivera</a><span class="badge badge-success">Work</span></h6>
-                                                <p class="dep"><span class="m-r-10">[Awwwards]</span>There are many variations of passages of Lorem Ipsum available, but the majority</p>
-                                                <span class="time">29 May</span>
-                                            </div>
-                                            <div class="hover-action">
-                                                <a class="btn btn-warning mr-2" href="javascript:void(0);"><i class="fa fa-archive"></i></a>
-                                                <button type="button" data-type="confirm" class="btn btn-danger js-sweetalert" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="mail-detail-full" id="mail-detail-open" style="display: none;">
-                                    <div class="mail-action clearfix">
-                                        <div class="pull-left">
-                                            <div class="fancy-checkbox d-inline-block">
-                                                <label>
-                                                    <input class="select-all" type="checkbox" name="checkbox">
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                            <div class="btn-group">
-                                                <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm hidden-sm">Refresh</a>
-                                                <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm hidden-sm">Archive</a>
-                                                <a href="javascript:void(0);" class="btn btn-outline-secondary btn-sm">Trash</a>
-                                            </div>
-                                            <div class="btn-group">
-                                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tags</button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="javascript:void(0);">Tag 1</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Tag 2</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Tag 3</a>
-                                                </div>
-                                            </div>
-                                            <div class="btn-group">
-                                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="javascript:void(0);">Mark as read</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Mark as unread</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Spam</a>
-                                                    <div role="separator" class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="pull-right ml-auto">
-                                            <a href="javascript:void(0);" class="mail-back btn btn-outline-secondary btn-sm"><i class="fa fa-close"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="detail-header">
-                                        <div class="media">
-                                            <div class="float-left">
-                                                <div class="mr-3"><img src="/assets/iconic/assets/images/sm/avatar1.jpg" alt=""></div>
-                                            </div>
-                                            <div class="media-body">
-                                                <p class="mb-0"><strong class="text-muted m-r-5">From:</strong><a class="text-default" href="javascript:void(0);">info@thememakker.com</a> <span class="text-muted text-sm float-right">12:48, 23.06.2018</span></p>
-                                                <p class="mb-0"><strong class="text-muted m-r-5">To:</strong>Me <small class="text-muted float-right"><i class="zmdi zmdi-attachment m-r-5"></i>(2 files, 89.2 KB)</small></p>
-                                                <p class="mb-0"><strong class="text-muted m-r-5">CC:</strong><a class="text-default" href="javascript:void(0);">mail@thememakker.com</a></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mail-cnt">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                                        <p>printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrnturies, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                                        <hr>
-                                        <strong>Click here to</strong>
-                                        <a href="app-compose.html">Reply</a> or
-                                        <a href="app-compose.html">Forward</a>
-                                    </div>
-                                </div>
+                        <div class="body">
+                            <div id="wizard_horizontal">
+                                <h2>First Step</h2>
+                                <section>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut nulla nunc. Maecenas
+                                        arcu sem, hendrerit a tempor quis, sagittis accumsan tellus. In hac habitasse platea
+                                        dictumst. Donec a semper dui. Nunc eget quam libero. Nam at felis metus. Nam tellus
+                                        dolor, tristique ac tempus nec, iaculis quis nisi. </p>
+                                </section>
+                                <h2>Second Step</h2>
+                                <section>
+                                    <p>Donec mi sapien, hendrerit nec egestas a, rutrum vitae dolor. Nullam venenatis diam ac
+                                        ligula elementum pellentesque. In lobortis sollicitudin felis non eleifend. Morbi
+                                        tristique tellus est, sed tempor elit. Morbi varius, nulla quis condimentum dictum,
+                                        nisi elit condimentum magna, nec venenatis urna quam in nisi. Integer hendrerit sapien
+                                        a diam adipiscing consectetur. In euismod augue ullamcorper leo dignissim quis elementum
+                                        arcu porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum leo
+                                        velit, blandit ac tempor nec, ultrices id diam. Donec metus lacus, rhoncus sagittis
+                                        iaculis nec, malesuada a diam. Donec non pulvinar urna. Aliquam id velit lacus. </p>
+                                </section>
+                                <h2>Third Step</h2>
+                                <section>
+                                    <p> Morbi ornare tellus at elit ultrices id dignissim lorem elementum. Sed eget nisl at justo
+                                        condimentum dapibus. Fusce eros justo, pellentesque non euismod ac, rutrum sed quam.
+                                        Ut non mi tortor. Vestibulum eleifend varius ullamcorper. Aliquam erat volutpat.
+                                        Donec diam massa, porta vel dictum sit amet, iaculis ac massa. Sed elementum dui
+                                        commodo lectus sollicitudin in auctor mauris venenatis. </p>
+                                </section>
+                                <h2>Forth Step</h2>
+                                <section>
+                                    <p> Quisque at sem turpis, id sagittis diam. Suspendisse malesuada eros posuere mauris vehicula
+                                        vulputate. Aliquam sed sem tortor. Quisque sed felis ut mauris feugiat iaculis nec
+                                        ac lectus. Sed consequat vestibulum purus, imperdiet varius est pellentesque vitae.
+                                        Suspendisse consequat cursus eros, vitae tempus enim euismod non. Nullam ut commodo
+                                        tortor. </p>
+                                </section>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
         </div>
     </div>
 
@@ -322,19 +356,17 @@
 <script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
 <script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
 
-<script src="/assets/iconic/assets/vendor/sweetalert/sweetalert.min.js"></script> <!-- SweetAlert Plugin Js -->
+<script src="/assets/iconic/assets/vendor/jquery-validation/jquery.validate.js"></script> <!-- Jquery Validation Plugin Css -->
+<script src="/assets/iconic/assets/vendor/jquery-steps/jquery.steps.js"></script> <!-- JQuery Steps Plugin Js -->
+
 
 <!-- page js file -->
 <script src="/assets/iconic/assets/bundles/mainscripts.bundle.js"></script>
-<script src="../js/pages/ui/dialogs.js"></script>
-<script>
-    $(document).ready(function(){
-        $(".mail-detail-expand").click(function(){
-            $("#mail-detail-open").toggle();
-        });
-        $(".mail-back").click(function(){
-            $("#mail-detail-open").toggle();
-        });
-    });
-</script>
+<script src="/assets/iconic/js/pages/forms/form-wizard.js"></script>
 </body>
+
+<!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:49 GMT -->
+</html>
+
+
+

@@ -73,6 +73,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   objectData:any;
 
   pourvalidation : boolean=false;
+  pourvalidation2 : boolean=false;
   elsedesision:boolean=false;
  //document
   @Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
@@ -170,8 +171,11 @@ export class AddDemandeComponent implements OnInit,OnChanges {
             if(this.decissionWF=="Pour Validation"){
               this.pourvalidation=true;
               console.log("pourvalidation",this.pourvalidation)
-            }else {
-              this.pourvalidation=false;
+            }else if (this.decissionWF[0]=="Accepter" || this.decissionWF[1]=="Rejeter" || this.decissionWF[2]=="Retourner"){
+              this.pourvalidation2=true;
+            }
+            else {
+              this.elsedesision=true;
             }
           },
           error => {

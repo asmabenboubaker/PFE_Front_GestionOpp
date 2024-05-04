@@ -1,4 +1,7 @@
 $(function () {
+
+    alert("READY");
+    console.log("READY");
     $('.dd').nestable();
 
     $('.dd').on('change', function () {

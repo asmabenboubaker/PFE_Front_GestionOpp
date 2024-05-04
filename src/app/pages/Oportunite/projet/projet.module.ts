@@ -6,6 +6,7 @@ import { EditProjectComponent } from './edit-project/edit-project.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {ReactiveTypedFormsModule} from "@rxweb/reactive-form-validators";
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
+import { TaskBoardComponent } from './task-board/task-board.component';
 
 export const routes: Routes  = [
   {
@@ -19,6 +20,12 @@ export const routes: Routes  = [
         component: EditProjectComponent,
         data: {breadcrumb: 'Edit projet'},
         pathMatch: 'full'
+    },
+    {
+        path: 'tasks',
+        component: TaskBoardComponent,
+        data: {breadcrumb: 'Task board'},
+        pathMatch: 'full'
     }
 
 ];
@@ -27,7 +34,8 @@ export const routes: Routes  = [
   declarations: [
    
   
-    EditProjectComponent
+    EditProjectComponent,
+           TaskBoardComponent
   ],
     imports: [
         CommonModule,
