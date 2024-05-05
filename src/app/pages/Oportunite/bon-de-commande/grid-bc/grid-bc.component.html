@@ -1,247 +1,10 @@
-
-<!--<!DOCTYPE html>-->
-
-<!--<html>-->
-<!--<head>-->
-<!--    <title>Creation demande </title>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
-<!--    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" />-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<div class="page">-->
-<!--    <h2>Creation Demande</h2>-->
-<!--    &lt;!&ndash; tabs &ndash;&gt;-->
-<!--    <div class="pcss3t pcss3t-effect-scale pcss3t-theme-1">-->
-<!--        <input type="radio" name="pcss3t"   id="tab1"class="tab-content-first" [checked]="pourvalidation" [disabled]="!pourvalidation">-->
-<!--        <label for="tab1"><i class="icon-edit"></i>Création Demande</label>-->
-
-<!--        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2" [checked]="!pourvalidation" [disabled]="pourvalidation">-->
-<!--        <label for="tab2"><i class="icon-check"></i>Validation</label>-->
-
-<!--        <input type="radio" name="pcss3t" id="tab3" class="tab-content-3">-->
-<!--        <label for="tab3"><i class="icon-file-alt"></i>upload file </label>-->
-
-<!--        <ul>-->
-<!--            <li class="tab-content tab-content-first typography" >-->
-<!--                <form [formGroup]="demandeF" class="row g-3 needs-validation custom-form" novalidate *ngIf="pourvalidation">-->
-<!--                    <div   class="form-group">-->
-<!--                        <label for="nom" class="form-label">Nom:</label>-->
-<!--                        <input class="form-control" formControlName="nom" id="nom" type="text" required>-->
-<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--                    </div>-->
-
-<!--                    <div class="form-row">-->
-<!--                        <div class="form-group col-md-6">-->
-<!--                            <label for="client" class="form-label">Client:</label>-->
-<!--                            &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
-<!--                            &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
-<!--                            &lt;!&ndash;        </select>&ndash;&gt;-->
-<!--                            <select #clientSelect  class="custom-select my-1 mr-sm-2"  id="client" >-->
-<!--                                <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                        <div class="form-group col-md-6">-->
-<!--                            <label for="statut" class="form-label">Statut:</label>-->
-<!--                            <select  class="custom-select my-1 mr-sm-2" formControlName="statut" id="statut">-->
-<!--                                <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div   class="form-group">-->
-<!--                        <label for="source" class="form-label">Source de la demande</label>-->
-<!--                        <input class="form-control" formControlName="source" id="source" type="text" >-->
-<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--                    </div>-->
-
-<!--                    <div   class="form-group">-->
-<!--                        <label for="commentaires" class="form-label">Commentaires</label>-->
-<!--                        <input class="form-control" formControlName="commentaires" id="commentaires" type="text" >-->
-<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="deadline" class="form-label">Date de deadline:</label>-->
-<!--                        <input class="form-control"  id="deadline" type="date">-->
-<!--                    </div>-->
-
-
-<!--                    <div class="form-group">-->
-<!--                        <label  class="form-label">Description:</label>-->
-<!--                        <textarea class="form-control" formControlName="description"  rows="3"></textarea>-->
-
-<!--                    </div>-->
-
-
-<!--                    <div class="workflow-container">-->
-<!--                        <app-workflow-decision-->
-<!--                                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "-->
-<!--                                (decisionEvent)="Confirmation($event)"-->
-<!--                                (saveEvent)="save()"-->
-<!--                                (RetournEvent)="Retourn()"-->
-<!--                                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"-->
-<!--                                [decisions]="decissionWF"-->
-<!--                                [object]="demandeForm"-->
-<!--                                [SaveObject]="demandeForm">-->
-<!--                        </app-workflow-decision>-->
-
-<!--                    </div>-->
-
-<!--                </form>-->
-
-<!--                <h1 *ngIf="!pourvalidation"> Demande dans l'étape de validation</h1>-->
-<!--            </li>-->
-
-<!--            <li class="tab-content tab-content-2 typography" >-->
-<!--                <form [formGroup]="demandeF" class="row g-3 needs-validation custom-form" novalidate *ngIf="!pourvalidation">-->
-<!--                    <div   class="form-group">-->
-<!--                        <label for="nom" class="form-label">Nom:</label>-->
-<!--                        <input class="form-control" formControlName="nom"   type="text" required>-->
-<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--                    </div>-->
-
-<!--                    <div class="form-row">-->
-<!--                        <div class="form-group col-md-6">-->
-<!--                            <label for="client" class="form-label">Client:</label>-->
-<!--                            &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
-<!--                            &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
-<!--                            &lt;!&ndash;        </select>&ndash;&gt;-->
-<!--                            <select #clientSelect  class="custom-select my-1 mr-sm-2"   >-->
-<!--                                <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                        <div class="form-group col-md-6">-->
-<!--                            <label for="statut" class="form-label">Statut:</label>-->
-<!--                            <select  class="custom-select my-1 mr-sm-2" formControlName="statut" >-->
-<!--                                <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div   class="form-group">-->
-<!--                        <label for="source" class="form-label">Source de la demande</label>-->
-<!--                        <input class="form-control" formControlName="source" type="text" >-->
-<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--                    </div>-->
-
-<!--                    <div   class="form-group">-->
-<!--                        <label for="commentaires" class="form-label">Commentaires</label>-->
-<!--                        <input class="form-control" formControlName="commentaires" type="text" >-->
-<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="deadline" class="form-label">Date de deadline:</label>-->
-<!--                        <input class="form-control"   type="date">-->
-<!--                    </div>-->
-
-
-<!--                    <div class="form-group">-->
-<!--                        <label  class="form-label">Description:</label>-->
-<!--                        <textarea class="form-control" formControlName="description" rows="3"></textarea>-->
-
-<!--                    </div>-->
-
-
-<!--                    <div class="workflow-container">-->
-<!--                        <app-workflow-decision-->
-<!--                                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "-->
-<!--                                (decisionEvent)="Confirmation($event)"-->
-<!--                                (saveEvent)="save()"-->
-<!--                                (RetournEvent)="Retourn()"-->
-<!--                                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"-->
-<!--                                [decisions]="decissionWF"-->
-<!--                                [object]="demandeForm"-->
-<!--                                [SaveObject]="demandeForm">-->
-<!--                        </app-workflow-decision>-->
-
-<!--                    </div>-->
-
-<!--                </form>-->
-
-<!--                <h1 *ngIf="pourvalidation"> Demande dans l'étape de creation</h1>-->
-<!--            </li>-->
-<!--            <li class="tab-content tab-content-3 typography">-->
-<!--                <form class="file-upload-form" style="flex-direction: column">-->
-<!--                    <div class="file-upload-container" style="">-->
-<!--                        <label for="file" class="file-upload-label">-->
-<!--                            <div class="file-upload-design">-->
-<!--                                <svg viewBox="0 0 640 512" height="1em">-->
-<!--                                    <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>-->
-<!--                                </svg>-->
-<!--                                <p>Drag and Drop</p>-->
-<!--                                <p>or</p>-->
-<!--                                <span class="browse-button">Browse file</span>-->
-<!--                            </div>-->
-<!--                            <input id="file" type="file" />-->
-<!--                        </label>-->
-
-
-<!--                    </div>-->
-
-<!--                </form>-->
-
-<!--                <div class="workflow-container">-->
-<!--                    <app-workflow-decision-->
-<!--                            *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "-->
-<!--                            (decisionEvent)="Confirmation($event)"-->
-<!--                            (saveEvent)="save()"-->
-<!--                            (RetournEvent)="Retourn()"-->
-<!--                            [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"-->
-<!--                            [decisions]="decissionWF"-->
-<!--                            [object]="demandeForm"-->
-<!--                            [SaveObject]="demandeForm">-->
-<!--                    </app-workflow-decision>-->
-
-<!--                </div>-->
-
-
-<!--            </li>-->
-
-<!--        </ul>-->
-<!--    </div>-->
-<!--    &lt;!&ndash;/ tabs &ndash;&gt;-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
 <!doctype html>
 <html lang="en">
 
 
-<!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:47 GMT -->
+<!-- Mirrored from wrraptheme.com/templates/iconic/dist/hospital/doctor-add.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:46:14 GMT -->
 <head>
-    <title>:: Iconic :: Form Wizard</title>
+    <title>:: Iconic Hospital :: Add Doctor</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Iconic Bootstrap 4.5.0 Admin Template">
@@ -251,13 +14,18 @@
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/iconic/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/dropify/css/dropify.min.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="/assets/iconic/assets/css/main.css">
 </head>
-<body data-theme="light" class="font-nunito">
+
+<body data-theme="light" class="layout-fullwidth">
 
 <div id="wrapper" class="theme-cyan">
+
+
 
 
     <!-- mani page content body part -->
@@ -266,18 +34,18 @@
             <div class="block-header">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12">
-                        <h2>Form Wizard</h2>
+                        <h2>Add Doctor</h2>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-dashboard"></i></a></li>
-                            <li class="breadcrumb-item">Forms</li>
-                            <li class="breadcrumb-item active">Form Wizard</li>
+                            <li class="breadcrumb-item">Doctor</li>
+                            <li class="breadcrumb-item active">Add new</li>
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="d-flex flex-row-reverse">
                             <div class="page_action">
                                 <button type="button" class="btn btn-primary"><i class="fa fa-download"></i> Download report</button>
-                                <button type="button" class="btn btn-secondary"><i class="fa fa-send"></i> Send report</button>
+                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addevent">Add New Event</button>
                             </div>
                             <div class="p-2 d-flex">
 
@@ -291,61 +59,152 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Basic Example - Horizontal Layout</h2>
-                            <ul class="header-dropdown">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another Action</a></li>
-                                        <li><a href="javascript:void(0);">Something else</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <h2>Basic Information <small>Description text here...</small> </h2>
                         </div>
                         <div class="body">
-                            <div id="wizard_horizontal">
-                                <h2>First Step</h2>
-                                <section>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut nulla nunc. Maecenas
-                                        arcu sem, hendrerit a tempor quis, sagittis accumsan tellus. In hac habitasse platea
-                                        dictumst. Donec a semper dui. Nunc eget quam libero. Nam at felis metus. Nam tellus
-                                        dolor, tristique ac tempus nec, iaculis quis nisi. </p>
-                                </section>
-                                <h2>Second Step</h2>
-                                <section>
-                                    <p>Donec mi sapien, hendrerit nec egestas a, rutrum vitae dolor. Nullam venenatis diam ac
-                                        ligula elementum pellentesque. In lobortis sollicitudin felis non eleifend. Morbi
-                                        tristique tellus est, sed tempor elit. Morbi varius, nulla quis condimentum dictum,
-                                        nisi elit condimentum magna, nec venenatis urna quam in nisi. Integer hendrerit sapien
-                                        a diam adipiscing consectetur. In euismod augue ullamcorper leo dignissim quis elementum
-                                        arcu porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum leo
-                                        velit, blandit ac tempor nec, ultrices id diam. Donec metus lacus, rhoncus sagittis
-                                        iaculis nec, malesuada a diam. Donec non pulvinar urna. Aliquam id velit lacus. </p>
-                                </section>
-                                <h2>Third Step</h2>
-                                <section>
-                                    <p> Morbi ornare tellus at elit ultrices id dignissim lorem elementum. Sed eget nisl at justo
-                                        condimentum dapibus. Fusce eros justo, pellentesque non euismod ac, rutrum sed quam.
-                                        Ut non mi tortor. Vestibulum eleifend varius ullamcorper. Aliquam erat volutpat.
-                                        Donec diam massa, porta vel dictum sit amet, iaculis ac massa. Sed elementum dui
-                                        commodo lectus sollicitudin in auctor mauris venenatis. </p>
-                                </section>
-                                <h2>Forth Step</h2>
-                                <section>
-                                    <p> Quisque at sem turpis, id sagittis diam. Suspendisse malesuada eros posuere mauris vehicula
-                                        vulputate. Aliquam sed sem tortor. Quisque sed felis ut mauris feugiat iaculis nec
-                                        ac lectus. Sed consequat vestibulum purus, imperdiet varius est pellentesque vitae.
-                                        Suspendisse consequat cursus eros, vitae tempus enim euismod non. Nullam ut commodo
-                                        tortor. </p>
-                                </section>
+                            <div class="row clearfix">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Last Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" data-provide="datepicker" data-date-autoclose="true" class="form-control" placeholder="Date of Birth">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <select class="form-control show-tick">
+                                            <option value="">- Gender -</option>
+                                            <option value="10">Male</option>
+                                            <option value="20">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Speciality">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Phone">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Enter Your Email">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Website URL">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input type="file" class="dropify">
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group mt-3">
+                                        <textarea rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
+            <div class="row clearfix">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Doctor's Account Information <small>Description text here...</small> </h2>
+                        </div>
+                        <div class="body">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="User Name">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Confirm Password">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Doctor Social Media Info <small>Description text here...</small> </h2>
+                        </div>
+                        <div class="body">
+                            <div class="row clearfix">
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-facebook"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Facebook">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-twitter"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Twitter">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-linkedin"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Linkedin">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-instagram"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Instagram">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -356,17 +215,13 @@
 <script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
 <script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
 
-<script src="/assets/iconic/assets/vendor/jquery-validation/jquery.validate.js"></script> <!-- Jquery Validation Plugin Css -->
-<script src="/assets/iconic/assets/vendor/jquery-steps/jquery.steps.js"></script> <!-- JQuery Steps Plugin Js -->
-
+<script src="/assets/iconic/assets/vendor/dropify/js/dropify.min.js"></script>
+<script src="/assets/iconic/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script><!-- bootstrap datepicker Plugin Js -->
 
 <!-- page js file -->
 <script src="/assets/iconic/assets/bundles/mainscripts.bundle.js"></script>
-<script src="/assets/iconic/js/pages/forms/form-wizard.js"></script>
+<script src="/assets/iconic/js/pages/forms/dropify.js"></script>
 </body>
 
-<!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:49 GMT -->
+<!-- Mirrored from wrraptheme.com/templates/iconic/dist/hospital/doctor-add.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:46:14 GMT -->
 </html>
-
-
-

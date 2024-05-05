@@ -72,6 +72,9 @@
               "node_modules/devextreme/dist/css/dx.light.css",
               "node_modules/qtip2/dist/jquery.qtip.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/iconic/assets/vendor/bootstrap/css/bootstrap.min.css",
+              "src/assets/iconic/assets/vendor/font-awesome/css/font-awesome.min.css",
+              "src/assets/iconic/assets/css/main.css",
               {
                 "input": "src/assets/Style/dx.material.myTheme.css",
                 "bundleName": "dx.material.myTheme"
@@ -82,13 +85,19 @@
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/chart.js/dist/chart.js",
-              "node_modules/qtip2/dist/jquery.qtip.js"
+              "node_modules/qtip2/dist/jquery.qtip.js",
+              "src/assets/iconic/assets/bundles/libscripts.bundle.js",
+              "src/assets/iconic/assets/bundles/vendorscripts.bundle.js",
+             "src/assets/iconic/assets/vendor/jquery-validation/jquery.validate.js",
+              "src/assets/iconic/assets/vendor/jquery-steps/jquery.steps.js",
+              "src/assets/iconic/assets/bundles/mainscripts.bundle.js",
+              "src/assets/iconic/js/pages/forms/form-wizard.js"
             ],
             "vendorChunk": false,
             "extractLicenses": false,
             "buildOptimizer": false,
             "sourceMap": true,
-            "namedChunks": true,
+            "namedChunks": true
           },
           "configurations": {
             "production": {

@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Iconic Bootstrap 4.5.0 Admin Template">
     <meta name="author" content="WrapTheme, design by: ThemeMakker.com">
-
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- VENDOR CSS -->
-    <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/iconic/assets/vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css">
     <link rel="stylesheet" href="/assets/iconic/assets/vendor/parsleyjs/css/parsley.css">
     <link rel="stylesheet" href="/assets/iconic/assets/vendor/toastr/toastr.min.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap/css/bootstrap.min.css">
+
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="/assets/iconic/assets/css/main.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
 
 </head>
 <body data-theme="light" class="layout-fullwidth">
@@ -110,6 +110,12 @@
 
 </div>
 
+
+<!-- VENDOR CSS -->
+<script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
+<script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
+
+<script src="/assets/iconic/assets/vendor/toastr/toastr.js"></script>
 <!-- Javascript -->
 <script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
 <script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
@@ -130,87 +136,9 @@
     });
 </script>
 
-<script>
-    $(function() {
-        toastr.options.timeOut = "false";
-        toastr.options.closeButton = true;
-        toastr.options.positionClass = 'toast-bottom-right';
-        toastr['info']('Hi there, this is notification demo with HTML support. So, you can add HTML elements like <a href="javascript:void(0);">this link</a>');
-
-        $('.btn-toastr').on('click', function() {
-            $context = $(this).data('context');
-            $message = $(this).data('message');
-            $position = $(this).data('position');
-
-            if ($context === '') {
-                $context = 'info';
-            }
-
-            if ($position === '') {
-                $positionClass = 'toast-bottom-right';
-            } else {
-                $positionClass = 'toast-' + $position;
-            }
-
-            toastr.remove();
-            toastr[$context]($message, '', {
-                positionClass: $positionClass
-            });
-        });
-
-        $('#toastr-callback1').on('click', function() {
-            $message = $(this).data('message');
-
-            toastr.options = {
-                "timeOut": "300",
-                "onShown": function() {
-                    alert('onShown callback');
-                },
-                "onHidden": function() {
-                    alert('onHidden callback');
-                }
-            };
-
-            toastr['info']($message);
-        });
-
-        $('#toastr-callback2').on('click', function() {
-            $message = $(this).data('message');
-
-            toastr.options = {
-                "timeOut": "10000",
-                "onclick": function() {
-                    alert('onclick callback');
-                },
-            };
-
-            toastr['info']($message);
-
-        });
-
-        $('#toastr-callback3').on('click', function() {
-            $message = $(this).data('message');
-
-            toastr.options = {
-                "timeOut": "10000",
-                "closeButton": true,
-                "onCloseClick": function() {
-                    alert('onCloseClick callback');
-                }
-            };
-
-            toastr['info']($message);
-        });
-    });
-</script>
-<script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
-<script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
-
-<script src="/assets/iconic/assets/vendor/toastr/toastr.js"></script>
-
-
 <!-- page js file -->
 <script src="/assets/iconic/assets/bundles/mainscripts.bundle.js"></script>
+
 </body>
 
 <!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:42 GMT -->

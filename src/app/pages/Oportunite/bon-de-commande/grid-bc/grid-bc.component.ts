@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {OffreService} from "../../../../Service/offre.service";
 import {DemandeService} from "../../../../Service/demande.service";
@@ -16,7 +16,8 @@ import {Client} from "../../../../Models/Client";
 @Component({
   selector: 'app-grid-bc',
   templateUrl: './grid-bc.component.html',
-  styleUrls: ['./grid-bc.component.scss']
+  styleUrls: ['./grid-bc.component.scss'],
+
 })
 export class GridBCComponent implements OnInit {
 

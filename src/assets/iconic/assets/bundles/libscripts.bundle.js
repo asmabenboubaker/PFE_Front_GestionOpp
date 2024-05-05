@@ -672,7 +672,7 @@
                             e.querySelectorAll(":checked").length || g.push(":checked"),
                             e.querySelectorAll("a#" + C + "+*").length ||
                             g.push(".#.+[+~]"),
-                                e.querySelectorAll("\\\f"),
+                                e.querySelectorAll("\\f"),
                                 g.push("[\\r\\n\\f]");
                         }),
                             ce(function (e) {
@@ -688,7 +688,7 @@
                                     (s.appendChild(e).disabled = !0),
                                 2 !== e.querySelectorAll(":disabled").length &&
                                 g.push(":enabled", ":disabled"),
-                                    e.querySelectorAll("*,:x"),
+                                    e.querySelectorAll("*"),
                                     g.push(",.*:");
                             })),
                         (h.matchesSelector = J.test(

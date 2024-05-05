@@ -1030,9 +1030,9 @@ ul {
 /* height */
 /**/
 .pcss3t > ul,
-.pcss3t > ul > li {
+.pcss3t > ul  {
   height: 100vh !important;
-  // hethi momo msaghra page
+
 }
 
 .workflow-container{
@@ -1101,3 +1101,15 @@ ul {
 }
 // select equipe
 
+.card3{
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  background: var(--card-color);
+  border: 1px dashed #009688;
+  margin-bottom: 30px;
+  position: relative;
+  width: 100%;
+}
