@@ -10,6 +10,8 @@ import { TaskBoardComponent } from './task-board/task-board.component';
 import {MeetingComponent} from "./meeting/meeting.component";
 import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
 import {Service} from "./task-board/app.service";
+import { AddTaskComponent } from './add-task/add-task.component';
+import {ClientModule} from "../client/client.module";
 
 
 export const routes: Routes  = [
@@ -46,7 +48,8 @@ export const routes: Routes  = [
    
   
     EditProjectComponent,
-           TaskBoardComponent
+           TaskBoardComponent,
+           AddTaskComponent
   ],
     imports: [
         CommonModule,
@@ -55,6 +58,7 @@ export const routes: Routes  = [
         ReactiveTypedFormsModule,
         WorkflowComponentModule,
         SharedModuleModule,
+        ClientModule,
 
     ],
     providers: [

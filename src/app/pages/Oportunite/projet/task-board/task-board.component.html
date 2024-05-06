@@ -1,14 +1,21 @@
+
+<dx-button
+        text="Ajouter task"
+        (onClick)="togglePopup()">
+</dx-button>
 <div id="kanban">
     <dx-scroll-view
             class="scrollable-board"
             direction="horizontal"
             showScrollbar="always"
+
     >
         <dx-sortable
                 class="sortable-lists"
                 itemOrientation="horizontal"
                 handle=".list-title"
                 (onReorder)="onListReorder($event)"
+
         >
             <div class="list" *ngFor="let list of lists; let listIndex = index">
                 <div class="list-title dx-theme-text-color">{{
@@ -18,6 +25,7 @@
                         class="scrollable-list"
                         direction="vertical"
                         showScrollbar="always"
+                        #sortable
                 >
                     <dx-sortable
                             class="sortable-cards"
@@ -36,7 +44,13 @@
                                     [ngClass]="'priority-' + task.priority"
                             ></div>
                             <div class="card-subject">{{ task.subject}}</div>
-
+                            <div class="card-subject">{{ task.details}}</div>
+                            <div class="card-assignee">{{
+                                employees[task.assignee]
+                                }}</div>
+                            <a (click)="deletetask(task.id)" target="_blank" rel="noopener" title="" >
+                                <i class="fa fa-trash" style="color:#a63a3a;">
+                                </i></a>
                         </div>
                     </dx-sortable>
                 </dx-scroll-view>
@@ -44,3 +58,16 @@
         </dx-sortable>
     </dx-scroll-view>
 </div>
+
+<dx-popup
+        [maxWidth]="940"
+        [width]="900"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Ajouter task"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupVisible">
+
+    <app-add-task (add)="add($event)"></app-add-task>
+</dx-popup>

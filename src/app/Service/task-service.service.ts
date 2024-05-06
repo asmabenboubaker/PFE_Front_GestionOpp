@@ -34,4 +34,8 @@ export class TaskServiceService {
         const url = `${this.env.piOpp + this.Wservice.getTask}/${taskId}/${newStatus}/status`;
         return this.http.put<any>(url, null);
     }
+    //delete task
+    deleteTask(taskId: number): Observable<any> {
+        return this.http.delete(`${this.env.piOpp + this.Wservice.getTask}/${taskId}`);
+    }
 }

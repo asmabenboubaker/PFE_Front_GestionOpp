@@ -1,0 +1,49 @@
+<form [formGroup]="form" class="row g-3 needs-validation" novalidate>
+    <div class="col-md-6">
+        <label for="subject" class="form-label">subject:</label>
+        <input class="form-control" formControlName="subject" id="subject" type="text" required>
+
+    </div>
+
+
+
+    <div class="col-md-6">
+        <label for="priority" class="form-label">priorité:</label>
+        <input class="form-control" formControlName="priority" id="priority" type="string">
+
+    </div>
+
+    <div >
+        <label for="status" class="form-label">Statut:</label>
+
+        <select class="form-select" formControlName="status" id="status">
+            <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+        </select>
+    </div>
+
+
+    <div class="col-md-6">
+        <label for="start_date" class="form-label">Date debut tache:</label>
+        <input class="form-control" formControlName="start_date" id="start_date"  type="date">
+    </div>
+
+    <div class="col-md-6">
+        <label for="end_date" class="form-label">Date Fin Tache
+
+            :</label>
+        <input class="form-control" formControlName="end_date" id="end_date"  type="date">
+    </div>
+
+
+    <div >
+        <label for="details" class="form-label">Description:</label>
+        <textarea class="form-control" formControlName="details" id="details" rows="3"></textarea>
+    </div>
+
+    <div class="col-12">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+            <button (click)="Return()" class="btn btn-light" type="button">Cancel</button>
+            <button (click)="onSubmit()" class="btn btn-success" type="submit">Save</button>
+        </div>
+    </div>
+</form>

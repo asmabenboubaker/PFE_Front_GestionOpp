@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { DxSortableTypes } from 'devextreme-angular/ui/sortable';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {DxSortableComponent, DxSortableTypes} from 'devextreme-angular/ui/sortable';
 import { Employee, Task, Service } from './app.service';
 import { TaskServiceService } from "../../../../Service/task-service.service";
 
@@ -9,10 +9,16 @@ import { TaskServiceService } from "../../../../Service/task-service.service";
   styleUrls: ['./task-board.component.scss']
 })
 export class TaskBoardComponent implements OnInit {
+
+  @ViewChild(DxSortableComponent, { static: false }) sortable: DxSortableComponent;
+
+  @Input() dataSource: any[];
+
+  @Output() addTaskEvent: EventEmitter<any> = new EventEmitter();
   lists: Task[][] = [];
   statuses = ['a faire', 'en cours', 'fini'];
   employees: Record<'ID', Employee> | {} = {};
-
+  popupVisible = false;
   constructor(private service: Service, private taskService: TaskServiceService) {}
 
   ngOnInit(): void {
@@ -68,29 +74,34 @@ export class TaskBoardComponent implements OnInit {
 
 
    }
- /* onTaskDrop(e: DxSortableTypes.AddEvent) {
-    console.log("task id");
-
-   const updatedTask = e.itemData;
-   const taskId = updatedTask.id;
-   console.log(updatedTask);
-   console.log(e);
-   updatedTask.status = this.statuses[e.toIndex]; // Update the status of the dropped task
-   console.log(updatedTask.status);
-   // Send an HTTP request to update the task's status in the database
-   this.taskService.updateTaskStatus(taskId, updatedTask.status).subscribe(
-       (response) => {
-         console.log('Task status updated successfully:', response);
-       },
-       (error) => {
-         console.error('Error updating task status:', error);
-   });
-
-    // Remove the task from its original position
-    e.fromData.splice(e.fromIndex, 1);
-    // Add the task to its new position
-    e.toData.splice(e.toIndex, 0, updatedTask);
+  togglePopup(){
+    // change  boolean to true
+    this.popupVisible = true;
   }
-*/
+
+
+  addTask() {
+    this.addTaskEvent.emit();
+  }
+  add(e){
+    this.popupVisible = e
+
+    this.refresh()
+  }
+  refresh(): void {
+    this.sortable.instance.update();
+  }
+  deletetask(id: number){
+    this.taskService.deleteTask(id).subscribe(
+        (response) => {
+          console.log('Task deleted successfully:', response);
+          this.refresh();
+        },
+        (error) => {
+          console.error('Error deleting task:', error);
+        }
+    );
+
+  }
 
 }
