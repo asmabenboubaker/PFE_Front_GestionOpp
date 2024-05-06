@@ -7,6 +7,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {ReactiveTypedFormsModule} from "@rxweb/reactive-form-validators";
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 import { TaskBoardComponent } from './task-board/task-board.component';
+import {MeetingComponent} from "./meeting/meeting.component";
 
 export const routes: Routes  = [
   {
@@ -26,6 +27,13 @@ export const routes: Routes  = [
         component: TaskBoardComponent,
         data: {breadcrumb: 'Task board'},
         pathMatch: 'full'
+    },
+    {
+        path:'meeting',
+        component:MeetingComponent,
+        data: {breadcrumb: 'Meeting'},
+        pathMatch: 'full'
+
     }
 
 ];

@@ -12,7 +12,7 @@ import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
 import {Client} from "../../../../Models/Client";
-
+import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser';
 @Component({
   selector: 'app-grid-bc',
   templateUrl: './grid-bc.component.html',
@@ -178,5 +178,41 @@ export class GridBCComponent implements OnInit {
     const formData = this.offreF.value;
     this.offreService.generatePdf(formData);
   }
+  form:FormGroup=this.fb.group({
+    from_name:'',
+    to_name:'admin',
+    from_email:'',
+    subject:'',
+    message:''
 
+  });
+  //send mail
+  async send(){
+    emailjs.init('3wLh-ki2hfRIhh61T');
+   let response=  await emailjs.send("service_p776d4k","template_knpuqn8",{
+      from_name: this.form.value.from_name,
+      to_name: this.form.value.to_name,
+      from_email: this.form.value.from_email,
+      subject: this.form.value.subject,
+      message: this.form.value.message,
+      reply_to: this.form.value.from_email,
+    });
+   alert('mail sent successfully')
+  }
+  public sendEmail(e: Event) {
+    e.preventDefault();
+
+    emailjs
+        .sendForm('service_p776d4k', 'template_knpuqn8', e.target as HTMLFormElement, {
+          publicKey: '3wLh-ki2hfRIhh61T',
+        })
+        .then(
+            () => {
+              console.log('SUCCESS!');
+            },
+            (error) => {
+              console.log('FAILED...', (error as EmailJSResponseStatus).text);
+            },
+        );
+  }
 }

@@ -4681,7 +4681,7 @@ select.form-control:not([size]):not([multiple]) {
     -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.05);
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.05);
-    font-family: var(--font-family);
+
     border-color: var(--border-color)
 }
 
@@ -4697,7 +4697,7 @@ select.form-control:not([size]):not([multiple]) {
 
 .panel-group .panel .panel-title {
     font-size: 14px;
-    font-family: var(--font-family)
+
 }
 
 .panel-group .panel .panel-title>a {
@@ -4910,7 +4910,7 @@ select.form-control:not([size]):not([multiple]) {
 
 .ct-series .ct-point {
     stroke-width: 10px;
-    stroke-linecap: circle
+    stroke-linecap: circle;
 }
 
 .ct-series-a .ct-line,
@@ -10665,17 +10665,17 @@ ul.list-connected-app>li:last-child .connected-app {
     float: right
 }
 
-.auth-main.hospital:after {
-    background: url(../../assets/images/hospital_auth_bg.jpg) no-repeat top left fixed
-}
+/*.auth-main.hospital:after {*/
+/*    background: url(../../assets/images/hospital_auth_bg.jpg) no-repeat top left fixed*/
+/*}*/
 
-.auth-main.university:after {
-    background: url(../../assets/images/university_auth_bg.jpg) no-repeat top left fixed
-}
+/*.auth-main.university:after {*/
+/*    background: url(../../assets/images/university_auth_bg.jpg) no-repeat top left fixed*/
+/*}*/
 
-.auth-main.realestate:after {
-    background: url(../../assets/images/realestate_auth_bg.jpg) no-repeat top left fixed
-}
+/*.auth-main.realestate:after {*/
+/*    background: url(../../assets/images/realestate_auth_bg.jpg) no-repeat top left fixed*/
+/*}*/
 
 .property.grid {
     display: flex;
