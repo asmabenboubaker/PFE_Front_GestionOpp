@@ -8,6 +8,9 @@ import {ReactiveTypedFormsModule} from "@rxweb/reactive-form-validators";
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 import { TaskBoardComponent } from './task-board/task-board.component';
 import {MeetingComponent} from "./meeting/meeting.component";
+import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
+import {Service} from "./task-board/app.service";
+
 
 export const routes: Routes  = [
   {
@@ -51,6 +54,12 @@ export const routes: Routes  = [
         ReactiveFormsModule,
         ReactiveTypedFormsModule,
         WorkflowComponentModule,
-    ]
+        SharedModuleModule,
+
+    ],
+    providers: [
+        Service,
+
+    ],
 })
 export class ProjetModule { }
