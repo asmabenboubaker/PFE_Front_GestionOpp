@@ -153,7 +153,7 @@ a:hover, a:focus{
     }
     &.sidebar-fixed{
         .main-content{
-            padding-left: $sidebar-width + 25px;
+            padding-left: $sidebar-width + 25px !important;
         }
         .app-footer{
             padding-left: $sidebar-width + 25px;

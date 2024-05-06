@@ -23,7 +23,7 @@ export class AddTaskComponent implements OnInit {
       status: ['', Validators.required],
       start_date: [''],
       end_date: [''],
-      description: ['']
+      details: ['']
     });
   }
   Return(){
@@ -44,7 +44,7 @@ export class AddTaskComponent implements OnInit {
     );
 
     // send  the form data to task board
-    this.add.emit(false);
+    this.add.emit(this.form.value);
     // Emit an event to close the modal
 
   }

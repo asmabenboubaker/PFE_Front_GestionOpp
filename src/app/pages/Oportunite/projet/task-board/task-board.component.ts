@@ -14,8 +14,8 @@ export class TaskBoardComponent implements OnInit {
 
   @Input() dataSource: any[];
 
-  @Output() addTaskEvent: EventEmitter<any> = new EventEmitter();
-  lists: Task[][] = [];
+  addTaskEvent: EventEmitter<any> = new EventEmitter<any>();
+  lists: any[][] = [];
   statuses = ['a faire', 'en cours', 'fini'];
   employees: Record<'ID', Employee> | {} = {};
   popupVisible = false;
@@ -71,8 +71,6 @@ export class TaskBoardComponent implements OnInit {
      e.fromData.splice(e.fromIndex, 1);
      e.toData.splice(e.toIndex, 0, e.itemData);
 
-
-
    }
   togglePopup(){
     // change  boolean to true
@@ -80,8 +78,15 @@ export class TaskBoardComponent implements OnInit {
   }
 
 
-  addTask() {
-    this.addTaskEvent.emit();
+  // Handle the emitted task data
+  addTask(taskData: any) {
+    // Push the new task into the appropriate list based on its status
+    const listIndex = this.statuses.findIndex(status => status === taskData.status);
+    if (listIndex !== -1) {
+      this.lists[listIndex].push(taskData);
+    }
+    // close popup
+    this.popupVisible = false;
   }
   add(e){
     this.popupVisible = e
@@ -92,6 +97,7 @@ export class TaskBoardComponent implements OnInit {
     this.sortable.instance.update();
   }
   deletetask(id: number){
+    this.deleteTaskLocally(id);
     this.taskService.deleteTask(id).subscribe(
         (response) => {
           console.log('Task deleted successfully:', response);
@@ -103,5 +109,13 @@ export class TaskBoardComponent implements OnInit {
     );
 
   }
-
+  deleteTaskLocally(id: number) {
+    // Find and remove the task from the lists
+    this.lists.forEach((list) => {
+      const index = list.findIndex(task => task.id === id);
+      if (index !== -1) {
+        list.splice(index, 1);
+      }
+    });
+  }
 }

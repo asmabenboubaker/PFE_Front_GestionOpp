@@ -1,28 +1,32 @@
 #kanban {
   white-space: nowrap;
 }
+.scrollable-lists{
 
+}
 .list {
   border-radius: 8px;
   margin: 5px;
-  background-color: rgba(192, 192, 192, 0.4);
+  background-color: rgba(168, 205, 208, 0.5);
   display: inline-block;
   vertical-align: top;
   white-space: normal;
+
 }
 
 .list-title {
   font-size: 16px;
   padding: 10px;
-  padding-left: 30px;
+  padding-left: 10px;
   margin-bottom: -10px;
   font-weight: bold;
   cursor: pointer;
 }
 
 .scrollable-list {
+
   height: 400px;
-  width: 260px;
+  width: 330px;
 }
 
 .sortable-cards {
@@ -33,7 +37,7 @@
   position: relative;
   background-color: white;
   box-sizing: border-box;
-  width: 230px;
+  width: 300px;
   padding: 10px 20px;
   margin: 10px;
   cursor: pointer;
@@ -54,7 +58,7 @@
   left: 5px;
   width: 5px;
   border-radius: 2px;
-  background: #86c285;
+  background: #18a0aa;
 }
 
 .priority-1 {
@@ -62,7 +66,7 @@
 }
 
 .priority-2 {
-  background: #86c285;
+  background: #18a0aa;
 }
 
 .priority-3 {

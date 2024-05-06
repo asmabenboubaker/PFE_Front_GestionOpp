@@ -3018,7 +3018,7 @@ html.fullscreen-bg #wrapper {
 .card .body {
     color: var(--font-color);
     font-weight: 400;
-    padding: 20px
+    padding: 20px !important;
 }
 
 .navbar-fixed-top {

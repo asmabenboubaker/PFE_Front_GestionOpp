@@ -1,73 +1,203 @@
+<!doctype html>
+<html lang="en">
 
-<dx-button
-        text="Ajouter task"
-        (onClick)="togglePopup()">
-</dx-button>
-<div id="kanban">
-    <dx-scroll-view
-            class="scrollable-board"
-            direction="horizontal"
-            showScrollbar="always"
+<head>
+    <title>:: Iconic Hospital :: Calendar</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Iconic Bootstrap 4.5.0 Admin Template">
+    <meta name="author" content="WrapTheme, design by: ThemeMakker.com">
 
-    >
-        <dx-sortable
-                class="sortable-lists"
-                itemOrientation="horizontal"
-                handle=".list-title"
-                (onReorder)="onListReorder($event)"
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/iconic/assets/vendor/fullcalendar/fullcalendar.min.css">
 
-        >
-            <div class="list" *ngFor="let list of lists; let listIndex = index">
-                <div class="list-title dx-theme-text-color">{{
-                    statuses[listIndex]
-                    }}</div>
-                <dx-scroll-view
-                        class="scrollable-list"
-                        direction="vertical"
-                        showScrollbar="always"
-                        #sortable
-                >
-                    <dx-sortable
-                            class="sortable-cards"
-                            group="cardsGroup"
-                            [data]="list"
-                            (onDragStart)="onTaskDragStart($event)"
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="/assets/iconic/assets/css/main.css">
+</head>
 
-                            (onAdd)="onTaskDrop($event)"
-                    >
-                        <div
-                                class="card dx-card dx-theme-text-color dx-theme-background-color"
-                                *ngFor="let task of list"
-                        >
-                            <div
-                                    class="card-priority"
-                                    [ngClass]="'priority-' + task.priority"
-                            ></div>
-                            <div class="card-subject">{{ task.subject}}</div>
-                            <div class="card-subject">{{ task.details}}</div>
-                            <div class="card-assignee">{{
-                                employees[task.assignee]
-                                }}</div>
-                            <a (click)="deletetask(task.id)" target="_blank" rel="noopener" title="" >
-                                <i class="fa fa-trash" style="color:#a63a3a;">
-                                </i></a>
-                        </div>
-                    </dx-sortable>
-                </dx-scroll-view>
+<body data-theme="light" class="layout-fullwidth">
+
+<div id="wrapper" class="theme-cyan">
+
+    <!-- Main page content body part -->
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <h2>Task board</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-dashboard"></i></a></li>
+                            <li class="breadcrumb-item">Projet</li>
+                            <li class="breadcrumb-item active">Task board</li>
+                        </ul>
+                    </div>
+
+                </div>
             </div>
-        </dx-sortable>
-    </dx-scroll-view>
+
+
+            <div class="row">
+
+                    <div class="card profile-header col-lg-12">
+                        <div class="body">
+                            <div class="text-center">
+                                <div>
+                                    <h4 class="mb-0"><strong>Projet</strong> 1</h4>
+                                    <span>Application web</span>
+                                </div>
+                                <div class="progress progress-xs m-b-25 m-t-25">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 89%;">
+                                        <span class="sr-only">60% Complete</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <h6>17</h6>
+                                        <span>Completed</span>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>34</h6>
+                                        <span>ToDo</span>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>78</h6>
+                                        <span>All Tasks</span>
+                                    </div>
+                                </div>
+                            </div>
+<!--                            <hr>-->
+<!--                            <h6>Team</h6>-->
+<!--                            <ul class="list-unstyled team-info m-t-20">-->
+<!--                                <li><img src="../assets/images/xs/avatar1.jpg" title="Avatar" alt="Avatar"></li>-->
+<!--                                <li><img src="../assets/images/xs/avatar2.jpg" title="Avatar" alt="Avatar"></li>-->
+<!--                                <li><img src="../assets/images/xs/avatar3.jpg" title="Avatar" alt="Avatar"></li>-->
+<!--                                <li><img src="../assets/images/xs/avatar4.jpg" title="Avatar" alt="Avatar"></li>-->
+<!--                                <li><img src="../assets/images/xs/avatar5.jpg" title="Avatar" alt="Avatar"></li>-->
+<!--                            </ul>-->
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center">
+
+            <div class="card col-lg-12 text-center">
+                <div class="body">
+                    <dx-button
+                            text="Ajouter task"
+                            (onClick)="togglePopup()">
+                    </dx-button>
+                    <div id="kanban">
+                        <dx-scroll-view
+                                class="scrollable-board"
+                                direction="horizontal"
+                                showScrollbar="always">
+                            <dx-sortable
+                                    class="sortable-lists"
+                                    itemOrientation="horizontal"
+                                    handle=".list-title"
+                                    (onReorder)="onListReorder($event)">
+                                <div class="list" *ngFor="let list of lists; let listIndex = index">
+                                    <div class="list-title dx-theme-text-color">
+                                        {{ statuses[listIndex] }}
+                                    </div>
+                                    <dx-scroll-view
+                                            class="scrollable-list"
+                                            direction="vertical"
+                                            showScrollbar="always"
+                                            #sortable>
+                                        <dx-sortable
+                                                class="sortable-cards"
+                                                group="cardsGroup"
+                                                [data]="list"
+                                                (onDragStart)="onTaskDragStart($event)"
+                                                (onAdd)="onTaskDrop($event)">
+                                            <div class="card dx-card dx-theme-text-color dx-theme-background-color" *ngFor="let task of list">
+                                                <div class="card-priority" [ngClass]="'priority-' + task.priority"></div>
+                                                <div class="card-subject">{{ task.subject}}</div>
+                                                <div class="card-subject">{{ task.details}}</div>
+                                                <div class="card-assignee">{{ employees[task.assignee] }}</div>
+                                                <a (click)="deletetask(task.id)" target="_blank" rel="noopener" title="">
+                                                    <i class="fa fa-trash" style="color:#a63a3a;"></i>
+                                                </a>
+                                            </div>
+                                        </dx-sortable>
+                                    </dx-scroll-view>
+                                </div>
+                            </dx-sortable>
+                        </dx-scroll-view>
+                    </div>
+                    <dx-popup
+                            [maxWidth]="940"
+                            [width]="900"
+                            [height]="'auto'"
+                            [showTitle]="true"
+                            title="Ajouter task"
+                            [dragEnabled]="false"
+                            [closeOnOutsideClick]="true"
+                            [(visible)]="popupVisible">
+                        <app-add-task (add)="addTask($event)"></app-add-task>
+                    </dx-popup>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+    <!-- Default Size -->
+    <div class="modal fade" id="addevent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title" id="defaultModalLabel">Add Event</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="number" class="form-control" placeholder="Event Date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" class="form-control" placeholder="Event Title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <textarea class="form-control no-resize" placeholder="Event Description..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-simple" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<dx-popup
-        [maxWidth]="940"
-        [width]="900"
-        [height]="'auto'"
-        [showTitle]="true"
-        title="Ajouter task"
-        [dragEnabled]="false"
-        [closeOnOutsideClick]="true"
-        [(visible)]="popupVisible">
+<!-- Javascript -->
+<script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
+<script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
 
-    <app-add-task (add)="add($event)"></app-add-task>
-</dx-popup>
+<script src="/assets/iconic/assets/bundles/fullcalendarscripts.bundle.js"></script><!--/ calender javascripts -->
+<script src="/assets/iconic/assets/vendor/fullcalendar/fullcalendar.js"></script><!--/ calender javascripts -->
+
+<!-- page js file -->
+<script src="/assets/iconic/assets/bundles/mainscripts.bundle.js"></script>
+<script src="/assets/iconic/js/pages/calendar.js"></script>
+</body>
+
+</html>
