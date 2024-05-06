@@ -27,4 +27,11 @@ export class TaskServiceService {
         );
   }
 
+    // updateTaskStatus(taskId: number, status: string): Observable<Task> {
+    //     return this.http.put<Task>(`${this.env.piOpp + this.Wservice.getTask}/${taskId}/status`, { status });
+    // }
+    updateTaskStatus(taskId: number, newStatus: string): Observable<any> {
+        const url = `${this.env.piOpp + this.Wservice.getTask}/${taskId}/${newStatus}/status`;
+        return this.http.put<any>(url, null);
+    }
 }

@@ -41,8 +41,56 @@ export class TaskBoardComponent implements OnInit {
     e.itemData = e.fromData[e.fromIndex];
   }
 
-  onTaskDrop(e: DxSortableTypes.AddEvent) {
+   onTaskDrop(e: DxSortableTypes.AddEvent) {
+     console.log(e.itemData);
+     console.log( e);
+     const updatedTask = e.itemData;
+     console.log(updatedTask.status);
+
+     console.log("=================================")
+
+     const toListIndex = this.lists.findIndex((list) => list === e.toData);
+     updatedTask.status = this.statuses[toListIndex];
+     console.log(updatedTask.status);
+
+     this.taskService.updateTaskStatus(updatedTask.id, updatedTask.status).subscribe(
+         (response) => {
+            console.log('Task status updated successfully:', response);
+         },
+         (error) => {
+            console.error('Error updating task status:', error);
+      });
+
+
+     e.fromData.splice(e.fromIndex, 1);
+     e.toData.splice(e.toIndex, 0, e.itemData);
+
+
+
+   }
+ /* onTaskDrop(e: DxSortableTypes.AddEvent) {
+    console.log("task id");
+
+   const updatedTask = e.itemData;
+   const taskId = updatedTask.id;
+   console.log(updatedTask);
+   console.log(e);
+   updatedTask.status = this.statuses[e.toIndex]; // Update the status of the dropped task
+   console.log(updatedTask.status);
+   // Send an HTTP request to update the task's status in the database
+   this.taskService.updateTaskStatus(taskId, updatedTask.status).subscribe(
+       (response) => {
+         console.log('Task status updated successfully:', response);
+       },
+       (error) => {
+         console.error('Error updating task status:', error);
+   });
+
+    // Remove the task from its original position
     e.fromData.splice(e.fromIndex, 1);
-    e.toData.splice(e.toIndex, 0, e.itemData);
+    // Add the task to its new position
+    e.toData.splice(e.toIndex, 0, updatedTask);
   }
+*/
+
 }
