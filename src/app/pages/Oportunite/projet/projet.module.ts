@@ -59,6 +59,7 @@ export const routes: Routes  = [
     ],
     providers: [
         Service,
+        TaskBoardComponent
 
     ],
 })

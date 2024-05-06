@@ -33,12 +33,10 @@
                         >
                             <div
                                     class="card-priority"
-                                    [ngClass]="'priority-' + task.Task_Priority"
+                                    [ngClass]="'priority-' + task.priority"
                             ></div>
-                            <div class="card-subject">{{ task.Task_Subject }}</div>
-                            <div class="card-assignee">{{
-                                employees[task.Task_Assigned_Employee_ID]
-                                }}</div>
+                            <div class="card-subject">{{ task.subject}}</div>
+
                         </div>
                     </dx-sortable>
                 </dx-scroll-view>

@@ -12,4 +12,5 @@ export class WsService {
   getOpp='opportunites'
   getoffre='offres'
   getFacture='factures'
+  getTask='tasks'
 }

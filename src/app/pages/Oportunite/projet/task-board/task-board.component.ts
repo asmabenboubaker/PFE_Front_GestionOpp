@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { DxScrollViewModule, DxSortableModule } from 'devextreme-angular';
 import { DxSortableTypes } from 'devextreme-angular/ui/sortable';
 import { Employee, Task, Service } from './app.service';
+import { TaskServiceService } from "../../../../Service/task-service.service";
+
 @Component({
   selector: 'app-task-board',
   templateUrl: './task-board.component.html',
@@ -11,20 +10,22 @@ import { Employee, Task, Service } from './app.service';
 })
 export class TaskBoardComponent implements OnInit {
   lists: Task[][] = [];
-
-  statuses = ['Not Started', 'Need Assistance', 'In Progress', 'Deferred', 'Completed'];
-
+  statuses = ['a faire', 'en cours', 'fini'];
   employees: Record<'ID', Employee> | {} = {};
 
-  constructor(service: Service) {
-    const tasks = service.getTasks();
+  constructor(private service: Service, private taskService: TaskServiceService) {}
 
-    service.getEmployees().forEach((employee) => {
-      this.employees[employee.ID] = employee.Name;
-    });
+  ngOnInit(): void {
+    // this.service.getEmployees().forEach((employee) => {
+    //   this.employees[employee.ID] = employee.Name;
+    // });
 
-    this.statuses.forEach((status) => {
-      this.lists.push(tasks.filter((task) => task.Task_Status === status));
+    this.taskService.getTasks().subscribe(tasks => {
+      this.statuses.forEach((status) => {
+        console.log(tasks);
+        const filteredTasks = tasks.filter((task) => task.status === status);
+        this.lists.push(filteredTasks);
+      });
     });
   }
 
@@ -44,7 +45,4 @@ export class TaskBoardComponent implements OnInit {
     e.fromData.splice(e.fromIndex, 1);
     e.toData.splice(e.toIndex, 0, e.itemData);
   }
-  ngOnInit(): void {
-  }
-
 }
