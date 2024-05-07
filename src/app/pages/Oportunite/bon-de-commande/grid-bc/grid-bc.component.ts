@@ -8,11 +8,16 @@ import {EnvService} from "../../../../../env.service";
 import {WsService} from "../../../../../ws.service";
 import {TranslateService} from "@ngx-translate/core";
 import {TokenStorageService} from "../../../Global/shared-service/token-storage.service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
 import {Client} from "../../../../Models/Client";
 import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser';
+import {DxDataGridComponent, DxFormComponent} from "devextreme-angular";
+import {BcServiceService} from "../../../../Service/bc-service.service";
+import {jsPDF} from "jspdf";
+import {exportDataGrid as exportDataGridToPdf} from "devextreme/pdf_exporter";
+import CustomStore from "devextreme/data/custom_store";
 @Component({
   selector: 'app-grid-bc',
   templateUrl: './grid-bc.component.html',
@@ -20,20 +25,14 @@ import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser';
 
 })
 export class GridBCComponent implements OnInit {
-
-  opps: any[] = [];
-  oppid:any;
-  offreForm: any;
-  decissionWF:any;
-  objectData:any;
-  offreF= new FormGroup({
-    id: new FormControl(''),
-    modePaiement: new FormControl(''),
-    montant: new FormControl(''),
-    dateLivraison: new FormControl(''),
-    description: new FormControl(''),
-  });
-  constructor(private offreService : OffreService,private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
+  dataSourceElement: any;
+  pageSize = this.env.pageSize;
+  allowedPageSizes = this.env.allowedPageSizes;
+    popupDeleteVisible: boolean=false;
+  @ViewChild('dataGridDemande', {static: false}) dataGridDemande: DxDataGridComponent;
+  packageName = require('package.json').name;
+    iddoc:any;
+  constructor(private bcService : BcServiceService,private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
               private translateService: TranslateService,
               private tokenStorage: TokenStorageService,
@@ -42,177 +41,347 @@ export class GridBCComponent implements OnInit {
               public route: ActivatedRoute,
               private datePipe: DatePipe) {
 
-    this.offreForm = this.fb.group({
-      id: null, // You might want to initialize other properties based on your requirements
-      modePaiement: ['', Validators.required],
-      montant: [null],
-      dateLivraison: [null, Validators.required],
-      description: null,
-    });
 
 
 
   }
 
-  ngOnInit(): void {
-    // this.loadopps()
-    this.oppid=this.route.snapshot.paramMap.get('id');
-    // this.offreService.getOffreByid(this.oppid).toPromise().then(
-    //     data => {
-    //       this.objectData=data
-    //       this.offreF.get('id').setValue(data.id);
-    //       this.offreF.get('modePaiement').setValue(data.modePaiement);
-    //       this.offreF.get('montant').setValue(data.montant);
-    //       this.offreF.get('dateLivraison').setValue(data.dateLivraison);
-    //       this.offreF.get('description').setValue(data.description);
-    //
-    //
-    //       // const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
-    //       // this.demandeF.get('client').setValue(clientId);
-    //       console.log("Fetched Successfully :", data);
-    //       // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
-    //       this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
-    //
-    //       //const decisionsWF = data.workflow.decisionsWF
-    //       console.log("DECICIONS WK ::: "+ this.decissionWF);
-    //
-    //
-    //       //get decissionWF
-    //       this.decissionWF = data['workflow']['decisionsWF'];
-    //
-    //     },
-    //     error => {
-    //       console.log("Error :", error);
-    //     }
-    // );
-  }
-  loadopps()
-  {
-    this.offreService.getAllOppWithoutPages().subscribe(
-        (clients: Client[]) => {
-          console.log('opp: ', clients);
-          this.opps = clients;
-        },
-        (error) => {
-          console.error('Error fetching opp: ', error);
+  onToolbarPreparing(e) {
+
+
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'after',
+          template: 'ExportPDF'
+        });
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'after',
+          widget: 'dxButton',
+          options: {
+            hint: 'Reset',
+            icon: 'undo',
+            onClick: this.resetGrid.bind(this),
+          }
+        });
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'after',
+          widget: 'dxButton',
+          options: {
+            hint: 'Refresh',
+            icon: 'refresh',
+            onClick: this.refresh.bind(this),
+          }
+        });
+
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'center',
+          template: 'titreGrid'
         }
     );
-  }
-
-  Confirmation(evt) {
-
-    const formData = this.offreF.value;
-
-
-
-    formData['decision'] = evt.decision.trim();
-    formData['wfCurrentComment'] = evt.wfCurrentComment;
-    console.log("this.demanade CONFIRMATION",formData)
-
-    this.offreService.Offre_process_Submit(formData).subscribe(data => {
-      this.toastr.success(" added successfully" +
-          "", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      })
-      //redirect to demande list
-      this.router.navigate(['offre/user']);
-    }, error => {
-      this.toastr.error("failed to add ", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      })
-      console.log("error", error)
-    })
+    e.toolbarOptions.items.unshift(
+        {
+          location: 'after',
+          widget: 'dxButton',
+          options: {
+            hint: 'Add',
+            icon: 'plus',
+            onClick: this.adddemande.bind(this),
+          },
+        }
+    );
 
   }
-
-  @ViewChild('OppSelect') OppSelect: ElementRef;
-  save() {
-    // Récupérer les valeurs du FormGroup
-    const formData = this.offreF.value;
-
-    //ajouter decision to formData
-    formData['decision'] = "Pour Validation";
-    const selectedOppId = this.OppSelect?.nativeElement.value;
-    // this.offreDTO['client'] = selectedOppId;
-    console.log('Client Select Element:', this.OppSelect);
-    console.log('Client Select Value:', this.OppSelect?.nativeElement.value);
-    console.log("data save",formData)
-    this.offreService.updateAndAssignToOpp(selectedOppId,this.oppid,formData).subscribe(data => {
-          this.toastr.success("added successfully" +
-              "", "", {
-            closeButton: true,
-            positionClass: 'toast-top-right',
-            extendedTimeOut: this.env.extendedTimeOutToastr,
-            progressBar: true,
-            disableTimeOut: false,
-            timeOut: this.env.timeOutToastr
-          })
-//redirect to demande list
-          this.router.navigate(['offre/all']);
-
-        },
-        error => {
-          this.toastr.error("Failed to add", "", {
-            closeButton: true,
-            positionClass: 'toast-top-right',
-            extendedTimeOut: this.env.extendedTimeOutToastr,
-            progressBar: true,
-            disableTimeOut: false,
-            timeOut: this.env.timeOutToastr
-          })
-          console.log("error", error)
-        })
+  resetGrid() {
+    localStorage.removeItem(this.packageName + '_' + 'dataGridDemande');
+    window.location.reload();
+  }
+  ngOnInit(): void {
+this.getAllbc();
   }
 
-  downloadPdfOnClick() {
-    const formData = this.offreF.value;
-    this.offreService.generatePdf(formData);
+  refresh(): void {
+    this.dataGridDemande.instance.refresh();
   }
-  form:FormGroup=this.fb.group({
-    from_name:'',
-    to_name:'admin',
-    from_email:'',
-    subject:'',
-    message:''
+  demandeadd
+  adddemande() {
+    // Navigate to the add-demande component without an ID
 
-  });
-  //send mail
-  async send(){
-    emailjs.init('3wLh-ki2hfRIhh61T');
-   let response=  await emailjs.send("service_p776d4k","template_knpuqn8",{
-      from_name: this.form.value.from_name,
-      to_name: this.form.value.to_name,
-      from_email: this.form.value.from_email,
-      subject: this.form.value.subject,
-      message: this.form.value.message,
-      reply_to: this.form.value.from_email,
+    this.demandeService.Initdemande().subscribe(data => {
+      this.demandeadd = data['id'];
+      this.router.navigate(['bondecommande/add/'+this.demandeadd]);
     });
-   alert('mail sent successfully')
-  }
-  public sendEmail(e: Event) {
-    e.preventDefault();
 
-    emailjs
-        .sendForm('service_p776d4k', 'template_knpuqn8', e.target as HTMLFormElement, {
-          publicKey: '3wLh-ki2hfRIhh61T',
-        })
-        .then(
-            () => {
-              console.log('SUCCESS!');
-            },
-            (error) => {
-              console.log('FAILED...', (error as EmailJSResponseStatus).text);
-            },
-        );
   }
+  id
+    Editdemande(id) {
+        // Set the ID property
+        this.id = id.data.id;
+
+        // Navigate to the add-demande component with the specific ID
+        this.router.navigate(['bondecommande/add', this.id]);
+    }
+    showbordereaux(id: any) {
+        this.router.navigate(["bondecommande/add/"+id])
+
+    }
+    popupDelete(id:any) {
+        this.popupDeleteVisible=true;
+        console.log("DELETE"+this.popupDeleteVisible.toString());
+        this.iddoc=id;
+
+    }
+  // async send(){
+  //   emailjs.init('3wLh-ki2hfRIhh61T');
+  //  let response=  await emailjs.send("service_p776d4k","template_knpuqn8",{
+  //     from_name: this.form.value.from_name,
+  //     to_name: this.form.value.to_name,
+  //     from_email: this.form.value.from_email,
+  //     subject: this.form.value.subject,
+  //     message: this.form.value.message,
+  //     reply_to: this.form.value.from_email,
+  //   });
+  //  alert('mail sent successfully')
+  // }
+  // public sendEmail(e: Event) {
+  //   e.preventDefault();
+  //
+  //   emailjs
+  //       .sendForm('service_p776d4k', 'template_knpuqn8', e.target as HTMLFormElement, {
+  //         publicKey: '3wLh-ki2hfRIhh61T',
+  //       })
+  //       .then(
+  //           () => {
+  //             console.log('SUCCESS!');
+  //           },
+  //           (error) => {
+  //             console.log('FAILED...', (error as EmailJSResponseStatus).text);
+  //           },
+  //       );
+  // }
+
+    exportGrid() {
+        const doc = new jsPDF();
+        exportDataGridToPdf({
+            jsPDFDocument: doc,
+            component: this.dataGridDemande.instance
+        }).then(() => {
+            doc.save('bondecommandes.pdf');
+        })
+    }
+    getAllbc() {
+
+        this.dataSourceElement = new CustomStore({
+            load: function (loadOptions: any) {
+
+                loadOptions.requireTotalCount = true;
+                var params = "";
+                var paramsCount: any = '';
+                if (loadOptions.take == undefined || loadOptions.take == null) {
+                    loadOptions.take = 0;
+                }
+                if (loadOptions.skip == undefined || loadOptions.skip == null) {
+                    loadOptions.skip = 0;
+                }
+                //size
+                if (params === '') {
+                    params += 'size=' + (loadOptions.take) || this.env.pageSize;
+                } else {
+                    params += '&size=' + (loadOptions.take) || this.env.pageSize;
+                }
+                //page
+                params += '&page=' + (loadOptions.skip && loadOptions.skip != null && loadOptions.skip !== 0 ? (Math.ceil(loadOptions.skip / loadOptions.take)) : 0);
+
+                //sort
+                // params += '&sort=dateRecrutement,desc'
+                if (loadOptions.sort) {
+                    if (loadOptions.sort[0].desc) {
+                        params += '&sort=' + loadOptions.sort[0].selector + ',desc';
+                    } else {
+                        params += '&sort=' + loadOptions.sort[0].selector + ',asc';
+                    }
+                }
+                let tab: any[] = [];
+                if (loadOptions.filter) {
+                    if (loadOptions.filter[1] == 'and') {
+                        for (var i = 0; i < loadOptions.filter.length; i++) {
+                            if (loadOptions.filter[i][1] == 'and') {
+                                for (var j = 0; j < loadOptions.filter[i].length; j++) {
+                                    if (loadOptions.filter[i][j] != 'and') {
+                                        if (loadOptions.filter[i][j][1] == 'and') {
+                                            tab.push(loadOptions.filter[i][j][0]);
+                                            tab.push(loadOptions.filter[i][j][2]);
+                                        } else {
+                                            tab.push(loadOptions.filter[i][j]);
+                                        }
+                                    }
+                                }
+                            } else {
+                                tab.push(loadOptions.filter[i]);
+                            }
+                        }
+                    } else {
+                        tab.push([loadOptions.filter[0], loadOptions.filter[1], loadOptions.filter[2]]);
+                    }
+                }
+                let filter = {};
+                let cond = {}
+                let jd = 0;
+
+                for (let i = 0; i < tab.length; i++) {
+                    if (tab[i][0].indexOf('.') !== -1) {
+                        jd++;
+                        let temp: any[] = tab[i][0].split('.');
+                        if (filter[temp[0]] !== undefined && filter[temp[0]] !== null) {
+                            filter[temp[0]] = filter[temp[0]] + ';' + temp[1] + ':' + tab[i][2]
+                            if (tab[i][1] === '=') {
+                                cond[temp[0]] = '.equals=';
+                            } else if (tab[i][1] === '<>') {
+                                cond[temp[0]] = '.notEquals='
+                            } else {
+                                cond[temp[0]] = '.contains='
+                            }
+                        } else {
+                            filter[temp[0]] = temp[1] + ':' + tab[i][2]
+                            if (tab[i][1] === '=') {
+                                cond[temp[0]] = '.equals=';
+                            } else if (tab[i][1] === '<>') {
+                                cond[temp[0]] = '.notEquals='
+                            } else {
+                                cond[temp[0]] = '.contains='
+                            }
+                        }
+                        delete tab[i];
+                    }
+                }
+                let filterText = ""
+                Object.keys(filter).forEach(function (k) {
+
+                    filterText = filterText + '&' + k + cond[k] + filter[k];
+                });
+                for (let i = 0; i < tab.length; i++) {
+                    if (tab[i] !== undefined && tab[i] !== null) {
+                        if (tab[i][0] == 'startDate' || tab[i][0] == 'sysdateCreated' || tab[i][0] == 'sysdateUpdated' || tab[i][0] == 'dateTimeFrom' || tab[i][0] == 'dateTimeUntil') {
+                            let isoDate = new Date(tab[i][2]).toISOString();
+                            tab[i][2] = isoDate;
+                        }
+                        let operateur;
+                        switch (tab[i][1]) {
+                            case ('notcontains'): {
+                                operateur = 'doesNotContain';
+                                break;
+                            }
+                            case  'contains': {
+                                operateur = 'contains';
+
+                                break;
+                            }
+                            case '<>' : {
+                                if (tab[i][0] == 'arrivedDatetime') {
+                                    this.reqDateDebutDateFin += '&arrivedDatetime.notEquals=' + new Date(tab[i][2]).toISOString();
+                                }
+                                operateur = 'notEquals';
+                                break;
+                            }
+                            case  '=': {
+                                operateur = 'equals';
+                                break;
+                            }
+                            case 'endswith': {
+                                // q.push("(" + tab[i][0] + ":*" + tab[i][2] + ")");
+                                break;
+                            }
+                            case  'startswith': {
+                                //  q.push("(" + tab[i][0] + ":" + tab[i][2] + "*" + ")");
+                                break;
+                            }
+                            case  '>=': {
+                                if (tab[i][0] == 'arrivedDatetime') {
+                                    if (tab[i][0] == 'arrivedDatetime') {
+                                        this.reqDateDebutDateFin += '&arrivedDatetime.greaterOrEqualThan=' + new Date(tab[i][2]).toISOString();
+                                    }
+                                    this.fromDate = new Date(tab[i][2]).toISOString();
+                                }
+                                operateur = 'greaterOrEqualThan';
+                                break;
+                            }
+                            case  '>': {
+                                operateur = 'greaterOrEqualThan';
+                                break;
+                            }
+                            case  '<=': {
+                                operateur = 'lessOrEqualThan';
+                                break;
+                            }
+                            case  '<': {
+                                if (tab[i][0] == 'arrivedDatetime') {
+                                    this.reqDateDebutDateFin += '&arrivedDatetime.lessOrEqualThan=' + new Date(tab[i][2]).toISOString();
+                                    this.toDate = new Date(tab[i][2]).toISOString();
+                                }
+                                operateur = 'lessOrEqualThan';
+                                break;
+                            }
+                            case 'or' : {
+                                if (typeof (tab[i][0]) == "object") {
+                                    let ch = ""
+                                    loadOptions.filter.forEach(element => {
+                                        if (element[2] != null && element[2] != undefined && element[2] != "") {
+                                            ch += element[2] + ","
+                                        }
+                                    });
+                                    paramsCount += '&';
+                                    paramsCount += tab[i][0][0] + "." + "in=" + ch
+                                    paramsCount += ',';
+                                    params += '&';
+                                    params += tab[i][0][0] + "." + "in=" + ch
+                                } else
+                                    operateur = "notEquals"
+
+                                break;
+                            }
+                        }
+                        if (operateur !== null && operateur !== undefined && operateur != '') {
+                            if (tab[i][0] == 'arrivedDatetime') {
+                                paramsCount += '&';
+                                paramsCount += tab[i][0] + '.' + operateur + '=' + new Date(tab[i][2]).toISOString();
+                                paramsCount += ',';
+                                params += '&';
+                                params += tab[i][0] + '.' + operateur + '=' + new Date(tab[i][2]).toISOString();
+
+                            } else {
+                                paramsCount += '&';
+                                paramsCount += tab[i][0] + '.' + operateur + '=' + tab[i][2];
+                                paramsCount += ',';
+                                params += '&';
+
+                                params += tab[i][0] + '.' + operateur + '=' + tab[i][2];
+                            }
+
+                        }
+                    }
+                }
+                let ref = '?';
+
+                return this.http.get(this.env.piOpp + 'bon-de-commandes' + "?" + params + filterText, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())})
+                    .toPromise()
+                    .then((data: any) => {
+                            console.log(data)
+                            this.count = data.totalElements
+                            this.nbPage = data['totalPages']
+                            return {'data': data.content, 'totalCount': data.totalElements};
+
+                        },
+                        error => {
+                        });
+            }.bind(this),
+
+        })
+
+
+
+    }
+
+
 }
