@@ -249,7 +249,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     this.demandeDTO['statut'] = formData['statut'];
     this.demandeDTO['dateDeCreation'] = formData['dateDeCreation'];
     //ajouter decision to formData
-     formData['decision'] = "Pour Validation";
+    //  formData['decision'] = "Pour Validation";
     const selectedClientId = this.clientSelect?.nativeElement.value;
     this.demandeDTO['client'] = selectedClientId;
     console.log('Client Select Element:', this.clientSelect);

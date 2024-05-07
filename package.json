@@ -77,6 +77,7 @@
     "lodash": "4.17.20",
     "material-icons": "^1.12.2",
     "mdb-angular-ui-kit": "git+https://oauth2:Cmbzj1NikJxDapcjxW33@git.mdbootstrap.com/mdb/angular/mdb5/prd/mdb5-angular-ui-kit-pro-essential#1.6.1",
+    "mdb-ui-kit": "^7.2.0",
     "moment": "2.29.1",
     "moment-timezone": "^0.5.40",
     "ng2-ace-editor": "0.3.9",

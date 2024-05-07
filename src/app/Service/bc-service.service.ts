@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {WsService} from "../../ws.service";
 import {EnvService} from "../../env.service";
 import {TokenStorageService} from "../pages/Global/shared-service/token-storage.service";
+import {Demande} from "../Models/Demande";
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +24,15 @@ export class BcServiceService {
     deleteBC(id: number): Observable<void> {
         return this.http.delete<void>(`${this.env.piOpp}${this.Wservice.getBc}/${id}`);
     }
+  getStatusList(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.env.piOpp}listbc`);
+  }
+
+  getbcById(id): Observable<any> {
+    const url = `${this.env.piOpp}/BondecommandeByid/${id}`;
+    return this.http.get<any>(url);
+  }
+  BC_process_Submit(obj) {
+    return this.http.patch(this.env.piOpp + 'submitBC', obj, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
+  }
 }
