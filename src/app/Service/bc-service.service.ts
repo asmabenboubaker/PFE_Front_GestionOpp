@@ -19,4 +19,8 @@ export class BcServiceService {
   InitBC() {
     return this.http.patch(this.env.piOpp + 'initBC', {}, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
   }
+  //delete BC
+    deleteBC(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.env.piOpp}${this.Wservice.getBc}/${id}`);
+    }
 }

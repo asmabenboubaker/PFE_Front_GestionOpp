@@ -109,7 +109,7 @@ this.getAllbc();
   adddemande() {
     // Navigate to the add-demande component without an ID
 
-    this.demandeService.Initdemande().subscribe(data => {
+    this.bcService.InitBC().subscribe(data => {
       this.demandeadd = data['id'];
       this.router.navigate(['bondecommande/add/'+this.demandeadd]);
     });
@@ -381,6 +381,39 @@ this.getAllbc();
 
 
 
+    }
+
+    deletedemande() {
+        this.bcService.deleteBC(this.iddoc).subscribe(data=>{
+            this.refresh();
+            this.translateService.get("deleteWithSuccess").subscribe(
+                res => {
+                    this.toastr.success(res, "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    })
+                }
+            )
+            this.popupDeleteVisible = false;
+        }, error => {
+            this.toastr.error(error.error.message, "", {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+        })
+
+    }
+
+    fermerPopup() {
+        this.popupDeleteVisible=false;
     }
 
 

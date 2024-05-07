@@ -17,11 +17,11 @@ export const routes: Routes  = [
       pathMatch: 'full'
   } ,
     {
-        path: 'add',
-        component: AddBcComponent,
-        data: {breadcrumb: 'Ajouter BC'},
-        pathMatch: 'full'
-    }
+      path: 'add/:id',
+      component: AddBcComponent,
+      data: {breadcrumb: 'Ajouter BC'},
+      pathMatch: 'full'
+  }
   
 
 ];
