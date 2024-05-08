@@ -7,7 +7,7 @@
     [columnAutoWidth]="true"
     [dataSource]="dataSourceElement"
     [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-    [rowAlternationEnabled]="true"
+    [rowAlternationEnabled]="false"
     [showColumnLines]="true"
     (onRowDblClick)="EditOffre($event)"
 
@@ -38,7 +38,7 @@
                 class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
 
         <a (click)="popupDelete(data.data.id)" target="_blank"   title="" >
-            <i class="fa fa-trash" style="color:#a63a3a;">
+            <i class="fa fa-trash" style="color:#168c94;">
             </i></a>
     </div>
     <div *dxTemplate="let data of 'ExportPDF'">

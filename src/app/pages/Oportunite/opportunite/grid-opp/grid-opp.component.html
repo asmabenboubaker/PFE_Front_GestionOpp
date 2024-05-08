@@ -1,28 +1,4 @@
 
-<!--<dx-popup-->
-<!--        [maxWidth]="940"-->
-<!--        [width]="900"-->
-<!--        [height]="'auto'"-->
-<!--        [showTitle]="true"-->
-<!--        title="Ajouter Demande"-->
-<!--        [dragEnabled]="false"-->
-<!--        [closeOnOutsideClick]="true"-->
-<!--        [(visible)]="popupAdd">-->
-
-<!--    <app-add-demande [id]="" (add)="add($event)"></app-add-demande>-->
-<!--</dx-popup>-->
-<!--<dx-popup-->
-<!--        [maxWidth]="940"-->
-<!--        [width]="900"-->
-<!--        [height]="'auto'"-->
-<!--        [showTitle]="true"-->
-<!--        title=" edit client"-->
-<!--        [dragEnabled]="false"-->
-<!--        [closeOnOutsideClick]="true"-->
-<!--        [(visible)]="popupEdit">-->
-
-<!--    <app-add-demande *ngIf="this.id" [id]="''+this.id" (add)="add($event)"></app-add-demande>-->
-<!--</dx-popup>-->
 
 <dx-data-grid
     #dataGridOpp
@@ -33,7 +9,7 @@
     [columnAutoWidth]="true"
     [dataSource]="dataSourceElement"
     [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-    [rowAlternationEnabled]="true"
+    [rowAlternationEnabled]="false"
     [showColumnLines]="true"
     (onRowDblClick)="EditOpp($event)"
 
@@ -64,7 +40,7 @@
                 class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
 
         <a (click)="popupDelete(data.data.id)" target="_blank"   title="" >
-            <i class="fa fa-trash" style="color:#a63a3a;">
+            <i class="fa fa-trash" style="color:#168c94;">
             </i></a>
     </div>
     <div *dxTemplate="let data of 'ExportPDF'">

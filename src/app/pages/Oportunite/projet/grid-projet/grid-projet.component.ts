@@ -354,6 +354,7 @@ export class GridProjetComponent implements OnInit {
                 return this.http.get(this.env.piOpp + 'projets' + "?" + params + filterText, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())})
                     .toPromise()
                     .then((data: any) => {
+                            console.log("list projet")
                             console.log(data)
                             this.count = data.totalElements
                             this.nbPage = data['totalPages']

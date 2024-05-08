@@ -138,7 +138,8 @@ this.offreF.get('description').setValue(data.description);
         timeOut: this.env.timeOutToastr
       })
       //redirect to demande list
-        this.router.navigate(['offre/edit/'+this.oppid]);
+      //   this.router.navigate(['offre/edit/'+this.oppid]);
+        window.location.reload();
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,

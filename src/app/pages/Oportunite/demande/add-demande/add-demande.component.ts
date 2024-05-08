@@ -2,12 +2,12 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, inject,
   Input,
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
+  SimpleChanges, TemplateRef,
   ViewChild
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
@@ -27,6 +27,7 @@ import DataSource from "devextreme/data/data_source";
 import {Paging} from "../../../Global/ps-tools/class";
 import {DemandeDto} from "../../../../Models/DemandeDto";
 import {DatePipe} from "@angular/common";
+import {ToastService} from "../../../../Service/toast-service";
 
 @Component({
   selector: 'app-add-demande',
@@ -213,9 +214,10 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     console.log("this.demanade CONFIRMATION",formData)
 
     this.demandeService.Demande_process_Submit(formData).subscribe(data => {
-this.showSuccess();
 
-        this.router.navigate(['Demande/add/']+this.demandeid);
+this.showSuccess();
+        // this.router.navigate(['Demande/add/']+this.demandeid);
+      window.location.reload();
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
@@ -227,7 +229,7 @@ this.showSuccess();
       })
       console.log("error", error)
     })
-    // this.closepopupMeeting();
+
   }
   Retourn(){
 
@@ -396,7 +398,7 @@ this.showSuccess();
   }
 
     showSuccess() {
-      this.toastr.success("Hello world!", "Toastr fun!", {
+      this.toastr.info("Hello world!", "Toastr fun!", {
         titleClass: "center",
         messageClass: "center"
       });

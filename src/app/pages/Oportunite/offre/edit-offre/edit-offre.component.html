@@ -1,258 +1,319 @@
+<!-- Tabs navs -->
+<ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ creationOffre ? 'active' : '' }}"
+                id="ex3-tab-1"
+                href="#ex3-tabs-1"
+                role="tab"
+                aria-controls="ex3-tabs-1"
+                aria-selected="true"
+                [class.disabled]="!creationOffre"
+        >Création offre</a
+        >
+    </li>
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ validation ? 'active' : '' }}"
+                id="ex3-tab-2"
+                href="#ex3-tabs-2"
+                role="tab"
+                aria-controls="ex3-tabs-2"
+                aria-selected="false"
+                [class.disabled]="!validation"
+        >Validation offre</a
+        >
+    </li>
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ reponse ? 'active' : '' }}"
+                id="ex3-tab-3"
+                href="#ex3-tabs-3"
+                role="tab"
+                aria-controls="ex3-tabs-3"
+                aria-selected="false"
+                [class.disabled]="!reponse"
+        >Réponse du Client</a
+        >
+    </li>
+
+    <!-- New tab -->
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ elsebool ? 'active' : '' }}"
+                id="ex3-tab-4"
+                href="#ex3-tabs-4"
+                role="tab"
+                aria-controls="ex3-tabs-4"
+                aria-selected="false"
+                [class.disabled]="!elsebool"
+        >modifier offre</a>
+    </li>
 
 
-<head>
-    <title>Creation offre </title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" />
-</head>
-<body>
+</ul>
+<!-- Tabs navs -->
 
-<div class="page" >
-    <h2>Creation Opportunité</h2>
-    <!-- tabs -->
-    <div class="pcss3t pcss3t-effect-scale pcss3t-theme-1" >
-        <input type="radio" name="pcss3t"   id="tab1"class="tab-content-first" [checked]="creationOffre" [disabled]="!creationOffre">
-        <label for="tab1"><i class="icon-edit"></i>Création offre</label>
-
-        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2"  [checked]="validation" [disabled]="!validation">
-        <label for="tab2"><i class="icon-check"></i>Validation offre </label>
-
-        <input type="radio" name="pcss3t" id="tab3" class="tab-content-3" [checked]="reponse" [disabled]="!reponse">
-        <label for="tab3"><i class="icon-adjust"></i>Réponse du Client</label>
-
-        <input type="radio" name="pcss3t" id="tab5" class="tab-content-last" [checked]="elsebool" [disabled]="!elsebool">
-        <label for="tab5"><i class="icon-file-alt"></i>modifier offre</label>
-
-        <ul >
-            <li class="tab-content tab-content-first typography" >
-                <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
+<!-- Tabs content -->
+<div class="tab-content" id="ex2-content">
+    <!-- acctiver when verification is true-->
+    <div
+            class="tab-pane fade {{ creationOffre ? 'show active' : '' }}"
+            id="ex3-tabs-1"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-1"
+            *ngIf="creationOffre"
+    >
+        <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
-                        <div class="form-group">
-                            <label for="modePaiement" class="form-label">mode de Paiement:</label>
-                            <input class="form-control" formControlName="modePaiement" id="modePaiement" type="text" required>
+            <div class="form-group">
+                <label for="modePaiement" class="form-label">mode de Paiement:</label>
+                <input class="form-control" formControlName="modePaiement" id="modePaiement" type="text" required>
 
-                        </div>
+            </div>
 
-                        <div class="form-group">
-                            <label for="montant" class="form-label">montant:</label>
-                            <input class="form-control" formControlName="montant" id="montant" type="text" required>
+            <div class="form-group">
+                <label for="montant" class="form-label">montant:</label>
+                <input class="form-control" formControlName="montant" id="montant" type="text" required>
 
-                        </div>
-
-
-                    <div class="form-group">
-                        <label for="description" class="form-label">Description:</label>
-                        <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="opp" class="form-label">Opprotunité Associée :</label>
-                        <!--        <select class="form-select" formControlName="client" id="client">-->
-                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                        <!--        </select>-->
-                        <select #OppSelect  class="custom-select my-1 mr-sm-2"  id="opp" >
-                            <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateLivraison" class="form-label">Date de livraison:</label>
-                        <input class="form-control" formControlName="dateLivraison" id="dateLivraison" type="date" required>
-                    </div>
-
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="offreForm"
-                                [SaveObject]="offreForm">
-                        </app-workflow-decision>
-
-                    </div>
-                    <button (click)="downloadPdfOnClick()">Download PDF</button>
-                </form>
-
-            </li>
-
-            <li class="tab-content tab-content-2 typography">
-                <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
+            </div>
 
 
-                        <div class="form-group">
-                            <label for="modePaiement" class="form-label">mode de Paiement:</label>
-                            <input class="form-control" formControlName="modePaiement" type="text" required>
+            <div class="form-group">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
 
-                        </div>
+            </div>
+            <div class="form-group">
+                <label for="opp" class="form-label">Opprotunité Associée :</label>
+                <!--        <select class="form-select" formControlName="client" id="client">-->
+                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                <!--        </select>-->
+                <select #OppSelect  class="custom-select my-1 mr-sm-2"  id="opp" >
+                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateLivraison" class="form-label">Date de livraison:</label>
+                <input class="form-control" formControlName="dateLivraison" id="dateLivraison" type="date" required>
+            </div>
 
-                        <div class="form-group">
-                            <label for="montant" class="form-label">montant:</label>
-                            <input class="form-control" formControlName="montant"  type="text" required>
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="offreForm"
+                        [SaveObject]="offreForm">
+                </app-workflow-decision>
 
-                        </div>
+            </div>
+            <button (click)="downloadPdfOnClick()">Download PDF</button>
+        </form>
 
+    </div>
+    <div
+            class="tab-pane fade {{ validation ? 'show active' : '' }}"
+            id="ex3-tabs-2"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-2"
+            *ngIf="validation"
+    >
 
-                    <div class="form-group">
-                        <label for="description" class="form-label">Description:</label>
-                        <textarea class="form-control" formControlName="description"  type="text" required></textarea>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="opp" class="form-label">Opprotunité Associée :</label>
-                        <!--        <select class="form-select" formControlName="client" id="client">-->
-                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                        <!--        </select>-->
-                        <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
-                            <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateLivraison" class="form-label">Date de livraison:</label>
-                        <input class="form-control" formControlName="dateLivraison" type="date" required>
-                    </div>
-
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="offreForm"
-                                [SaveObject]="offreForm">
-                        </app-workflow-decision>
-
-                    </div>
-                    <button (click)="downloadPdfOnClick()">Download PDF</button>
-                </form>
-            </li>
-
-            <li class="tab-content tab-content-3 typography">
-                <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
+        <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
-                        <div class="form-group">
-                            <label for="modePaiement" class="form-label">mode de Paiement:</label>
-                            <input class="form-control" formControlName="modePaiement" type="text" required>
+            <div class="form-group">
+                <label for="modePaiement" class="form-label">mode de Paiement:</label>
+                <input class="form-control" formControlName="modePaiement" type="text" required>
 
-                        </div>
+            </div>
 
-                        <div class="form-group">
-                            <label for="montant" class="form-label">montant:</label>
-                            <input class="form-control" formControlName="montant"  type="text" required>
+            <div class="form-group">
+                <label for="montant" class="form-label">montant:</label>
+                <input class="form-control" formControlName="montant"  type="text" required>
 
-                        </div>
-
-
-                    <div class="form-group">
-                        <label for="description" class="form-label">Description:</label>
-                        <textarea class="form-control" formControlName="description"  type="text" required></textarea>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="opp" class="form-label">Opprotunité Associée :</label>
-                        <!--        <select class="form-select" formControlName="client" id="client">-->
-                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                        <!--        </select>-->
-                        <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
-                            <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateLivraison" class="form-label">Date de livraison:</label>
-                        <input class="form-control" formControlName="dateLivraison" type="date" required>
-                    </div>
-
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="offreForm"
-                                [SaveObject]="offreForm">
-                        </app-workflow-decision>
-
-                    </div>
-                    <button (click)="downloadPdfOnClick()">Download PDF</button>
-                </form>
-            </li>
-            <li class="tab-content tab-content-last typography">
-                <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
+            </div>
 
 
-                        <div class="form-group">
-                            <label for="modePaiement" class="form-label">mode de Paiement:</label>
-                            <input class="form-control" formControlName="modePaiement" type="text" required>
+            <div class="form-group">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" formControlName="description"  type="text" required></textarea>
 
-                        </div>
+            </div>
+            <div class="form-group">
+                <label for="opp" class="form-label">Opprotunité Associée :</label>
+                <!--        <select class="form-select" formControlName="client" id="client">-->
+                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                <!--        </select>-->
+                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
+                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateLivraison" class="form-label">Date de livraison:</label>
+                <input class="form-control" formControlName="dateLivraison" type="date" required>
+            </div>
 
-                        <div class="form-group">
-                            <label for="montant" class="form-label">montant:</label>
-                            <input class="form-control" formControlName="montant"  type="text" required>
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="offreForm"
+                        [SaveObject]="offreForm">
+                </app-workflow-decision>
 
-                        </div>
+            </div>
+            <button (click)="downloadPdfOnClick()">Download PDF</button>
+        </form>
+
+    </div>
+    <div
+            class="tab-pane fade {{ reponse ? 'show active' : '' }}"
+            id="ex3-tabs-3"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-3"
+            *ngIf="reponse"
+    >
+
+        <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
-                    <div class="form-group">
-                        <label for="description" class="form-label">Description:</label>
-                        <textarea class="form-control" formControlName="description"  type="text" required></textarea>
+            <div class="form-group">
+                <label for="modePaiement" class="form-label">mode de Paiement:</label>
+                <input class="form-control" formControlName="modePaiement" type="text" required>
 
-                    </div>
-                    <div class="form-group">
-                        <label for="opp" class="form-label">Opprotunité Associée :</label>
-                        <!--        <select class="form-select" formControlName="client" id="client">-->
-                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                        <!--        </select>-->
-                        <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
-                            <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateLivraison" class="form-label">Date de livraison:</label>
-                        <input class="form-control" formControlName="dateLivraison" type="date" required>
-                    </div>
+            </div>
 
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="offreForm"
-                                [SaveObject]="offreForm">
-                        </app-workflow-decision>
+            <div class="form-group">
+                <label for="montant" class="form-label">montant:</label>
+                <input class="form-control" formControlName="montant"  type="text" required>
 
-                    </div>
+            </div>
 
-                    <button (click)="downloadPdfOnClick()">Download PDF</button>
-                </form>
-            </li>
 
-        </ul>
+            <div class="form-group">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" formControlName="description"  type="text" required></textarea>
+
+            </div>
+            <div class="form-group">
+                <label for="opp" class="form-label">Opprotunité Associée :</label>
+                <!--        <select class="form-select" formControlName="client" id="client">-->
+                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                <!--        </select>-->
+                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
+                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateLivraison" class="form-label">Date de livraison:</label>
+                <input class="form-control" formControlName="dateLivraison" type="date" required>
+            </div>
+
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="offreForm"
+                        [SaveObject]="offreForm">
+                </app-workflow-decision>
+
+            </div>
+            <button (click)="downloadPdfOnClick()">Download PDF</button>
+        </form>
 
     </div>
 
-    <!--/ tabs -->
+
+
+    <!-- Content for new tab -->
+    <div
+            class="tab-pane fade {{ elsebool ? 'show active' : '' }}"
+            id="ex3-tabs-4"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-4"
+            *ngIf="elsebool"
+    >
+        <!-- Your content for the new tab goes here -->
+        <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
+
+
+            <div class="form-group">
+                <label for="modePaiement" class="form-label">mode de Paiement:</label>
+                <input class="form-control" formControlName="modePaiement" type="text" required>
+
+            </div>
+
+            <div class="form-group">
+                <label for="montant" class="form-label">montant:</label>
+                <input class="form-control" formControlName="montant"  type="text" required>
+
+            </div>
+
+
+            <div class="form-group">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" formControlName="description"  type="text" required></textarea>
+
+            </div>
+            <div class="form-group">
+                <label for="opp" class="form-label">Opprotunité Associée :</label>
+                <!--        <select class="form-select" formControlName="client" id="client">-->
+                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                <!--        </select>-->
+                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
+                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateLivraison" class="form-label">Date de livraison:</label>
+                <input class="form-control" formControlName="dateLivraison" type="date" required>
+            </div>
+
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="offreForm"
+                        [SaveObject]="offreForm">
+                </app-workflow-decision>
+
+            </div>
+
+            <button (click)="downloadPdfOnClick()">Download PDF</button>
+        </form>
+
+    </div>
+
+
+
 </div>
-
-
-
-</body>
