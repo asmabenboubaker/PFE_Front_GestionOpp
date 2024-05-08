@@ -9,7 +9,14 @@ import { TaskServiceService } from "../../../../Service/task-service.service";
   styleUrls: ['./task-board.component.scss']
 })
 export class TaskBoardComponent implements OnInit {
-
+  taskToEdit
+  popupTitle
+  popupVisibleedit=false
+  editTask(task: any): void {
+    this.taskToEdit = task;
+    this.popupTitle = "Edit Task";
+    this.popupVisibleedit = true;
+  }
   @ViewChild(DxSortableComponent, { static: false }) sortable: DxSortableComponent;
 
   @Input() dataSource: any[];

@@ -38,4 +38,8 @@ export class TaskServiceService {
     deleteTask(taskId: number): Observable<any> {
         return this.http.delete(`${this.env.piOpp + this.Wservice.getTask}/${taskId}`);
     }
+    // update task
+    updateTask(taskId: number, data: any): Observable<any> {
+        return this.http.put(`${this.env.piOpp + this.Wservice.getTask}/${taskId}`, data);
+    }
 }
