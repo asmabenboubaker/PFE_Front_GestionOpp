@@ -1,756 +1,693 @@
-<!--<form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>-->
-
-<!--&lt;!&ndash;    <div *ngIf="selectedDemande">&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <label for="nomDemande" class="form-label">Nom Demande:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <label for="client" class="form-label">Client:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <label for="statut" class="form-label">Statut:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <label for="source" class="form-label">Source:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <label for="commentaires" class="form-label">Commentaires:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <label for="deadline" class="form-label">Deadline:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <label for="descriptionDemande" class="form-label">Description Demande:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--    <section class="light" >-->
-<!--        <div class="container py-2">-->
-<!--            <div class="h1 text-center text-dark" id="pageHeaderTitle2"></div>-->
-
-
-<!--            <article class="postcard light green">-->
-<!--                <a class="postcard__img_link" href="#">-->
-<!--                    &lt;!&ndash;                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />&ndash;&gt;-->
-<!--                </a>-->
-<!--                <div class="postcard__text t-dark">-->
-<!--                    <h1 class="postcard__title green"><a href="#">Demande informations</a></h1>-->
-<!--                    <div class="form-row">-->
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="nom" class="form-label">Nom:</label>-->
-<!--                        <input class="form-control" formControlName="nom" id="nom" type="text" required>-->
-<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--                    </div>-->
-
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="montantEstime" class="form-label">Budget alloué:</label>-->
-<!--                        <input class="form-control" formControlName="montantEstime" id="montantEstime" type="text" required>-->
-<!--                        &lt;!&ndash;        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"&ndash;&gt;-->
-<!--                        &lt;!&ndash;             class="alert alert-danger">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <div *ngIf="demandeForm.get('nom').errors.required">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                Nom is required.&ndash;&gt;-->
-<!--                        &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </div>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    </div>-->
-<!--                    <div class="form-group ">-->
-<!--                        <label for="description" class="form-label">Description:</label>-->
-<!--                        <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>-->
-
-<!--                    </div>-->
-<!--                    <div class="form-group ">-->
-<!--                        <label for="demande" class="form-label">Demande Associée :</label>-->
-<!--                        &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
-<!--                        &lt;!&ndash;        </select>&ndash;&gt;-->
-<!--                        <select #demandeSelect class="form-select"  id="demande"   (change)="onSelected(demandeSelect.value)">-->
-<!--                            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                    <div class="upload-container">-->
-<!--                    <div class="input-div">-->
-<!--                        <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
-<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
-<!--                    </div>-->
-<!--                    </div>-->
-<!--                    <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-<!--                        &lt;!&ndash;            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>&ndash;&gt;-->
-<!--                        <app-workflow-decision-->
-<!--                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "-->
-<!--                                (decisionEvent)="Confirmation($event)"-->
-<!--                                (saveEvent)="save()"-->
-<!--                                (RetournEvent)="Retourn()"-->
-<!--                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"-->
-<!--                                [decisions]="decissionWF"-->
-<!--                                [object]="oppForm"-->
-<!--                                [SaveObject]="oppForm">-->
-<!--                        </app-workflow-decision>-->
-
-<!--                        &lt;!&ndash;        <div class="d-grid gap-2 d-md-flex justify-content-md-between">&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>&ndash;&gt;-->
-<!--                        &lt;!&ndash;            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>&ndash;&gt;-->
-
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--            </article>-->
-
-<!--        </div>-->
-
-<!--    </section>-->
-
-
-<!--    <section class="light" *ngIf="selectedDemande">-->
-<!--        <div class="container py-2">-->
-<!--            <div class="h1 text-center text-dark" id="pageHeaderTitle"></div>-->
-
-
-<!--            <article class="postcard light green">-->
-<!--                <a class="postcard__img_link" href="#">-->
-<!--&lt;!&ndash;                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />&ndash;&gt;-->
-<!--                </a>-->
-<!--                <div class="postcard__text t-dark">-->
-<!--                    <h1 class="postcard__title green"><a href="#">Demande informations</a></h1>-->
-<!--                    <div class="postcard__subtitle small">-->
-<!--                        <time datetime="2020-05-25 12:00:00">-->
-<!--                            <i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020-->
-<!--                        </time>-->
-<!--                    </div>-->
-<!--                    <div class="postcard__bar"></div>-->
-<!--&lt;!&ndash;                    <div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>&ndash;&gt;-->
-<!--                    <div class="form-row">-->
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="nomDemande" class="form-label">Nom Demande:</label>-->
-<!--                        <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>-->
-<!--                    </div>-->
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="client" class="form-label">Client:</label>-->
-<!--                        <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>-->
-<!--                    </div>-->
-<!--                    </div>-->
-<!--                    <div class="form-row">-->
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="statut" class="form-label">Statut:</label>-->
-<!--                        <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>-->
-<!--                    </div>-->
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="source" class="form-label">Source:</label>-->
-<!--                        <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>-->
-<!--                    </div>-->
-<!--                    </div>-->
-<!--                    <div class="form-row">-->
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="commentaires" class="form-label">Commentaires:</label>-->
-<!--                        <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>-->
-<!--                    </div>-->
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="deadline" class="form-label">Deadline:</label>-->
-<!--                        <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>-->
-<!--                    </div>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="descriptionDemande" class="form-label">Description Demande:</label>-->
-<!--                        <textarea class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly></textarea>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </article>-->
-
-<!--        </div>-->
-<!--    </section>-->
-
-
-
-<!--</form>-->
-
-<!--add tabs for workwflow-->
-
-<head>
-    <title>Creation demande </title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" />
-</head>
-<body>
-
-<div class="page" id="wrapper">
-    <div class="card3">
-    <h2>Creation Opportunité</h2>
-
-    <!-- tabs -->
-    <div class="pcss3t pcss3t-effect-scale pcss3t-theme-1"  >
-        <input type="radio" name="pcss3t"   id="tab1"class="tab-content-first" [checked]="creationOpp" [disabled]="!creationOpp">
-        <label for="tab1"><i class="icon-edit"></i>Création Opportunité</label>
-
-        <input type="radio" name="pcss3t" id="tab2" class="tab-content-2"  [checked]="Affectaionequipe" [disabled]="!Affectaionequipe">
-        <label for="tab2"><i class="icon-check"></i>Affectation Equipes </label>
-
-        <input type="radio" name="pcss3t" id="tab3" class="tab-content-3" [checked]="etude" [disabled]="!etude">
-        <label for="tab3"><i class="icon-adjust"></i>Etude d'Opportunité </label>
-
-        <input type="radio" name="pcss3t" id="tab5" class="tab-content-last" [checked]="rapport" [disabled]="!rapport">
-        <label for="tab5"><i class="icon-file-alt"></i>Rapport Technique</label>
-        <input type="radio" name="pcss3t" id="tab6" class="tab-content-last" [checked]="elsebool" [disabled]="!elsebool">
-        <label for="tab6"><i class="icon-file-alt"></i>Evaluation</label>
-
-        <input type="radio" name="pcss3t" id="tab7" class="tab-content-last" [checked]="elsebool1" [disabled]="!elsebool1">
-        <label for="tab7"><i class="icon-file-alt"></i>Modifier Opportunité</label>
-        <ul >
-            <li class="tab-content tab-content-first typography" >
-                <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
-
-                    <!--    <div *ngIf="selectedDemande">-->
-
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="nomDemande" class="form-label">Nom Demande:</label>-->
-                    <!--            <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="client" class="form-label">Client:</label>-->
-                    <!--            <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="statut" class="form-label">Statut:</label>-->
-                    <!--            <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="source" class="form-label">Source:</label>-->
-                    <!--            <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="commentaires" class="form-label">Commentaires:</label>-->
-                    <!--            <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="deadline" class="form-label">Deadline:</label>-->
-                    <!--            <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="descriptionDemande" class="form-label">Description Demande:</label>-->
-                    <!--            <input class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly>-->
-                    <!--        </div>-->
-                    <!--    </div>-->
-
-                    <section class="light" >
-                        <div class="container py-2">
-                            <div class="h1 text-center text-dark" id="pageHeaderTitle2"></div>
-
-
-                            <article class="postcard light green">
-                                <a class="postcard__img_link" href="#">
-                                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                                </a>
-                                <div class="postcard__text t-dark">
-
-
-                                        <div class="form-group ">
-                                            <label for="nom" class="form-label">Nom:</label>
-                                            <input class="form-control" formControlName="nom" id="nom" type="text" required>
-                                            <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                                            <!--             class="alert alert-danger">-->
-                                            <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                                            <!--                Nom is required.-->
-                                            <!--            </div>-->
-                                            <!--        </div>-->
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="montantEstime" class="form-label">Budget alloué:</label>
-                                            <input class="form-control" formControlName="montantEstime" id="montantEstime" type="text" required>
-                                            <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                                            <!--             class="alert alert-danger">-->
-                                            <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                                            <!--                Nom is required.-->
-                                            <!--            </div>-->
-                                            <!--        </div>-->
-                                        </div>
-
-                                    <div class="form-group ">
-                                        <label for="description" class="form-label">Description:</label>
-                                        <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
-
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for="demande" class="form-label">Demande Associée :</label>
-                                        <!--        <select class="form-select" formControlName="client" id="client">-->
-                                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                                        <!--        </select>-->
-                                        <select #demandeSelect class="form-select"  id="demande"   (change)="onSelected(demandeSelect.value)">
-                                            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
-                                        </select>
-                                    </div>
-<!--                                    <div class="upload-container">-->
-<!--                                        <div class="input-div">-->
-<!--                                            <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
-<!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-                                </div>
-
-                            </article>
-
-                        </div>
-
-                    </section>
-
-
-                    <section class="light" *ngIf="selectedDemande">
-                        <div class="container py-2">
-                            <div class="h1 text-center text-dark" id="pageHeaderTitle"></div>
-
-
-                            <article class="postcard light green">
-                                <a class="postcard__img_link" href="#">
-                                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                                </a>
-                                <div class="postcard__text t-dark">
-                                    <h5><a href="#">Demande informations</a></h5>
-                                    <div class="postcard__subtitle small">
-                                        <time datetime="2020-05-25 12:00:00">
-                                            <i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
-                                        </time>
-                                    </div>
-                                    <div class="postcard__bar"></div>
-                                    <!--                    <div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>-->
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="nomDemande" class="form-label">Nom Demande:</label>
-                                            <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="client" class="form-label">Client:</label>
-                                            <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="statut" class="form-label">Statut:</label>
-                                            <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="source" class="form-label">Source:</label>
-                                            <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="commentaires" class="form-label">Commentaires:</label>
-                                            <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="deadline" class="form-label">Deadline:</label>
-                                            <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="descriptionDemande" class="form-label">Description Demande:</label>
-                                        <textarea class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly></textarea>
-                                    </div>
-                                </div>
-                            </article>
-
-                        </div>
-                    </section>
-
-
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="oppForm"
-                                [SaveObject]="oppForm">
-                        </app-workflow-decision>
-
-                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
-
-                    </div>
-                </form>
-
-            </li>
-
-            <li class="tab-content tab-content-2 typography">
-                <div class="form-group ">
-                    <label for="demande" class="form-label">Equipe :</label>
-                    <!--        <select class="form-select" formControlName="client" id="client">-->
-                    <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                    <!--        </select>-->
-                    <select #equipeSelect class="form-select"  id="equipe ">
-                        <option>Equipe 1</option>
-                        <option>Equipe 2</option>
-                        <option>Equipe 3</option>
-                        <option>Equipe 4</option>
-
-                    </select>
-                </div>
-                <div class="workflow-container">
-                         <app-workflow-decision
-                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                            (decisionEvent)="Confirmation($event)"
-                            (saveEvent)="save()"
-                            (RetournEvent)="Retourn()"
-                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                            [decisions]="decissionWF"
-                            [object]="oppForm"
-                            [SaveObject]="oppForm">
-                    </app-workflow-decision>
-
-                </div>
-            </li>
-
-            <li class="tab-content tab-content-3 typography">
-
-                <form class="row g-3 needs-validation custom-form" novalidate>
-
-
-
-                    <section class="light" >
-                        <div class="container py-2">
-                            <div class="h1 text-center text-dark" id="pageHeaderTitle3"></div>
-
-
-                            <article class="postcard light green">
-                                <a class="postcard__img_link" href="#">
-                                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                                </a>
-                                <div class="postcard__text t-dark">
-
-
-                                    <div class="form-group">
-                                        <label for="membres" class="form-label">Nombre de membres dans l'équipe de développement est :</label>
-                                        <input class="form-control" formControlName="membres" id="membres" type="text" >
-
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for="specialite" class="form-label">Specialite:</label>
-                                        <input class="form-control" formControlName="specialite" id="specialite" type="text" >
-
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for="nbreHours" class="form-label">Le nombre total d'heures de développement pour l'application:</label>
-                                        <input class="form-control" formControlName="nbreHours" id="nbreHours" type="text" >
-
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for="complexite" class="form-label">Complexite:</label>
-                                        <input class="form-control" formControlName="complexite" id="complexite" type="text">
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="evaluation" class="form-label">Description:</label>
-                                        <textarea class="form-control" formControlName="evaluation" id="evaluation" type="text"></textarea>
-
-                                    </div>
-
-
-
-                                </div>
-
-                            </article>
-
-                        </div>
-
-                    </section>
-
-
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="oppForm"
-                                [SaveObject]="oppForm">
-                        </app-workflow-decision>
-
-                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
-
-                    </div>
-                </form>
-
-            </li>
-            <li class="tab-content tab-content-last typography">
-                <form class="file-upload-form" style="flex-direction: column">
-                    <div class="file-upload-container" style="">
-                        <label for="file" class="file-upload-label">
-                            <div class="file-upload-design">
-                                <svg viewBox="0 0 640 512" height="1em">
-                                    <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>
-                                </svg>
-                                <p>Drag and Drop</p>
-                                <p>or</p>
-                                <span class="browse-button">Browse file</span>
+<!-- Tabs navs -->
+<ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ creationOpp ? 'active' : '' }}"
+                id="ex3-tab-1"
+                href="#ex3-tabs-1"
+                role="tab"
+                aria-controls="ex3-tabs-1"
+                aria-selected="true"
+                [class.disabled]="!creationOpp"
+        >Création Opportunité</a
+        >
+    </li>
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ Affectaionequipe ? 'active' : '' }}"
+                id="ex3-tab-2"
+                href="#ex3-tabs-2"
+                role="tab"
+                aria-controls="ex3-tabs-2"
+                aria-selected="false"
+                [class.disabled]="!Affectaionequipe"
+        >Affectation Equipes</a
+        >
+    </li>
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ etude ? 'active' : '' }}"
+                id="ex3-tab-3"
+                href="#ex3-tabs-3"
+                role="tab"
+                aria-controls="ex3-tabs-3"
+                aria-selected="false"
+                [class.disabled]="!etude"
+        >Etude d'Opportunité</a
+        >
+    </li>
+
+    <!-- New tab -->
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ rapport ? 'active' : '' }}"
+                id="ex3-tab-4"
+                href="#ex3-tabs-4"
+                role="tab"
+                aria-controls="ex3-tabs-4"
+                aria-selected="false"
+                [class.disabled]="!rapport"
+        >Rapport Technique</a>
+    </li>
+
+    <!-- New tab -->
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ elsebool ? 'active' : '' }}"
+                id="ex3-tab-5"
+                href="#ex3-tabs-5"
+                role="tab"
+                aria-controls="ex3-tabs-5"
+                aria-selected="false"
+                [class.disabled]="!elsebool"
+        >Evaluation </a>
+    </li>
+
+    <!-- New tab -->
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ elsebool1 ? 'active' : '' }}"
+                id="ex3-tab-6"
+                href="#ex3-tabs-6"
+                role="tab"
+                aria-controls="ex3-tabs-6"
+                aria-selected="false"
+                [class.disabled]="!elsebool1"
+        >Modifier Opportunité </a>
+    </li>
+</ul>
+<!-- Tabs navs -->
+
+<!-- Tabs content -->
+<div class="tab-content" id="ex2-content">
+    <!-- acctiver when verification is true-->
+    <div
+            class="tab-pane fade {{ creationOpp ? 'show active' : '' }}"
+            id="ex3-tabs-1"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-1"
+            *ngIf="creationOpp"
+    >
+        <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
+
+
+            <section class="light" >
+                <div class="container py-2">
+                    <div class="h1 text-center text-dark" id="pageHeaderTitle2"></div>
+
+
+                    <article class="postcard light green">
+                        <a class="postcard__img_link" href="#">
+                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                        </a>
+                        <div class="postcard__text t-dark">
+
+
+                            <div class="form-group ">
+                                <label for="nom" class="form-label">Nom:</label>
+                                <input class="form-control" formControlName="nom" id="nom" type="text" required>
+                                <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                                <!--             class="alert alert-danger">-->
+                                <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                                <!--                Nom is required.-->
+                                <!--            </div>-->
+                                <!--        </div>-->
                             </div>
-                            <input id="file" type="file" />
-                        </label>
 
+                            <div class="form-group">
+                                <label for="montantEstime" class="form-label">Budget alloué:</label>
+                                <input class="form-control" formControlName="montantEstime" id="montantEstime" type="text" required>
+                                <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                                <!--             class="alert alert-danger">-->
+                                <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                                <!--                Nom is required.-->
+                                <!--            </div>-->
+                                <!--        </div>-->
+                            </div>
 
-                    </div>
+                            <div class="form-group ">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
 
-                </form>
-
-                <div class="workflow-container">
-                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                    <app-workflow-decision
-                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                            (decisionEvent)="Confirmation($event)"
-                            (saveEvent)="save()"
-                            (RetournEvent)="Retourn()"
-                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                            [decisions]="decissionWF"
-                            [object]="oppForm"
-                            [SaveObject]="oppForm">
-                    </app-workflow-decision>
-
-                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
-
-                </div>
-
-            </li>
-            <li class="tab-content tab-content-last typography">
-              <h1>hello</h1>
-
-                <div class="workflow-container">
-                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                    <app-workflow-decision
-                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                            (decisionEvent)="Confirmation($event)"
-                            (saveEvent)="save()"
-                            (RetournEvent)="Retourn()"
-                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                            [decisions]="decissionWF"
-                            [object]="oppForm"
-                            [SaveObject]="oppForm">
-                    </app-workflow-decision>
-
-                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
-
-                </div>
-
-            </li>
-            <li class="tab-content tab-content-last typography">
-                <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
-
-                    <!--    <div *ngIf="selectedDemande">-->
-
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="nomDemande" class="form-label">Nom Demande:</label>-->
-                    <!--            <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="client" class="form-label">Client:</label>-->
-                    <!--            <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="statut" class="form-label">Statut:</label>-->
-                    <!--            <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="source" class="form-label">Source:</label>-->
-                    <!--            <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="commentaires" class="form-label">Commentaires:</label>-->
-                    <!--            <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="deadline" class="form-label">Deadline:</label>-->
-                    <!--            <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>-->
-                    <!--        </div>-->
-                    <!--        <div class="form-group">-->
-                    <!--            <label for="descriptionDemande" class="form-label">Description Demande:</label>-->
-                    <!--            <input class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly>-->
-                    <!--        </div>-->
-                    <!--    </div>-->
-
-                    <section class="light" >
-                        <div class="container py-2">
-                            <div class="h1 text-center text-dark" id="pageHeaderTitle24"></div>
-
-
-                            <article class="postcard light green">
-                                <a class="postcard__img_link" href="#">
-                                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                                </a>
-                                <div class="postcard__text t-dark">
-
-
-                                    <div class="form-group ">
-                                        <label for="nom" class="form-label">Nom:</label>
-                                        <input class="form-control" formControlName="nom" type="text" required>
-                                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                                        <!--             class="alert alert-danger">-->
-                                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                                        <!--                Nom is required.-->
-                                        <!--            </div>-->
-                                        <!--        </div>-->
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="montantEstime" class="form-label">Budget alloué:</label>
-                                        <input class="form-control" formControlName="montantEstime" type="text" required>
-                                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                                        <!--             class="alert alert-danger">-->
-                                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                                        <!--                Nom is required.-->
-                                        <!--            </div>-->
-                                        <!--        </div>-->
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <label for="description" class="form-label">Description:</label>
-                                        <textarea class="form-control" formControlName="description" type="text" required></textarea>
-
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for="demande" class="form-label">Demande Associée :</label>
-                                        <!--        <select class="form-select" formControlName="client" id="client">-->
-                                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                                        <!--        </select>-->
-                                        <select #demandeSelect class="form-select"     (change)="onSelected(demandeSelect.value)">
-                                            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
-                                        </select>
-                                    </div>
-                                    <!--                                    <div class="upload-container">-->
-                                    <!--                                        <div class="input-div">-->
-                                    <!--                                            <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
-                                    <!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </div>-->
-
-                                </div>
-
-                            </article>
+                            </div>
+                            <div class="form-group ">
+                                <label for="demande" class="form-label">Demande Associée :</label>
+                                <!--        <select class="form-select" formControlName="client" id="client">-->
+                                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                                <!--        </select>-->
+                                <select #demandeSelect class="form-select"  id="demande"   (change)="onSelected(demandeSelect.value)">
+                                    <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
+                                </select>
+                            </div>
+                            <!--                                    <div class="upload-container">-->
+                            <!--                                        <div class="input-div">-->
+                            <!--                                            <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
+                            <!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
 
                         </div>
 
-                    </section>
+                    </article>
+
+                </div>
+
+            </section>
 
 
-                    <section class="light" *ngIf="selectedDemande">
-                        <div class="container py-2">
-                            <div class="h1 text-center text-dark" ></div>
+            <section class="light" *ngIf="selectedDemande">
+                <div class="container py-2">
+                    <div class="h1 text-center text-dark" id="pageHeaderTitle"></div>
 
 
-                            <article class="postcard light green">
-                                <a class="postcard__img_link" href="#">
-                                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                                </a>
-                                <div class="postcard__text t-dark">
-                                    <h5><a href="#">Demande informations</a></h5>
-                                    <div class="postcard__subtitle small">
-                                        <time datetime="2020-05-25 12:00:00">
-                                            <i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
-                                        </time>
-                                    </div>
-                                    <div class="postcard__bar"></div>
-                                    <!--                    <div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>-->
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="nomDemande" class="form-label">Nom Demande:</label>
-                                            <input class="form-control"  type="text" [value]="demandeF.get('nom').value" readonly>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="client" class="form-label">Client:</label>
-                                            <input class="form-control" type="text" [value]="demandeF.get('client').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="statut" class="form-label">Statut:</label>
-                                            <input class="form-control"  type="text" [value]="demandeF.get('statut').value" readonly>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="source" class="form-label">Source:</label>
-                                            <input class="form-control" type="text" [value]="demandeF.get('source').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="commentaires" class="form-label">Commentaires:</label>
-                                            <input class="form-control" type="text" [value]="demandeF.get('commentaires').value" readonly>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="deadline" class="form-label">Deadline:</label>
-                                            <input class="form-control" type="text" [value]="demandeF.get('deadline').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="descriptionDemande" class="form-label">Description Demande:</label>
-                                        <textarea class="form-control" type="text" [value]="demandeF.get('description').value" readonly></textarea>
-                                    </div>
+                    <article class="postcard light green">
+                        <a class="postcard__img_link" href="#">
+                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                        </a>
+                        <div class="postcard__text t-dark">
+                            <h5><a href="#">Demande informations</a></h5>
+                            <div class="postcard__subtitle small">
+                                <time datetime="2020-05-25 12:00:00">
+                                    <i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
+                                </time>
+                            </div>
+                            <div class="postcard__bar"></div>
+                            <!--                    <div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>-->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="nomDemande" class="form-label">Nom Demande:</label>
+                                    <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>
                                 </div>
-                            </article>
+                                <div class="form-group col-md-6">
+                                    <label for="client" class="form-label">Client:</label>
+                                    <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="statut" class="form-label">Statut:</label>
+                                    <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="source" class="form-label">Source:</label>
+                                    <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="commentaires" class="form-label">Commentaires:</label>
+                                    <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="deadline" class="form-label">Deadline:</label>
+                                    <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="descriptionDemande" class="form-label">Description Demande:</label>
+                                <textarea class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly></textarea>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="oppForm"
+                        [SaveObject]="oppForm">
+                </app-workflow-decision>
+
+                <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+            </div>
+        </form>
+
+    </div>
+    <div
+            class="tab-pane fade {{ Affectaionequipe ? 'show active' : '' }}"
+            id="ex3-tabs-2"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-2"
+            *ngIf="Affectaionequipe"
+    >
+
+        <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
+
+
+
+
+                    <article class="postcard light green">
+                        <a class="postcard__img_link" href="#">
+                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                        </a>
+                        <div class="postcard__text t-dark">
+
+
+                            <div class="form-group ">
+                                <label for="nom" class="form-label">Nom:</label>
+                                <input class="form-control" formControlName="nom" type="text" required>
+                                <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                                <!--             class="alert alert-danger">-->
+                                <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                                <!--                Nom is required.-->
+                                <!--            </div>-->
+                                <!--        </div>-->
+                            </div>
+
+                            <div class="form-group">
+                                <label for="montantEstime" class="form-label">Budget alloué:</label>
+                                <input class="form-control" formControlName="montantEstime" type="text" required>
+                                <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                                <!--             class="alert alert-danger">-->
+                                <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                                <!--                Nom is required.-->
+                                <!--            </div>-->
+                                <!--        </div>-->
+                            </div>
+
+                            <div class="form-group ">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea class="form-control" formControlName="description" type="text" required></textarea>
+
+                            </div>
+                            <div class="form-group ">
+                                <label for="demande" class="form-label">Demande Associée :</label>
+                                <!--        <select class="form-select" formControlName="client" id="client">-->
+                                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                                <!--        </select>-->
+                                <select #demandeSelect class="form-select"   (change)="onSelected(demandeSelect.value)">
+                                    <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
+                                </select>
+                            </div>
+                            <!--                                    <div class="upload-container">-->
+                            <!--                                        <div class="input-div">-->
+                            <!--                                            <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
+                            <!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
 
                         </div>
-                    </section>
+                        <div class="form-group ">
+                            <label for="demande" class="form-label">Equipe :</label>
+                            <!--        <select class="form-select" formControlName="client" id="client">-->
+                            <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                            <!--        </select>-->
+                            <select #equipeSelect class="form-select"  id="equipe ">
+                                <option>Equipe 1</option>
+                                <option>Equipe 2</option>
+                                <option>Equipe 3</option>
+                                <option>Equipe 4</option>
+
+                            </select>
+                        </div>
+                    </article>
 
 
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="oppForm"
-                                [SaveObject]="oppForm">
-                        </app-workflow-decision>
 
-                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="oppForm"
+                        [SaveObject]="oppForm">
+                </app-workflow-decision>
 
-                    </div>
-                </form>
+                <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+            </div>
+        </form>
 
 
-            </li>
-        </ul>
+    </div>
+    <div
+            class="tab-pane fade {{ etude ? 'show active' : '' }}"
+            id="ex3-tabs-3"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-3"
+            *ngIf="etude"
+    >
+
+        <form class="row g-3 needs-validation custom-form" novalidate>
+
+
+
+            <section class="light" >
+                <div class="container py-2">
+                    <div class="h1 text-center text-dark" id="pageHeaderTitle3"></div>
+
+
+                    <article class="postcard light green">
+                        <a class="postcard__img_link" href="#">
+                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                        </a>
+                        <div class="postcard__text t-dark">
+
+
+                            <div class="form-group">
+                                <label  class="form-label">Nombre de membres dans l'équipe de développement est :</label>
+                                <input class="form-control" formControlName="membres"  type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Specialite:</label>
+                                <input class="form-control" formControlName="specialite"  type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
+                                <input class="form-control" formControlName="nbreHours" type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Complexite:</label>
+                                <input class="form-control" formControlName="complexite" type="text">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description:</label>
+                                <textarea class="form-control" formControlName="evaluation" type="text"></textarea>
+
+                            </div>
+
+
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="oppForm"
+                        [SaveObject]="oppForm">
+                </app-workflow-decision>
+
+                <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+            </div>
+        </form>
 
     </div>
 
-    <!--/ tabs -->
 
-   </div>
+
+    <!-- Content for new tab -->
+    <div
+            class="tab-pane fade {{ rapport ? 'show active' : '' }}"
+            id="ex3-tabs-4"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-4"
+            *ngIf="rapport"
+    >
+        <!-- Your content for the new tab goes here -->
+        <form class="row g-3 needs-validation custom-form" novalidate>
+
+
+
+            <section class="light" >
+                <div class="container py-2">
+                    <div class="h1 text-center text-dark" id="pageHeaderTitle3"></div>
+
+
+                    <article class="postcard light green">
+                        <a class="postcard__img_link" href="#">
+                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                        </a>
+                        <div class="postcard__text t-dark">
+
+
+                            <div class="form-group">
+                                <label  class="form-label">Nombre de membres dans l'équipe de développement est :</label>
+                                <input class="form-control" formControlName="membres"  type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Specialite:</label>
+                                <input class="form-control" formControlName="specialite"  type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
+                                <input class="form-control" formControlName="nbreHours" type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Complexite:</label>
+                                <input class="form-control" formControlName="complexite" type="text">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description:</label>
+                                <textarea class="form-control" formControlName="evaluation" type="text"></textarea>
+
+                            </div>
+
+
+                            <label class="form-label" for="customFile">Default file input example</label>
+                            <input type="file" class="form-control" id="customFile" />
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="oppForm"
+                        [SaveObject]="oppForm">
+                </app-workflow-decision>
+
+                <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+            </div>
+        </form>
+
+    </div>
+
+
+    <div
+            class="tab-pane fade {{ elsebool ? 'show active' : '' }}"
+            id="ex3-tabs-5"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-5"
+            *ngIf="elsebool"
+    >
+        <!-- Your content for the new tab goes here -->
+        <form class="row g-3 needs-validation custom-form" novalidate>
+
+
+
+            <section class="light" >
+                <div class="container py-2">
+                    <div class="h1 text-center text-dark" ></div>
+
+
+                    <article class="postcard light green">
+                        <a class="postcard__img_link" href="#">
+                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                        </a>
+                        <div class="postcard__text t-dark">
+
+
+                            <div class="form-group">
+                                <label  class="form-label">Nombre de membres dans l'équipe de développement est :</label>
+                                <input class="form-control" formControlName="membres"  type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Specialite:</label>
+                                <input class="form-control" formControlName="specialite"  type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
+                                <input class="form-control" formControlName="nbreHours" type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Complexite:</label>
+                                <input class="form-control" formControlName="complexite" type="text">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description:</label>
+                                <textarea class="form-control" formControlName="evaluation" type="text"></textarea>
+
+                            </div>
+
+
+                            <label class="form-label" for="customFile">Default file input example</label>
+                            <input type="file" class="form-control" id="customFile" />
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="oppForm"
+                        [SaveObject]="oppForm">
+                </app-workflow-decision>
+
+                <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+            </div>
+        </form>
+
+    </div>
+
+
+    <div
+            class="tab-pane fade {{ elsebool1 ? 'show active' : '' }}"
+            id="ex3-tabs-6"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-5"
+            *ngIf="elsebool1"
+    >
+        <!-- Your content for the new tab goes here -->
+        <form class="row g-3 needs-validation custom-form" novalidate>
+
+
+
+            <section class="light" >
+                <div class="container py-2">
+                    <div class="h1 text-center text-dark" ></div>
+
+
+                    <article class="postcard light green">
+                        <a class="postcard__img_link" href="#">
+                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                        </a>
+                        <div class="postcard__text t-dark">
+
+
+                            <div class="form-group">
+                                <label  class="form-label">Nombre de membres dans l'équipe de développement est :</label>
+                                <input class="form-control" formControlName="membres"  type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Specialite:</label>
+                                <input class="form-control" formControlName="specialite"  type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
+                                <input class="form-control" formControlName="nbreHours" type="text" >
+
+                            </div>
+                            <div class="form-group ">
+                                <label  class="form-label">Complexite:</label>
+                                <input class="form-control" formControlName="complexite" type="text">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description:</label>
+                                <textarea class="form-control" formControlName="evaluation" type="text"></textarea>
+
+                            </div>
+
+
+                            <label class="form-label" for="customFile">Default file input example</label>
+                            <input type="file" class="form-control" id="customFile" />
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <div class="workflow-container">
+                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                <app-workflow-decision
+                        *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="oppForm"
+                        [SaveObject]="oppForm">
+                </app-workflow-decision>
+
+                <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+            </div>
+        </form>
+
+    </div>
+
 </div>
-
-
-
-</body>
