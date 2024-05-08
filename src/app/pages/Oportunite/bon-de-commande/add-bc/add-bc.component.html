@@ -39,6 +39,20 @@
         >Traitement Bon de commande</a
         >
     </li>
+
+    <!-- New tab -->
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ elsedesision ? 'active' : '' }}"
+                id="ex3-tab-4"
+                href="#ex3-tabs-4"
+                role="tab"
+                aria-controls="ex3-tabs-4"
+                aria-selected="false"
+                [class.disabled]="!elsedesision"
+        >Modification bon de commande</a>
+    </li>
 </ul>
 <!-- Tabs navs -->
 
@@ -208,4 +222,64 @@
         </form>
 
     </div>
+
+
+
+        <!-- Content for new tab -->
+        <div
+                class="tab-pane fade {{ elsedesision ? 'show active' : '' }}"
+                id="ex3-tabs-4"
+                role="tabpanel"
+                aria-labelledby="ex3-tab-4"
+                *ngIf="elsedesision"
+        >
+            <!-- Your content for the new tab goes here -->
+            <form  [formGroup]="demandeF"   method="post" novalidate>
+                <div class="form-group">
+                    <label>Service commandé:</label>
+                    <input type="text" formControlName="servicecommande" class="form-control" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Statut:</label>
+                    <select class="form-control"  >
+                        <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Methode de paiement</label>
+                    <input class="form-control" formControlName="methodedepaiement"  type="text" >
+                </div>
+                <div class="form-group">
+                    <label>montant Total</label>
+                    <input class="form-control" formControlName="montantTotal"   type="text" >
+                </div>
+                <div class="form-group">
+                    <label for="Datedelivraison" class="form-label">Date de livraison</label>
+                    <input class="form-control" formControlName="datedelivraison"  type="date">
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+                </div>
+
+                <div class="workflow-container">
+                    <app-workflow-decision
+                            *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="demandeForm"
+                            [SaveObject]="demandeForm">
+                    </app-workflow-decision>
+
+                </div>
+
+            </form>
+
+        </div>
+
 </div>
