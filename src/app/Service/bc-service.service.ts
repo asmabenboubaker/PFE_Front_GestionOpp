@@ -29,7 +29,7 @@ export class BcServiceService {
   }
 
   getbcById(id): Observable<any> {
-    const url = `${this.env.piOpp}/BondecommandeByid/${id}`;
+    const url = `${this.env.piOpp}BondecommandeByid/${id}`;
     return this.http.get<any>(url);
   }
   BC_process_Submit(obj) {

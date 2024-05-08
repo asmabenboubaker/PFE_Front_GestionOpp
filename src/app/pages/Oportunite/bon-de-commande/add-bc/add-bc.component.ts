@@ -27,7 +27,9 @@ export class AddBcComponent implements OnInit {
     description: new FormControl(''),
     dateCommande: new FormControl(''),
     montantTotal: new FormControl(''),
-
+      servicecommande: new FormControl(''),
+      methodedepaiement: new FormControl(''),
+      datedelivraison: new FormControl(''),
 
   });
   constructor(private servicebc:BcServiceService, private router: Router,
@@ -37,9 +39,13 @@ export class AddBcComponent implements OnInit {
 
       this.demandeForm = this.fb.group({
             id: [''],
-            description: ['', Validators.required],
-            dateCommande: ['', Validators.required],
-            montantTotal: ['', Validators.required],
+            description: [''],
+            dateCommande: [''],
+            montantTotal: [''],
+          servicecommande: [''],
+          methodedepaiement: [''],
+          datedelivraison: [''],
+
         });
       }
 
@@ -84,8 +90,9 @@ export class AddBcComponent implements OnInit {
           if(this.decissionWF=="Verification"){
             this.verification=true;
             console.log("pourvalidation",this.verification)
-          }else if (this.decissionWF[0]=="Accepter" || this.decissionWF[1]=="Rejeter"){
+          }else if (this.decissionWF[0]=="Rejeter" || this.decissionWF[1]=="Accepter"){
             this.traitement=true;
+              console.log("traitement",this.traitement)
           }
           else if (this.decissionWF[0]=="Valider" || this.decissionWF[1]=="Rejeter"){
             this.validation=true;
@@ -112,7 +119,8 @@ export class AddBcComponent implements OnInit {
         formData['decision'] = evt.decision;
         formData['wfCurrentComment'] = evt.wfCurrentComment;
         console.log("this.demanade CONFIRMATION",formData)
-
+//set id
+        formData['id'] = this.demandeid;
         this.servicebc.BC_process_Submit(formData).subscribe(data => {
             this.toastr.success(" added successfully" +
                 "", "", {
@@ -176,6 +184,8 @@ export class AddBcComponent implements OnInit {
 //                 console.log("error", error)
 //             })
     }
-
+    Retourn(){
+        this.router.navigate(['bondecommande/all']);
+    }
 
 }
