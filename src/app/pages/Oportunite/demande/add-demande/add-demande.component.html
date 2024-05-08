@@ -1,146 +1,217 @@
-<!doctype html>
-<html lang="en">
+<!-- Tabs navs -->
+<ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ pourvalidation ? 'active' : '' }}"
+                id="ex3-tab-1"
+                href="#ex3-tabs-1"
+                role="tab"
+                aria-controls="ex3-tabs-1"
+                aria-selected="true"
+                [class.disabled]="!pourvalidation"
+        >Creation Demande</a
+        >
+    </li>
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ pourvalidation2 ? 'active' : '' }}"
+                id="ex3-tab-2"
+                href="#ex3-tabs-2"
+                role="tab"
+                aria-controls="ex3-tabs-2"
+                aria-selected="false"
+                [class.disabled]="!pourvalidation2"
+        >Validation Demande</a
+        >
+    </li>
+    <li class="nav-item" role="presentation">
+        <a
+                data-mdb-tab-init
+                class="nav-link {{ elsedesision ? 'active' : '' }}"
+                id="ex3-tab-3"
+                href="#ex3-tabs-3"
+                role="tab"
+                aria-controls="ex3-tabs-3"
+                aria-selected="false"
+                [class.disabled]="!elsedesision"
+        >Modification Demande</a
+        >
+    </li>
 
+</ul>
+<!-- Tabs navs -->
 
-<!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:41 GMT -->
-<head>
-    <title>:: Iconic :: Form Validation</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Iconic Bootstrap 4.5.0 Admin Template">
-    <meta name="author" content="WrapTheme, design by: ThemeMakker.com">
-    <link rel="stylesheet" href="/assets/iconic/assets/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css">
-    <link rel="stylesheet" href="/assets/iconic/assets/vendor/parsleyjs/css/parsley.css">
-    <link rel="stylesheet" href="/assets/iconic/assets/vendor/toastr/toastr.min.css">
-    <link rel="stylesheet" href="/assets/iconic/assets/vendor/bootstrap/css/bootstrap.min.css">
-
-    <!-- MAIN CSS -->
-    <link rel="stylesheet" href="/assets/iconic/assets/css/main.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-
-</head>
-<body data-theme="light" class="layout-fullwidth">
-
-<div id="wrapper" class="theme-cyan">
-
-
-
-    <!-- mani page content body part -->
-    <div id="main-content">
-        <div class="container-fluid">
-            <div class="block-header">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <h2 *ngIf="pourvalidation">Etape de création Demande</h2>
-                        <h2 *ngIf="pourvalidation2">Etape de validation Demande</h2>
-                        <h2 *ngIf="elsedesision">Modifier Demande</h2>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-dashboard"></i></a></li>
-                            <li class="breadcrumb-item">Demande</li>
-                            <li class="breadcrumb-item active">Ajouter Demande</li>
-                        </ul>
-                    </div>
-
-                </div>
+<!-- Tabs content -->
+<div class="tab-content" id="ex2-content">
+    <!-- acctiver when verification is true-->
+    <div
+            class="tab-pane fade {{ pourvalidation ? 'show active' : '' }}"
+            id="ex3-tabs-1"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-1"
+            *ngIf="pourvalidation"
+    >
+        <form  [formGroup]="demandeF"  method="post" novalidate>
+            <div class="form-group">
+                <label>Nom:</label>
+                <input type="text" formControlName="nom"  class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Client</label>
+                <select #clientSelect class="form-control"  >
+                    <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+                </select>
             </div>
 
-            <div class="row clearfix">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>Basic Validation</h2>
-                        </div>
-                        <div class="body">
-                            <form  [formGroup]="demandeF" id="basic-form" method="post" novalidate>
-                                <div class="form-group">
-                                    <label>Nom:</label>
-                                    <input type="text" formControlName="nom" id="nom" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Client</label>
-                                    <select #clientSelect class="form-control" id="client" >
-                                        <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
-                                    </select>
-                                </div>
+            <div class="form-group">
+                <label>Statut:</label>
+                <select class="form-control" formControlName="statut" >
+                    <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Source de la demande</label>
+                <input class="form-control" formControlName="source"  type="text" >
+            </div>
+            <div class="form-group">
+                <label for="deadline" class="form-label">Date de deadline:</label>
+                <input class="form-control"  type="date">
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+            </div>
 
-                                <div class="form-group">
-                                    <label>Statut:</label>
-                                    <select class="form-control" formControlName="statut" id="statut">
-                                        <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Source de la demande</label>
-                                    <input class="form-control" formControlName="source" id="source" type="text" >
-                                </div>
-                                <div class="form-group">
-                                    <label for="deadline" class="form-label">Date de deadline:</label>
-                                    <input class="form-control"  id="deadline" type="date">
-                                </div>
-                                <div class="form-group">
-                                    <label>Description:</label>
-                                    <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
-                                </div>
-
-                                <div class="workflow-container">
-                                    <app-workflow-decision
-                                            *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                                            (decisionEvent)="Confirmation($event)"
-                                            (saveEvent)="save()"
-                                            (RetournEvent)="Retourn()"
-                                            [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                                            [decisions]="decissionWF"
-                                            [object]="demandeForm"
-                                            [SaveObject]="demandeForm">
-                                    </app-workflow-decision>
-
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            <div class="workflow-container">
+                <app-workflow-decision
+                        *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="demandeForm"
+                        [SaveObject]="demandeForm">
+                </app-workflow-decision>
 
             </div>
 
-        </div>
+        </form>
+
+    </div>
+    <div
+            class="tab-pane fade {{ pourvalidation2 ? 'show active' : '' }}"
+            id="ex3-tabs-2"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-2"
+            *ngIf="pourvalidation2"
+    >
+        <form  [formGroup]="demandeF"  method="post" novalidate>
+            <div class="form-group">
+                <label>Nom:</label>
+                <input type="text" formControlName="nom" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Client</label>
+                <select #clientSelect class="form-control"  >
+                    <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Statut:</label>
+                <select class="form-control" formControlName="statut" >
+                    <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Source de la demande</label>
+                <input class="form-control" formControlName="source" type="text" >
+            </div>
+            <div class="form-group">
+                <label for="deadline" class="form-label">Date de deadline:</label>
+                <input class="form-control"  type="date">
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+            </div>
+
+            <div class="workflow-container">
+                <app-workflow-decision
+                        *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="demandeForm"
+                        [SaveObject]="demandeForm">
+                </app-workflow-decision>
+
+            </div>
+
+        </form>
+
+    </div>
+    <div
+            class="tab-pane fade {{ elsedesision ? 'show active' : '' }}"
+            id="ex3-tabs-3"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-3"
+            *ngIf="elsedesision"
+    >
+
+        <form  [formGroup]="demandeF" id="basic-form" method="post" novalidate>
+            <div class="form-group">
+                <label>Nom:</label>
+                <input type="text" formControlName="nom" id="nom" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Client</label>
+                <select #clientSelect class="form-control" id="client" >
+                    <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Statut:</label>
+                <select class="form-control" formControlName="statut" id="statut">
+                    <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Source de la demande</label>
+                <input class="form-control" formControlName="source" id="source" type="text" >
+            </div>
+            <div class="form-group">
+                <label for="deadline" class="form-label">Date de deadline:</label>
+                <input class="form-control"  id="deadline" type="date">
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+            </div>
+
+            <div class="workflow-container">
+                <app-workflow-decision
+                        *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="demandeForm"
+                        [SaveObject]="demandeForm">
+                </app-workflow-decision>
+
+            </div>
+
+        </form>
     </div>
 
+
+
 </div>
-
-
-<!-- VENDOR CSS -->
-<script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
-<script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
-
-<script src="/assets/iconic/assets/vendor/toastr/toastr.js"></script>
-<!-- Javascript -->
-<script src="/assets/iconic/assets/bundles/libscripts.bundle.js"></script>
-<script src="/assets/iconic/assets/bundles/vendorscripts.bundle.js"></script>
-
-<script src="/assets/iconic/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
-<script src="/assets/iconic/assets/vendor/parsleyjs/js/parsley.min.js"></script>
-
-
-<!-- page js file -->
-<script src="/assets/iconic/assets/bundles/mainscripts.bundle.js"></script>
-<script>
-    $(function() {
-        // validation needs name of the element
-        $('#food').multiselect();
-
-        // initialize after multiselect
-        $('#basic-form').parsley();
-    });
-</script>
-
-<!-- page js file -->
-<script src="/assets/iconic/assets/bundles/mainscripts.bundle.js"></script>
-
-</body>
-
-<!-- Mirrored from wrraptheme.com/templates/iconic/dist/forms-validation.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 May 2024 20:45:42 GMT -->
-</html>
-

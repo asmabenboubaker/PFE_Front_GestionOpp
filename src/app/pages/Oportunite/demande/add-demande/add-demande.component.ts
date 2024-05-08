@@ -49,6 +49,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 
   demandeid:any;
 
+
+
   demande = new DemandeDto(null, null, null, null)
   gridBoxValue = [];
   gridBoxValueexp:any = [];
@@ -211,16 +213,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     console.log("this.demanade CONFIRMATION",formData)
 
     this.demandeService.Demande_process_Submit(formData).subscribe(data => {
-      this.toastr.success(" added successfully" +
-          "", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      })
-      //redirect to demande add id
+this.showSuccess();
+
         this.router.navigate(['Demande/add/']+this.demandeid);
     }, error => {
       this.toastr.error("failed to add ", "", {
@@ -366,16 +360,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       this.demandeService.postDemandeWF(e, null, null, e.commentaire).subscribe(data => {
 
             this.disabled = false;
-            this.translateService.get("postWithSuccess").subscribe((res) => {
-              this.toastr.success(res, "", {
-                closeButton: true,
-                positionClass: 'toast-top-right',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-              })
-            })
+
           },
           error => {
             this.toastr.error(error.error.message, "", {
@@ -410,6 +395,11 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     );
   }
 
-  //document
+    showSuccess() {
+      this.toastr.success("Hello world!", "Toastr fun!", {
+        titleClass: "center",
+        messageClass: "center"
+      });
+    }
 
 }

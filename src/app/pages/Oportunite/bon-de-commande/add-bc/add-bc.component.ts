@@ -122,6 +122,7 @@ export class AddBcComponent implements OnInit {
 //set id
         formData['id'] = this.demandeid;
         this.servicebc.BC_process_Submit(formData).subscribe(data => {
+
             this.toastr.success(" added successfully" +
                 "", "", {
                 closeButton: true,
