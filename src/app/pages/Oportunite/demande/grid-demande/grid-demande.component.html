@@ -44,6 +44,10 @@
     class="dataGridDemande"
 >
 
+    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+    <dxo-filter-row [visible]="true" applyFilter="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="false"></dxo-header-filter>
 
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>

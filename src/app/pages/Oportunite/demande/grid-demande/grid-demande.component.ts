@@ -55,28 +55,31 @@ export class GridDemandeComponent implements OnInit {
   deletedemande() {
     this.demandeService.deleteDemande(this.iddoc).subscribe(data=>{
       this.refresh();
-      this.translateService.get("deleteWithSuccess").subscribe(
-          res => {
-            this.toastr.success(res, "", {
-              closeButton: true,
-              positionClass: 'toast-top-right',
-              extendedTimeOut: this.env.extendedTimeOutToastr,
-              progressBar: true,
-              disableTimeOut: false,
-              timeOut: this.env.timeOutToastr
-            })
-          }
-      )
+      // this.translateService.get("deleteWithSuccess").subscribe(
+      //     res => {
+      //       this.toastr.success(res, "", {
+      //         closeButton: true,
+      //         positionClass: 'toast-top-right',
+      //         extendedTimeOut: this.env.extendedTimeOutToastr,
+      //         progressBar: true,
+      //         disableTimeOut: false,
+      //         timeOut: this.env.timeOutToastr
+      //       })
+      //     }
+      // )
+this.showSuccess();
       this.popupDeleteVisible = false;
+
     }, error => {
-      this.toastr.error(error.error.message, "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      })
+      // this.toastr.error(error.error.message, "", {
+      //   closeButton: true,
+      //   positionClass: 'toast-top-right',
+      //   extendedTimeOut: this.env.extendedTimeOutToastr,
+      //   progressBar: true,
+      //   disableTimeOut: false,
+      //   timeOut: this.env.timeOutToastr
+      // })
+      this.showSuccess2();
     })
 
   }
@@ -418,7 +421,21 @@ export class GridDemandeComponent implements OnInit {
   }
 
 
-
-
+  showSuccess2() {
+    this.toastr.error("Impossible de supprimer cette demande car elle est associée à une opportunité!", "Opération impossible", {
+      titleClass: "center",
+      messageClass: "center"
+    });
+  }
+  showSuccess() {
+    this.toastr.success(
+        "La demande a été supprimée avec succès.",
+        "Demande supprimée",
+        {
+          titleClass: "center",
+          messageClass: "center"
+        }
+    );
+  }
 
 }

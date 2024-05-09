@@ -58,7 +58,7 @@
                                 <a (click)="deletetask(task.id)" target="_blank" rel="noopener" title="">
                                     <i class="fa fa-trash" style="color:#a63a3a;"></i>
                                 </a>
-                                <a (click)="editTask(task)" target="_blank" rel="noopener" title=""><i class="fa fa-edit" style="color:#007bff;"></i></a>
+                                <a (click)="Editclient(task.id)" target="_blank" rel="noopener" title=""><i class="fa fa-edit" style="color:#007bff;"></i></a>
 
                             </div>
                         </dx-sortable>
@@ -86,8 +86,8 @@
             [title]="popupTitle"
             [dragEnabled]="false"
             [closeOnOutsideClick]="true"
-            [(visible)]="popupVisibleedit">
-        <app-add-task [taskToEdit]="taskToEdit" ></app-add-task>
+            [(visible)]="popupEdit">
+        <app-add-task *ngIf="this.id" [id]="''+this.id" (add)="add($event)" ></app-add-task>
     </dx-popup>
 </div>
 <div class="container">

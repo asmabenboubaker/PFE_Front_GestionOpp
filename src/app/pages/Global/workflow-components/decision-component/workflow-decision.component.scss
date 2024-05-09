@@ -27,6 +27,8 @@
   text-transform: uppercase;
   overflow: hidden;
   cursor: pointer;
+  // add margin
+    margin-right: 10px !important;
 }
 .btn2 {
   outline: 0;
@@ -92,6 +94,9 @@ cont{
 .buttonGroup1 {
   display: flex;
   justify-content: space-between;
+
+
+
 }
 .buttonGroup2 button{
   height: 100% !important;

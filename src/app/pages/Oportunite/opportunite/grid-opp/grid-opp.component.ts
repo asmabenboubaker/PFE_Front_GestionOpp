@@ -14,6 +14,7 @@ import {ToastrService} from "ngx-toastr";
 import {TranslateService} from "@ngx-translate/core";
 import {jsPDF} from "jspdf";
 import {exportDataGrid as exportDataGridToPdf} from "devextreme/pdf_exporter";
+import {ToastService} from "../../../../Service/toast-service";
 
 @Component({
   selector: 'app-grid-opp',
@@ -349,31 +350,28 @@ id
   }
   deleteOpp() {
     this.opportuniteService.deleteOpportuniteById(this.iddoc).subscribe(data=>{
-      //this.refresh();
-      this.translateService.get("deleteWithSuccess").subscribe(
-          res => {
-            this.toastr.success(res, "", {
-              closeButton: true,
-              positionClass: 'toast-top-right',
-              extendedTimeOut: this.env.extendedTimeOutToastr,
-              progressBar: true,
-              disableTimeOut: false,
-              timeOut: this.env.timeOutToastr
-            })
-          }
-      )
+        this.showSuccess();
       this.refresh();
       this.popupDeleteVisible = false;
     }, error => {
-      this.toastr.error(error.error.message, "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      })
+        this.showSuccess2();
     })
 
+  }
+  showSuccess2() {
+    this.toastr.show("Impossible de supprimer cette opportunité car elle est associée à une offre!", "Opération impossible", {
+      titleClass: "center",
+      messageClass: "center"
+    });
+  }
+  showSuccess() {
+    this.toastr.success(
+        "L'opportunité a été supprimée avec succès.",
+        "Opportunié supprimée",
+        {
+          titleClass: "center",
+          messageClass: "center"
+        }
+    );
   }
 }

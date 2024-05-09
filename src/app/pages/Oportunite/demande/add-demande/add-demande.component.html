@@ -60,24 +60,30 @@
             </div>
             <div class="form-group">
                 <label>Client</label>
-                <select #clientSelect class="form-control"  >
+                <select #clientSelect class="form-select" >
                     <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Statut:</label>
-                <select class="form-control" formControlName="statut" >
+                <select class="form-select" formControlName="statut" >
                     <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Source de la demande</label>
-                <input class="form-control" formControlName="source"  type="text" >
+
+                <select class="form-select" formControlName="source" id="sourceDemande">
+                    <option value="email">Email</option>
+                    <option value="telephone">Téléphone</option>
+                    <option value="siteWeb">Site Web</option>
+
+                </select>
             </div>
             <div class="form-group">
                 <label for="deadline" class="form-label">Date de deadline:</label>
-                <input class="form-control"  type="date">
+                <input class="form-control" formControlName="deadline"  type="date">
             </div>
             <div class="form-group">
                 <label>Description:</label>

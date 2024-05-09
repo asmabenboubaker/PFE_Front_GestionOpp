@@ -66,6 +66,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
     statut: new FormControl(''),
     source: new FormControl(''),
     commentaires: new FormControl(''),
+    deadline:  new FormControl(''), // Assurez-vous que la propriété deadline est correctement définie dans le formulaire
+    client:  new FormControl('')
     // deadline: new FormControl('')
 
   });
@@ -111,9 +113,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
       dateDeCreation: currentDate,
       statut: [null, Validators.required],
       source: [''],
-      commentaires: ['']
-
-      // deadline: ['']
+      commentaires: [''],
+      deadline: [''], // Assurez-vous que la propriété deadline est correctement définie dans le formulaire
+      client: ['']
     });
   }
   GetjsonDowViewerFromAttatchement(e) {
@@ -146,9 +148,13 @@ export class AddDemandeComponent implements OnInit,OnChanges {
             this.demandeF.get('statut').setValue(data.statut);
             this.demandeF.get('source').setValue(data.source);
             this.demandeF.get('commentaires').setValue(data.commentaires);
-            // this.demandeF.get('deadline').setValue(data.deadline);
-            // const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
-            // this.demandeF.get('client').setValue(clientId);
+            //set date
+            this.demandeF.get('deadline').setValue(this.datePipe.transform(data.deadline, 'yyyy-MM-dd'));
+
+            const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
+            this.demandeF.get('client').setValue(clientId);
+            this.demandeF.patchValue(data);
+
             console.log("Fetched Successfully :", data);
             // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
             this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
@@ -398,10 +404,11 @@ this.showSuccess();
   }
 
     showSuccess() {
-      this.toastr.info("Hello world!", "Toastr fun!", {
+      this.toastr.info("Le formulaire a été soumis avec succès!", "Succès", {
         titleClass: "center",
         messageClass: "center"
       });
     }
+
 
 }

@@ -12,6 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
 import {Client} from "../../../../Models/Client";
+import {EquipeServiceService} from "../../../../Service/equipe-service.service";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -21,7 +22,7 @@ import {Client} from "../../../../Models/Client";
 export class EditOpportuniteComponent implements OnInit {
 //set selectedDemand false
   selectedDemande = false;
-
+    equipes: string[] = [];
   demandeF: FormGroup;
 
   oppForm: any;
@@ -52,7 +53,8 @@ evaluer:boolean=false;
               private router: Router,
               public route: ActivatedRoute,
               private datePipe: DatePipe,
-              private demandeService: DemandeService
+              private demandeService: DemandeService,
+              private equipeService: EquipeServiceService
               ) {
     const currentDate = new Date();
     this.oppForm = this.fb.group({
@@ -75,6 +77,7 @@ evaluer:boolean=false;
   }
 
   ngOnInit(): void {
+      this.getEquipes();
     this.loaddemandes();
     this.oppid = this.route.snapshot.paramMap.get('id');
     this.opportuniteService.getOppByid(this.oppid).toPromise().then(
@@ -273,4 +276,15 @@ else {
             }
         );
   }
+    getEquipes(): void {
+        this.equipeService.getEquipes().subscribe(
+            (equipes: any[]) => {
+                this.equipes = equipes.map(equipe => equipe.nom);
+            },
+            (error) => {
+                console.error('Erreur lors de la récupération des équipes : ', error);
+            }
+        );
+    }
+
 }

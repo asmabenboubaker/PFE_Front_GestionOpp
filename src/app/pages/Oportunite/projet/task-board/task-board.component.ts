@@ -13,6 +13,7 @@ export class TaskBoardComponent implements OnInit {
   popupTitle
   popupVisibleedit=false
   editTask(task: any): void {
+    console.log("task"+task);
     this.taskToEdit = task;
     this.popupTitle = "Edit Task";
     this.popupVisibleedit = true;
@@ -125,4 +126,13 @@ export class TaskBoardComponent implements OnInit {
       }
     });
   }
+  id
+  popupEdit
+  Editclient(id) {
+    this.id = id
+    console.log(this.id)
+    this.popupEdit = true
+
+  }
+
 }

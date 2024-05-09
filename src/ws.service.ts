@@ -14,4 +14,5 @@ export class WsService {
   getFacture='factures'
   getTask='tasks'
   getBc='bon-de-commandes'
+  getEquipe='equipes'
 }

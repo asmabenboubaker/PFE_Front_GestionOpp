@@ -42,4 +42,8 @@ export class TaskServiceService {
     updateTask(taskId: number, data: any): Observable<any> {
         return this.http.put(`${this.env.piOpp + this.Wservice.getTask}/${taskId}`, data);
     }
+    //get task by id
+    getTaskById(taskId: number): Observable<any> {
+        return this.http.get(`${this.env.piOpp + this.Wservice.getTask}/${taskId}`);
+    }
 }

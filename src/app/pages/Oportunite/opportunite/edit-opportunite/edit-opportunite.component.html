@@ -311,12 +311,8 @@
                             <!--        <select class="form-select" formControlName="client" id="client">-->
                             <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
                             <!--        </select>-->
-                            <select #equipeSelect class="form-select"  id="equipe ">
-                                <option>Equipe 1</option>
-                                <option>Equipe 2</option>
-                                <option>Equipe 3</option>
-                                <option>Equipe 4</option>
-
+                            <select #equipeSelect class="form-select" id="equipe">
+                                <option *ngFor="let equipe of equipes" [value]="equipe">{{ equipe }}</option>
                             </select>
                         </div>
                     </article>
@@ -484,7 +480,7 @@
                             </div>
 
 
-                            <label class="form-label" for="customFile">Default file input example</label>
+                            <label class="form-label" >Default file input example</label>
                             <input type="file" class="form-control"  />
                         </div>
 
@@ -570,7 +566,7 @@
                             </div>
 
 
-                            <label class="form-label" for="customFile">Default file input example</label>
+                            <label class="form-label" >Default file input example</label>
                             <input type="file" class="form-control"  />
                         </div>
 
@@ -656,7 +652,7 @@
                             </div>
 
 
-                            <label class="form-label" for="customFile">Default file input example</label>
+                            <label class="form-label" >Default file input example</label>
                             <input type="file" class="form-control" />
                         </div>
 

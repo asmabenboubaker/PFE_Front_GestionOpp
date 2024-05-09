@@ -51,7 +51,11 @@
 
     <div class="col-md-6">
         <label for="typeClient" class="form-label">Type Client:</label>
-        <input class="form-control" formControlName="typeClient" id="typeClient" type="text">
+        <select class="form-select" formControlName="typeClient" id="typeClient">
+            <option value="individuel">Client individuel</option>
+            <option value="occasionnel">Client occasionnel</option>
+            <option value="segmenté">Client segmenté</option>
+        </select>
     </div>
 
     <div class="col-md-6">

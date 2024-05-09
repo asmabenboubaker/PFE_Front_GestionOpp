@@ -38,7 +38,7 @@
     [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
     [columnAutoWidth]="true"
     (onRowDblClick)="Editclient($event)"
-    [rowAlternationEnabled]="true"
+    [rowAlternationEnabled]="false"
     [showColumnLines]="true"
     id="dataGridClient"
     keyExpr="id"
@@ -74,7 +74,7 @@
         <div *dxTemplate="let data of 'cellTemplateActions'"
              style="display: flex; justify-content: center; align-items: center;">
             <a (click)="deleteclient(data.data.id)" target="_blank" rel="noopener" title="" >
-                <i class="fa fa-trash" style="color:#a63a3a;">
+                <i class="fa fa-trash" style="color:#168C94FF;">
                 </i></a>
         </div>
         <div *dxTemplate="let data of 'ExportPDF'">
