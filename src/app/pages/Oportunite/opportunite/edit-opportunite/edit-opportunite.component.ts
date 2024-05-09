@@ -14,6 +14,7 @@ import {OpportuniteService} from "../../../../Service/opportunite.service";
 import {Client} from "../../../../Models/Client";
 import {EquipeServiceService} from "../../../../Service/equipe-service.service";
 import {DxTreeViewComponent} from "devextreme-angular";
+import {EtudetechServiceService} from "../../../../Service/etudetech-service.service";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -27,6 +28,7 @@ export class EditOpportuniteComponent implements OnInit {
   demandeF: FormGroup;
 listIdEquipe: any[] = [];
   oppForm: any;
+    techForm: FormGroup;
   oppid: any;
   decissionWF: any;
   oppF = new FormGroup({
@@ -55,7 +57,8 @@ evaluer:boolean=false;
               public route: ActivatedRoute,
               private datePipe: DatePipe,
               private demandeService: DemandeService,
-              private equipeService: EquipeServiceService
+              private equipeService: EquipeServiceService,
+              private etudeService: EtudetechServiceService,
               ) {
     const currentDate = new Date();
     this.oppForm = this.fb.group({
@@ -150,7 +153,29 @@ else {
     );
 
     console.log("this.demandeF", this.oppF)
+      this.techForm = this.fb.group({
+          membres: [''],
+          specialite: [''],
+          nbreHours: [''],
+          complexite: [''],
+          evaluation: ['']
+      });
 
+    // set techform data
+    this.opportuniteService.getEtudeByOppId(this.oppid).subscribe(
+        (data) => {
+            console.log("dsdsdsdsdsd");
+            console.log('Etude: ', data);
+          this.techForm.get('membres').setValue(data[0].membres);
+          this.techForm.get('specialite').setValue(data[0].specialite);
+          this.techForm.get('nbreHours').setValue(data[0].nbreHours);
+          this.techForm.get('complexite').setValue(data[0].complexite);
+          this.techForm.get('evaluation').setValue(data[0].evaluation);
+        },
+        (error) => {
+          console.error('Error fetching demande by id: ', error);
+        }
+    );
   }
 
   Confirmation(evt) {
@@ -233,10 +258,11 @@ else {
             });
             return;
         }
-        // call methode in service affecter
-            console.log("equipe affecter",this.gridBoxValue);
+        else {
+            // call methode in service affecter
+            console.log("equipe affecter", this.gridBoxValue);
             // set listidequipe with id from gridBoxValue
-           this.listIdEquipe = this.gridBoxValue.map(equipe => equipe.id);
+            this.listIdEquipe = this.gridBoxValue.map(equipe => equipe.id);
             this.equipeService.affecterEquipe(this.oppid, this.listIdEquipe).subscribe(
                 (data) => {
                     this.toastr.success("Equipe affectée avec succès", "", {
@@ -248,7 +274,7 @@ else {
                         timeOut: this.env.timeOutToastr
                     });
                     //redirect to demande list
-                   // this.router.navigate(['opportunite/all']);
+                    // this.router.navigate(['opportunite/all']);
                 },
 
                 (error) => {
@@ -263,8 +289,8 @@ else {
                 }
             );
             const selectedClientId = this.demandeSelect?.nativeElement.value;
-            console.log("selected demande:"+selectedClientId);
-            this.opportuniteService.updateAndAssignToDemande(this.oppid,selectedClientId,this.oppF.value).subscribe(data => {
+            console.log("selected demande:" + selectedClientId);
+            this.opportuniteService.updateAndAssignToDemande(this.oppid, selectedClientId, this.oppF.value).subscribe(data => {
                 this.toastr.success(" updated successfully" +
                     "", "", {
                     closeButton: true,
@@ -275,7 +301,7 @@ else {
                     timeOut: this.env.timeOutToastr
                 })
                 //redirect to add opp by id
-                //this.router.navigate(['opportunite/all']);
+                this.router.navigate(['opportunite/all']);
 
 
             }, error => {
@@ -291,9 +317,36 @@ else {
             })
 
 
-
+        }
   }
 
+  save3(){
+
+        this.etudeService.createEtudeOpp(this.techForm.value,this.oppid).subscribe(data => {
+            this.toastr.success(" added successfully" +
+                "", "", {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+            //redirect to demande list
+            this.router.navigate(['opportunite/all']);
+
+        }, error => {
+            this.toastr.error("failed to add ", "", {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+            console.log("error", error)
+        })
+  }
   Retourn(){
 
   }

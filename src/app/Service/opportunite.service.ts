@@ -58,4 +58,9 @@ export class OpportuniteService {
     const url = `${this.env.piOpp + this.Wservice.getdemandes}/WithoutPages`;
     return this.http.get<Client[]>(url);
   }
+  //get etude form opportunité
+    getEtudeByOppId(id): Observable<any> {
+        const url = `${this.env.piOpp}etude/${id}`;
+        return this.http.get<any>(url);
+    }
 }

@@ -378,7 +378,7 @@
             *ngIf="etude"
     >
 
-        <form class="row g-3 needs-validation custom-form" novalidate>
+        <form [formGroup]="techForm" class="row g-3 needs-validation custom-form" novalidate>
 
 
 
@@ -407,7 +407,11 @@
                             <div class="form-group ">
                                 <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
                                 <input class="form-control" formControlName="nbreHours" type="text" >
-
+                                <div *ngIf="techForm.get('membres').invalid && (techForm.get('membres').dirty || techForm.get('membres').touched)"
+                                     class="text-danger">
+                                    <div *ngIf="techForm.get('membres').errors.required">Ce champ est requis</div>
+                                    <div *ngIf="techForm.get('membres').errors.pattern">Entrez un nombre valide</div>
+                                </div>
                             </div>
                             <div class="form-group ">
                                 <label  class="form-label">Complexite:</label>
@@ -437,7 +441,7 @@
                 <app-workflow-decision
                         *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
                         (decisionEvent)="Confirmation($event)"
-                        (saveEvent)="save()"
+                        (saveEvent)="save3()"
                         (RetournEvent)="Retourn()"
                         [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
                         [decisions]="decissionWF"
@@ -465,58 +469,68 @@
             *ngIf="rapport"
     >
         <!-- Your content for the new tab goes here -->
-        <form class="row g-3 needs-validation custom-form" novalidate>
+        <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
 
-            <section class="light" >
-                <div class="container py-2">
-                    <div class="h1 text-center text-dark"></div>
+
+            <article class="postcard light green">
+                <a class="postcard__img_link" href="#">
+                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                </a>
+                <div class="postcard__text t-dark">
 
 
-                    <article class="postcard light green">
-                        <a class="postcard__img_link" href="#">
-                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                        </a>
-                        <div class="postcard__text t-dark">
+                    <div class="form-group ">
+                        <label for="nom" class="form-label">Nom:</label>
+                        <input class="form-control" formControlName="nom" type="text" required>
+                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                        <!--             class="alert alert-danger">-->
+                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                        <!--                Nom is required.-->
+                        <!--            </div>-->
+                        <!--        </div>-->
+                    </div>
 
+                    <div class="form-group">
+                        <label for="montantEstime" class="form-label">Budget alloué:</label>
+                        <input class="form-control" formControlName="montantEstime" type="text" required>
+                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                        <!--             class="alert alert-danger">-->
+                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                        <!--                Nom is required.-->
+                        <!--            </div>-->
+                        <!--        </div>-->
+                    </div>
 
-                            <div class="form-group">
-                                <label  class="form-label">Nombre de membres dans l'équipe de développement est :</label>
-                                <input class="form-control" formControlName="membres"  type="text" >
+                    <div class="form-group ">
+                        <label for="description" class="form-label">Description:</label>
+                        <textarea class="form-control" formControlName="description" type="text" required></textarea>
 
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Specialite:</label>
-                                <input class="form-control" formControlName="specialite"  type="text" >
-
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
-                                <input class="form-control" formControlName="nbreHours" type="text" >
-
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Complexite:</label>
-                                <input class="form-control" formControlName="complexite" type="text">
-
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Description:</label>
-                                <textarea class="form-control" formControlName="evaluation" type="text"></textarea>
-
-                            </div>
-
-
-                            <label class="form-label" >Default file input example</label>
-                            <input type="file" class="form-control"  />
-                        </div>
-
-                    </article>
+                    </div>
+                    <div class="form-group ">
+                        <label for="demande" class="form-label">Demande Associée :</label>
+                        <!--        <select class="form-select" formControlName="client" id="client">-->
+                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                        <!--        </select>-->
+                        <select #demandeSelect class="form-select"   (change)="onSelected(demandeSelect.value)">
+                            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
+                        </select>
+                    </div>
+                    <!--                                    <div class="upload-container">-->
+                    <!--                                        <div class="input-div">-->
+                    <!--                                            <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
+                    <!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
+                    <!--                                        </div>-->
+                    <!--                                    </div>-->
 
                 </div>
 
-            </section>
+
+                <label class="form-label" >Default file input example</label>
+                <input type="file" class="form-control"  />
+            </article>
+
 
 
             <div class="workflow-container">
@@ -550,59 +564,68 @@
             aria-labelledby="ex3-tab-5"
             *ngIf="elsebool"
     >
-        <!-- Your content for the new tab goes here -->
-        <form class="row g-3 needs-validation custom-form" novalidate>
+        <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
 
-            <section class="light" >
-                <div class="container py-2">
-                    <div class="h1 text-center text-dark" ></div>
+
+            <article class="postcard light green">
+                <a class="postcard__img_link" href="#">
+                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                </a>
+                <div class="postcard__text t-dark">
 
 
-                    <article class="postcard light green">
-                        <a class="postcard__img_link" href="#">
-                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                        </a>
-                        <div class="postcard__text t-dark">
+                    <div class="form-group ">
+                        <label for="nom" class="form-label">Nom:</label>
+                        <input class="form-control" formControlName="nom" type="text" required>
+                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                        <!--             class="alert alert-danger">-->
+                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                        <!--                Nom is required.-->
+                        <!--            </div>-->
+                        <!--        </div>-->
+                    </div>
 
+                    <div class="form-group">
+                        <label for="montantEstime" class="form-label">Budget alloué:</label>
+                        <input class="form-control" formControlName="montantEstime" type="text" required>
+                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                        <!--             class="alert alert-danger">-->
+                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                        <!--                Nom is required.-->
+                        <!--            </div>-->
+                        <!--        </div>-->
+                    </div>
 
-                            <div class="form-group">
-                                <label  class="form-label">Nombre de membres dans l'équipe de développement est :</label>
-                                <input class="form-control" formControlName="membres"  type="text" >
+                    <div class="form-group ">
+                        <label for="description" class="form-label">Description:</label>
+                        <textarea class="form-control" formControlName="description" type="text" required></textarea>
 
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Specialite:</label>
-                                <input class="form-control" formControlName="specialite"  type="text" >
-
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
-                                <input class="form-control" formControlName="nbreHours" type="text" >
-
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Complexite:</label>
-                                <input class="form-control" formControlName="complexite" type="text">
-
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Description:</label>
-                                <textarea class="form-control" formControlName="evaluation" type="text"></textarea>
-
-                            </div>
-
-
-                            <label class="form-label" >Default file input example</label>
-                            <input type="file" class="form-control"  />
-                        </div>
-
-                    </article>
+                    </div>
+                    <div class="form-group ">
+                        <label for="demande" class="form-label">Demande Associée :</label>
+                        <!--        <select class="form-select" formControlName="client" id="client">-->
+                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                        <!--        </select>-->
+                        <select #demandeSelect class="form-select"   (change)="onSelected(demandeSelect.value)">
+                            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
+                        </select>
+                    </div>
+                    <!--                                    <div class="upload-container">-->
+                    <!--                                        <div class="input-div">-->
+                    <!--                                            <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
+                    <!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
+                    <!--                                        </div>-->
+                    <!--                                    </div>-->
 
                 </div>
 
-            </section>
+
+                <label class="form-label" >Default file input example</label>
+                <input type="file" class="form-control"  />
+            </article>
+
 
 
             <div class="workflow-container">
@@ -636,59 +659,68 @@
             aria-labelledby="ex3-tab-5"
             *ngIf="elsebool1"
     >
-        <!-- Your content for the new tab goes here -->
-        <form class="row g-3 needs-validation custom-form" novalidate>
+        <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
 
-            <section class="light" >
-                <div class="container py-2">
-                    <div class="h1 text-center text-dark" ></div>
+
+            <article class="postcard light green">
+                <a class="postcard__img_link" href="#">
+                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                </a>
+                <div class="postcard__text t-dark">
 
 
-                    <article class="postcard light green">
-                        <a class="postcard__img_link" href="#">
-                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                        </a>
-                        <div class="postcard__text t-dark">
+                    <div class="form-group ">
+                        <label for="nom" class="form-label">Nom:</label>
+                        <input class="form-control" formControlName="nom" type="text" required>
+                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                        <!--             class="alert alert-danger">-->
+                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                        <!--                Nom is required.-->
+                        <!--            </div>-->
+                        <!--        </div>-->
+                    </div>
 
+                    <div class="form-group">
+                        <label for="montantEstime" class="form-label">Budget alloué:</label>
+                        <input class="form-control" formControlName="montantEstime" type="text" required>
+                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
+                        <!--             class="alert alert-danger">-->
+                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
+                        <!--                Nom is required.-->
+                        <!--            </div>-->
+                        <!--        </div>-->
+                    </div>
 
-                            <div class="form-group">
-                                <label  class="form-label">Nombre de membres dans l'équipe de développement est :</label>
-                                <input class="form-control" formControlName="membres"  type="text" >
+                    <div class="form-group ">
+                        <label for="description" class="form-label">Description:</label>
+                        <textarea class="form-control" formControlName="description" type="text" required></textarea>
 
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Specialite:</label>
-                                <input class="form-control" formControlName="specialite"  type="text" >
-
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
-                                <input class="form-control" formControlName="nbreHours" type="text" >
-
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Complexite:</label>
-                                <input class="form-control" formControlName="complexite" type="text">
-
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Description:</label>
-                                <textarea class="form-control" formControlName="evaluation" type="text"></textarea>
-
-                            </div>
-
-
-                            <label class="form-label" >Default file input example</label>
-                            <input type="file" class="form-control" />
-                        </div>
-
-                    </article>
+                    </div>
+                    <div class="form-group ">
+                        <label for="demande" class="form-label">Demande Associée :</label>
+                        <!--        <select class="form-select" formControlName="client" id="client">-->
+                        <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
+                        <!--        </select>-->
+                        <select #demandeSelect class="form-select"   (change)="onSelected(demandeSelect.value)">
+                            <option *ngFor="let demande of demandes" [value]="demande.id">{{ demande.nom }}</option>
+                        </select>
+                    </div>
+                    <!--                                    <div class="upload-container">-->
+                    <!--                                        <div class="input-div">-->
+                    <!--                                            <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
+                    <!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
+                    <!--                                        </div>-->
+                    <!--                                    </div>-->
 
                 </div>
 
-            </section>
+
+                <label class="form-label" >Default file input example</label>
+                <input type="file" class="form-control"  />
+            </article>
+
 
 
             <div class="workflow-container">
