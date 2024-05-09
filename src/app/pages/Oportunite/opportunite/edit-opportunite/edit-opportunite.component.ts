@@ -13,6 +13,7 @@ import {DatePipe} from "@angular/common";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
 import {Client} from "../../../../Models/Client";
 import {EquipeServiceService} from "../../../../Service/equipe-service.service";
+import {DxTreeViewComponent} from "devextreme-angular";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -24,7 +25,7 @@ export class EditOpportuniteComponent implements OnInit {
   selectedDemande = false;
     equipes: string[] = [];
   demandeF: FormGroup;
-
+listIdEquipe: any[] = [];
   oppForm: any;
   oppid: any;
   decissionWF: any;
@@ -74,8 +75,19 @@ evaluer:boolean=false;
       deadline: [''],
       description: ['']
     });
+    // set data from service equipe
+      this.gridDataSource=this.getEquipes1();
   }
-
+getEquipes1(){
+    this.equipeService.getEquipes().subscribe(
+        (equipes: any[]) => {
+            this.gridDataSource = equipes;
+        },
+        (error) => {
+            console.error('Erreur lors de la récupération des équipes : ', error);
+        }
+    );
+}
   ngOnInit(): void {
       this.getEquipes();
     this.loaddemandes();
@@ -179,38 +191,109 @@ else {
 
   }
 
+    save(){
+        const selectedClientId = this.demandeSelect?.nativeElement.value;
+        console.log("selected demande:"+selectedClientId);
+        this.opportuniteService.updateAndAssignToDemande(this.oppid,selectedClientId,this.oppF.value).subscribe(data => {
+            this.toastr.success(" updated successfully" +
+                "", "", {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+            //redirect to add opp by id
+            this.router.navigate(['opportunite/all']);
 
-  save(){
-    const selectedClientId = this.demandeSelect?.nativeElement.value;
-    console.log("selected demande:"+selectedClientId);
-    this.opportuniteService.updateAndAssignToDemande(this.oppid,selectedClientId,this.oppF.value).subscribe(data => {
-      this.toastr.success(" updated successfully" +
-          "", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      })
-      //redirect to add opp by id
-        this.router.navigate(['opportunite/all']);
+
+        }, error => {
+            this.toastr.error("failed to update ", "", {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+            console.log("error", error)
+        })
+    }
+  save2(){
+      //verifier si equipe selectionner gridBoxValue
+        if(this.gridBoxValue.length==0){
+            this.toastr.warning("Veuillez sélectionner une équipe", "", {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            });
+            return;
+        }
+        // call methode in service affecter
+            console.log("equipe affecter",this.gridBoxValue);
+            // set listidequipe with id from gridBoxValue
+           this.listIdEquipe = this.gridBoxValue.map(equipe => equipe.id);
+            this.equipeService.affecterEquipe(this.oppid, this.listIdEquipe).subscribe(
+                (data) => {
+                    this.toastr.success("Equipe affectée avec succès", "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    });
+                    //redirect to demande list
+                   // this.router.navigate(['opportunite/all']);
+                },
+
+                (error) => {
+                    this.toastr.error("Erreur lors de l'affectation de l'équipe", "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    });
+                }
+            );
+            const selectedClientId = this.demandeSelect?.nativeElement.value;
+            console.log("selected demande:"+selectedClientId);
+            this.opportuniteService.updateAndAssignToDemande(this.oppid,selectedClientId,this.oppF.value).subscribe(data => {
+                this.toastr.success(" updated successfully" +
+                    "", "", {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                    progressBar: true,
+                    disableTimeOut: false,
+                    timeOut: this.env.timeOutToastr
+                })
+                //redirect to add opp by id
+                //this.router.navigate(['opportunite/all']);
 
 
-    }, error => {
-      this.toastr.error("failed to update ", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      })
-      console.log("error", error)
-    })
+            }, error => {
+                this.toastr.error("failed to update ", "", {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                    progressBar: true,
+                    disableTimeOut: false,
+                    timeOut: this.env.timeOutToastr
+                })
+                console.log("error", error)
+            })
+
+
+
   }
-  Save() {
-}
+
   Retourn(){
 
   }
@@ -286,5 +369,17 @@ else {
             }
         );
     }
+    // affecter equipe
+    @ViewChild(DxTreeViewComponent, { static: false }) treeView: DxTreeViewComponent;
 
+    gridDataSource: any;
+
+    gridBoxValue = [];
+    onSelectionChanged(e) {
+        const selectedIds = e.value;
+        // get id projet form url
+        const projectId = this.route.snapshot.paramMap.get('id');
+        // Make an HTTP request to your API endpoint using the selectedIds
+
+    }
 }

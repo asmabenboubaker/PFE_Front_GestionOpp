@@ -306,15 +306,43 @@
                             <!--                                    </div>-->
 
                         </div>
-                        <div class="form-group ">
-                            <label for="demande" class="form-label">Equipe :</label>
-                            <!--        <select class="form-select" formControlName="client" id="client">-->
-                            <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                            <!--        </select>-->
-                            <select #equipeSelect class="form-select" id="equipe">
-                                <option *ngFor="let equipe of equipes" [value]="equipe">{{ equipe }}</option>
-                            </select>
+
+
+                        <div class="dx-field">
+                            <div class="dx-field-label">Select Equipe</div>
+                            <div class="dx-field-value">
+                                <dx-drop-down-box
+                                        [(value)]="gridBoxValue"
+                                        [inputAttr]="{ 'aria-label': 'Owner' }"
+                                        valueExpr="ID"
+                                        displayExpr="nom"
+                                        placeholder="Select a value..."
+                                        [showClearButton]="true"
+                                        [dataSource]="gridDataSource"
+                                >
+                                    <div *dxTemplate="let data of 'content'">
+                                        <dx-data-grid
+                                                [dataSource]="gridDataSource"
+                                                [columns]="['nom', 'telephone', 'email']"
+                                                [selection]="{ mode: 'multiple' }"
+                                                [hoverStateEnabled]="true"
+                                                [paging]="{ enabled: true, pageSize: 10 }"
+                                                [filterRow]="{ visible: true }"
+                                                [scrolling]="{ mode: 'virtual' }"
+                                                [height]="345"
+                                                [(selectedRowKeys)]="gridBoxValue"
+                                        >
+                                        </dx-data-grid>
+                                    </div>
+                                </dx-drop-down-box>
+                            </div>
                         </div>
+<!--                        <div *ngIf="gridBoxValue.length > 0">-->
+<!--                            <h3>Données sélectionnées dans la drop-down box :</h3>-->
+<!--                            <ul>-->
+<!--                                <li *ngFor="let item of gridBoxValue">{{ item }}</li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
                     </article>
 
 
@@ -325,7 +353,7 @@
                 <app-workflow-decision
                         *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
                         (decisionEvent)="Confirmation($event)"
-                        (saveEvent)="save()"
+                        (saveEvent)="save2()"
                         (RetournEvent)="Retourn()"
                         [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
                         [decisions]="decissionWF"
