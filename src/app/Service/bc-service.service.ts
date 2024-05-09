@@ -35,4 +35,8 @@ export class BcServiceService {
   BC_process_Submit(obj) {
     return this.http.patch(this.env.piOpp + 'submitBC', obj, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
   }
+  //assignoffre
+    assignoffre(id,bcid) {
+        return this.http.patch(`${this.env.piOpp}bc/assignoffre/${id}`, bcid);
+    }
 }

@@ -13,22 +13,22 @@ import autoTable from 'jspdf-autotable';
   providedIn: 'root'
 })
 export class OffreService {
-  getOffres(): Observable<Offre[]> {
-    return this.http.get<Offre[]>(this.env.piOpp+this.Wservice.getoffre);
+  getOffres(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.env.piOpp}offresList`);
   }
 
-  getOffreById(id: number): Observable<Offre> {
+  getOffreById(id: number): Observable<any> {
     const url = `${this.env.piOpp+this.Wservice.getoffre}/${id}`;
-    return this.http.get<Offre>(url);
+    return this.http.get<any>(url);
   }
 
-  addOffre(offre: Offre): Observable<Offre> {
-    return this.http.post<Offre>(this.env.piOpp+this.Wservice.getoffre, offre);
+  addOffre(offre: Offre): Observable<any> {
+    return this.http.post<any>(this.env.piOpp+this.Wservice.getoffre, offre);
   }
 
-  updateOffre(offre: Offre): Observable<Offre> {
+  updateOffre(offre: Offre): Observable<any> {
     const url = `${this.env.piOpp+this.Wservice.getoffre}/${offre.id}`;
-    return this.http.put<Offre>(url, offre);
+    return this.http.put<any>(url, offre);
   }
 
   deleteOffre(id: number): Observable<void> {

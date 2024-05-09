@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Tab, initMDB } from "mdb-ui-kit";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BcServiceService} from "../../../../Service/bc-service.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {EnvService} from "../../../../../env.service";
+import {OffreService} from "../../../../Service/offre.service";
 
 @Component({
   selector: 'app-add-bc',
@@ -21,6 +22,7 @@ export class AddBcComponent implements OnInit {
     traitement=false;
     validation=false;
     elsedesision=false;
+    offre:any[]=[];
   demandeF= new FormGroup({
     id: new FormControl(''),
 
@@ -34,7 +36,7 @@ export class AddBcComponent implements OnInit {
   });
   constructor(private servicebc:BcServiceService, private router: Router,
               public route: ActivatedRoute,private fb: FormBuilder,
-    private toastr: ToastrService, private env: EnvService,
+    private toastr: ToastrService, private env: EnvService,private offreService:OffreService
 ) {
 
       this.demandeForm = this.fb.group({
@@ -56,33 +58,37 @@ export class AddBcComponent implements OnInit {
     this.servicebc.getStatusList().subscribe((statuses) => {
       this.statusList = statuses;
     });
+    // set list offre
+    this.offreService.getOffres().subscribe(data => {
+      this.offre = data;
+      console.log("offre",this.offre)
+    }, error => {
+      console.log("error", error)
+    })
 
     this.demandeid=this.route.snapshot.paramMap.get('id');
     this.servicebc.getbcById(this.demandeid).toPromise().then(
         data => {
           this.objectData=data
+            //set demandeForm
+            this.demandeF.setValue({
+                id: data.id,
+                description: data.description,
+                dateCommande: data.dateCommande,
+                montantTotal: data.montantTotal,
+                servicecommande: data.servicecommande,
+                methodedepaiement: data.methodedepaiement,
+                datedelivraison: data.datedelivraison,
+            });
 
-          // this.demandeF.get('deadline').setValue(data.deadline);
-          // const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
-          // this.demandeF.get('client').setValue(clientId);
+
           console.log("Fetched Successfully :", data);
           // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
           this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
 
           //const decisionsWF = data.workflow.decisionsWF
           console.log("DECICIONS WK ::: "+ this.decissionWF);
-          // Créez un nouvel objet FormGroup en utilisant FormBuilder et initialisez-le avec les données récupérées
-          // this.demandeForm = this.fb.group({
-          //     id: [data.id],
-          //     nom: [data.nom, Validators.required],
-          //     description: [data.description],
-          //     dateDeCreation: [data.dateDeCreation],
-          //     statutDemande: [data.statutDemande],
-          //     statut: [data.statut],
-          //     userPermission: [data.userPermission],
-          //     activityName: [data.activityName],
-          //
-          // });
+
 
           //get decissionWF
           this.decissionWF = data['workflow']['decisionsWF'];
@@ -133,7 +139,8 @@ export class AddBcComponent implements OnInit {
                 timeOut: this.env.timeOutToastr
             })
             //redirect to demande add id
-            this.router.navigate(['Demande/add/']+this.demandeid);
+           // this.router.navigate(['Demande/add/']+this.demandeid);
+            window.location.reload();
         }, error => {
             this.toastr.error("failed to add ", "", {
                 closeButton: true,
@@ -147,43 +154,41 @@ export class AddBcComponent implements OnInit {
         })
         // this.closepopupMeeting();
     }
-
+    @ViewChild('clientSelect') clientSelect: ElementRef;
     save() {
         // Récupérer les valeurs du FormGroup
-        const formData = this.demandeF.value;
-
-        //ajouter decision to formData
-        // formData['decision'] = "Pour Validation";
-        // const selectedClientId = this.clientSelect?.nativeElement.value;
-
-        // console.log('Client Select Element:', this.clientSelect);
+        // const formData = this.demandeF.value;
+        // const selectedId = this.clientSelect?.nativeElement.value;
+        //
+        // console.log('Client Select Element:', this.clientSelect)
         // console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
-        console.log("data save",formData)
-//         this.servicebc.updateAndAssignToClient(selectedClientId,this.demandeid,formData).subscribe(data => {
-//                 this.toastr.success("added successfully" +
-//                     "", "", {
-//                     closeButton: true,
-//                     positionClass: 'toast-top-right',
-//                     extendedTimeOut: this.env.extendedTimeOutToastr,
-//                     progressBar: true,
-//                     disableTimeOut: false,
-//                     timeOut: this.env.timeOutToastr
-//                 })
-// //redirect to demande list
-//                 this.router.navigate(['Demande/user']);
-//
-//             },
-//             error => {
-//                 this.toastr.error("Failed to add", "", {
-//                     closeButton: true,
-//                     positionClass: 'toast-top-right',
-//                     extendedTimeOut: this.env.extendedTimeOutToastr,
-//                     progressBar: true,
-//                     disableTimeOut: false,
-//                     timeOut: this.env.timeOutToastr
-//                 })
-//                 console.log("error", error)
-//             })
+        //
+        // console.log("data save",formData)
+        // //assignoffre to bc
+        // this.servicebc.assignoffre(selectedId,formData).subscribe(data => {
+        //     this.toastr.success(" added successfully" +
+        //         "", "", {
+        //         closeButton: true,
+        //         positionClass: 'toast-top-right',
+        //         extendedTimeOut: this.env.extendedTimeOutToastr,
+        //         progressBar: true,
+        //         disableTimeOut: false,
+        //         timeOut: this.env.timeOutToastr
+        //     })
+        //     //redirect to demande add id
+        //     this.router.navigate(['Demande/add/']+this.demandeid);
+        // }, error => {
+        //     this.toastr.error("failed to add ", "", {
+        //         closeButton: true,
+        //         positionClass: 'toast-top-right',
+        //         extendedTimeOut: this.env.extendedTimeOutToastr,
+        //         progressBar: true,
+        //         disableTimeOut: false,
+        //         timeOut: this.env.timeOutToastr
+        //     })
+        //     console.log("error", error)
+        // })
+
     }
     Retourn(){
         this.router.navigate(['bondecommande/all']);

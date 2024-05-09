@@ -72,9 +72,16 @@
 
 
             <div class="form-group">
-                <label for="modePaiement" class="form-label">mode de Paiement:</label>
-                <input class="form-control" formControlName="modePaiement" id="modePaiement" type="text" required>
+                <label class="form-label">mode de Paiement:</label>
 
+                <select formControlName="modePaiement" class="form-select">
+                    <option value="">Sélectionner un mode de paiement</option>
+                    <option value="carte">Carte de crédit</option>
+                    <option value="virement">Virement bancaire</option>
+
+                    <option value="espece">Espèces</option>
+                    <option value="cheque">Chèque</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -134,8 +141,15 @@
 
 
             <div class="form-group">
-                <label for="modePaiement" class="form-label">mode de Paiement:</label>
-                <input class="form-control" formControlName="modePaiement" type="text" required>
+                <label  class="form-label">mode de Paiement:</label>
+                <select formControlName="modePaiement" class="form-select">
+                    <option value="">Sélectionner un mode de paiement</option>
+                    <option value="carte">Carte de crédit</option>
+                    <option value="virement">Virement bancaire</option>
+
+                    <option value="espece">Espèces</option>
+                    <option value="cheque">Chèque</option>
+                </select>
 
             </div>
 
@@ -196,8 +210,15 @@
 
 
             <div class="form-group">
-                <label for="modePaiement" class="form-label">mode de Paiement:</label>
-                <input class="form-control" formControlName="modePaiement" type="text" required>
+                <label class="form-label">mode de Paiement:</label>
+                <select formControlName="modePaiement" class="form-select">
+                    <option value="">Sélectionner un mode de paiement</option>
+                    <option value="carte">Carte de crédit</option>
+                    <option value="virement">Virement bancaire</option>
+
+                    <option value="espece">Espèces</option>
+                    <option value="cheque">Chèque</option>
+                </select>
 
             </div>
 
@@ -262,9 +283,15 @@
 
 
             <div class="form-group">
-                <label for="modePaiement" class="form-label">mode de Paiement:</label>
-                <input class="form-control" formControlName="modePaiement" type="text" required>
+                <label class="form-label">mode de Paiement:</label>
+                <select formControlName="modePaiement" class="form-select">
+                    <option value="">Sélectionner un mode de paiement</option>
+                    <option value="carte">Carte de crédit</option>
+                    <option value="virement">Virement bancaire</option>
 
+                    <option value="espece">Espèces</option>
+                    <option value="cheque">Chèque</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -309,7 +336,7 @@
 
             </div>
 
-            <button (click)="downloadPdfOnClick()">Download PDF</button>
+            <button  (click)="downloadPdfOnClick()">Download PDF</button>
         </form>
 
     </div>
