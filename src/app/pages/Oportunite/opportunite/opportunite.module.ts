@@ -7,6 +7,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {EditOpportuniteComponent} from "./edit-opportunite/edit-opportunite.component";
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
+import { EtudeOppComponent } from './etude-opp/etude-opp.component';
 
 
 export const routes: Routes  = [
@@ -22,11 +23,24 @@ export const routes: Routes  = [
         data: {breadcrumb: 'add opportunité'},
         pathMatch: 'full'
     },
+    {
+        path: 'edit/:id',
+        component: EditOpportuniteComponent,
+        data: {breadcrumb: 'Edit opportunité'},
+        pathMatch: 'full'
+    },
+    {
+        path: 'etude',
+        component: EtudeOppComponent,
+        data: {breadcrumb: 'Etude opportunité'},
+        pathMatch: 'full'
+    }
 ];
 @NgModule({
   declarations: [
     GridOppComponent,
-  EditOpportuniteComponent
+  EditOpportuniteComponent,
+  EtudeOppComponent
   ],
     imports: [
         CommonModule,

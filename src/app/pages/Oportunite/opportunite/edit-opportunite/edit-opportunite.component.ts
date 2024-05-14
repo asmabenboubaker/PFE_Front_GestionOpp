@@ -24,7 +24,8 @@ import {EtudetechServiceService} from "../../../../Service/etudetech-service.ser
 export class EditOpportuniteComponent implements OnInit {
 //set selectedDemand false
   selectedDemande = false;
-    equipes: string[] = [];
+    equipes: any[] = [];
+    equipesaff: any[] = [];
   demandeF: FormGroup;
 listIdEquipe: any[] = [];
   oppForm: any;
@@ -48,6 +49,7 @@ listIdEquipe: any[] = [];
 elsebool = false;
 elsebool1 = false;
 evaluer:boolean=false;
+
   constructor(private fb: FormBuilder, private opportuniteService: OpportuniteService, private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService, private wsService: WsService,
               private translateService: TranslateService,
@@ -174,6 +176,16 @@ else {
         },
         (error) => {
           console.error('Error fetching demande by id: ', error);
+        }
+    );
+    //set list equipe
+    this.opportuniteService.getEquipes(this.oppid).subscribe(
+        (equipes: any[]) => {
+            this.equipesaff = equipes;
+            console.log("projet affecter", this.equipesaff)
+        },
+        (error) => {
+            console.error('Erreur lors de la récupération des équipes : ', error);
         }
     );
   }

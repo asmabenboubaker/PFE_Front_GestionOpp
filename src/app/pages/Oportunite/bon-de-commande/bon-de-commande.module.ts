@@ -29,7 +29,8 @@ export const routes: Routes  = [
 @NgModule({
   declarations: [
     GridBCComponent,
-    AddBcComponent
+    AddBcComponent,
+
   ],
     imports: [
         CommonModule,

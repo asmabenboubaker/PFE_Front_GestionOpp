@@ -28,6 +28,7 @@ import {Paging} from "../../../Global/ps-tools/class";
 import {DemandeDto} from "../../../../Models/DemandeDto";
 import {DatePipe} from "@angular/common";
 import {ToastService} from "../../../../Service/toast-service";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-add-demande',
@@ -49,7 +50,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   eventcontrole=false;
 
   demandeid:any;
-
+showadd:boolean=false;
 
 
   demande = new DemandeDto(null, null, null, null)
@@ -89,7 +90,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
               private http: HttpClient,
               private router: Router,
               public route: ActivatedRoute,
-              private datePipe: DatePipe
+              private datePipe: DatePipe,
+              private cookieService: CookieService
   ) {
 
 
@@ -194,6 +196,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 
 
       console.log("this.demandeF",this.objectData)
+
+
 
   }
 

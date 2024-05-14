@@ -11,9 +11,10 @@ export class EquipeServiceService {
 
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService) { }
   // get list equipe
-    getEquipes() {
-        return this.http.get(this.env.piOpp+this.Wservice.getEquipe);
+    getEquipes(): Observable<any[]> {
+        return this.http.get<any[]>(this.env.piOpp+this.Wservice.getEquipe);
     }
+
   affecterEquipe(equipeId: number, idsEquipes: number[]): Observable<any> {
     const url = `${this.env.piOpp}${this.Wservice.getEquipe}/${equipeId}/oppequipes`;
     return this.http.post<any>(url, idsEquipes);

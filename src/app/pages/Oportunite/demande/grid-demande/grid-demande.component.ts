@@ -34,6 +34,7 @@ export class GridDemandeComponent implements OnInit {
   iddoc:any;
   popupDeleteVisible: boolean=false;
   demandeadd: any;
+    showadd: boolean=false;
   constructor(private demandeService: DemandeService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
               private http: HttpClient,private clientService: ClientServiceService,
               private env: EnvService,private router: Router,private toastr: ToastrService,
@@ -45,6 +46,8 @@ export class GridDemandeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllDemandes();
     console.log(this.dataSourceElement);
+    this.cookieService.get('profiles').includes(this.env.depositOpportunite) ? this.showadd = true : this.showadd = false;
+
   }
   popupDelete(id:any) {
     this.popupDeleteVisible=true;
@@ -170,18 +173,19 @@ this.showSuccess();
           template: 'titreGrid'
         }
     );
+    if (this.showadd) {
       e.toolbarOptions.items.unshift(
           {
-              location: 'after',
-              widget: 'dxButton',
-              options: {
-                  hint: 'Add',
-                  icon: 'plus',
-                  onClick: this.adddemande.bind(this),
-              },
+            location: 'after',
+            widget: 'dxButton',
+            options: {
+              hint: 'Add',
+              icon: 'plus',
+              onClick: this.adddemande.bind(this),
+            },
           }
       );
-
+    }
   }
   openAddPage(e) {
     this.popupAdd = true   }

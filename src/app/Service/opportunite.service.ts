@@ -63,4 +63,10 @@ export class OpportuniteService {
         const url = `${this.env.piOpp}etude/${id}`;
         return this.http.get<any>(url);
     }
+    //get allequipes
+    getEquipes(id): Observable<any[]> {
+        const url = `${this.env.piOpp}${id}/allequipes`;
+        return this.http.get<any[]>(url);
+    }
+
 }

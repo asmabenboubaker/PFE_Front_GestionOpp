@@ -12,6 +12,7 @@ import {SharedModuleModule} from "../../Global/shared-module/shared-module.modul
 import {Service} from "./task-board/app.service";
 import { AddTaskComponent } from './add-task/add-task.component';
 import {ClientModule} from "../client/client.module";
+import { EquipeComponent } from './equipe/equipe.component';
 
 
 export const routes: Routes  = [
@@ -39,8 +40,14 @@ export const routes: Routes  = [
         data: {breadcrumb: 'Meeting'},
         pathMatch: 'full'
 
-    }
+    },
+    {
+        path:'equipe',
+        component:EquipeComponent,
+        data: {breadcrumb: 'Equipe'},
+        pathMatch: 'full'
 
+    }
 ];
 
 @NgModule({
@@ -49,7 +56,9 @@ export const routes: Routes  = [
   
     EditProjectComponent,
            TaskBoardComponent,
-           AddTaskComponent
+           AddTaskComponent,
+      MeetingComponent,
+      EquipeComponent,
   ],
     imports: [
         CommonModule,

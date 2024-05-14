@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-4" *ngFor="let projet of equipeq">
+        <div class="card text-center">
+            <div class="card-header">{{ projet.nom }}</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ projet.telephone }}</h5>
+                <p class="card-text">{{ projet.description }}</p>
+                <a href="#" class="btn btn-primary">Voir plus</a>
+            </div>
+            <!--                    <div class="card-footer text-muted">{{ projet.date | date: 'dd/MM/yyyy' }}</div>-->
+        </div>
+    </div>
+</div>
