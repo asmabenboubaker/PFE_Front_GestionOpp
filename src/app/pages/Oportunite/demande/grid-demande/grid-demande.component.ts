@@ -44,6 +44,9 @@ export class GridDemandeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+      console.log("this.cookieService.get('profiles').includes(this.env.oppGD)", this.cookieService.get('profiles').trim())
+
     this.getAllDemandes();
     console.log(this.dataSourceElement);
     this.cookieService.get('profiles').includes(this.env.depositOpportunite) ? this.showadd = true : this.showadd = false;

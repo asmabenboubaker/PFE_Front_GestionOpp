@@ -73,4 +73,14 @@ getDemandeByid(id): Observable<any> {
     const url = `${this.env.piOpp}demandemm/${demandeId}/${clientId}`;
     return this.http.put<any>(url, demandeData);
   }
+  //get by id demande
+    getDemandeByidd(id): Observable<any> {
+        const url = `${this.env.piOpp+this.Wservice.getdemandes}/byid/${id}`;
+        return this.http.get<any>(url);
+    }
+
+  setCreateOppTrue(demandeId: number): Observable<any> {
+    const url = `${this.env.piOpp}${demandeId}/setCreateOppTrue`;
+    return this.http.put(url, {});
+  }
 }

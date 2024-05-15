@@ -68,5 +68,7 @@ export class OpportuniteService {
         const url = `${this.env.piOpp}${id}/allequipes`;
         return this.http.get<any[]>(url);
     }
-
+  affecterOpportuniteADemande(opportuniteId: number, demandeId: number): Observable<any> {
+    return this.http.post<any>(`${this.env.piOpp}/opportunites/${opportuniteId}/affecter-demande/${demandeId}`, {});
+  }
 }

@@ -49,6 +49,7 @@ listIdEquipe: any[] = [];
 elsebool = false;
 elsebool1 = false;
 evaluer:boolean=false;
+    demandeId: any;
 
   constructor(private fb: FormBuilder, private opportuniteService: OpportuniteService, private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService, private wsService: WsService,
@@ -93,7 +94,14 @@ getEquipes1(){
         }
     );
 }
+
   ngOnInit(): void {
+
+      this.route.queryParams.subscribe(params => {
+           this.demandeId = params['demandeId'];
+          console.log('ID de la demande:', this.demandeId);
+
+      });
       this.getEquipes();
     this.loaddemandes();
     this.oppid = this.route.snapshot.paramMap.get('id');
@@ -188,6 +196,8 @@ else {
             console.error('Erreur lors de la récupération des équipes : ', error);
         }
     );
+
+
   }
 
   Confirmation(evt) {
@@ -229,6 +239,7 @@ else {
   }
 
     save(){
+      this.affecterOpportuniteADemande();
         const selectedClientId = this.demandeSelect?.nativeElement.value;
         console.log("selected demande:"+selectedClientId);
         this.opportuniteService.updateAndAssignToDemande(this.oppid,selectedClientId,this.oppF.value).subscribe(data => {
@@ -399,7 +410,16 @@ else {
     );
   }
 
+    affecterOpportuniteADemande(): void {
+        this.opportuniteService.affecterOpportuniteADemande(this.oppid, this.demandeId)
+            .subscribe(response => {
+                console.log('Opportunite affectée à la demande avec succès:', response);
 
+            }, error => {
+                console.error('Erreur lors de l\'affectation de l\'opportunité à la demande:', error);
+
+            });
+    }
   onFileChange(event: any) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {

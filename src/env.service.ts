@@ -92,5 +92,6 @@ public piOpp='http://localhost:8888/demo_war/api/';
   public activityNamedemandeaccept;
   // profil
   depositOpportunite = 'depositOpportunite';
+  oppGD='oppDG';
   constructor() { }
 }

@@ -29,6 +29,7 @@ import {DemandeDto} from "../../../../Models/DemandeDto";
 import {DatePipe} from "@angular/common";
 import {ToastService} from "../../../../Service/toast-service";
 import {CookieService} from "ngx-cookie-service";
+import {OpportuniteService} from "../../../../Service/opportunite.service";
 
 @Component({
   selector: 'app-add-demande',
@@ -50,8 +51,9 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   eventcontrole=false;
 
   demandeid:any;
-showadd:boolean=false;
+showModal:boolean=false;
 
+demandeObejct:any;
 
   demande = new DemandeDto(null, null, null, null)
   gridBoxValue = [];
@@ -91,7 +93,8 @@ showadd:boolean=false;
               private router: Router,
               public route: ActivatedRoute,
               private datePipe: DatePipe,
-              private cookieService: CookieService
+              private cookieService: CookieService,
+              private opportuniteService:OpportuniteService
   ) {
 
 
@@ -127,19 +130,55 @@ showadd:boolean=false;
     console.log("inWebServiceGetByID")
     this.AppelWsGetById.emit(true)
   }
+  onCancelClick(): void {
+    this.elsedesision = false; // Fermez la popup
+  }
+  onCreateOpportunityClick(): void {
+   //set createOpp to true
+    this.demandeService.setCreateOppTrue(this.demandeid).subscribe(data => {
+        console.log("set create opp true",data)
 
+    });
+    this.opportuniteService.InitOpp().subscribe(data => {
+      const oppId = data['id'];
+
+      this.router.navigate(['opportunite/add/' + oppId], { queryParams: { demandeId: this.demandeid } });
+      this.showModal = false;
+    });
+  }
 
   ngOnInit(): void {
+    // const profiles = this.cookieService.get('profiles').trim(); // Assurez-vous que les espaces blancs sont supprimés
+    // const oppGD = this.env.oppGD; // Assurez-vous que vous avez correctement défini oppGD
+    //
+    // console.log("profiles:", profiles); // Affichez les valeurs pour déboguer
+    // console.log("oppGD:", oppGD); // Affichez les valeurs pour déboguer
+    //
+    // if (profiles.includes(oppGD)) {
+    //   console.log("profiles includes oppGD");
+    // } else {
+    //   console.log("profiles does not include oppGD");
+    // }
 
+    this.demandeid=this.route.snapshot.paramMap.get('id');
     this.demandeService.getStatusList().subscribe((statuses) => {
       this.statusList = statuses;
     });
+// get by id
+    this.demandeService.getDemandeByidd(this.demandeid).subscribe((result) => {
+// set demandeObject
+          this.demandeObejct=result;
+          console.log("eeeee"+this.demandeObejct.createOpp)
 
+
+        }
+
+    );
    this.loadClients();
     // recuperer id from url
     // this.demandeService.Initdemande().subscribe(data => {
     //     this.demandeid = data['id'];
-    this.demandeid=this.route.snapshot.paramMap.get('id');
+
       this.demandeService.getDemandeByid(this.demandeid).toPromise().then(
           data => {
             this.objectData=data
@@ -163,18 +202,6 @@ showadd:boolean=false;
 
             //const decisionsWF = data.workflow.decisionsWF
             console.log("DECICIONS WK ::: "+ this.decissionWF);
-            // Créez un nouvel objet FormGroup en utilisant FormBuilder et initialisez-le avec les données récupérées
-            // this.demandeForm = this.fb.group({
-            //     id: [data.id],
-            //     nom: [data.nom, Validators.required],
-            //     description: [data.description],
-            //     dateDeCreation: [data.dateDeCreation],
-            //     statutDemande: [data.statutDemande],
-            //     statut: [data.statut],
-            //     userPermission: [data.userPermission],
-            //     activityName: [data.activityName],
-            //
-            // });
 
             //get decissionWF
             this.decissionWF = data['workflow']['decisionsWF'];
@@ -186,7 +213,17 @@ showadd:boolean=false;
               this.pourvalidation2=true;
             }
             else {
+
               this.elsedesision=true;
+              console.log("else"+this.elsedesision);
+              // check profiles this.cookieService.get('profiles').includes(this.env.oppGD)
+                if (this.cookieService.get('profiles').includes(this.env.oppGD)) {
+                  console.log("this.cookieService.get('profiles').includes(this.env.oppGD)", this.cookieService.get('profiles').includes(this.env.oppGD))
+                }
+
+              if (this.demandeObejct.createOpp==false && this.cookieService.get('profiles').includes(this.env.oppGD)) {
+                this.showModal=true;
+              }
             }
           },
           error => {
@@ -226,8 +263,8 @@ showadd:boolean=false;
     this.demandeService.Demande_process_Submit(formData).subscribe(data => {
 
 this.showSuccess();
-        // this.router.navigate(['Demande/add/']+this.demandeid);
-      window.location.reload();
+        window.location.reload();
+
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
@@ -239,6 +276,7 @@ this.showSuccess();
       })
       console.log("error", error)
     })
+
 
   }
   Retourn(){
