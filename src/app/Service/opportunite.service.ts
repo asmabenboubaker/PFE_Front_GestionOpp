@@ -71,4 +71,14 @@ export class OpportuniteService {
   affecterOpportuniteADemande(opportuniteId: number, demandeId: number): Observable<any> {
     return this.http.post<any>(`${this.env.piOpp}/opportunites/${opportuniteId}/affecter-demande/${demandeId}`, {});
   }
+  //set createoffre to true
+    setCreateOffreTrue(opportuniteId: number): Observable<any> {
+        const url = `${this.env.piOpp}${opportuniteId}/setCreateOffreTrue`;
+        return this.http.put(url, {});
+    }
+  //get by id opportunité
+    getOpportuniteByidd(id): Observable<any> {
+        const url = `${this.env.piOpp}opportunitesid/${id}`;
+        return this.http.get<any>(url);
+    }
 }

@@ -30,6 +30,7 @@ import {DatePipe} from "@angular/common";
 import {ToastService} from "../../../../Service/toast-service";
 import {CookieService} from "ngx-cookie-service";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
+import {OffreService} from "../../../../Service/offre.service";
 
 @Component({
   selector: 'app-add-demande',
@@ -52,7 +53,7 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 
   demandeid:any;
 showModal:boolean=false;
-
+  oppadd:any;
 demandeObejct:any;
 
   demande = new DemandeDto(null, null, null, null)
@@ -83,6 +84,7 @@ demandeObejct:any;
   pourvalidation : boolean=false;
   pourvalidation2 : boolean=false;
   elsedesision:boolean=false;
+
  //document
   @Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
@@ -94,7 +96,8 @@ demandeObejct:any;
               public route: ActivatedRoute,
               private datePipe: DatePipe,
               private cookieService: CookieService,
-              private opportuniteService:OpportuniteService
+              private opportuniteService:OpportuniteService,
+              private offreService: OffreService
   ) {
 
 
@@ -131,20 +134,23 @@ demandeObejct:any;
     this.AppelWsGetById.emit(true)
   }
   onCancelClick(): void {
-    this.elsedesision = false; // Fermez la popup
+    this.showModal = false;
   }
   onCreateOpportunityClick(): void {
-   //set createOpp to true
+
+
+
+    //set createOpp to true
     this.demandeService.setCreateOppTrue(this.demandeid).subscribe(data => {
         console.log("set create opp true",data)
 
     });
-    this.opportuniteService.InitOpp().subscribe(data => {
-      const oppId = data['id'];
-
-      this.router.navigate(['opportunite/add/' + oppId], { queryParams: { demandeId: this.demandeid } });
+    this.offreService.InitOffre().subscribe(data => {
+      this.oppadd = data['id'];
+      this.router.navigate(['offre/edit/'+this.oppadd], { queryParams: { demandeId: this.demandeid } });
       this.showModal = false;
     });
+
   }
 
   ngOnInit(): void {
@@ -216,10 +222,6 @@ demandeObejct:any;
 
               this.elsedesision=true;
               console.log("else"+this.elsedesision);
-              // check profiles this.cookieService.get('profiles').includes(this.env.oppGD)
-                if (this.cookieService.get('profiles').includes(this.env.oppGD)) {
-                  console.log("this.cookieService.get('profiles').includes(this.env.oppGD)", this.cookieService.get('profiles').includes(this.env.oppGD))
-                }
 
               if (this.demandeObejct.createOpp==false && this.cookieService.get('profiles').includes(this.env.oppGD)) {
                 this.showModal=true;

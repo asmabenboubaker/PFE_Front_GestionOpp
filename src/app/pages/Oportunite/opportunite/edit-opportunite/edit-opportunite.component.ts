@@ -15,6 +15,7 @@ import {Client} from "../../../../Models/Client";
 import {EquipeServiceService} from "../../../../Service/equipe-service.service";
 import {DxTreeViewComponent} from "devextreme-angular";
 import {EtudetechServiceService} from "../../../../Service/etudetech-service.service";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -22,6 +23,7 @@ import {EtudetechServiceService} from "../../../../Service/etudetech-service.ser
   styleUrls: ['./edit-opportunite.component.scss']
 })
 export class EditOpportuniteComponent implements OnInit {
+    oppObject: any;
 //set selectedDemand false
   selectedDemande = false;
     equipes: any[] = [];
@@ -32,6 +34,8 @@ listIdEquipe: any[] = [];
     techForm: FormGroup;
   oppid: any;
   decissionWF: any;
+demandedto: any;
+    showModal:boolean=false;
   oppF = new FormGroup({
     id: new FormControl(''),
     nom: new FormControl(''),
@@ -62,6 +66,7 @@ evaluer:boolean=false;
               private demandeService: DemandeService,
               private equipeService: EquipeServiceService,
               private etudeService: EtudetechServiceService,
+                private cookieService: CookieService
               ) {
     const currentDate = new Date();
     this.oppForm = this.fb.group({
@@ -96,7 +101,14 @@ getEquipes1(){
 }
 
   ngOnInit(): void {
-
+      this.oppid = this.route.snapshot.paramMap.get('id');
+//set oppObject
+      this.opportuniteService.getOpportuniteByidd(this.oppid).toPromise().then(
+          data => {
+              this.oppObject = data;
+              console.log("oppObject",this.oppObject)
+          }
+      );
       this.route.queryParams.subscribe(params => {
            this.demandeId = params['demandeId'];
           console.log('ID de la demande:', this.demandeId);
@@ -104,10 +116,10 @@ getEquipes1(){
       });
       this.getEquipes();
     this.loaddemandes();
-    this.oppid = this.route.snapshot.paramMap.get('id');
+
     this.opportuniteService.getOppByid(this.oppid).toPromise().then(
         data => {
-          //this.demandeDTO=data
+          this.demandedto=data;
           this.oppF.get('id').setValue(data.id);
           this.oppF.get('nom').setValue(data.nom);
           this.oppF.get('description').setValue(data.description);
@@ -115,7 +127,7 @@ getEquipes1(){
           this.oppF.get('montantEstime').setValue(data.statut);
           // const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
           // this.demandeF.get('client').setValue(clientId);
-          console.log("Fetched Successfully :", data);
+          console.log("Fetched Successfully :",  this.demandedto);
           // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
          // this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
 this.decissionWF=data.workflow.decisionsWF;
@@ -127,16 +139,7 @@ this.decissionWF=data.workflow.decisionsWF;
           //get decissionWF
           this.decissionWF = data['workflow']['decisionsWF'];
 
-          // if(this.decissionWF=="Affecter Equipe\n"){
-          //   this.creationOpp= true;
-          //
-          // }else if(this.decissionWF=="Etude\n"){
-          //   this.Affectaionequipe = true;
-          // }else if(this.decissionWF=="Rapport\n"){
-          //   this.etude = true;
-          // }else {
-          //   this.elsebool = true;
-          // }
+
 if(this.decissionWF=="Affecter Equipe\n"){
     this.creationOpp= true;
 
@@ -154,6 +157,9 @@ else if(this.decissionWF[0]=="Accepter\n" || this.decissionWF[1]=="Rejeter\n"){
 }
 else {
     this.elsebool1 = true;
+    if (this.oppObject.createOpp==false && this.cookieService.get('profiles').includes(this.env.depositOpportunite) && this.demandedto.activityName=="Accepté") {
+        this.showModal=true;
+    }
 }
 
         },
@@ -199,7 +205,22 @@ else {
 
 
   }
+    onCancelClick(): void {
+        this.showModal = false;
+    }
+    onCreateOpportunityClick(): void {
+        //set createOpp to true
+        this.opportuniteService.setCreateOffreTrue(this.oppid).subscribe(data => {
+            console.log("set create opp true",data)
 
+        });
+        this.opportuniteService.InitOpp().subscribe(data => {
+            const oppId = data['id'];
+
+            this.router.navigate(['offre/add/' + oppId], { queryParams: { demandeId: this.oppid } });
+            this.showModal = false;
+        });
+    }
   Confirmation(evt) {
 
     const formData = this.oppF.value;
