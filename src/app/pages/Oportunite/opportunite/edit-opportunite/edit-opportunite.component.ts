@@ -260,10 +260,10 @@ else {
   }
 
     save(){
-      this.affecterOpportuniteADemande();
+
         const selectedClientId = this.demandeSelect?.nativeElement.value;
         console.log("selected demande:"+selectedClientId);
-        this.opportuniteService.updateAndAssignToDemande(this.oppid,selectedClientId,this.oppF.value).subscribe(data => {
+        this.opportuniteService.updateAndAssignToDemande(this.oppid,this.oppF.value).subscribe(data => {
             this.toastr.success(" updated successfully" +
                 "", "", {
                 closeButton: true,
@@ -290,6 +290,7 @@ else {
         })
     }
   save2(){
+
       //verifier si equipe selectionner gridBoxValue
         if(this.gridBoxValue.length==0){
             this.toastr.warning("Veuillez sélectionner une équipe", "", {
@@ -334,7 +335,7 @@ else {
             );
             const selectedClientId = this.demandeSelect?.nativeElement.value;
             console.log("selected demande:" + selectedClientId);
-            this.opportuniteService.updateAndAssignToDemande(this.oppid, selectedClientId, this.oppF.value).subscribe(data => {
+            this.opportuniteService.updateAndAssignToDemande(this.oppid,this.oppF.value).subscribe(data => {
                 this.toastr.success(" updated successfully" +
                     "", "", {
                     closeButton: true,
@@ -431,16 +432,7 @@ else {
     );
   }
 
-    affecterOpportuniteADemande(): void {
-        this.opportuniteService.affecterOpportuniteADemande(this.oppid, this.demandeId)
-            .subscribe(response => {
-                console.log('Opportunite affectée à la demande avec succès:', response);
 
-            }, error => {
-                console.error('Erreur lors de l\'affectation de l\'opportunité à la demande:', error);
-
-            });
-    }
   onFileChange(event: any) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {

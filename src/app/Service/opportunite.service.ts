@@ -50,8 +50,8 @@ export class OpportuniteService {
   Opp_process_Submit(obj) {
     return this.http.patch(this.env.piOpp + 'submitOpp', obj, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
   }
-  updateAndAssignToDemande(OppId: number, deId: number, oppData: any): Observable<any> {
-    const url = `${this.env.piOpp}updateOpp/${OppId}/${deId}`;
+  updateAndAssignToDemande(OppId: number, oppData: any): Observable<any> {
+    const url = `${this.env.piOpp}opportunites/${OppId}`;
     return this.http.put<any>(url, oppData);
   }
   getAllDemandesWithoutPages(): Observable<Client[]> {
@@ -69,7 +69,7 @@ export class OpportuniteService {
         return this.http.get<any[]>(url);
     }
   affecterOpportuniteADemande(opportuniteId: number, demandeId: number): Observable<any> {
-    return this.http.post<any>(`${this.env.piOpp}/opportunites/${opportuniteId}/affecter-demande/${demandeId}`, {});
+    return this.http.post<any>(`${this.env.piOpp}opportunites/affectation/${opportuniteId}/${demandeId}`, {});
   }
   //set createoffre to true
     setCreateOffreTrue(opportuniteId: number): Observable<any> {

@@ -10,9 +10,11 @@
         [(visible)]="showModal">
 
     <p>Voulez-vous créer une offre pour cette opportunité ?</p>
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
     <button
             class="btn btn-secondary"
-            (click)="onCancelClick()">Annuler</button>
+            (click)="onCancelClick()">Annuler</button></div>
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight"></div>
     <button
             class="btn btn-primary"
             (click)="onCreateOpportunityClick()">Créer Offre</button>

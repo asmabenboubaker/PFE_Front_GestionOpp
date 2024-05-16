@@ -136,6 +136,16 @@ demandeObejct:any;
   onCancelClick(): void {
     this.showModal = false;
   }
+  affecterOpportuniteADemande(oppid,demandeId): void {
+    this.opportuniteService.affecterOpportuniteADemande(oppid, demandeId)
+        .subscribe(response => {
+          console.log('Opportunite affectée à la demande avec succès:', response);
+
+        }, error => {
+          console.error('Erreur lors de l\'affectation de l\'opportunité à la demande:', error);
+
+        });
+  }
   onCreateOpportunityClick(): void {
 
 
@@ -145,9 +155,10 @@ demandeObejct:any;
         console.log("set create opp true",data)
 
     });
-    this.offreService.InitOffre().subscribe(data => {
+    this.opportuniteService.InitOpp().subscribe(data => {
       this.oppadd = data['id'];
-      this.router.navigate(['offre/edit/'+this.oppadd], { queryParams: { demandeId: this.demandeid } });
+      this.affecterOpportuniteADemande(this.oppadd,this.demandeid);
+      this.router.navigate(['opportunite/add/'+this.oppadd], { queryParams: { demandeId: this.demandeid } });
       this.showModal = false;
     });
 
@@ -223,7 +234,7 @@ demandeObejct:any;
               this.elsedesision=true;
               console.log("else"+this.elsedesision);
 
-              if (this.demandeObejct.createOpp==false && this.cookieService.get('profiles').includes(this.env.oppGD)) {
+              if (this.demandeObejct.createOpp==false && this.objectData.activityName=="Accepté") {
                 this.showModal=true;
               }
             }
