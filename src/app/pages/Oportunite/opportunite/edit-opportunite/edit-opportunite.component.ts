@@ -157,7 +157,7 @@ else if(this.decissionWF[0]=="Accepter\n" || this.decissionWF[1]=="Rejeter\n"){
 }
 else {
     this.elsebool1 = true;
-    if (this.oppObject.createOpp==false && this.cookieService.get('profiles').includes(this.env.depositOpportunite) && this.demandedto.activityName=="Accepté") {
+       if (this.oppObject.createoffre==false && this.cookieService.get('profiles').includes(this.env.depositOpportunite) && this.demandedto.activityName=="Accepté") {
         this.showModal=true;
     }
 }
@@ -217,7 +217,8 @@ else {
         this.opportuniteService.InitOpp().subscribe(data => {
             const oppId = data['id'];
 
-            this.router.navigate(['offre/add/' + oppId], { queryParams: { demandeId: this.oppid } });
+            this.router.navigate(['offre/edit/' + oppId], { queryParams: { demandeId: this.oppid } });
+            this.router.navigate(['offre/edit/' + oppId], { queryParams: { demandeId: this.oppid } });
             this.showModal = false;
         });
     }
