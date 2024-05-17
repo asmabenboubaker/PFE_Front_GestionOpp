@@ -205,10 +205,22 @@ else {
 
 
   }
+
+    affecterOpportuniteAOffre(oppid,offreId): void {
+        this.opportuniteService.affecterOpportuniteAOffre(oppid, offreId)
+            .subscribe(response => {
+                console.log('Opportunite affectée à la demande avec succès:', response);
+
+            }, error => {
+                console.error('Erreur lors de l\'affectation de l\'opportunité à la demande:', error);
+
+            });
+    }
     onCancelClick(): void {
         this.showModal = false;
     }
     onCreateOpportunityClick(): void {
+
         //set createOpp to true
         this.opportuniteService.setCreateOffreTrue(this.oppid).subscribe(data => {
             console.log("set create opp true",data)
@@ -216,9 +228,9 @@ else {
         });
         this.opportuniteService.InitOpp().subscribe(data => {
             const oppId = data['id'];
+           this.affecterOpportuniteAOffre(oppId,this.oppid);
+            this.router.navigate(['offre/edit/' + oppId], { queryParams: { demandeId: this.oppid } });
 
-            this.router.navigate(['offre/edit/' + oppId], { queryParams: { demandeId: this.oppid } });
-            this.router.navigate(['offre/edit/' + oppId], { queryParams: { demandeId: this.oppid } });
             this.showModal = false;
         });
     }
