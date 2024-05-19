@@ -54,6 +54,17 @@ export class OffreService {
     const url = `${this.env.piOpp}offreById/${id}`;
     return this.http.get<any>(url);
   }
+  setCreateBCTrue(demandeId: number): Observable<any> {
+    const url = `${this.env.piOpp}${demandeId}/setCreateBCTrue`;
+    return this.http.put(url, {});
+  }
+  affecterOffreaBc(bonDeCommandeId: number, offreId: number): Observable<any> {
+    return this.http.post<any>(`${this.env.piOpp}${bonDeCommandeId}/assign-to-offre/${offreId}`, {});
+  }
+  getOffreByidd(id): Observable<any> {
+    const url = `${this.env.piOpp}offre/byid/${id}`;
+    return this.http.get<any>(url);
+  }
   generatePdf(formData: any) {
     const doc = new jsPDF.default();
   // date d'aujourd'hui only date
@@ -296,4 +307,6 @@ export class OffreService {
   }
 
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService,private tokenStorage: TokenStorageService) { }
+
+
 }

@@ -16,6 +16,7 @@ import {EquipeServiceService} from "../../../../Service/equipe-service.service";
 import {DxTreeViewComponent} from "devextreme-angular";
 import {EtudetechServiceService} from "../../../../Service/etudetech-service.service";
 import {CookieService} from "ngx-cookie-service";
+import {OffreService} from "../../../../Service/offre.service";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -66,7 +67,8 @@ evaluer:boolean=false;
               private demandeService: DemandeService,
               private equipeService: EquipeServiceService,
               private etudeService: EtudetechServiceService,
-                private cookieService: CookieService
+                private cookieService: CookieService,
+              private offreService: OffreService
               ) {
     const currentDate = new Date();
     this.oppForm = this.fb.group({
@@ -221,15 +223,15 @@ else {
     }
     onCreateOpportunityClick(): void {
 
-        //set createOpp to true
+
         this.opportuniteService.setCreateOffreTrue(this.oppid).subscribe(data => {
             console.log("set create opp true",data)
 
         });
-        this.opportuniteService.InitOpp().subscribe(data => {
+        this.offreService.InitOffre().subscribe(data => {
             const oppId = data['id'];
-           this.affecterOpportuniteAOffre(oppId,this.oppid);
-            this.router.navigate(['offre/edit/' + oppId], { queryParams: { demandeId: this.oppid } });
+           this. affecterOpportuniteAOffre(oppId,this.oppid);
+          this.router.navigate(['offre/edit/' + oppId], { queryParams: { demandeId: this.oppid } });
 
             this.showModal = false;
         });

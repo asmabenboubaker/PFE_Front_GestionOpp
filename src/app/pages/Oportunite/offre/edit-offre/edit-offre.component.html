@@ -1,4 +1,25 @@
-<!-- Tabs navs -->
+<dx-popup
+        [maxWidth]="940"
+        [width]="900"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Créer une opportunité"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="showModal">
+
+    <p>Voulez-vous créer un Bon de commande ?</p>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button
+                    class="btn btn-secondary"
+                    (click)="onCancelClick()">Annuler</button> </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button
+                    class="btn btn-primary"
+                    (click)="onCreateOpportunityClick()">Créer Bon de commande</button></div>
+    </div>
+</dx-popup>
 <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
     <li class="nav-item" role="presentation">
         <a

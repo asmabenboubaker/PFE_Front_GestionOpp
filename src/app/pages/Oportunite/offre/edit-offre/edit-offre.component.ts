@@ -13,6 +13,8 @@ import {TokenStorageService} from "../../../Global/shared-service/token-storage.
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
+import {BcServiceService} from "../../../../Service/bc-service.service";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-edit-offre',
@@ -36,6 +38,7 @@ export class EditOffreComponent implements OnInit {
     dateLivraison: new FormControl(''),
     description: new FormControl(''),
   });
+    showModal: boolean = false;
   constructor(private offreService : OffreService,private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
               private translateService: TranslateService,
@@ -43,7 +46,10 @@ export class EditOffreComponent implements OnInit {
               private http: HttpClient,
               private router: Router,
               public route: ActivatedRoute,
-              private datePipe: DatePipe) {
+              private datePipe: DatePipe,
+                private bcService: BcServiceService,
+              private cookieService: CookieService
+  ) {
 
     this.offreForm = this.fb.group({
         id: null, // You might want to initialize other properties based on your requirements
@@ -56,10 +62,16 @@ export class EditOffreComponent implements OnInit {
 
 
   }
-
+    oppObject:any;
   ngOnInit(): void {
     this.loadopps()
     this.oppid=this.route.snapshot.paramMap.get('id');
+      this.offreService.getOffreByidd(this.oppid).toPromise().then(
+          data => {
+              this.oppObject = data;
+              console.log("oppObject",this.oppObject)
+          }
+      );
     this.offreService.getOffreByid(this.oppid).toPromise().then(
         data => {
           this.objectData=data
@@ -96,7 +108,13 @@ this.offreF.get('description').setValue(data.description);
         this.reponse = true;
             }else {
         this.elsebool= true;
-            }
+        console.log("this.oppObject.createbc==false"+this.oppObject.createBC)
+                console.log("this.cookieService.get('profiles').includes(this.env.depositOpportunite)"+this.cookieService.get('profiles').includes(this.env.depositOpportunite))
+                console.log(this.objectData.activityName=="fin")
+                if (this.oppObject.createBC==false && this.cookieService.get('profiles').includes(this.env.depositOpportunite) && this.objectData.activityName=="fin") {
+                this.showModal = true;
+                }
+                }
 
  },
         error => {
@@ -200,5 +218,34 @@ this.offreF.get('description').setValue(data.description);
     }
     Retourn(){
 
+    }
+    affecterOpportuniteAOffre(oppid,offreId): void {
+        this.offreService.affecterOffreaBc(oppid, offreId)
+            .subscribe(response => {
+                console.log('Opportunite affectée à la demande avec succès:', response);
+
+            }, error => {
+                console.error('Erreur lors de l\'affectation de l\'opportunité à la demande:', error);
+
+            });
+    }
+    onCancelClick(): void {
+        this.showModal = false;
+    }
+
+    onCreateOpportunityClick(): void {
+
+
+        this.offreService.setCreateBCTrue(this.oppid).subscribe(data => {
+            console.log("set create opp true",data)
+
+        });
+        this.bcService.InitBC().subscribe(data => {
+            const oppId = data['id'];
+            this. affecterOpportuniteAOffre(oppId,this.oppid);
+            this.router.navigate(['bondecommande/add/' + oppId], { queryParams: { demandeId: this.oppid } });
+
+            this.showModal = false;
+        });
     }
 }

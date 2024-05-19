@@ -83,6 +83,6 @@ export class OpportuniteService {
     }
     // affecter opportunité to offre
     affecterOpportuniteAOffre(opportuniteId: number, offreId: number): Observable<any> {
-        return this.http.post<any>(`${this.env.piOpp}${opportuniteId}affecter-offre/${offreId}`, {});
+        return this.http.put<any>(`${this.env.piOpp}${offreId}/affecter-offre/${opportuniteId}`, {});
     }
 }
