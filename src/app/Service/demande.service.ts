@@ -83,4 +83,13 @@ getDemandeByid(id): Observable<any> {
     const url = `${this.env.piOpp}${demandeId}/setCreateOppTrue`;
     return this.http.put(url, {});
   }
+
+  //list categories
+    getCategories(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.env.piOpp+this.Wservice.getDomaines}/list`);
+    }
+
+  affecterDomaines(demandeId: number, domaineIds: number[]): Observable<any> {
+    return this.http.post<any>(`${this.env.piOpp+this.Wservice.getdemandes}/${demandeId}/domaines`, domaineIds);
+  }
 }

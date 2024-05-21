@@ -34,6 +34,7 @@ import { GridProjetComponent } from './pages/Oportunite/projet/grid-projet/grid-
 import {DxButtonModule, DxDataGridModule, DxPopupModule, DxTemplateModule} from "devextreme-angular";
 import {DxiColumnModule, DxoPagerModule, DxoPagingModule, DxoScrollingModule} from "devextreme-angular/ui/nested";
 
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
 };
@@ -74,6 +75,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         DxoPagerModule,
         DxoPagingModule,
         DxoScrollingModule,
+
     ],
     declarations: [
         AppComponent,

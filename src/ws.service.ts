@@ -16,4 +16,6 @@ export class WsService {
   getBc='bon-de-commandes'
   getEquipe='equipes'
   getEtudetech='etude-opps'
+  //domaines
+    getDomaines='domaines'
 }

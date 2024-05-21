@@ -23,6 +23,7 @@ import {WorkflowComponentModule} from "../../Global/workflow-components/workflow
 import {CardsModule} from "angular-bootstrap-md";
 import {AttachmentModule} from "../../Global/attachment/attachment.module";
 
+
 export const routes: Routes  = [
   {
       path: 'user',
@@ -67,6 +68,7 @@ export const routes: Routes  = [
         // DxoPopupModule,
         // DxoScrollingModule,
         // DxPopupModule,
+
         SharedModuleModule,
         WorkflowComponentModule,
         CardsModule,

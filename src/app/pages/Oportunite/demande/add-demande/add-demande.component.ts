@@ -46,11 +46,13 @@ export class AddDemandeComponent implements OnInit,OnChanges {
   pageSize = this.env.pageSize;
   allowedPageSizes = this.env.allowedPageSizes;
   statusList: string[] = [];
-  clients: Client[] = [];
+  clients: any[] = [];
+  cats: any = [];
   eventvalueworkflow:any;
   disabled = true;
   eventcontrole=false;
 
+  selectedDomaines: number[] = [];
   demandeid:any;
 showModal:boolean=false;
   oppadd:any;
@@ -97,7 +99,8 @@ demandeObejct:any;
               private datePipe: DatePipe,
               private cookieService: CookieService,
               private opportuniteService:OpportuniteService,
-              private offreService: OffreService
+              private offreService: OffreService,
+              private formBuilder: FormBuilder
   ) {
 
 
@@ -163,21 +166,17 @@ demandeObejct:any;
     });
 
   }
-
+  myForm: FormGroup;
   ngOnInit(): void {
-    // const profiles = this.cookieService.get('profiles').trim(); // Assurez-vous que les espaces blancs sont supprimés
-    // const oppGD = this.env.oppGD; // Assurez-vous que vous avez correctement défini oppGD
-    //
-    // console.log("profiles:", profiles); // Affichez les valeurs pour déboguer
-    // console.log("oppGD:", oppGD); // Affichez les valeurs pour déboguer
-    //
-    // if (profiles.includes(oppGD)) {
-    //   console.log("profiles includes oppGD");
-    // } else {
-    //   console.log("profiles does not include oppGD");
-    // }
+    this.myForm = this.formBuilder.group({
+      selectedDomaines: [''] // Définissez une valeur initiale appropriée si nécessaire
+    });
 
     this.demandeid=this.route.snapshot.paramMap.get('id');
+    // list cats
+    this.demandeService.getCategories().subscribe((cats) => {
+      this.cats = cats;
+    });
     this.demandeService.getStatusList().subscribe((statuses) => {
       this.statusList = statuses;
     });
@@ -312,6 +311,10 @@ this.showSuccess();
     console.log('Client Select Element:', this.clientSelect);
     console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
     console.log("data save",formData)
+    this.demandeService.affecterDomaines(this.demandeid, this.selectedDomaines).subscribe(response => {
+      console.log('Domaines affectés:', response);
+      // Gérez la réponse ou affichez un message de succès
+    });
     this.demandeService.updateAndAssignToClient(selectedClientId,this.demandeid,formData).subscribe(data => {
           this.toastr.success("added successfully" +
               "", "", {

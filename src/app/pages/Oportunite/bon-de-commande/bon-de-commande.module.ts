@@ -8,6 +8,7 @@ import {DxButtonModule, DxDataGridModule, DxPopupModule, DxTemplateModule} from 
 import {DxiColumnModule, DxoPagerModule, DxoPagingModule, DxoScrollingModule} from "devextreme-angular/ui/nested";
 import {TranslateModule} from "@ngx-translate/core";
 import { AddBcComponent } from './add-bc/add-bc.component';
+import {WebSocketComponent} from "./web-socket/web-socket.component";
 
 export const routes: Routes  = [
   {
@@ -21,7 +22,14 @@ export const routes: Routes  = [
       component: AddBcComponent,
       data: {breadcrumb: 'Ajouter BC'},
       pathMatch: 'full'
-  }
+  },
+    //add socket component
+    {
+      path: 'socket',
+      component: WebSocketComponent,
+      data: {breadcrumb: 'Socket'},
+      pathMatch: 'full'
+    }
   
 
 ];
@@ -30,6 +38,7 @@ export const routes: Routes  = [
   declarations: [
     GridBCComponent,
     AddBcComponent,
+      WebSocketComponent
 
   ],
     imports: [

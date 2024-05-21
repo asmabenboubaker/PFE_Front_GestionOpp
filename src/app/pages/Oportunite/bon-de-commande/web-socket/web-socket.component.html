@@ -1,0 +1,9 @@
+<div>
+    <!-- Connect Button -->
+    <button (click)="connect()">Connect</button>
+    <!-- Disconnect Button -->
+    <button (click)="disconnect()">Disconnect</button>
+    <!-- Input Field and Send Button -->
+    <input type="text" #messageInput>
+    <button (click)="send(messageInput.value)">Send</button>
+</div>

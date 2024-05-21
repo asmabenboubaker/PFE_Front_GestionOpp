@@ -238,7 +238,11 @@
             </div>
 
         </form>
+
+
     </div>
 
-
+    <div [formGroup]="myForm">
+        <p-multiSelect formControlName="selectedDomaines" [options]="cats" optionLabel="label" defaultLabel="Sélectionner des domaines"></p-multiSelect>
+    </div>
 </div>
