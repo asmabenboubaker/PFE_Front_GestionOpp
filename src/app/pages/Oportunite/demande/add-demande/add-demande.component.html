@@ -111,7 +111,35 @@
                 <label>Description:</label>
                 <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
             </div>
-
+            <div class="dx-field">
+                <div class="dx-field-label">Select Equipe</div>
+                <div class="dx-field-value">
+                    <dx-drop-down-box
+                            [(value)]="gridBoxValue"
+                            [inputAttr]="{ 'aria-label': 'Owner' }"
+                            valueExpr="ID"
+                            displayExpr="nom"
+                            placeholder="Select a value..."
+                            [showClearButton]="true"
+                            [dataSource]="cats"
+                    >
+                        <div *dxTemplate="let data of 'content'">
+                            <dx-data-grid
+                                    [dataSource]="cats"
+                                    [columns]="['nom']"
+                                    [selection]="{ mode: 'multiple' }"
+                                    [hoverStateEnabled]="true"
+                                    [paging]="{ enabled: true, pageSize: 10 }"
+                                    [filterRow]="{ visible: true }"
+                                    [scrolling]="{ mode: 'virtual' }"
+                                    [height]="345"
+                                    [(selectedRowKeys)]="gridBoxValue"
+                            >
+                            </dx-data-grid>
+                        </div>
+                    </dx-drop-down-box>
+                </div>
+            </div>
             <div class="workflow-container">
                 <app-workflow-decision
                         *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
@@ -204,6 +232,7 @@
                 </select>
             </div>
 
+
             <div class="form-group">
                 <label>Statut:</label>
                 <select class="form-control" formControlName="statut" id="statut">
@@ -242,7 +271,4 @@
 
     </div>
 
-    <div [formGroup]="myForm">
-        <p-multiSelect formControlName="selectedDomaines" [options]="cats" optionLabel="label" defaultLabel="Sélectionner des domaines"></p-multiSelect>
-    </div>
 </div>

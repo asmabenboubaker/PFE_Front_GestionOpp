@@ -22,6 +22,7 @@ import { EditdemandeComponent } from './editdemande/editdemande.component';
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 import {CardsModule} from "angular-bootstrap-md";
 import {AttachmentModule} from "../../Global/attachment/attachment.module";
+import {DxSelectBoxModule} from "devextreme-angular/ui/select-box";
 
 
 export const routes: Routes  = [
@@ -68,7 +69,7 @@ export const routes: Routes  = [
         // DxoPopupModule,
         // DxoScrollingModule,
         // DxPopupModule,
-
+        DxSelectBoxModule,
         SharedModuleModule,
         WorkflowComponentModule,
         CardsModule,

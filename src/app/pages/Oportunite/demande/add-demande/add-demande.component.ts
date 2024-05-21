@@ -166,16 +166,15 @@ demandeObejct:any;
     });
 
   }
-  myForm: FormGroup;
+
   ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
-      selectedDomaines: [''] // Définissez une valeur initiale appropriée si nécessaire
-    });
+
 
     this.demandeid=this.route.snapshot.paramMap.get('id');
     // list cats
     this.demandeService.getCategories().subscribe((cats) => {
       this.cats = cats;
+      console.log("cats",this.cats)
     });
     this.demandeService.getStatusList().subscribe((statuses) => {
       this.statusList = statuses;
@@ -295,52 +294,152 @@ this.showSuccess();
 
   }
 
+
+  listIddomainde: any[] = [];
   save() {
+    if(this.gridBoxValue.length==0){
+      this.toastr.warning("Veuillez sélectionner categorie", "", {
+        closeButton: true,
+        positionClass: 'toast-top-right',
+        extendedTimeOut: this.env.extendedTimeOutToastr,
+        progressBar: true,
+        disableTimeOut: false,
+        timeOut: this.env.timeOutToastr
+      });
+      return;
+    }
+    // Ensure form is valid before proceeding
+    if (this.demandeF.invalid) {
+      this.toastr.error("Form is invalid", "", {
+        closeButton: true,
+        positionClass: 'toast-top-right',
+        extendedTimeOut: this.env.extendedTimeOutToastr,
+        progressBar: true,
+        disableTimeOut: false,
+        timeOut: this.env.timeOutToastr
+      });
+      return;
+    }
+
     // Récupérer les valeurs du FormGroup
     const formData = this.demandeF.value;
 
-    // Utiliser les valeurs extraites
-    this.demandeDTO['nom'] = formData['nom'];
-    this.demandeDTO['description'] = formData['description'];
-    this.demandeDTO['statut'] = formData['statut'];
-    this.demandeDTO['dateDeCreation'] = formData['dateDeCreation'];
-    //ajouter decision to formData
-    //  formData['decision'] = "Pour Validation";
-    const selectedClientId = this.clientSelect?.nativeElement.value;
-    this.demandeDTO['client'] = selectedClientId;
+    // Use Object.assign to update demandeDTO
+    Object.assign(this.demandeDTO, {
+      nom: formData.nom,
+      description: formData.description,
+      statut: formData.statut,
+      dateDeCreation: formData.dateDeCreation,
+      client: this.clientSelect?.nativeElement.value
+    });
+
     console.log('Client Select Element:', this.clientSelect);
     console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
-    console.log("data save",formData)
-    this.demandeService.affecterDomaines(this.demandeid, this.selectedDomaines).subscribe(response => {
-      console.log('Domaines affectés:', response);
-      // Gérez la réponse ou affichez un message de succès
-    });
-    this.demandeService.updateAndAssignToClient(selectedClientId,this.demandeid,formData).subscribe(data => {
-          this.toastr.success("added successfully" +
-              "", "", {
-            closeButton: true,
-            positionClass: 'toast-top-right',
-            extendedTimeOut: this.env.extendedTimeOutToastr,
-            progressBar: true,
-            disableTimeOut: false,
-            timeOut: this.env.timeOutToastr
-          })
-//redirect to demande list
-            this.router.navigate(['Demande/user']);
+    console.log("data save", formData);
+    console.log("demainde affecter", this.gridBoxValue);
+    // set listidequipe with id from gridBoxValue
+    this.listIddomainde = this.gridBoxValue.map(equipe => equipe.id);
+    // First call to affecterDomaines
+    this.demandeService.affecterDomaines(this.demandeid, this.listIddomainde).subscribe({
+      next: (response) => {
+        console.log('Domaines affectés:', response);
 
-        },
-        error => {
-          this.toastr.error("Failed to add", "", {
-            closeButton: true,
-            positionClass: 'toast-top-right',
-            extendedTimeOut: this.env.extendedTimeOutToastr,
-            progressBar: true,
-            disableTimeOut: false,
-            timeOut: this.env.timeOutToastr
-          })
-          console.log("error", error)
-        })
+    this.updateAndAssignToClient();
+      },
+      error: (error) => {
+        this.toastr.error("Failed to affect domaines", "", {
+          closeButton: true,
+          positionClass: 'toast-top-right',
+          extendedTimeOut: this.env.extendedTimeOutToastr,
+          progressBar: true,
+          disableTimeOut: false,
+          timeOut: this.env.timeOutToastr
+        });
+        console.log("error", error);
+      }
+    });
   }
+
+  private updateAndAssignToClient() {
+    const selectedClientId = this.clientSelect?.nativeElement.value;
+    const formData = this.demandeF.value;
+
+    this.demandeService.updateAndAssignToClient(selectedClientId, this.demandeid, formData).subscribe({
+      next: (data) => {
+        this.toastr.success("Added successfully", "", {
+          closeButton: true,
+          positionClass: 'toast-top-right',
+          extendedTimeOut: this.env.extendedTimeOutToastr,
+          progressBar: true,
+          disableTimeOut: false,
+          timeOut: this.env.timeOutToastr
+        });
+
+        // Redirect to demande list
+        this.router.navigate(['Demande/user']);
+      },
+      error: (error) => {
+        this.toastr.error("Failed to add", "", {
+          closeButton: true,
+          positionClass: 'toast-top-right',
+          extendedTimeOut: this.env.extendedTimeOutToastr,
+          progressBar: true,
+          disableTimeOut: false,
+          timeOut: this.env.timeOutToastr
+        });
+        console.log("error", error);
+      }
+    });
+  }
+
+
+
+//   save() {
+//     // Récupérer les valeurs du FormGroup
+//     const formData = this.demandeF.value;
+//
+//     // Utiliser les valeurs extraites
+//     this.demandeDTO['nom'] = formData['nom'];
+//     this.demandeDTO['description'] = formData['description'];
+//     this.demandeDTO['statut'] = formData['statut'];
+//     this.demandeDTO['dateDeCreation'] = formData['dateDeCreation'];
+//     //ajouter decision to formData
+//     //  formData['decision'] = "Pour Validation";
+//     const selectedClientId = this.clientSelect?.nativeElement.value;
+//     this.demandeDTO['client'] = selectedClientId;
+//     console.log('Client Select Element:', this.clientSelect);
+//     console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
+//     console.log("data save",formData)
+//     this.demandeService.affecterDomaines(this.demandeid, this.selectedDomaines).subscribe(response => {
+//       console.log('Domaines affectés:', response);
+//
+//     });
+//     this.demandeService.updateAndAssignToClient(selectedClientId,this.demandeid,formData).subscribe(data => {
+//           this.toastr.success("added successfully" +
+//               "", "", {
+//             closeButton: true,
+//             positionClass: 'toast-top-right',
+//             extendedTimeOut: this.env.extendedTimeOutToastr,
+//             progressBar: true,
+//             disableTimeOut: false,
+//             timeOut: this.env.timeOutToastr
+//           })
+// //redirect to demande list
+//             this.router.navigate(['Demande/user']);
+//
+//         },
+//         error => {
+//           this.toastr.error("Failed to add", "", {
+//             closeButton: true,
+//             positionClass: 'toast-top-right',
+//             extendedTimeOut: this.env.extendedTimeOutToastr,
+//             progressBar: true,
+//             disableTimeOut: false,
+//             timeOut: this.env.timeOutToastr
+//           })
+//           console.log("error", error)
+//         })
+//   }
 
   // changinID(id){
   //   this.initializeForm();
@@ -468,5 +567,7 @@ this.showSuccess();
       });
     }
 
-
+  onDomainesChange(event: any) {
+    this.selectedDomaines = event.value;
+  }
 }
