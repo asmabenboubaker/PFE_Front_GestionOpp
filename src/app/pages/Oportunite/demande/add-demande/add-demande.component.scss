@@ -37,5 +37,41 @@
 
 }
 
+// controle saisie
+
+.text-danger {
+  color: red;
+}
+// popup
+/* Style for the popup */
+.dx-popup {
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dx-popup-title {
+  font-weight: bold;
+  font-size: 1.5em;
+  padding: 10px 15px;
+}
+
+.dx-popup-content {
+  padding: 20px;
+}
+
+.dx-popup .row {
+  margin-top: 20px;
+}
+
+.dx-popup .btn {
+  margin: 10px 0;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+
+
 
 

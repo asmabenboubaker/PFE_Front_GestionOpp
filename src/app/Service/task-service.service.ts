@@ -11,12 +11,14 @@ export class TaskServiceService {
 
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService) { }
 
-    getTasks(): Observable<any> {
-        return this.http.get(this.env.piOpp + this.Wservice.getTask);
+    getTasks(id:number): Observable<any> {
+        const url = `${this.env.piOpp + this.Wservice.getTask}/all/${id}`;
+        return this.http.get(url);
     }
     //Add task
-    addTask(data:any): Observable<any> {
-        return this.http.post(this.env.piOpp + this.Wservice.getTask, data);
+    addTask(data: any, id: number): Observable<any> {
+        const url = `${this.env.piOpp + this.Wservice.getTask}/${id}`;
+        return this.http.post(url, data);
     }
 
   getTasksByStatus(status: string): Observable<any> {

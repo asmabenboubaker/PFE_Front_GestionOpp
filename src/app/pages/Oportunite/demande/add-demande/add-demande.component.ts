@@ -72,7 +72,7 @@ demandeObejct:any;
     statut: new FormControl(''),
     source: new FormControl(''),
     commentaires: new FormControl(''),
-    deadline:  new FormControl(''), // Assurez-vous que la propriété deadline est correctement définie dans le formulaire
+    deadline:  new FormControl(''),
     client:  new FormControl('')
     // deadline: new FormControl('')
 
@@ -168,7 +168,18 @@ demandeObejct:any;
   }
 
   ngOnInit(): void {
-
+    this.demandeF =  this.fb.group({
+        id: new FormControl(''),
+        nom:['', Validators.required],
+        description:['', Validators.required],
+        dateDeCreation:['', Validators.required],
+        statut:['', Validators.required],
+        source: ['', Validators.required],
+        commentaires: ['', Validators.required],
+        deadline:  ['', Validators.required],
+        client: ['', Validators.required]
+        // deadline: new FormControl('')
+    });
 
     this.demandeid=this.route.snapshot.paramMap.get('id');
     // list cats
@@ -308,18 +319,7 @@ this.showSuccess();
       });
       return;
     }
-    // Ensure form is valid before proceeding
-    if (this.demandeF.invalid) {
-      this.toastr.error("Form is invalid", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      });
-      return;
-    }
+
 
     // Récupérer les valeurs du FormGroup
     const formData = this.demandeF.value;
@@ -344,7 +344,7 @@ this.showSuccess();
       next: (response) => {
         console.log('Domaines affectés:', response);
 
-    this.updateAndAssignToClient();
+     this.updateAndAssignToClient();
       },
       error: (error) => {
         this.toastr.error("Failed to affect domaines", "", {
@@ -570,4 +570,6 @@ this.showSuccess();
   onDomainesChange(event: any) {
     this.selectedDomaines = event.value;
   }
+
+
 }

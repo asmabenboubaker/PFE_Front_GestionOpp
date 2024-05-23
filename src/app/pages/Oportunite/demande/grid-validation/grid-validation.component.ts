@@ -1,29 +1,26 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { Client } from 'src/app/Models/Client';
 import {Demande} from "../../../../Models/Demande";
 import {DxDataGridComponent, DxFormComponent} from "devextreme-angular";
 import {DemandeService} from "../../../../Service/demande.service";
-import {EnvService} from "../../../../../env.service";
-import CustomStore from "devextreme/data/custom_store";
-import {Workbook} from "exceljs";
-import {exportDataGrid} from "devextreme/excel_exporter";
-import {jsPDF} from "jspdf";
-import {exportDataGrid as exportDataGridToPdf} from "devextreme/pdf_exporter";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {TokenStorageService} from "../../../Global/shared-service/token-storage.service";
 import {CookieService} from "ngx-cookie-service";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ClientServiceService} from "../../../../Service/client-service.service";
+import {EnvService} from "../../../../../env.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {TranslateService} from "@ngx-translate/core";
-import {ChartData, ChartType} from "chart.js";
+import {jsPDF} from "jspdf";
+import {exportDataGrid as exportDataGridToPdf} from "devextreme/pdf_exporter";
+import CustomStore from "devextreme/data/custom_store";
 
 @Component({
-  selector: 'app-grid-demande',
-  templateUrl: './grid-demande.component.html',
-  styleUrls: ['./grid-demande.component.scss']
+  selector: 'app-grid-validation',
+  templateUrl: './grid-validation.component.html',
+  styleUrls: ['./grid-validation.component.scss']
 })
-export class GridDemandeComponent implements OnInit {
+export class GridValidationComponent implements OnInit {
+
   demandes: Demande[]; // Update the type to Demande
   dataSourceElement: any;
   pageSize = this.env.pageSize;
@@ -35,17 +32,17 @@ export class GridDemandeComponent implements OnInit {
   iddoc:any;
   popupDeleteVisible: boolean=false;
   demandeadd: any;
-    showadd: boolean=false;
+  showadd: boolean=false;
   constructor(private demandeService: DemandeService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
               private http: HttpClient,private clientService: ClientServiceService,
               private env: EnvService,private router: Router,private toastr: ToastrService,
               private translateService:TranslateService
-              ) {
+  ) {
 
   }
 
   ngOnInit(): void {
-      console.log("this.cookieService.get('profiles').includes(this.env.oppGD)", this.cookieService.get('profiles').trim())
+    console.log("this.cookieService.get('profiles').includes(this.env.oppGD)", this.cookieService.get('profiles').trim())
 
     this.getAllDemandes();
     console.log(this.dataSourceElement);
@@ -73,7 +70,7 @@ export class GridDemandeComponent implements OnInit {
       //       })
       //     }
       // )
-this.showSuccess();
+      this.showSuccess();
       this.popupDeleteVisible = false;
 
     }, error => {
@@ -115,22 +112,22 @@ this.showSuccess();
 
   }
 
-    adddemande() {
-        // Navigate to the add-demande component without an ID
+  adddemande() {
+    // Navigate to the add-demande component without an ID
 
-      this.demandeService.Initdemande().subscribe(data => {
-        this.demandeadd = data['id'];
-       this.router.navigate(['Demande/add/'+this.demandeadd]);
-      });
+    this.demandeService.Initdemande().subscribe(data => {
+      this.demandeadd = data['id'];
+      this.router.navigate(['Demande/add/'+this.demandeadd]);
+    });
 
-    }
-    Editdemande(id) {
-        // Set the ID property
-        this.id = id.data.id;
+  }
+  Editdemande(id) {
+    // Set the ID property
+    this.id = id.data.id;
 
-        // Navigate to the add-demande component with the specific ID
-        this.router.navigate(['Demande/add', this.id]);
-    }
+    // Navigate to the add-demande component with the specific ID
+    this.router.navigate(['Demande/add', this.id]);
+  }
   exportGrid() {
     const doc = new jsPDF();
     exportDataGridToPdf({
@@ -408,10 +405,10 @@ this.showSuccess();
         }
         let ref = '?';
 
-        return this.http.get(this.env.piOpp + 'demandes' + "?" + params + filterText, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())})
+        return this.http.get(this.env.piOpp + 'validation' + "?" + params + filterText, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())})
             .toPromise()
             .then((data: any) => {
-              console.log(data)
+                  console.log(data)
                   this.count = data.totalElements
                   this.nbPage = data['totalPages']
                   return {'data': data.content, 'totalCount': data.totalElements};
@@ -444,6 +441,5 @@ this.showSuccess();
         }
     );
   }
-
 
 }

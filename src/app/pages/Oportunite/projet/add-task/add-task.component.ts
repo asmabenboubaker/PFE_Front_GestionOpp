@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TaskServiceService} from "../../../../Service/task-service.service";
 import {Client} from "../../../../Models/Client";
+import {ActivatedRoute, Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-task',
@@ -12,13 +13,17 @@ export class AddTaskComponent implements OnInit,OnChanges {
   @Output() add = new EventEmitter<boolean>();
   @Input() taskToEdit: any;
   @Input() id: string;
-
+idprojet:any;
   statuses: string[] = ['a faire', 'en cours', 'fini'];
   form: FormGroup;
-  constructor(private formBuilder: FormBuilder,private taskService: TaskServiceService) { }
+  constructor(private formBuilder: FormBuilder,private taskService: TaskServiceService,
+              public route: ActivatedRoute,
+              ) { }
 
   ngOnInit(): void {
+    // set idproject form route
 
+    this.idprojet=this.route.snapshot.paramMap.get('id');
     this.form = this.formBuilder.group({
       subject: ['', Validators.required],
       priority: [''],
@@ -92,7 +97,7 @@ console.log("taskToEdit",this.taskToEdit);
       );
     } else {
       // Call your service method to add the task
-      this.taskService.addTask(this.form.value).subscribe(
+      this.taskService.addTask(this.form.value,this.idprojet).subscribe(
           (response) => {
             console.log('Task added successfully:', response);
             // Refresh the task list or handle the response as needed

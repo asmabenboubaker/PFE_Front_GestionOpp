@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { GridDemandeComponent } from './grid-demande/grid-demande.component';
 import {RouterModule, Routes} from "@angular/router";
 import { AddDemandeComponent } from './add-demande/add-demande.component';
-import {DxDataGridModule, DxPopupModule} from "devextreme-angular";
+import { BaseChartDirective } from 'ng2-charts';
+import {DxDataGridModule, DxPieChartModule, DxPopupModule} from "devextreme-angular";
 import {
     DxiItemModule,
     DxiValidationRuleModule,
@@ -23,6 +24,7 @@ import {WorkflowComponentModule} from "../../Global/workflow-components/workflow
 import {CardsModule} from "angular-bootstrap-md";
 import {AttachmentModule} from "../../Global/attachment/attachment.module";
 import {DxSelectBoxModule} from "devextreme-angular/ui/select-box";
+import { GridValidationComponent } from './grid-validation/grid-validation.component';
 
 
 export const routes: Routes  = [
@@ -46,13 +48,22 @@ export const routes: Routes  = [
     },
     { path: 'edit/:id', component: EditdemandeComponent },
 
+    {
+        path: 'validation',
+        component: GridValidationComponent,
+        data: {breadcrumb: 'Validation demande'},
+        pathMatch: 'full'
+    },
+
+
 ];
 
 @NgModule({
   declarations: [
   GridDemandeComponent,
   AddDemandeComponent,
-  EditdemandeComponent],
+  EditdemandeComponent,
+  GridValidationComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -69,6 +80,7 @@ export const routes: Routes  = [
         // DxoPopupModule,
         // DxoScrollingModule,
         // DxPopupModule,
+        DxPieChartModule,
         DxSelectBoxModule,
         SharedModuleModule,
         WorkflowComponentModule,

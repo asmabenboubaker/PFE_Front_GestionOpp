@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {DxSortableComponent, DxSortableTypes} from 'devextreme-angular/ui/sortable';
 import { Employee, Task, Service } from './app.service';
 import { TaskServiceService } from "../../../../Service/task-service.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-task-board',
@@ -27,14 +28,15 @@ export class TaskBoardComponent implements OnInit {
   statuses = ['a faire', 'en cours', 'fini'];
   employees: Record<'ID', Employee> | {} = {};
   popupVisible = false;
-  constructor(private service: Service, private taskService: TaskServiceService) {}
+  idprojet: any;
+  constructor(private service: Service, private taskService: TaskServiceService,public route: ActivatedRoute) {}
 
   ngOnInit(): void {
     // this.service.getEmployees().forEach((employee) => {
     //   this.employees[employee.ID] = employee.Name;
     // });
-
-    this.taskService.getTasks().subscribe(tasks => {
+    this.idprojet=this.route.snapshot.paramMap.get('id');
+    this.taskService.getTasks(this.idprojet).subscribe(tasks => {
       this.statuses.forEach((status) => {
         console.log(tasks);
         const filteredTasks = tasks.filter((task) => task.status === status);

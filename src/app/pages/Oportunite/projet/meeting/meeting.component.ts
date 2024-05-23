@@ -18,8 +18,8 @@ export class MeetingComponent implements OnInit {
     this.projetService.getprojets().subscribe(projets => this.projets = projets); // Utilisez le service pour récupérer la liste des projets
   }
   // methode for go to page task board
-  navigateToTaskBoard(): void {
-    this.router.navigate(['projet/tasks']);
+  navigateToTaskBoard(projetId: number): void {
+    this.router.navigate(['projet/tasks/'+projetId]);
   }
 
 }

@@ -29,7 +29,7 @@ export const routes: Routes  = [
         pathMatch: 'full'
     },
     {
-        path: 'tasks',
+        path: 'tasks/:id',
         component: TaskBoardComponent,
         data: {breadcrumb: 'Task board'},
         pathMatch: 'full'

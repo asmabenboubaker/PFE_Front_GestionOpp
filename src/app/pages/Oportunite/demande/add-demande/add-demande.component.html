@@ -32,6 +32,7 @@
                 aria-controls="ex3-tabs-1"
                 aria-selected="true"
                 [class.disabled]="!pourvalidation"
+
         >Creation Demande</a
         >
     </li>
@@ -79,12 +80,22 @@
             <div class="form-group">
                 <label>Nom:</label>
                 <input type="text" formControlName="nom"  class="form-control" required>
+                <div *ngIf="demandeF.get('nom').invalid && (demandeF.get('nom').dirty || demandeF.get('nom').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('nom').errors.required">
+                        Le nom est requis.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Client</label>
                 <select #clientSelect class="form-select" >
                     <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
                 </select>
+                <div *ngIf="demandeF.get('client').invalid && (demandeF.get('client').dirty || demandeF.get('client').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('client').errors.required">
+                        Le client est requis.
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -92,6 +103,11 @@
                 <select class="form-select" formControlName="statut" >
                     <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
                 </select>
+                <div *ngIf="demandeF.get('statut').invalid && (demandeF.get('statut').dirty || demandeF.get('statut').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('statut').errors.required">
+                        Le statut est requis.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Source de la demande</label>
@@ -102,17 +118,32 @@
                     <option value="siteWeb">Site Web</option>
 
                 </select>
+                <div *ngIf="demandeF.get('source').invalid && (demandeF.get('source').dirty || demandeF.get('source').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('source').errors.required">
+                        La source est requise.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="deadline" class="form-label">Date de deadline:</label>
                 <input class="form-control" formControlName="deadline"  type="date">
+                <div *ngIf="demandeF.get('deadline').invalid && (demandeF.get('deadline').dirty || demandeF.get('deadline').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('deadline').errors.required">
+                        La date de deadline est requise.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Description:</label>
                 <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+                <div *ngIf="demandeF.get('description').invalid && (demandeF.get('description').dirty || demandeF.get('description').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('description').errors.required">
+                        La description est requise.
+                    </div>
+                </div>
             </div>
             <div class="dx-field">
-                <div class="dx-field-label">Select Equipe</div>
+                <div class="dx-field-label">Select Categorie</div>
                 <div class="dx-field-value">
                     <dx-drop-down-box
                             [(value)]="gridBoxValue"

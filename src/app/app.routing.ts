@@ -49,7 +49,12 @@ export const routes: Routes = [
       {
         path: 'pv',
         loadChildren: () => import('./pages/Oportunite/pv/pv.module').then(m => m.PvModule),
-      }
+      },
+        // add dashboard
+        {
+            path: 'dashboard',
+            loadChildren: () => import('./pages/Oportunite/dashboard/dashboard.module').then(m => m.DashboardModule),
+        }
     ]
   },
   { path: '**', component: NotFoundComponent }
