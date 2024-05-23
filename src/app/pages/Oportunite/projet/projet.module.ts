@@ -13,6 +13,9 @@ import {Service} from "./task-board/app.service";
 import { AddTaskComponent } from './add-task/add-task.component';
 import {ClientModule} from "../client/client.module";
 import { EquipeComponent } from './equipe/equipe.component';
+import {DxGanttModule, DxPieChartModule} from "devextreme-angular";
+import { StaticProjectComponent } from './static-project/static-project.component';
+import {DxiSeriesModule, DxoConnectorModule, DxoSizeModule} from "devextreme-angular/ui/nested";
 
 
 export const routes: Routes  = [
@@ -47,6 +50,13 @@ export const routes: Routes  = [
         data: {breadcrumb: 'Equipe'},
         pathMatch: 'full'
 
+    },
+    {
+        path:'static',
+        component:StaticProjectComponent,
+        data: {breadcrumb: 'Static'},
+        pathMatch: 'full'
+
     }
 ];
 
@@ -59,6 +69,7 @@ export const routes: Routes  = [
            AddTaskComponent,
       MeetingComponent,
       EquipeComponent,
+      StaticProjectComponent,
   ],
     imports: [
         CommonModule,
@@ -68,6 +79,11 @@ export const routes: Routes  = [
         WorkflowComponentModule,
         SharedModuleModule,
         ClientModule,
+        DxGanttModule,
+        DxPieChartModule,
+        DxiSeriesModule,
+        DxoConnectorModule,
+        DxoSizeModule,
 
     ],
     providers: [

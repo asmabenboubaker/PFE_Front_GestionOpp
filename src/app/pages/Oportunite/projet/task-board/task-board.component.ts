@@ -10,6 +10,10 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./task-board.component.scss']
 })
 export class TaskBoardComponent implements OnInit {
+
+
+
+
   taskToEdit
   popupTitle
   popupVisibleedit=false
@@ -32,9 +36,7 @@ export class TaskBoardComponent implements OnInit {
   constructor(private service: Service, private taskService: TaskServiceService,public route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // this.service.getEmployees().forEach((employee) => {
-    //   this.employees[employee.ID] = employee.Name;
-    // });
+
     this.idprojet=this.route.snapshot.paramMap.get('id');
     this.taskService.getTasks(this.idprojet).subscribe(tasks => {
       this.statuses.forEach((status) => {
