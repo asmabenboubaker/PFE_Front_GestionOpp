@@ -16,6 +16,7 @@ import { EquipeComponent } from './equipe/equipe.component';
 import {DxGanttModule, DxPieChartModule} from "devextreme-angular";
 import { StaticProjectComponent } from './static-project/static-project.component';
 import {DxiSeriesModule, DxoConnectorModule, DxoSizeModule} from "devextreme-angular/ui/nested";
+import {GanttModule} from "@syncfusion/ej2-angular-gantt";
 
 
 export const routes: Routes  = [
@@ -52,7 +53,7 @@ export const routes: Routes  = [
 
     },
     {
-        path:'static',
+        path:'static/:id',
         component:StaticProjectComponent,
         data: {breadcrumb: 'Static'},
         pathMatch: 'full'
@@ -84,6 +85,7 @@ export const routes: Routes  = [
         DxiSeriesModule,
         DxoConnectorModule,
         DxoSizeModule,
+        GanttModule,
 
     ],
     providers: [

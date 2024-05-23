@@ -73,6 +73,8 @@
               "node_modules/qtip2/dist/jquery.qtip.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
 
+
+
               {
                 "input": "src/assets/Style/dx.material.myTheme.css",
                 "bundleName": "dx.material.myTheme"

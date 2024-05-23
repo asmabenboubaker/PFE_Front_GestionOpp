@@ -21,5 +21,8 @@ export class MeetingComponent implements OnInit {
   navigateToTaskBoard(projetId: number): void {
     this.router.navigate(['projet/tasks/'+projetId]);
   }
+  navigateToStatic(projetId: number): void {
+    this.router.navigate(['projet/static/'+projetId]);
+  }
 
 }
