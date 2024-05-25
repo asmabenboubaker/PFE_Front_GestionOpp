@@ -9,6 +9,7 @@ import {DxiColumnModule, DxoPagerModule, DxoPagingModule, DxoScrollingModule} fr
 import {TranslateModule} from "@ngx-translate/core";
 import { AddBcComponent } from './add-bc/add-bc.component';
 import {WebSocketComponent} from "./web-socket/web-socket.component";
+import {RxStompService} from "@stomp/ng2-stompjs";
 
 export const routes: Routes  = [
   {
