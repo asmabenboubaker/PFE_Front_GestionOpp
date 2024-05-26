@@ -100,17 +100,7 @@ username:any;
         if (window.innerWidth <= 768)
             this.showHorizontalMenu = false;
 
-// get all notification
-//         this.webSocketService.notifications$.subscribe((notifications) => {
-//             this.notifications = notifications;
-//         });
-//         this.http.get<any[]>('http://localhost:8888/demo_war/notifications/').subscribe((notifications) => {
-//             //filter notification by username
-//             notifications = notifications.filter(notification => notification.username == this.cookieService.get('profil'))
-//             // inverser la liste
-//             notifications = notifications.reverse()
-//             this.notifications = notifications;
-//         });
+
         // get all notifications
         this.http.get<any[]>('http://localhost:8888/demo_war/notifications/').subscribe((notifications) => {
             // filter notifications by username
@@ -120,16 +110,15 @@ username:any;
             this.notifications = notifications;
         });
 
-        // Subscribe to WebSocket notifications
+
         this.webSocketService.notifications$.subscribe((notification) => {
-            console.log('New notification received:', notification); // Debug log
-            // Check if the received notification is an array
+            console.log('New notification received:', notification);
             if (Array.isArray(notification) && notification.length > 0) {
-                // Extract the notification object from the array
+
                 const newNotification = notification[0];
-                // Add the new notification to the beginning of the list
+
                 this.notifications.unshift(newNotification);
-                // Update the unread notification count
+
                 this.unreadNotificationCount++;
             }
         });
@@ -315,6 +304,14 @@ username:any;
         this.http.get<number>('http://localhost:8888/demo_war/notifications/unread-count')
             .subscribe((count) => {
                 this.unreadNotificationCount = count;
+            });
+    }
+
+    markNotificationsAsRead() {
+        this.username = this.cookieService.get('profil');
+        this.http.put(`http://localhost:8888/demo_war/mark-as-seen/${this.username}`, {})
+            .subscribe(() => {
+                this.unreadNotificationCount = 0;
             });
     }
 
