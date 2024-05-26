@@ -1,5 +1,39 @@
-<!-- src/app/notification/notification.component.html -->
-<!-- src/app/notification/notification.component.html -->
+<header>
+    <h1>Website Header</h1>
+    <div class = "icons">
+        <a href = "#"><i class="fas fa-archive"></i></a>
+        <div class = "notification">
+            <a href = "#">
+                <div class = "notBtn" href = "#">
+                    <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                    <div class = "number">2</div>
+                    <i class="fas fa-bell"></i>
+                    <div class = "box">
+                        <div class = "display" *ngFor="let notification of notifications">
+                            <div class = "nothing">
+                                <i class="fas fa-child stick"></i>
+                                <div class = "cent">Looks Like your all caught up!</div>
+                            </div>
+                            <div class = "cont" >
+                                <div class = "sec">
+                                    <a href = "https://codepen.io/Golez/">
+                                        <div class = "profCont">
+                                            <img class = "profile" src = "//c2.staticflickr.com/4/3397/3585544855_28442029a5_z.jpg?zz=1">
+                                        </div>
+                                        <div class = "txt">{{ notification.message }}</div>
+                                        <div class = "txt sub">{{ notification.timestamp}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <a href = "#"><i class="fas fa-edit"></i></a>
+    </div>
+</header>
+
 <div class="notifications">
     <h2>Notifications</h2>
     <ul>

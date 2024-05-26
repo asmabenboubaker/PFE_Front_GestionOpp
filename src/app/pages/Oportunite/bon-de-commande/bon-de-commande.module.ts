@@ -36,12 +36,15 @@ export const routes: Routes  = [
 ];
 
 @NgModule({
-  declarations: [
-    GridBCComponent,
-    AddBcComponent,
-      WebSocketComponent
+    declarations: [
+        GridBCComponent,
+        AddBcComponent,
+        WebSocketComponent
 
-  ],
+    ],
+    exports: [
+        WebSocketComponent
+    ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),

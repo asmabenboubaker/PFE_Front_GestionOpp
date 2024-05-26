@@ -31,6 +31,7 @@ import {ToastService} from "../../../../Service/toast-service";
 import {CookieService} from "ngx-cookie-service";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
 import {OffreService} from "../../../../Service/offre.service";
+import {WebSocketService} from "../../../../Service/web-socket.service";
 
 @Component({
   selector: 'app-add-demande',
@@ -100,7 +101,8 @@ demandeObejct:any;
               private cookieService: CookieService,
               private opportuniteService:OpportuniteService,
               private offreService: OffreService,
-              private formBuilder: FormBuilder
+              private formBuilder: FormBuilder,
+              private webSocketService: WebSocketService
   ) {
 
 
@@ -283,8 +285,11 @@ demandeObejct:any;
     console.log("this.demanade CONFIRMATION",formData)
 
     this.demandeService.Demande_process_Submit(formData).subscribe(data => {
-
-this.showSuccess();
+      if (evt.decision.trim() === 'Pour Validation') {
+        console.log("Sending notification");
+        this.sendNotification();
+      }
+//this.showSuccess();
         window.location.reload();
 
     }, error => {
@@ -570,6 +575,10 @@ this.showSuccess();
   onDomainesChange(event: any) {
     this.selectedDomaines = event.value;
   }
+  sendNotification() {
 
+    const message = 'Nouvelle demande pour validation';
+    this.webSocketService.sendNotification(message);
+  }
 
 }

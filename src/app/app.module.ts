@@ -33,6 +33,7 @@ import {TokenInterceptor} from "./core/auth/token.interceptor";
 import { GridProjetComponent } from './pages/Oportunite/projet/grid-projet/grid-projet.component';
 import {DxButtonModule, DxDataGridModule, DxPopupModule, DxTemplateModule} from "devextreme-angular";
 import {DxiColumnModule, DxoPagerModule, DxoPagingModule, DxoScrollingModule} from "devextreme-angular/ui/nested";
+import {BonDeCommandeModule} from "./pages/Oportunite/bon-de-commande/bon-de-commande.module";
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -75,6 +76,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         DxoPagerModule,
         DxoPagingModule,
         DxoScrollingModule,
+        BonDeCommandeModule,
 
     ],
     declarations: [

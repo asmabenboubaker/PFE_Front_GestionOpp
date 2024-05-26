@@ -57,6 +57,42 @@
                          </a>
                     </div>
                 </span>
+<!--                add notification icon-->
+<!--                <span class="hidden-xs-down" >-->
+<!--                    <div id="messagesDropDown2" class="dropdown d-inline-block keep-inside-clicks-open">-->
+<!--                         <a class="dropdown-toggle no-caret pl-2 pr-2" id="notif" data-toggle="dropdown"-->
+<!--                            aria-haspopup="true" aria-expanded="false" (click)="showNotification()">-->
+<!--                             <i class="fas fa-bell" aria-hidden="true" title="Notification"></i>-->
+<!--                         </a>-->
+<!--                    </div>-->
+<!--                </span>-->
+<!--                <div class="dropdown d-inline-block keep-inside-clicks-open" >-->
+<!--                    <a class="dropdown" id="notif" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="showNotification()">-->
+<!--                        <i class="fas fa-bell" aria-hidden="true" title="Notification"></i>-->
+<!--                    </a>-->
+<!--                    <div class="dropdown-menu" aria-labelledby="notif">-->
+<!--                        <h2>Notifications</h2>-->
+<!--                        <ul>-->
+<!--                            <li *ngFor="let notification of notifications">{{ notification.message }}</li>-->
+<!--                        </ul>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="dropdown d-inline-block keep-inside-clicks-open">
+                    <a class="dropdown-toggle no-caret" id="notif" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                        <i class="fas fa-bell" aria-hidden="true" title="Notification"></i>
+                        <span class="badge badge-pill badge-danger">{{ notifications.length }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notif">
+                        <h5 class="dropdown-header">Notifications</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let notification of notifications">
+                                {{ notification.message }}
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
 
                 <span class="pl-2 pr-2">
                     <a (click)="retourne()">

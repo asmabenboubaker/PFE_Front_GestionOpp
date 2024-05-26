@@ -11,6 +11,8 @@ import {ToastrService} from 'ngx-toastr';
 import {TranslateService} from '@ngx-translate/core';
 import {LoginService} from '../../../pages/Global/shared-service/login.service';
 import {ConfigPstkComponent} from "../../../pages/Global/config-pstk/config-pstk.component";
+import {WebSocketService} from "../../../Service/web-socket.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-header',
@@ -60,7 +62,9 @@ export class HeaderComponent implements OnInit {
                 public router: Router,
                 public env: EnvService,
                 private injector: Injector,
-                private cookieService: CookieService) {
+                private cookieService: CookieService,
+                private webSocketService: WebSocketService, private http: HttpClient
+                ) {
 
         this.settings = this.appSettings.settings;
 
@@ -94,6 +98,14 @@ export class HeaderComponent implements OnInit {
         // console.log(this.settings.theme.showMenu,"show menu ************************** ",this.showMenu)
         if (window.innerWidth <= 768)
             this.showHorizontalMenu = false;
+
+
+        this.webSocketService.notifications$.subscribe((notifications) => {
+            this.notifications = notifications;
+        });
+        this.http.get<Notification[]>('http://localhost:8888/demo_war/notifications').subscribe((notifications) => {
+            this.notifications = notifications;
+        });
     }
 
     showpupupconfigpstk() {
@@ -266,6 +278,8 @@ export class HeaderComponent implements OnInit {
         })
     }
 
+    notifications: any[] = [];
+    newMessage: string = '';
 
 }
 
