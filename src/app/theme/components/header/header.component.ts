@@ -301,8 +301,10 @@ username:any;
     notifications: any[] = [];
     unreadNotificationCount: number = 0;
     fetchUnreadNotificationCount() {
-        this.http.get<number>('http://localhost:8888/demo_war/notifications/unread-count')
+        this.username = this.cookieService.get('profil');
+        this.http.get<number>(`http://localhost:8888/demo_war/notifications/unread-count/${this.username}`)
             .subscribe((count) => {
+
                 this.unreadNotificationCount = count;
             });
     }
