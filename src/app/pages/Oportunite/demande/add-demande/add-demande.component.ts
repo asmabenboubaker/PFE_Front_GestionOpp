@@ -577,7 +577,7 @@ demandeObejct:any;
   }
   sendNotification() {
 
-    const message = 'Nouvelle demande pour validation';
+    const message = 'testtttt';
     this.webSocketService.sendNotification(message);
   }
 

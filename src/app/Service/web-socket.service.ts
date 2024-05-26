@@ -21,6 +21,7 @@ export class WebSocketService {
     this.client.connect({}, () => {
       this.client.subscribe('/topic/notifications', (message) => {
         const notification: any = JSON.parse(message.body);
+        console.log('Received notification:', notification);
         this.notificationSubject.next([...this.notificationSubject.value, notification]);
 if(username.trim()==='oppDG') {
   this.toastr.info(notification.message, 'New Notification');

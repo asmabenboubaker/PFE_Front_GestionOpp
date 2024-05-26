@@ -88,8 +88,9 @@ export class HeaderComponent implements OnInit {
     }
 
     showMenu = false
-
+username:any;
     ngOnInit() {
+        this.username=this.cookieService.get('profil');
         if (window.location.href.indexOf("newwindow=false") != -1)
             this.showMenu = false
         else
@@ -100,12 +101,40 @@ export class HeaderComponent implements OnInit {
             this.showHorizontalMenu = false;
 
 // get all notification
-        this.webSocketService.notifications$.subscribe((notifications) => {
+//         this.webSocketService.notifications$.subscribe((notifications) => {
+//             this.notifications = notifications;
+//         });
+//         this.http.get<any[]>('http://localhost:8888/demo_war/notifications/').subscribe((notifications) => {
+//             //filter notification by username
+//             notifications = notifications.filter(notification => notification.username == this.cookieService.get('profil'))
+//             // inverser la liste
+//             notifications = notifications.reverse()
+//             this.notifications = notifications;
+//         });
+        // get all notifications
+        this.http.get<any[]>('http://localhost:8888/demo_war/notifications/').subscribe((notifications) => {
+            // filter notifications by username
+            notifications = notifications.filter(notification => notification.username == this.username);
+            // reverse the list
+            notifications = notifications.reverse();
             this.notifications = notifications;
         });
-        this.http.get<Notification[]>('http://localhost:8888/demo_war/notifications').subscribe((notifications) => {
-            this.notifications = notifications;
+
+        // Subscribe to WebSocket notifications
+        this.webSocketService.notifications$.subscribe((notification) => {
+            console.log('New notification received:', notification); // Debug log
+            // Check if the received notification is an array
+            if (Array.isArray(notification) && notification.length > 0) {
+                // Extract the notification object from the array
+                const newNotification = notification[0];
+                // Add the new notification to the beginning of the list
+                this.notifications.unshift(newNotification);
+                // Update the unread notification count
+                this.unreadNotificationCount++;
+            }
         });
+
+
         // count notification
         this.fetchUnreadNotificationCount();
     }
