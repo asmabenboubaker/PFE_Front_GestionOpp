@@ -99,13 +99,15 @@ export class HeaderComponent implements OnInit {
         if (window.innerWidth <= 768)
             this.showHorizontalMenu = false;
 
-
+// get all notification
         this.webSocketService.notifications$.subscribe((notifications) => {
             this.notifications = notifications;
         });
         this.http.get<Notification[]>('http://localhost:8888/demo_war/notifications').subscribe((notifications) => {
             this.notifications = notifications;
         });
+        // count notification
+        this.fetchUnreadNotificationCount();
     }
 
     showpupupconfigpstk() {
@@ -279,7 +281,13 @@ export class HeaderComponent implements OnInit {
     }
 
     notifications: any[] = [];
-    newMessage: string = '';
+    unreadNotificationCount: number = 0;
+    fetchUnreadNotificationCount() {
+        this.http.get<number>('http://localhost:8888/demo_war/notifications/unread-count')
+            .subscribe((count) => {
+                this.unreadNotificationCount = count;
+            });
+    }
 
 }
 
