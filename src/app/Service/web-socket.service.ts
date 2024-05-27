@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-
 import { Client, Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {ToastrService} from "ngx-toastr";
-import {CookieService} from "ngx-cookie-service";
-import {WsService} from "../../ws.service";
+import { CookieService } from 'ngx-cookie-service';
+import { WsService } from '../../ws.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +13,7 @@ export class WebSocketService {
   private notificationSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   public notifications$: Observable<any[]> = this.notificationSubject.asObservable();
 
-  constructor(private toastr: ToastrService, private cookieService: CookieService, private wservice:WsService) {
+  constructor(private cookieService: CookieService, private wservice: WsService) {
     const username = this.cookieService.get('profil');
     this.client = Stomp.over(new SockJS('http://localhost:8888/demo_war/ws'));
     this.client.connect({}, () => {
@@ -23,16 +21,54 @@ export class WebSocketService {
         const notification: any = JSON.parse(message.body);
         console.log('Received notification:', notification);
         this.notificationSubject.next([...this.notificationSubject.value, notification]);
-if(username.trim()==='oppDG') {
-  this.toastr.show(`<a href="${notification.url}" target="_blank">${notification.message}</a>`, 'New Notification', {
-    enableHtml: true
-  });
-}
+        if (username.trim() === 'oppDG') {
+          this.showCustomNotification(notification);
+        }
       });
     });
   }
 
-  public sendNotification(notification: { message: string, url: string ,createdBy:string}): void {
+  public sendNotification(notification: { message: string, url: string, createdBy: string }): void {
     this.client.send('/app/send', {}, JSON.stringify(notification));
+  }
+
+  private showCustomNotification(notification: any) {
+    const notificationElement = document.createElement('div');
+    notificationElement.className = 'notification';
+    notificationElement.innerHTML = `
+      <div class="notification-header">
+        <h3 class="notification-title">New notification</h3>
+        <i class="fa fa-times notification-close"></i>
+      </div>
+      <div class="notification-container">
+        <div class="notification-media">
+          <img src="assets/img.png" alt="" class="notification-user-avatar">
+<!--          <i class="fa fa-thumbs-up notification-reaction"></i>-->
+        </div>
+        <div class="notification-content">
+          <p class="notification-text">
+            <strong>${notification.username} !!</strong>, Nouvelle demande pour validation créée par <strong>${notification.createdBy}</strong>
+          </p>
+          <span class="notification-timer">a few seconds ago</span>
+        </div>
+        <span class="notification-status"></span>
+      </div>
+    `;
+
+    // Close button functionality
+    notificationElement.querySelector('.notification-close')?.addEventListener('click', () => {
+      notificationElement.remove();
+    });
+
+    // Click to navigate functionality
+    notificationElement.addEventListener('click', () => {
+      window.open(notification.url, '_blank');
+    });
+
+    document.body.appendChild(notificationElement);
+
+    setTimeout(() => {
+      notificationElement.remove();
+    }, 5000);
   }
 }
