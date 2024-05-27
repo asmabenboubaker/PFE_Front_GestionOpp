@@ -32,7 +32,7 @@ if(username.trim()==='oppDG') {
     });
   }
 
-  public sendNotification(notification: { message: string, url: string }): void {
+  public sendNotification(notification: { message: string, url: string ,createdBy:string}): void {
     this.client.send('/app/send', {}, JSON.stringify(notification));
   }
 }

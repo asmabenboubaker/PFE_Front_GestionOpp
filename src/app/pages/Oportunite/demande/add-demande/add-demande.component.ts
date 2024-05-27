@@ -572,12 +572,14 @@ demandeObejct:any;
       });
     }
 
-
+username:any;
   sendNotification(demandeId: number) {
 
     const message = 'Nouvelle demande pour validation';
     const url = `/Demande/add/${demandeId}`;
-    this.webSocketService.sendNotification({ message, url });
+    this.username = this.cookieService.get('displayname');
+    const createdBy=this.username;
+    this.webSocketService.sendNotification({ message, url, createdBy});
   }
 
 }

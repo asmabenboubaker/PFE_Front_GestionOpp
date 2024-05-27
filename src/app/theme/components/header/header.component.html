@@ -89,7 +89,7 @@
                             <li class="list-group-item" *ngFor="let notification of notifications" (click)="navigateTo(notification.url)">
                                 <img src="assets/img.png" alt="User Logo" class="user-logo">
                                 <span class="notification-message">
-                                {{ notification.message }}
+                                {{ notification.message }} créée par {{ notification.createdBy }}
                                      </span>
                             </li>
                         </ul>
