@@ -27,7 +27,7 @@ export class WebSocketComponent implements OnInit {
     }
 
     sendNotification() {
-        this.webSocketService.sendNotification(this.newMessage);
+        //this.webSocketService.sendNotification(this.newMessage);
         this.newMessage = '';
     }
 }

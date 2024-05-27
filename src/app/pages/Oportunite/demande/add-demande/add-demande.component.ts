@@ -287,7 +287,7 @@ demandeObejct:any;
     this.demandeService.Demande_process_Submit(formData).subscribe(data => {
       if (evt.decision.trim() === 'Pour Validation') {
         console.log("Sending notification");
-        this.sendNotification();
+        this.sendNotification(this.demandeid);
       }
 //this.showSuccess();
         window.location.reload();
@@ -572,13 +572,12 @@ demandeObejct:any;
       });
     }
 
-  onDomainesChange(event: any) {
-    this.selectedDomaines = event.value;
-  }
-  sendNotification() {
 
-    const message = 'testtttt';
-    this.webSocketService.sendNotification(message);
+  sendNotification(demandeId: number) {
+
+    const message = 'Nouvelle demande pour validation';
+    const url = `/Demande/add/${demandeId}`;
+    this.webSocketService.sendNotification({ message, url });
   }
 
 }

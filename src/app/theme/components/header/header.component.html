@@ -86,7 +86,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notif">
                         <h5 class="dropdown-header">Notifications</h5>
                         <ul class="list-group">
-                            <li class="list-group-item" *ngFor="let notification of notifications">
+                            <li class="list-group-item" *ngFor="let notification of notifications" (click)="navigateTo(notification.url)">
                                 {{ notification.message }}
                             </li>
                         </ul>

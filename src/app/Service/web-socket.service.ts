@@ -24,13 +24,15 @@ export class WebSocketService {
         console.log('Received notification:', notification);
         this.notificationSubject.next([...this.notificationSubject.value, notification]);
 if(username.trim()==='oppDG') {
-  this.toastr.info(notification.message, 'New Notification');
+  this.toastr.show(`<a href="${notification.url}" target="_blank">${notification.message}</a>`, 'New Notification', {
+    enableHtml: true
+  });
 }
       });
     });
   }
 
-  public sendNotification(message: string): void {
-    this.client.send('/app/send', {}, JSON.stringify({ message }));
+  public sendNotification(notification: { message: string, url: string }): void {
+    this.client.send('/app/send', {}, JSON.stringify(notification));
   }
 }

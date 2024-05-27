@@ -1,4 +1,12 @@
-import {Component, OnInit, ViewEncapsulation, HostListener, Injector, ViewChild} from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ViewEncapsulation,
+    HostListener,
+    Injector,
+    ViewChild,
+    ChangeDetectorRef, NgZone
+} from '@angular/core';
 import { trigger,  state,  style, transition, animate } from '@angular/animations';
 import { AppSettings } from '../../../app.settings';
 import { Settings } from '../../../app.settings.model';
@@ -63,7 +71,8 @@ export class HeaderComponent implements OnInit {
                 public env: EnvService,
                 private injector: Injector,
                 private cookieService: CookieService,
-                private webSocketService: WebSocketService, private http: HttpClient
+                private webSocketService: WebSocketService, private http: HttpClient,private cdr: ChangeDetectorRef,
+                private ngZone: NgZone
                 ) {
 
         this.settings = this.appSettings.settings;
@@ -108,19 +117,20 @@ username:any;
             // reverse the list
             notifications = notifications.reverse();
             this.notifications = notifications;
+            this.cdr.detectChanges();
         });
 
 
         this.webSocketService.notifications$.subscribe((notification) => {
-            console.log('New notification received:', notification);
-            if (Array.isArray(notification) && notification.length > 0) {
-
-                const newNotification = notification[0];
-
-                this.notifications.unshift(newNotification);
-
-                this.unreadNotificationCount++;
-            }
+            this.ngZone.run(() => {
+                console.log('New notification received:', notification);
+                if (Array.isArray(notification) && notification.length > 0) {
+                    const newNotification = notification[0];
+                    this.notifications.unshift(newNotification);
+                    this.unreadNotificationCount++;
+                    this.cdr.detectChanges();
+                }
+            });
         });
 
 
@@ -304,7 +314,6 @@ username:any;
         this.username = this.cookieService.get('profil');
         this.http.get<number>(`http://localhost:8888/demo_war/notifications/unread-count/${this.username}`)
             .subscribe((count) => {
-
                 this.unreadNotificationCount = count;
             });
     }
@@ -315,6 +324,10 @@ username:any;
             .subscribe(() => {
                 this.unreadNotificationCount = 0;
             });
+    }
+
+    navigateTo(url: string) {
+        this.router.navigate([url]);
     }
 
 }
