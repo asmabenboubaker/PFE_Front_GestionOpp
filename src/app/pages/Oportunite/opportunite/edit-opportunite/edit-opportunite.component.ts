@@ -17,6 +17,7 @@ import {DxTreeViewComponent} from "devextreme-angular";
 import {EtudetechServiceService} from "../../../../Service/etudetech-service.service";
 import {CookieService} from "ngx-cookie-service";
 import {OffreService} from "../../../../Service/offre.service";
+import {WebSocketService} from "../../../../Service/web-socket.service";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -68,8 +69,11 @@ evaluer:boolean=false;
               private equipeService: EquipeServiceService,
               private etudeService: EtudetechServiceService,
                 private cookieService: CookieService,
-              private offreService: OffreService
+              private offreService: OffreService,
+              private webSocketService: WebSocketService
+
               ) {
+
     const currentDate = new Date();
     this.oppForm = this.fb.group({
       id: null, // You might want to initialize other properties based on your requirements
@@ -256,6 +260,12 @@ else {
         disableTimeOut: false,
         timeOut: this.env.timeOutToastr
       })
+        if(evt.decision.trim()==="Etude") {
+            this.sendNotification(this.oppid);
+        }
+        if(evt.decision.trim()==="Evaluer") {
+            this.sendNotificationEvaluer(this.oppid);
+        }
       //redirect to demande list
         window.location.reload();
 
@@ -502,4 +512,23 @@ else {
     }
     popupHeight = window.innerHeight-50;
     popupWidth = window.innerWidth - window.innerWidth / 3;
+    username: any;
+    sendNotification(demandeId: number) {
+
+        const message = 'Nous vous invitons à étudier cette nouvelle opportunité';
+        const url = `/opportunite/add/${demandeId}`;
+        this.username = this.cookieService.get('displayname');
+        const createdBy=this.username;
+        const username="Equipetechnique";
+        this.webSocketService.sendNotification({ message, url, createdBy, username });
+    }
+    sendNotificationEvaluer(demandeId: number) {
+
+        const message = 'Merci de valider cette opportunité dès que possible';
+        const url = `/opportunite/add/${demandeId}`;
+        this.username = this.cookieService.get('displayname');
+        const createdBy=this.username;
+        const username="oppDG";
+        this.webSocketService.sendNotification({ message, url, createdBy, username });
+    }
 }

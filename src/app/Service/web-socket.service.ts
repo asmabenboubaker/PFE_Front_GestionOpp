@@ -47,7 +47,7 @@ export class WebSocketService {
         </div>
         <div class="notification-content">
           <p class="notification-text">
-            <strong>${notification.username} !!</strong>, Nouvelle demande pour validation créée par <strong>${notification.createdBy}</strong>
+            <strong>${notification.username} !!</strong>${notification.message} créée par <strong>${notification.createdBy}</strong>
           </p>
           <span class="notification-timer">a few seconds ago</span>
         </div>
@@ -69,6 +69,6 @@ export class WebSocketService {
 
     setTimeout(() => {
       notificationElement.remove();
-    }, 5000);
+    }, 9000);
   }
 }

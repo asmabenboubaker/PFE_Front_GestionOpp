@@ -289,7 +289,7 @@ demandeObejct:any;
         console.log("Sending notification");
         this.sendNotification(this.demandeid);
       }
-     this.showSuccess();
+    // this.showSuccess();
        // window.location.reload();
       //return to demande list
         this.router.navigate(['Demande/user']);

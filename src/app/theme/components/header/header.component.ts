@@ -330,9 +330,11 @@ username:any;
             });
     }
 
-    navigateTo(url: string) {
-        this.router.navigate([url]);
-    }
 
+    navigateTo(url: string) {
+        this.router.navigate([url]).then(() => {
+            window.location.reload();
+        });
+    }
 }
 

@@ -41,7 +41,7 @@ export class OpportuniteService {
         return this.http.delete<void>(url);
     }
   InitOpp() {
-    return this.http.patch(this.env.piOpp + 'initOpp', {}, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
+    return this.http.patch(this.env.piOpp + 'initOppold', {}, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())});
   }
   getOppByid(id): Observable<any> {
     const url = `${this.env.piOpp}OpportuniteDTO/${id}`;
