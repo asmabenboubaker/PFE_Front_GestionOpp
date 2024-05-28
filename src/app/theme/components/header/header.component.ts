@@ -116,6 +116,7 @@ username:any;
             notifications = notifications.filter(notification => notification.username == this.username);
             // reverse the list
             notifications = notifications.reverse();
+            console.log("notifffffffffffffffffffffff"+notifications.length)
             this.notifications = notifications;
             this.cdr.detectChanges();
         });
@@ -123,12 +124,15 @@ username:any;
 
         this.webSocketService.notifications$.subscribe((notification) => {
             this.ngZone.run(() => {
-                console.log('New notification received:', notification);
-                if (Array.isArray(notification) && notification.length > 0) {
-                    const newNotification = notification[0];
-                    this.notifications.unshift(newNotification);
-                    this.unreadNotificationCount++;
-                    this.cdr.detectChanges();
+                console.log("usernameeeeeeeeee"+notification[0].username)
+                if(this.cookieService.get('profil').trim()==notification[0].username) {
+                    console.log('New notification received:', notification);
+                    if (Array.isArray(notification) && notification.length > 0) {
+                        const newNotification = notification[0];
+                        this.notifications.unshift(newNotification);
+                        this.unreadNotificationCount++;
+                        this.cdr.detectChanges();
+                    }
                 }
             });
         });

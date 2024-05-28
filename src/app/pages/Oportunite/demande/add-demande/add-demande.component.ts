@@ -581,7 +581,8 @@ username:any;
     const url = `/Demande/add/${demandeId}`;
     this.username = this.cookieService.get('displayname');
     const createdBy=this.username;
-    this.webSocketService.sendNotification({ message, url, createdBy});
+    const username="oppDG";
+    this.webSocketService.sendNotification({ message, url, createdBy, username });
   }
   popupViewerVisible: any = false;
   showPopupWF() {

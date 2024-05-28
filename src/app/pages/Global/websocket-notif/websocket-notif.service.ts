@@ -15,7 +15,6 @@ export class WebsocketNotifService {
 
   constructor(private env: EnvService, private http: HttpClient, private tokenStorage: TokenStorageService) {
     this.headers = new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)
-
   }
 
   connect() {

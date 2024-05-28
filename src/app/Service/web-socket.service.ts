@@ -21,14 +21,14 @@ export class WebSocketService {
         const notification: any = JSON.parse(message.body);
         console.log('Received notification:', notification);
         this.notificationSubject.next([...this.notificationSubject.value, notification]);
-        if (username.trim() === 'oppDG') {
+        if (username.trim() === notification.username.trim()) {
           this.showCustomNotification(notification);
         }
       });
     });
   }
 
-  public sendNotification(notification: { message: string, url: string, createdBy: string }): void {
+  public sendNotification(notification: { message: string, url: string, createdBy: string ,username: string}): void {
     this.client.send('/app/send', {}, JSON.stringify(notification));
   }
 
