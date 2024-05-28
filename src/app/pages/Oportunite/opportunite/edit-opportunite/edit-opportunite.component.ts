@@ -289,7 +289,7 @@ else {
                 timeOut: this.env.timeOutToastr
             })
             //redirect to add opp by id
-            this.router.navigate(['opportunite/all']);
+           // this.router.navigate(['opportunite/all']);
 
 
         }, error => {
@@ -495,4 +495,11 @@ else {
         // Make an HTTP request to your API endpoint using the selectedIds
 
     }
+
+    popupViewerVisible: any = false;
+    showPopupWF() {
+        this.popupViewerVisible = true;
+    }
+    popupHeight = window.innerHeight-50;
+    popupWidth = window.innerWidth - window.innerWidth / 3;
 }

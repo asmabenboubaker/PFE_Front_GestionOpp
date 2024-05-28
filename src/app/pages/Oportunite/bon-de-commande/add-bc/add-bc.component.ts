@@ -193,5 +193,10 @@ export class AddBcComponent implements OnInit {
     Retourn(){
         this.router.navigate(['bondecommande/all']);
     }
-
+    popupViewerVisible: any = false;
+    showPopupWF() {
+        this.popupViewerVisible = true;
+    }
+    popupHeight = window.innerHeight-50;
+    popupWidth = window.innerWidth - window.innerWidth / 3;
 }

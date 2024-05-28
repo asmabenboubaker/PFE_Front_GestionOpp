@@ -248,4 +248,12 @@ this.offreF.get('description').setValue(data.description);
             this.showModal = false;
         });
     }
+
+
+    popupViewerVisible: any = false;
+    showPopupWF() {
+        this.popupViewerVisible = true;
+    }
+    popupHeight = window.innerHeight-50;
+    popupWidth = window.innerWidth - window.innerWidth / 3;
 }

@@ -4,6 +4,8 @@ import { TaskFieldsModel } from '@syncfusion/ej2-angular-gantt';
 import {ProjectService} from "../../../../Service/project.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TaskServiceService} from "../../../../Service/task-service.service";
+import { registerLicense } from '@syncfusion/ej2-base';
+registerLicense('Ngo9BigBOggjHTQxAR8/V1NBaF1cXmhPYVFxWmFZfVpgfV9GZlZVTGYuP1ZhSXxXdkBhUX9XcHJRT2leUEM=');
 @Component({
   selector: 'app-static-project',
   templateUrl: './static-project.component.html',

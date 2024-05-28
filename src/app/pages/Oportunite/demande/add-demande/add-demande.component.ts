@@ -289,8 +289,10 @@ demandeObejct:any;
         console.log("Sending notification");
         this.sendNotification(this.demandeid);
       }
-//this.showSuccess();
-        window.location.reload();
+     this.showSuccess();
+       // window.location.reload();
+      //return to demande list
+        this.router.navigate(['Demande/user']);
 
     }, error => {
       this.toastr.error("failed to add ", "", {
@@ -581,5 +583,10 @@ username:any;
     const createdBy=this.username;
     this.webSocketService.sendNotification({ message, url, createdBy});
   }
-
+  popupViewerVisible: any = false;
+  showPopupWF() {
+    this.popupViewerVisible = true;
+  }
+  popupHeight = window.innerHeight-50;
+  popupWidth = window.innerWidth - window.innerWidth / 3;
 }
