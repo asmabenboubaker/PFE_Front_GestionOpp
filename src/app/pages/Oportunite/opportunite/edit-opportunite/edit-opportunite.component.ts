@@ -241,7 +241,7 @@ else {
         });
     }
   Confirmation(evt) {
-
+      this.loadingVisible = true;
     const formData = this.oppF.value;
 
 
@@ -502,7 +502,7 @@ else {
         const selectedIds = e.value;
         // get id projet form url
         const projectId = this.route.snapshot.paramMap.get('id');
-        // Make an HTTP request to your API endpoint using the selectedIds
+
 
     }
 
@@ -514,7 +514,6 @@ else {
     popupWidth = window.innerWidth - window.innerWidth / 3;
     username: any;
     sendNotification(demandeId: number) {
-
         const message = 'Nous vous invitons à étudier cette nouvelle opportunité';
         const url = `/opportunite/add/${demandeId}`;
         this.username = this.cookieService.get('displayname');
@@ -530,5 +529,17 @@ else {
         const createdBy=this.username;
         const username="oppDG";
         this.webSocketService.sendNotification({ message, url, createdBy, username });
+    }
+//loading
+    loadingVisible = false;
+
+    onShown() {
+        setTimeout(() => {
+            this.loadingVisible = false;
+        }, 3000);
+    }
+
+    onHidden() {
+        //this.employeeInfo = this.employee;
     }
 }

@@ -269,7 +269,7 @@ demandeObejct:any;
   }
 
   Confirmation(evt) {
-
+    this.loadingVisible = true;
     const formData = this.demandeF.value;
 
     // Utiliser les valeurs extraites
@@ -590,4 +590,18 @@ username:any;
   }
   popupHeight = window.innerHeight-50;
   popupWidth = window.innerWidth - window.innerWidth / 3;
+
+  // load data
+  loadingVisible = false;
+
+  onShown() {
+    setTimeout(() => {
+      this.loadingVisible = false;
+    }, 3000);
+  }
+
+  onHidden() {
+    //this.employeeInfo = this.employee;
+  }
+
 }

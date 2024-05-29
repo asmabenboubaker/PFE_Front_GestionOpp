@@ -632,3 +632,16 @@
                      [historicsAcces]="demandedto.userActivity"></app-journal>
     </div>
 </dx-popup>
+<dx-load-panel
+    #loadPanel
+    shadingColor="rgba(0,0,0,0.4)"
+    [position]="{ of: '#employee' }"
+    [(visible)]="loadingVisible"
+    [showIndicator]="true"
+    [showPane]="true"
+    [shading]="true"
+    [hideOnOutsideClick]="false"
+    (onShown)="onShown()"
+    (onHidden)="onHidden()"
+>
+</dx-load-panel>

@@ -113,7 +113,7 @@ username:any;
         // get all notifications
         this.http.get<any[]>('http://localhost:8888/demo_war/notifications/').subscribe((notifications) => {
             // filter notifications by username
-            notifications = notifications.filter(notification => notification.username == this.username);
+            notifications = notifications.filter(notification => notification.username.trim() == this.username.trim());
             // reverse the list
             notifications = notifications.reverse();
             console.log("notifffffffffffffffffffffff"+notifications.length)
