@@ -15,6 +15,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
 import {BcServiceService} from "../../../../Service/bc-service.service";
 import {CookieService} from "ngx-cookie-service";
+import {WebSocketService} from "../../../../Service/web-socket.service";
 
 @Component({
   selector: 'app-edit-offre',
@@ -48,7 +49,8 @@ export class EditOffreComponent implements OnInit {
               public route: ActivatedRoute,
               private datePipe: DatePipe,
                 private bcService: BcServiceService,
-              private cookieService: CookieService
+              private cookieService: CookieService,
+              private webSocketService: WebSocketService
   ) {
 
     this.offreForm = this.fb.group({
@@ -136,7 +138,7 @@ this.offreF.get('description').setValue(data.description);
   }
 
   Confirmation(evt) {
-
+      this.loadingVisible = true;
     const formData = this.offreF.value;
 
 
@@ -157,6 +159,9 @@ this.offreF.get('description').setValue(data.description);
       })
       //redirect to demande list
       //   this.router.navigate(['offre/edit/'+this.oppid]);
+        if(evt.decision.trim()=="Validation"){
+        this.sendNotification(this.oppid);
+        }
         window.location.reload();
     }, error => {
       this.toastr.error("failed to add ", "", {
@@ -235,7 +240,6 @@ this.offreF.get('description').setValue(data.description);
 
     onCreateOpportunityClick(): void {
 
-
         this.offreService.setCreateBCTrue(this.oppid).subscribe(data => {
             console.log("set create opp true",data)
 
@@ -256,4 +260,30 @@ this.offreF.get('description').setValue(data.description);
     }
     popupHeight = window.innerHeight-50;
     popupWidth = window.innerWidth - window.innerWidth / 3;
+
+
+// Notification
+    username: any;
+    sendNotification(demandeId: number) {
+
+        const message = 'Nouvelle offre pour validation';
+        const url = `/offre/edit/${demandeId}`;
+        this.username = this.cookieService.get('displayname');
+        const createdBy=this.username;
+        const username="oppDG";
+        this.webSocketService.sendNotification({ message, url, createdBy, username });
+    }
+
+    // load data
+    loadingVisible = false;
+
+    onShown() {
+        setTimeout(() => {
+            this.loadingVisible = false;
+        }, 3000);
+    }
+
+    onHidden() {
+        //this.employeeInfo = this.employee;
+    }
 }

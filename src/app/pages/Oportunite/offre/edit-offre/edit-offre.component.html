@@ -1,6 +1,6 @@
 <dx-popup
         [maxWidth]="940"
-        [width]="900"
+        [width]="500"
         [height]="'auto'"
         [showTitle]="true"
         title="Créer une opportunité"
@@ -85,10 +85,12 @@
     <!--        <div  class="card-header text-center bg-secondary  text-white" style="background-color: #242f50 !important;">-->
     <!--            <h5> {{'caseRequest.TitleRqEdit'|translate}} ({{demandeForm.requestCaseNumber}})</h5>-->
     <!--        </div>-->
+
+
     <div>
         <div class="card-header text-center bg-secondary  text-white" style="background-color: #0096a6  !important;">
             <div class="col-md-12" style="text-align: center;" *ngIf="objectData!=undefined">
-                <h5> edit  ({{objectData.id}})</h5>
+                <h5> Modifier offre  ({{objectData.id}})</h5>
 
 
             </div>
@@ -118,18 +120,18 @@
         <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
-            <div class="form-group">
-                <label class="form-label">mode de Paiement:</label>
+<!--            <div class="form-group">-->
+<!--                <label class="form-label">mode de Paiement:</label>-->
 
-                <select formControlName="modePaiement" class="form-select">
-                    <option value="">Sélectionner un mode de paiement</option>
-                    <option value="carte">Carte de crédit</option>
-                    <option value="virement">Virement bancaire</option>
+<!--                <select formControlName="modePaiement" class="form-select">-->
+<!--                    <option value="">Sélectionner un mode de paiement</option>-->
+<!--                    <option value="carte">Carte de crédit</option>-->
+<!--                    <option value="virement">Virement bancaire</option>-->
 
-                    <option value="espece">Espèces</option>
-                    <option value="cheque">Chèque</option>
-                </select>
-            </div>
+<!--                    <option value="espece">Espèces</option>-->
+<!--                    <option value="cheque">Chèque</option>-->
+<!--                </select>-->
+<!--            </div>-->
 
             <div class="form-group">
                 <label for="montant" class="form-label">montant:</label>
@@ -143,15 +145,15 @@
                 <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
 
             </div>
-            <div class="form-group">
-                <label for="opp" class="form-label">Opprotunité Associée :</label>
-                <!--        <select class="form-select" formControlName="client" id="client">-->
-                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                <!--        </select>-->
-                <select #OppSelect  class="custom-select my-1 mr-sm-2"  id="opp" >
-                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
-                </select>
-            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="opp" class="form-label">Opprotunité Associée :</label>-->
+<!--                &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
+<!--                &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
+<!--                &lt;!&ndash;        </select>&ndash;&gt;-->
+<!--                <select #OppSelect  class="custom-select my-1 mr-sm-2"  id="opp" >-->
+<!--                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>-->
+<!--                </select>-->
+<!--            </div>-->
             <div class="form-group">
                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                 <input class="form-control" formControlName="dateLivraison" id="dateLivraison" type="date" required>
@@ -172,7 +174,11 @@
                 </app-workflow-decision>
 
             </div>
-            <button (click)="downloadPdfOnClick()">Download PDF</button>
+            <button (click)="downloadPdfOnClick()" class="btn btn-primary btn-sm">Download PDF <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+            </svg></button>
+
         </form>
 
     </div>
@@ -187,18 +193,18 @@
         <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
-            <div class="form-group">
-                <label  class="form-label">mode de Paiement:</label>
-                <select formControlName="modePaiement" class="form-select">
-                    <option value="">Sélectionner un mode de paiement</option>
-                    <option value="carte">Carte de crédit</option>
-                    <option value="virement">Virement bancaire</option>
+<!--            <div class="form-group">-->
+<!--                <label  class="form-label">mode de Paiement:</label>-->
+<!--                <select formControlName="modePaiement" class="form-select">-->
+<!--                    <option value="">Sélectionner un mode de paiement</option>-->
+<!--                    <option value="carte">Carte de crédit</option>-->
+<!--                    <option value="virement">Virement bancaire</option>-->
 
-                    <option value="espece">Espèces</option>
-                    <option value="cheque">Chèque</option>
-                </select>
+<!--                    <option value="espece">Espèces</option>-->
+<!--                    <option value="cheque">Chèque</option>-->
+<!--                </select>-->
 
-            </div>
+<!--            </div>-->
 
             <div class="form-group">
                 <label for="montant" class="form-label">montant:</label>
@@ -212,15 +218,15 @@
                 <textarea class="form-control" formControlName="description"  type="text" required></textarea>
 
             </div>
-            <div class="form-group">
-                <label for="opp" class="form-label">Opprotunité Associée :</label>
-                <!--        <select class="form-select" formControlName="client" id="client">-->
-                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                <!--        </select>-->
-                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
-                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
-                </select>
-            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="opp" class="form-label">Opprotunité Associée :</label>-->
+<!--                &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
+<!--                &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
+<!--                &lt;!&ndash;        </select>&ndash;&gt;-->
+<!--                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >-->
+<!--                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>-->
+<!--                </select>-->
+<!--            </div>-->
             <div class="form-group">
                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                 <input class="form-control" formControlName="dateLivraison" type="date" required>
@@ -241,7 +247,7 @@
                 </app-workflow-decision>
 
             </div>
-            <button (click)="downloadPdfOnClick()">Download PDF</button>
+            <button (click)="downloadPdfOnClick()"  class="btn btn-primary btn-sm">Download PDF</button>
         </form>
 
     </div>
@@ -256,18 +262,18 @@
         <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
-            <div class="form-group">
-                <label class="form-label">mode de Paiement:</label>
-                <select formControlName="modePaiement" class="form-select">
-                    <option value="">Sélectionner un mode de paiement</option>
-                    <option value="carte">Carte de crédit</option>
-                    <option value="virement">Virement bancaire</option>
+<!--            <div class="form-group">-->
+<!--                <label class="form-label">mode de Paiement:</label>-->
+<!--                <select formControlName="modePaiement" class="form-select">-->
+<!--                    <option value="">Sélectionner un mode de paiement</option>-->
+<!--                    <option value="carte">Carte de crédit</option>-->
+<!--                    <option value="virement">Virement bancaire</option>-->
 
-                    <option value="espece">Espèces</option>
-                    <option value="cheque">Chèque</option>
-                </select>
+<!--                    <option value="espece">Espèces</option>-->
+<!--                    <option value="cheque">Chèque</option>-->
+<!--                </select>-->
 
-            </div>
+<!--            </div>-->
 
             <div class="form-group">
                 <label for="montant" class="form-label">montant:</label>
@@ -281,15 +287,15 @@
                 <textarea class="form-control" formControlName="description"  type="text" required></textarea>
 
             </div>
-            <div class="form-group">
-                <label for="opp" class="form-label">Opprotunité Associée :</label>
-                <!--        <select class="form-select" formControlName="client" id="client">-->
-                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                <!--        </select>-->
-                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
-                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
-                </select>
-            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="opp" class="form-label">Opprotunité Associée :</label>-->
+<!--                &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
+<!--                &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
+<!--                &lt;!&ndash;        </select>&ndash;&gt;-->
+<!--                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >-->
+<!--                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>-->
+<!--                </select>-->
+<!--            </div>-->
             <div class="form-group">
                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                 <input class="form-control" formControlName="dateLivraison" type="date" required>
@@ -310,7 +316,9 @@
                 </app-workflow-decision>
 
             </div>
-            <button (click)="downloadPdfOnClick()">Download PDF</button>
+            <button (click)="downloadPdfOnClick()"   class="btn btn-primary btn-sm"
+
+            >Download PDF</button>
         </form>
 
     </div>
@@ -329,17 +337,17 @@
         <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
-            <div class="form-group">
-                <label class="form-label">mode de Paiement:</label>
-                <select formControlName="modePaiement" class="form-select">
-                    <option value="">Sélectionner un mode de paiement</option>
-                    <option value="carte">Carte de crédit</option>
-                    <option value="virement">Virement bancaire</option>
+<!--            <div class="form-group">-->
+<!--                <label class="form-label">mode de Paiement:</label>-->
+<!--                <select formControlName="modePaiement" class="form-select">-->
+<!--                    <option value="">Sélectionner un mode de paiement</option>-->
+<!--                    <option value="carte">Carte de crédit</option>-->
+<!--                    <option value="virement">Virement bancaire</option>-->
 
-                    <option value="espece">Espèces</option>
-                    <option value="cheque">Chèque</option>
-                </select>
-            </div>
+<!--                    <option value="espece">Espèces</option>-->
+<!--                    <option value="cheque">Chèque</option>-->
+<!--                </select>-->
+<!--            </div>-->
 
             <div class="form-group">
                 <label for="montant" class="form-label">montant:</label>
@@ -353,15 +361,15 @@
                 <textarea class="form-control" formControlName="description"  type="text" required></textarea>
 
             </div>
-            <div class="form-group">
-                <label for="opp" class="form-label">Opprotunité Associée :</label>
-                <!--        <select class="form-select" formControlName="client" id="client">-->
-                <!--            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>-->
-                <!--        </select>-->
-                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >
-                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>
-                </select>
-            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="opp" class="form-label">Opprotunité Associée :</label>-->
+<!--                &lt;!&ndash;        <select class="form-select" formControlName="client" id="client">&ndash;&gt;-->
+<!--                &lt;!&ndash;            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>&ndash;&gt;-->
+<!--                &lt;!&ndash;        </select>&ndash;&gt;-->
+<!--                <select #OppSelect  class="custom-select my-1 mr-sm-2"   >-->
+<!--                    <option *ngFor="let opp of opps" [value]="opp.id">{{ opp.nom }}</option>-->
+<!--                </select>-->
+<!--            </div>-->
             <div class="form-group">
                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                 <input class="form-control" formControlName="dateLivraison" type="date" required>
@@ -383,7 +391,7 @@
 
             </div>
 
-            <button  (click)="downloadPdfOnClick()">Download PDF</button>
+            <button  (click)="downloadPdfOnClick()"  class="btn btn-primary btn-sm">Download PDF</button>
         </form>
 
     </div>
@@ -406,3 +414,17 @@
                      [historicsAcces]="objectData.userActivity"></app-journal>
     </div>
 </dx-popup>
+
+<dx-load-panel
+    #loadPanel
+    shadingColor="rgba(0,0,0,0.4)"
+    [position]="{ of: '#employee' }"
+    [(visible)]="loadingVisible"
+    [showIndicator]="true"
+    [showPane]="true"
+    [shading]="true"
+    [hideOnOutsideClick]="false"
+    (onShown)="onShown()"
+    (onHidden)="onHidden()"
+>
+</dx-load-panel>
