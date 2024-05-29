@@ -157,7 +157,7 @@ demandeObejct:any;
 
     //set createOpp to true
     this.demandeService.setCreateOppTrue(this.demandeid).subscribe(data => {
-        console.log("set create opp true",data)
+       // console.log("set create opp true",data)
 
     });
     this.opportuniteService.InitOpp().subscribe(data => {

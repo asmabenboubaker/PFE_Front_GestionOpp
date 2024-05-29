@@ -266,6 +266,9 @@ else {
         if(evt.decision.trim()==="Evaluer") {
             this.sendNotificationEvaluer(this.oppid);
         }
+        if(this.elsebool===true){
+            this.sendNotificationoffre(this.oppid);
+        }
       //redirect to demande list
         window.location.reload();
 
@@ -530,6 +533,15 @@ else {
         const username="oppDG";
         this.webSocketService.sendNotification({ message, url, createdBy, username });
     }
+    sendNotificationoffre(demandeId: number) {
+
+        const message = 'Le processus de l\'opportunité est terminé. Vous pouvez créer une offre de prix.';
+        const url = `/opportunite/add/${demandeId}`;
+        this.username = this.cookieService.get('displayname');
+        const createdBy=this.username;
+        const username="depositOpportunite";
+        this.webSocketService.sendNotification({ message, url, createdBy, username });
+    }
 //loading
     loadingVisible = false;
 
@@ -542,4 +554,5 @@ else {
     onHidden() {
         //this.employeeInfo = this.employee;
     }
+
 }
