@@ -23,7 +23,7 @@
 <div>
 
     <div>
-        <div class="card-header text-center bg-secondary  text-white" style="background-color: #0096a6  !important;">
+        <div class="card-header text-center bg-secondary  text-white bannerColor" >
             <div class="col-md-12" style="text-align: center;" *ngIf="demandedto!=undefined">
                 <h5> edit opportunité ({{demandedto.id}})</h5>
             </div>
@@ -185,6 +185,26 @@
     >
 
 
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Opportunité info">
+                <div >
+                    <!--  <div><b>ID:</b> {{ data.id }}</div>
+                      <div><b>Status:</b> {{ data.status }}</div>-->
+                    <div><b>Description:</b> {{ oppObject.description }}</div>
+                    <div><b>Description:</b> {{ oppObject.demandeId }}</div>
+                    <!--  <div><b>Nom:</b> {{ data.nom }}</div>
+                      <div><b>Created At:</b> {{ data.createAt | date:'medium' }}</div>
+                      <div><b>Number of Attachments:</b> {{ data.numberOfattachments }}</div>-->
+
+                </div>
+            </dxi-item>
+        </dx-accordion>
+
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -290,6 +310,7 @@
 
 
     </div>
+
     <div
             class="tab-pane fade {{ etude ? 'show active' : '' }}"
             id="ex3-tabs-3"
@@ -297,6 +318,25 @@
             aria-labelledby="ex3-tab-3"
             *ngIf="etude"
     >
+
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Opportunité info">
+                <div >
+                  <!--  <div><b>ID:</b> {{ data.id }}</div>
+                    <div><b>Status:</b> {{ data.status }}</div>-->
+                    <div><b>Description:</b> {{ oppObject.description }}</div>
+                  <!--  <div><b>Nom:</b> {{ data.nom }}</div>
+                    <div><b>Created At:</b> {{ data.createAt | date:'medium' }}</div>
+                    <div><b>Number of Attachments:</b> {{ data.numberOfattachments }}</div>-->
+
+                </div>
+            </dxi-item>
+        </dx-accordion>
 
         <form [formGroup]="techForm" class="row g-3 needs-validation custom-form" novalidate>
 
@@ -402,7 +442,46 @@
             aria-labelledby="ex3-tab-4"
             *ngIf="rapport"
     >
-        <!-- Your content for the new tab goes here -->
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Opportunité info">
+                <div >
+                    <!--  <div><b>ID:</b> {{ data.id }}</div>
+                      <div><b>Status:</b> {{ data.status }}</div>-->
+                    <div><b>Description:</b> {{ oppObject.description }}</div>
+                    <div><b>Description:</b> {{ oppObject.demande_id }}</div>
+                    <!--  <div><b>Nom:</b> {{ data.nom }}</div>
+                      <div><b>Created At:</b> {{ data.createAt | date:'medium' }}</div>
+                      <div><b>Number of Attachments:</b> {{ data.numberOfattachments }}</div>-->
+
+                </div>
+            </dxi-item>
+        </dx-accordion>
+
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Demande info">
+                <div >
+                    <!--  <div><b>ID:</b> {{ data.id }}</div>
+                      <div><b>Status:</b> {{ data.status }}</div>-->
+                    <div><b>Description:</b> {{ oppObject.demande.nom }}</div>
+<!--                    <div><b>Description:</b> {{ oppObject.demande_id }}</div>-->
+                    <!--  <div><b>Nom:</b> {{ data.nom }}</div>
+                      <div><b>Created At:</b> {{ data.createAt | date:'medium' }}</div>
+                      <div><b>Number of Attachments:</b> {{ data.numberOfattachments }}</div>-->
+
+                </div>
+            </dxi-item>
+        </dx-accordion>
+
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -475,6 +554,25 @@
             aria-labelledby="ex3-tab-5"
             *ngIf="elsebool"
     >
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Opportunité info">
+                <div >
+                    <!--  <div><b>ID:</b> {{ data.id }}</div>
+                      <div><b>Status:</b> {{ data.status }}</div>-->
+                    <div><b>Description:</b> {{ oppObject.description }}</div>
+                    <!--  <div><b>Nom:</b> {{ data.nom }}</div>
+                      <div><b>Created At:</b> {{ data.createAt | date:'medium' }}</div>
+                      <div><b>Number of Attachments:</b> {{ data.numberOfattachments }}</div>-->
+
+                </div>
+            </dxi-item>
+        </dx-accordion>
+
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -553,6 +651,25 @@
             aria-labelledby="ex3-tab-5"
             *ngIf="elsebool1"
     >
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Opportunité info">
+                <div >
+                    <!--  <div><b>ID:</b> {{ data.id }}</div>
+                      <div><b>Status:</b> {{ data.status }}</div>-->
+                    <div><b>Description:</b> {{ oppObject.description }}</div>
+                    <!--  <div><b>Nom:</b> {{ data.nom }}</div>
+                      <div><b>Created At:</b> {{ data.createAt | date:'medium' }}</div>
+                      <div><b>Number of Attachments:</b> {{ data.numberOfattachments }}</div>-->
+
+                </div>
+            </dxi-item>
+        </dx-accordion>
+
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 

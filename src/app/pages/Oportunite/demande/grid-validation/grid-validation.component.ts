@@ -234,7 +234,9 @@ export class GridValidationComponent implements OnInit {
         }
         //page
         params += '&page=' + (loadOptions.skip && loadOptions.skip != null && loadOptions.skip !== 0 ? (Math.ceil(loadOptions.skip / loadOptions.take)) : 0);
-
+// filter par validaion
+        //params += `&filter=activityName.equals=Validation`;
+        params += `&filter=activityName.equals=Validation`;
         //sort
         // params += '&sort=dateRecrutement,desc'
         if (loadOptions.sort) {
@@ -405,7 +407,7 @@ export class GridValidationComponent implements OnInit {
         }
         let ref = '?';
 
-        return this.http.get(this.env.piOpp + 'validation' + "?" + params + filterText, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())})
+        return this.http.get(this.env.piOpp + 'demandes' + "?" + params + filterText, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())})
             .toPromise()
             .then((data: any) => {
                   console.log(data)

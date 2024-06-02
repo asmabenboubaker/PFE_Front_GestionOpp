@@ -93,7 +93,7 @@ export class GridClientComponent implements OnInit {
         params += '&page=' + (loadOptions.skip && loadOptions.skip != null && loadOptions.skip !== 0 ? (Math.ceil(loadOptions.skip / loadOptions.take)) : 0);
 
         //sort
-        // params += '&sort=dateRecrutement,desc'
+         params += '&sort=id,desc'
         if (loadOptions.sort) {
           if (loadOptions.sort[0].desc) {
             params += '&sort=' + loadOptions.sort[0].selector + ',desc';

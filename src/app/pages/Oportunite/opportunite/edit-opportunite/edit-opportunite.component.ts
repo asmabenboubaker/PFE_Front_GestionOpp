@@ -18,6 +18,7 @@ import {EtudetechServiceService} from "../../../../Service/etudetech-service.ser
 import {CookieService} from "ngx-cookie-service";
 import {OffreService} from "../../../../Service/offre.service";
 import {WebSocketService} from "../../../../Service/web-socket.service";
+import {Opportunite} from "../../../../Models/Opportunite";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -25,7 +26,9 @@ import {WebSocketService} from "../../../../Service/web-socket.service";
   styleUrls: ['./edit-opportunite.component.scss']
 })
 export class EditOpportuniteComponent implements OnInit {
+
     oppObject: any;
+    oppObjectAccordion: Opportunite[];
 //set selectedDemand false
   selectedDemande = false;
     equipes: any[] = [];
@@ -112,7 +115,9 @@ getEquipes1(){
       this.opportuniteService.getOpportuniteByidd(this.oppid).toPromise().then(
           data => {
               this.oppObject = data;
-              console.log("oppObject",this.oppObject)
+              this.oppObjectAccordion = this.oppObject;
+              console.log("oppObject",this.oppObject);
+              console.log("oppObjectAccorion :: ",this.oppObject.description);
           }
       );
       this.route.queryParams.subscribe(params => {
@@ -269,8 +274,9 @@ else {
         if(this.elsebool===true){
             this.sendNotificationoffre(this.oppid);
         }
-      //redirect to demande list
-        window.location.reload();
+      //redirect to opportunité list
+        this.router.navigate(['opportunite/all']);
+
 
     }, error => {
       this.toastr.error("failed to add ", "", {

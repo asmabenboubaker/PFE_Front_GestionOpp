@@ -25,6 +25,7 @@ import {CardsModule} from "angular-bootstrap-md";
 import {AttachmentModule} from "../../Global/attachment/attachment.module";
 import {DxSelectBoxModule} from "devextreme-angular/ui/select-box";
 import { GridValidationComponent } from './grid-validation/grid-validation.component';
+import {DemandeEnAttenteComponent} from "./demande-en-attente/demande-en-attente.component";
 
 
 export const routes: Routes  = [
@@ -63,7 +64,10 @@ export const routes: Routes  = [
   GridDemandeComponent,
   AddDemandeComponent,
   EditdemandeComponent,
-  GridValidationComponent],
+  GridValidationComponent,
+      DemandeEnAttenteComponent
+  ],
+
     imports: [
         CommonModule,
         RouterModule.forChild(routes),

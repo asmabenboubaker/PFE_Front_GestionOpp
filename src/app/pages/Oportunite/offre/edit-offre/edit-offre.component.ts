@@ -83,9 +83,6 @@ this.offreF.get('montant').setValue(data.montant);
 this.offreF.get('dateLivraison').setValue(data.dateLivraison);
 this.offreF.get('description').setValue(data.description);
 
-
-          // const clientId = data['client'] ? data['client']['id'] : (this.clients.length > 0 ? this.clients[0].id : null);
-          // this.demandeF.get('client').setValue(clientId);
           console.log("Fetched Successfully :", data);
           // Vérifiez si data.workflow est défini avant d'accéder à decisionsWF
           this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
