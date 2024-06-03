@@ -124,7 +124,7 @@ username:any;
 
         this.webSocketService.notifications$.subscribe((notification) => {
             this.ngZone.run(() => {
-                console.log("usernameeeeeeeeee"+notification[0].username)
+               // console.log("usernameeeeeeeeee"+notification[0].username)
                 if(this.cookieService.get('profil').trim()==notification[0].username) {
                     console.log('New notification received:', notification);
                     if (Array.isArray(notification) && notification.length > 0) {

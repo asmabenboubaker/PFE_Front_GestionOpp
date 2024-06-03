@@ -51,6 +51,42 @@
             aria-labelledby="ex3-tab-1"
             *ngIf="creationOpp"
     >
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Demande info">
+
+                <div >
+                    <div class="form-group">
+                        <label class="form-label"><b>Nom demande:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Status:</b></label>
+                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label"><b>Créer par:</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label  class="form-label"><b>Date de creation demande :</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Client:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                    </div>
+                </div>
+            </dxi-item>
+        </dx-accordion>
+        <h1>hhhh1111</h1>
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -218,6 +254,42 @@
             </dxi-item>
         </dx-accordion>
 
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Demande info">
+
+                <div >
+                    <div class="form-group">
+                        <label class="form-label"><b>Nom demande:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Status:</b></label>
+                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label"><b>Créer par:</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label  class="form-label"><b>Date de creation demande :</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Client:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                    </div>
+                </div>
+            </dxi-item>
+        </dx-accordion>
+        <h1>hhhh22222</h1>
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -250,13 +322,6 @@
 
                             </div>
 
-
-                            <!--                                    <div class="upload-container">-->
-                            <!--                                        <div class="input-div">-->
-                            <!--                                            <input class="input" name="file" type="file" (change)="onFileChange($event)" >-->
-                            <!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor" class="icon"><polyline points="16 16 12 12 8 16"></polyline><line y2="21" x2="12" y1="12" x1="12"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>-->
-                            <!--                                        </div>-->
-                            <!--                                    </div>-->
 
                         </div>
 
@@ -342,29 +407,64 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="oppObject.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.createAt | date:'medium'" readonly />
                     </div>
 
 
                 </div>
             </dxi-item>
         </dx-accordion>
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Demande info">
 
+                <div >
+                    <div class="form-group">
+                        <label class="form-label"><b>Nom demande:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Status:</b></label>
+                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label"><b>Créer par:</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label  class="form-label"><b>Date de creation demande :</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Client:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                    </div>
+                </div>
+            </dxi-item>
+        </dx-accordion>
+        <h1>hhh333333</h1>
         <form [formGroup]="techForm" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -479,22 +579,22 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="oppObject.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.createAt | date:'medium'" readonly />
                     </div>
 
 
@@ -509,19 +609,35 @@
                 [animationDuration]="300"
         >
             <dxi-item title="Demande info">
-                <div >
-                    <!--  <div><b>ID:</b> {{ data.id }}</div>
-                      <div><b>Status:</b> {{ data.status }}</div>-->
-                    <div><b>Description:</b> {{ oppObject.demande.nom }}</div>
-<!--                    <div><b>Description:</b> {{ oppObject.demande_id }}</div>-->
-                    <!--  <div><b>Nom:</b> {{ data.nom }}</div>
-                      <div><b>Created At:</b> {{ data.createAt | date:'medium' }}</div>
-                      <div><b>Number of Attachments:</b> {{ data.numberOfattachments }}</div>-->
 
+                <div >
+                    <div class="form-group">
+                        <label class="form-label"><b>Nom demande:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Status:</b></label>
+                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label"><b>Créer par:</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label  class="form-label"><b>Date de creation demande :</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Client:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                    </div>
                 </div>
             </dxi-item>
         </dx-accordion>
-
+        <h1>hh44444</h1>
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -604,29 +720,64 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="oppObject.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.createAt | date:'medium'" readonly />
                     </div>
 
 
                 </div>
             </dxi-item>
         </dx-accordion>
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Demande info">
 
+                <div >
+                    <div class="form-group">
+                        <label class="form-label"><b>Nom demande:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Status:</b></label>
+                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label"><b>Créer par:</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label  class="form-label"><b>Date de creation demande :</b></label>
+                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Client:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                    </div>
+                </div>
+            </dxi-item>
+        </dx-accordion>
+        <h1>h555</h1>
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -715,29 +866,64 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="oppObject.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto.createAt | date:'medium'" readonly />
                     </div>
 
 
                 </div>
             </dxi-item>
         </dx-accordion>
+        <dx-accordion
+                [collapsible]="true"
+                height="auto"
+                [selectedIndex]="-1"
+                [animationDuration]="300"
+        >
+            <dxi-item title="Demande info">
 
+                <div >
+                    <div class="form-group">
+                        <label class="form-label"><b>Nom demande:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Status:</b></label>
+                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                    </div>
+                    <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label"><b>Créer par:</b></label>
+                                                <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label  class="form-label"><b>Date de creation demande :</b></label>
+                                                <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Client:</b></label>
+                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                    </div>
+                </div>
+            </dxi-item>
+        </dx-accordion>
+        <h1>hhh666</h1>
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
