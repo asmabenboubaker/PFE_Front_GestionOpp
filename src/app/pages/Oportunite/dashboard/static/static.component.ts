@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {OffreService} from "../../../../Service/offre.service";
 
 @Component({
   selector: 'app-static',
@@ -7,15 +8,25 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./static.component.scss']
 })
 export class StaticComponent implements OnInit {
-
+  monthlyOffreCounts: any[] = [];
   constructor(
 
-    private http: HttpClient
+    private http: HttpClient,private offreService: OffreService
   ) { }
 
+  customizeLabel = (pointInfo: any) => {
+    return `Mois ${pointInfo.value}`;
+  }
+
+  customizeValueLabel = (pointInfo: any) => {
+    return `${pointInfo.value} Offres`;
+  }
   ngOnInit(): void {
     // pie chart
     this.fetchDemandsByDomain();
+    this.offreService.getMonthlyOffreCounts().subscribe(data => {
+      this.monthlyOffreCounts = data;
+    });
   }
   // pie chart
   demandsByDomain: any[] = [];

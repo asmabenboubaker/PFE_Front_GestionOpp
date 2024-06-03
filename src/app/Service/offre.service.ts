@@ -65,6 +65,12 @@ export class OffreService {
     const url = `${this.env.piOpp}offre/byid/${id}`;
     return this.http.get<any>(url);
   }
+
+
+  getMonthlyOffreCounts(): Observable<any[]> {
+    const url = `${this.env.piOpp}offres/monthly-count`;
+    return this.http.get<any[]>(url);
+  }
   generatePdf(formData: any) {
     const doc = new jsPDF.default();
   // date d'aujourd'hui only date
