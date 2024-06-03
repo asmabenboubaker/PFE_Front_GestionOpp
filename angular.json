@@ -72,8 +72,8 @@
               "node_modules/devextreme/dist/css/dx.light.css",
               "node_modules/qtip2/dist/jquery.qtip.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-
-
+              "node_modules/devextreme/dist/css/dx.material.blue.light.compact.css",
+              "node_modules/devexpress-gantt/dist/dx-gantt.min.css",
 
               {
                 "input": "src/assets/Style/dx.material.myTheme.css",
