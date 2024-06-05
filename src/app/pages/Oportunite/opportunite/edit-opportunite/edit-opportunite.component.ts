@@ -36,6 +36,7 @@ export class EditOpportuniteComponent implements OnInit {
   demandeF: FormGroup;
 listIdEquipe: any[] = [];
   oppForm: any;
+    @ViewChild('clientSelect') clientSelect: ElementRef;
     techForm: FormGroup;
   oppid: any;
   decissionWF: any;
@@ -47,6 +48,8 @@ demandedto: any;
     description: new FormControl(''),
     createAt: new FormControl(''),
     montantEstime: new FormControl(''),
+      nomDepartement: new FormControl(''),
+      sidDepartement: new FormControl(''),
 
   });
   demandes: any[] = [];
@@ -154,13 +157,13 @@ this.decissionWF=data.workflow.decisionsWF;
 if(this.decissionWF=="Affecter Equipe\n"){
     this.creationOpp= true;
 
-}else if (this.decissionWF=="Etude \n"){
+}else if (this.decissionWF[0]=="Etude \n" || this.decissionWF[1]=="Evaluer"){
     this.Affectaionequipe = true;
 }
 else if (this.decissionWF=="Rapport\n"){
     this.etude = true;
-}else if (this.decissionWF=="Evaluer\n"){
-    this.rapport = true;
+}else if (this.decissionWF=="Evaluer"){
+    this.etude = true;
 }
 //['Accepter\n', 'Rejeter\n']
 else if(this.decissionWF[0]=="Accepter\n" || this.decissionWF[1]=="Rejeter\n"){
@@ -181,28 +184,32 @@ else {
 
     console.log("this.demandeF", this.oppF)
       this.techForm = this.fb.group({
-          membres: [''],
-          specialite: [''],
-          nbreHours: [''],
-          complexite: [''],
-          evaluation: ['']
+          nature: ['', Validators.required], // Example text input field
+          description: ['', Validators.required], // Another text input field
+          specialite: [''], // Specialite field
+          nbreHours: ['', Validators.required],
+          responsableEtude: ['', Validators.required],
+          //date today
+          dateDebut: [this.datePipe.transform(new Date(), 'yyyy-MM-dd')],
+
       });
 
-    // set techform data
-    this.opportuniteService.getEtudeByOppId(this.oppid).subscribe(
-        (data) => {
-            console.log("dsdsdsdsdsd");
-            console.log('Etude: ', data);
-          this.techForm.get('membres').setValue(data[0].membres);
-          this.techForm.get('specialite').setValue(data[0].specialite);
-          this.techForm.get('nbreHours').setValue(data[0].nbreHours);
-          this.techForm.get('complexite').setValue(data[0].complexite);
-          this.techForm.get('evaluation').setValue(data[0].evaluation);
-        },
-        (error) => {
-          console.error('Error fetching demande by id: ', error);
-        }
-    );
+
+      // set techform data
+    // this.opportuniteService.getEtudeByOppId(this.oppid).subscribe(
+    //     (data) => {
+    //         console.log("dsdsdsdsdsd");
+    //         console.log('Etude: ', data);
+    //       this.techForm.get('membres').setValue(data[0].membres);
+    //       this.techForm.get('specialite').setValue(data[0].specialite);
+    //       this.techForm.get('nbreHours').setValue(data[0].nbreHours);
+    //       this.techForm.get('complexite').setValue(data[0].complexite);
+    //       this.techForm.get('evaluation').setValue(data[0].evaluation);
+    //     },
+    //     (error) => {
+    //       console.error('Error fetching demande by id: ', error);
+    //     }
+    // );
     //set list equipe
     this.opportuniteService.getEquipes(this.oppid).subscribe(
         (equipes: any[]) => {
@@ -245,16 +252,37 @@ else {
             this.showModal = false;
         });
     }
+    onDepartementChange(event) {
+        const selectedDepartmentName = event.target.value;
+        const selectedDepartment = this.gridDataSource.find(dept => dept.name === selectedDepartmentName);
+        if (selectedDepartment) {
+            this.oppF.patchValue({
+                sidDepartement: selectedDepartment.aclsidMGR
+            });
+        }
+    }
   Confirmation(evt) {
-      this.loadingVisible = true;
-    const formData = this.oppF.value;
 
+      this.loadingVisible = true;
+      if (this.techForm.valid) {
+          this.etudeService.createEtudeOpp(this.techForm.value, this.oppid).subscribe(
+              (data) => {
+                 console.log("data",data)
+              },
+              (error) => {
+                console.log("error",error)
+              }
+          );
+      }
+
+    const formData = this.oppF.value;
 
     formData['decision'] = evt.decision.trim();
     console.log("decision"+evt.decision) ;
     formData['wfCurrentComment'] = evt.wfCurrentComment;
     console.log("this.demanade CONFIRMATION", formData)
 
+      console.log("Nom Département sélectionné:", formData.nomDepartement);
     this.opportuniteService.Opp_process_Submit(formData).subscribe(data => {
       this.toastr.success(" added successfully" +
           "", "", {
@@ -325,19 +353,8 @@ else {
     }
   save2(){
 
-      //verifier si equipe selectionner gridBoxValue
-        if(this.gridBoxValue.length==0){
-            this.toastr.warning("Veuillez sélectionner une équipe", "", {
-                closeButton: true,
-                positionClass: 'toast-top-right',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            });
-            return;
-        }
-        else {
+
+      const selecteddemandeid = this.clientSelect?.nativeElement.value;
             // call methode in service affecter
             console.log("equipe affecter", this.gridBoxValue);
             // set listidequipe with id from gridBoxValue
@@ -396,7 +413,7 @@ else {
             })
 
 
-        }
+
   }
 
   save3(){

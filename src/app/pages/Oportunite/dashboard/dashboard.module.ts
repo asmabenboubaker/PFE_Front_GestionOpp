@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StaticComponent } from './static/static.component';
 import {RouterModule, Routes} from "@angular/router";
 import {GridProjetComponent} from "../projet/grid-projet/grid-projet.component";
-import {DxChartModule, DxPieChartModule, DxPolarChartModule} from "devextreme-angular";
+import {DxBoxModule, DxChartModule, DxPieChartModule, DxPolarChartModule} from "devextreme-angular";
 import {
   DxiSeriesModule,
   DxoConnectorModule,
@@ -35,6 +35,7 @@ export const routes: Routes  = [
         RouterModule.forChild(routes),
         DxChartModule,
         DxPolarChartModule,
+        DxBoxModule,
     ]
 })
 export class DashboardModule { }

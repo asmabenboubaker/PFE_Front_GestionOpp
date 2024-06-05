@@ -12,7 +12,8 @@ export class EquipeServiceService {
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService) { }
   // get list equipe
     getEquipes(): Observable<any[]> {
-        return this.http.get<any[]>(this.env.piOpp+this.Wservice.getEquipe);
+   const url='https://kernel.picosoft.biz/kernel-v1/api/departments';
+        return this.http.get<any[]>(url);
     }
 
   affecterEquipe(equipeId: number, idsEquipes: number[]): Observable<any> {

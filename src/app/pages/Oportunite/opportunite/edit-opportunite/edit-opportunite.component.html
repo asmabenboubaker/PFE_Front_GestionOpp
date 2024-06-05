@@ -62,26 +62,26 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom demande:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.nom " readonly />
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.demande?.activityName" readonly />
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="form-label"><b>Créer par:</b></label>
-                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                            <input  class="form-control"  type="text" [value]="demandedto?.demande?.assignee" readonly />
                         </div>
 
                         <div class="form-group col-md-6">
                             <label  class="form-label"><b>Date de creation demande :</b></label>
-                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                            <input  class="form-control"  type="text" [value]="demandedto?.demande?.dateDeCreation | date:'medium'" readonly />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Client:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.client.nom " readonly />
                     </div>
                 </div>
             </dxi-item>
@@ -231,22 +231,22 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="oppObject.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="oppObject.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.createAt | date:'medium'" readonly />
                     </div>
 
 
@@ -265,31 +265,31 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom demande:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.nom " readonly />
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.demande?.activityName" readonly />
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="form-label"><b>Créer par:</b></label>
-                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                            <input  class="form-control"  type="text" [value]="demandedto?.demande?.assignee" readonly />
                         </div>
 
                         <div class="form-group col-md-6">
                             <label  class="form-label"><b>Date de creation demande :</b></label>
-                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                            <input  class="form-control"  type="text" [value]="demandedto?.demande?.dateDeCreation | date:'medium'" readonly />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Client:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.client?.nom " readonly />
                     </div>
                 </div>
             </dxi-item>
         </dx-accordion>
-        <h1>hhhh22222</h1>
+
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -326,41 +326,49 @@
                         </div>
 
 
-                        <div class="dx-field">
-                            <div class="dx-field-label">Select Equipe</div>
-                            <div class="dx-field-value">
-                                <dx-drop-down-box
-                                        [(value)]="gridBoxValue"
-                                        [inputAttr]="{ 'aria-label': 'Owner' }"
-                                        valueExpr="id"
-                                        displayExpr="nom"
-                                        placeholder="Select a value..."
-                                        [showClearButton]="true"
-                                        [dataSource]="gridDataSource"
-                                >
-                                    <div *dxTemplate="let data of 'content'">
-                                        <dx-data-grid
-                                                [dataSource]="gridDataSource"
-                                                [columns]="['nom', 'telephone', 'email']"
-                                                [selection]="{ mode: 'multiple' }"
-                                                [hoverStateEnabled]="true"
-                                                [paging]="{ enabled: true, pageSize: 10 }"
-                                                [filterRow]="{ visible: true }"
-                                                [scrolling]="{ mode: 'virtual' }"
-                                                [height]="345"
-                                                [(selectedRowKeys)]="gridBoxValue"
-                                        >
-                                        </dx-data-grid>
-                                    </div>
-                                </dx-drop-down-box>
-                            </div>
-                        </div>
+<!--                        <div class="dx-field">-->
+<!--                            <div class="dx-field-label">Select Equipe</div>-->
+<!--                            <div class="dx-field-value">-->
+<!--                                <dx-drop-down-box-->
+<!--                                        [(value)]="gridBoxValue"-->
+<!--                                        [inputAttr]="{ 'aria-label': 'Owner' }"-->
+<!--                                        valueExpr="id"-->
+<!--                                        displayExpr="nom"-->
+<!--                                        placeholder="Select a value..."-->
+<!--                                        [showClearButton]="true"-->
+<!--                                        [dataSource]="gridDataSource"-->
+<!--                                >-->
+<!--                                    <div *dxTemplate="let data of 'content'">-->
+<!--                                        <dx-data-grid-->
+<!--                                                [dataSource]="gridDataSource"-->
+<!--                                                [columns]="['nom', 'telephone', 'email']"-->
+<!--                                                [selection]="{ mode: 'multiple' }"-->
+<!--                                                [hoverStateEnabled]="true"-->
+<!--                                                [paging]="{ enabled: true, pageSize: 10 }"-->
+<!--                                                [filterRow]="{ visible: true }"-->
+<!--                                                [scrolling]="{ mode: 'virtual' }"-->
+<!--                                                [height]="345"-->
+<!--                                                [(selectedRowKeys)]="gridBoxValue"-->
+<!--                                        >-->
+<!--                                        </dx-data-grid>-->
+<!--                                    </div>-->
+<!--                                </dx-drop-down-box>-->
+<!--                            </div>-->
+<!--                        </div>-->
 <!--                        <div *ngIf="gridBoxValue.length > 0">-->
 <!--                            <h3>Données sélectionnées dans la drop-down box :</h3>-->
 <!--                            <ul>-->
 <!--                                <li *ngFor="let item of gridBoxValue">{{ item }}</li>-->
 <!--                            </ul>-->
 <!--                        </div>-->
+
+                        <div class="form-group">
+                            <label>Select Equipe</label>
+                            <select formControlName="nomDepartement" class="form-select" (change)="onDepartementChange($event)">
+                                <option *ngFor="let client of gridDataSource" [value]="client.name">{{ client.name }}</option>
+                            </select>
+
+                        </div>
                     </article>
 
 
@@ -407,22 +415,22 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.createAt | date:'medium'" readonly />
                     </div>
 
 
@@ -440,95 +448,80 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom demande:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.nom " readonly />
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.demande?.activityName" readonly />
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="form-label"><b>Créer par:</b></label>
-                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                            <input  class="form-control"  type="text" [value]="demandedto?.demande?.assignee" readonly />
                         </div>
 
                         <div class="form-group col-md-6">
                             <label  class="form-label"><b>Date de creation demande :</b></label>
-                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                            <input  class="form-control"  type="text" [value]="demandedto?.demande?.dateDeCreation | date:'medium'" readonly />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Client:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.client.nom " readonly />
                     </div>
                 </div>
             </dxi-item>
         </dx-accordion>
         <h1>hhh333333</h1>
-        <form [formGroup]="techForm" class="row g-3 needs-validation custom-form" novalidate>
-
-
-
-            <section class="light" >
-                <div class="container py-2">
-                    <div class="h1 text-center text-dark" ></div>
-
-
-                    <article class="postcard light green">
-                        <a class="postcard__img_link" href="#">
-                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                        </a>
-                        <div class="postcard__text t-dark">
-
-
-                            <div class="form-group">
-                                <label  class="form-label">Nombre de membres dans l'équipe de développement est :</label>
-                                <input class="form-control" formControlName="membres"  type="text" >
-
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Specialite:</label>
-                                <input class="form-control" formControlName="specialite"  type="text" >
-
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Le nombre total d'heures de développement pour l'application:</label>
-                                <input class="form-control" formControlName="nbreHours" type="text" >
-                                <div *ngIf="techForm.get('membres').invalid && (techForm.get('membres').dirty || techForm.get('membres').touched)"
-                                     class="text-danger">
-                                    <div *ngIf="techForm.get('membres').errors.required">Ce champ est requis</div>
-                                    <div *ngIf="techForm.get('membres').errors.pattern">Entrez un nombre valide</div>
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label  class="form-label">Complexite:</label>
-                                <input class="form-control" formControlName="complexite" type="text">
-
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Description:</label>
-                                <textarea class="form-control" formControlName="evaluation" type="text"></textarea>
-
-                            </div>
-
-
-
-                        </div>
-
-                    </article>
-
+        <form [formGroup]="techForm" >
+            <div>
+                <label for="nature">Nature:</label>
+                <input type="text" id="nature" formControlName="nature">
+                <div *ngIf="techForm.get('nature').invalid && techForm.get('nature').touched">
+                    <span *ngIf="techForm.get('nature').errors.required">Nature is required</span>
                 </div>
+            </div>
 
-            </section>
+            <div>
+                <label for="description">Description:</label>
+                <input type="text" formControlName="description">
+                <div *ngIf="techForm.get('description').invalid && techForm.get('description').touched">
+                    <span *ngIf="techForm.get('description').errors.required">Description is required</span>
+                </div>
+            </div>
 
+            <div>
+                <label for="specialite">Specialite:</label>
+                <input type="text" id="specialite" formControlName="specialite">
+            </div>
 
+            <div>
+                <label for="nbreHours">Number of Hours:</label>
+                <input type="number" id="nbreHours" formControlName="nbreHours">
+                <div *ngIf="techForm.get('nbreHours').invalid && techForm.get('nbreHours').touched">
+                    <span *ngIf="techForm.get('nbreHours').errors.required">Number of Hours is required</span>
+                </div>
+            </div>
+
+            <div>
+                <label for="responsableEtude">Responsible Etude:</label>
+                <input type="text" id="responsableEtude" formControlName="responsableEtude">
+                <div *ngIf="techForm.get('responsableEtude').invalid && techForm.get('responsableEtude').touched">
+                    <span *ngIf="techForm.get('responsableEtude').errors.required">Responsible Etude is required</span>
+                </div>
+            </div>
+
+            <div>
+                <label for="dateDebut">Date Debut:</label>
+                <input type="date" id="dateDebut" formControlName="dateDebut">
+            </div>
             <div class="workflow-container">
                 <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                 <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
                 <app-workflow-decision
                         *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
                         (decisionEvent)="Confirmation($event)"
-                        (saveEvent)="save3()"
+                        (saveEvent)="save()"
                         (RetournEvent)="Retourn()"
                         [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
                         [decisions]="decissionWF"
@@ -579,22 +572,22 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.createAt | date:'medium'" readonly />
                     </div>
 
 
@@ -672,9 +665,6 @@
 
                 </div>
 
-
-                <label class="form-label" >Default file input example</label>
-                <input type="file" class="form-control"  />
             </article>
 
 
@@ -720,22 +710,22 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.createAt | date:'medium'" readonly />
                     </div>
 
 
@@ -762,17 +752,17 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="form-label"><b>Créer par:</b></label>
-                            <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                            <input  class="form-control"  type="text" [value]="demandedto?.demande?.assignee" readonly />
                         </div>
 
                         <div class="form-group col-md-6">
                             <label  class="form-label"><b>Date de creation demande :</b></label>
-                            <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                            <input  class="form-control"  type="text" [value]="demandedto?.demande?.dateDeCreation | date:'medium'" readonly />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Client:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.client?.nom " readonly />
                     </div>
                 </div>
             </dxi-item>
@@ -819,9 +809,7 @@
                 </div>
 
 
-                <label class="form-label" >Default file input example</label>
-                <input type="file" class="form-control"  />
-            </article>
+                 </article>
 
 
 
@@ -866,22 +854,22 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.nom" readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.nom" readonly />
                     </div>
                     <div class="form-group">
                         <label  class="form-label"><b>Description:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.description" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.description" readonly />
                     </div>
 
 
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.status" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.status" readonly />
                     </div>
 
                     <div class="form-group">
                         <label  class="form-label"><b>Created At:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.createAt | date:'medium'" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.createAt | date:'medium'" readonly />
                     </div>
 
 
@@ -899,26 +887,26 @@
                 <div >
                     <div class="form-group">
                         <label class="form-label"><b>Nom demande:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.nom " readonly />
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Status:</b></label>
-                        <input  class="form-control"  type="text" [value]="demandedto.demande.activityName" readonly />
+                        <input  class="form-control"  type="text" [value]="demandedto?.demande?.activityName" readonly />
                     </div>
                     <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label class="form-label"><b>Créer par:</b></label>
-                                                <input  class="form-control"  type="text" [value]="demandedto.demande.assignee" readonly />
+                                                <input  class="form-control"  type="text" [value]="demandedto?.demande?.assignee" readonly />
                                             </div>
 
                                             <div class="form-group col-md-6">
                                                 <label  class="form-label"><b>Date de creation demande :</b></label>
-                                                <input  class="form-control"  type="text" [value]="demandedto.demande.dateDeCreation | date:'medium'" readonly />
+                                                <input  class="form-control"  type="text" [value]="demandedto?.demande?.dateDeCreation | date:'medium'" readonly />
                                             </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label"><b>Client:</b></label>
-                        <input class="form-control"  type="text" [value]="demandedto.demande.client.nom " readonly />
+                        <input class="form-control"  type="text" [value]="demandedto?.demande?.client?.nom " readonly />
                     </div>
                 </div>
             </dxi-item>
@@ -958,9 +946,7 @@
                 </div>
 
 
-                <label class="form-label" >Default file input example</label>
-                <input type="file" class="form-control"  />
-            </article>
+                  </article>
 
 
 
