@@ -289,10 +289,84 @@
                 </div>
             </dxi-item>
         </dx-accordion>
+        <style>
+            /* Defining a custom border on all
+                sides except the top side */
+            .custom-field {
+                border: 1px solid #40B3A2;
+                border-top: none;
+                margin-top: 32px ;
+
+                padding: 8px;
+                border-radius: 8px !important;
+            }
+
+            /* Defining the style of the
+            heading/legend for custom fieldset */
+            .custom-field h1 {
+                font-size: 15px;
+                margin: -16px -8px 0;
+                color: #40B3A2;
+
+                font-weight: 500;
+            }
+
+            /* Using float:left allows us to mimic
+               the legend like fieldset. The
+               float:right property can also be
+               used to show the legend on right side */
+
+            .custom-field h1 span {
+                float: left;
+            }
+
+            /* Creating the custom top border to make
+                it look like fieldset defining small
+                border before the legend. The width
+                can be modified to change position
+                of the legend */
+            .custom-field h1:before {
+                border-top: 1px solid #40B3A2;
+                content: ' ';
+                float: left;
+                margin: 8px 2px 0 2px;
+                width: 20px;
+                border-radius: 8px !important;
+            }
+
+            /* Defining a long border after the
+            legend, using overflow hidden to
+            actually hide the line behind the
+            legend text. It can be removed
+            for a different effect */
+            .custom-field h1:after {
+                border-top: 1px solid #40B3A2;
+                content: ' ';
+                display: block;
+                height: 24px;
+                left: 2px;
+                margin: 0 1px 0 0;
+                overflow: hidden;
+                position: relative;
+                top: 8px;
+                border-top-right-radius: 8px ;
+            }
+            .fieldContent{
+
+                padding: 20px;
+            }
+        </style>
+        <!--mena tebda-->
 
 
-        <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
-
+        <form [formGroup]="oppF" class="g-3 needs-validation custom-form" novalidate>
+            <div class="custom-field">
+                <h1>
+                    <span>
+                        Opportunité
+                    </span>
+                </h1>
+                <div class="fieldContent">
                     <article class="postcard light green">
                         <a class="postcard__img_link" href="#">
                             <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
@@ -329,12 +403,20 @@
                         </div>
                     </article>
 
+                </div>
 
-
-
+            </div>
         </form>
 
-
+<!--mena touda louila-->
+<!--thenya-->
+        <div class="custom-field">
+            <h1>
+                    <span>
+                        Etudes d'opportunitées
+                    </span>
+            </h1>
+            <div class="fieldContent">
         <dx-data-grid
                 id="orders"
                 [dataSource]="productsDataSource"
@@ -391,7 +473,9 @@
                 </dx-data-grid>
             </div>
         </dx-data-grid>
-
+            </div>
+            </div>
+<!--thenya toufa lena -->
         <!--        <div class="options">-->
         <!--            <div class="caption">Options</div>-->
         <!--            <div class="option">-->
