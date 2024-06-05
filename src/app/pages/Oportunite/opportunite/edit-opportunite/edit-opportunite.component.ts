@@ -22,6 +22,8 @@ import {Opportunite} from "../../../../Models/Opportunite";
 import DataSource from "devextreme/data/data_source";
 import ArrayStore from "devextreme/data/array_store";
 import CustomStore from "devextreme/data/custom_store";
+import { Tab, initMDB } from "mdb-ui-kit";
+
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -158,6 +160,7 @@ evaluer:boolean=false;
 }
 
   ngOnInit(): void {
+      initMDB({ Tab });
       this.oppid = this.route.snapshot.paramMap.get('id');
 //set oppObject
       this.opportuniteService.getOpportuniteByidd(this.oppid).toPromise().then(
