@@ -93,12 +93,22 @@
 
 // legend
 
-fieldset, legend {
-  all: revert;
-
-
+.fieldset
+{
+  border-color: red !important;
+  border-radius: 8px !important;
 }
-.reset {
-  all: revert;
-  color: #f31515;
+.fieldset.title{
+  color: blue !important;
+}
+.legend1
+{
+  margin-bottom:0px !important;
+  margin-left:16px !important;
+  color: green  !important;
+  font-weight: bold !important;
+}
+.fieldset:hover
+{
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.2) !important;
 }

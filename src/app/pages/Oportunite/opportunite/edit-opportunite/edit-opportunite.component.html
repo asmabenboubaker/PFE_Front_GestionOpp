@@ -289,13 +289,9 @@
                 </div>
             </dxi-item>
         </dx-accordion>
-        <fieldset class="reset">
-            <legend class="reset">Reset legend</legend>
+
 
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
-
-
-
 
                     <article class="postcard light green">
                         <a class="postcard__img_link" href="#">
@@ -338,7 +334,79 @@
 
         </form>
 
-        </fieldset>
+
+        <dx-data-grid
+                id="orders"
+                [dataSource]="productsDataSource"
+                [repaintChangesOnly]="true"
+                [columnAutoWidth]="true"
+                [showBorders]="true"
+        >
+            <dxo-paging [pageSize]="10"></dxo-paging>
+
+            <dxi-column dataField="ProductName" dataType="string"></dxi-column>
+            <dxi-column
+                    dataField="nature"
+                    dataType="string"
+                    format="currency"
+            ></dxi-column>
+            <dxi-column dataField="responsableEtude" dataType="datetime"></dxi-column>
+            <dxi-column dataField="dateDebut" dataType="number"></dxi-column>
+            <dxi-column
+                    dataField="nbreHours"
+                    dataType="number"
+
+                    [allowSorting]="true"
+            ></dxi-column>
+            <!--            <dxo-summary>-->
+            <!--                <dxi-total-item column="ProductName" summaryType="count"></dxi-total-item>-->
+            <!--                <dxi-total-item-->
+            <!--                        column="Amount"-->
+            <!--                        summaryType="sum"-->
+            <!--                        displayFormat="{0}"-->
+            <!--                        valueFormat="currency"-->
+            <!--                ></dxi-total-item>-->
+            <!--                <dxi-total-item-->
+            <!--                        column="OrderCount"-->
+            <!--                        summaryType="sum"-->
+            <!--                        displayFormat="{0}"-->
+            <!--                ></dxi-total-item>-->
+            <!--            </dxo-summary>-->
+            <dxo-master-detail [enabled]="true" template="tacheDetail">
+            </dxo-master-detail>
+            <div *dxTemplate="let detail of 'tacheDetail'">
+                <dx-data-grid
+                        [dataSource]="getDetailGridDataSource(detail.data)"
+                        [columnAutoWidth]="true"
+                        [repaintChangesOnly]="true"
+                        [showBorders]="true"
+                >
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+
+                    <dxi-column dataField="id" dataType="number" caption="ID"></dxi-column>
+                    <dxi-column dataField="nom" dataType="string" caption="Nom"></dxi-column>
+                    <dxi-column dataField="description" dataType="string" caption="Description"></dxi-column>
+                    <dxi-column dataField="nbreHours" dataType="string" caption="nombre des heures" ></dxi-column>
+                    <dxi-column dataField="nombre des ingénieurs" dataType="string" caption="nombre des heures" ></dxi-column>
+                </dx-data-grid>
+            </div>
+        </dx-data-grid>
+
+        <!--        <div class="options">-->
+        <!--            <div class="caption">Options</div>-->
+        <!--            <div class="option">-->
+        <!--                <span>Update frequency:</span>-->
+        <!--                <dx-slider [min]="10" [step]="10" [max]="5000" [(value)]="updatesPerSecond">-->
+        <!--                    <dxo-tooltip-->
+        <!--                            [enabled]="true"-->
+        <!--                            format="#0 per second"-->
+        <!--                            showMode="always"-->
+        <!--                            position="top"-->
+        <!--                    >-->
+        <!--                    </dxo-tooltip>-->
+        <!--                </dx-slider>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="workflow-container">
             <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
             <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
@@ -358,6 +426,9 @@
             <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
 
         </div>
+
+
+
     </div>
 
     <div

@@ -19,6 +19,9 @@ import {CookieService} from "ngx-cookie-service";
 import {OffreService} from "../../../../Service/offre.service";
 import {WebSocketService} from "../../../../Service/web-socket.service";
 import {Opportunite} from "../../../../Models/Opportunite";
+import DataSource from "devextreme/data/data_source";
+import ArrayStore from "devextreme/data/array_store";
+import CustomStore from "devextreme/data/custom_store";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -62,6 +65,8 @@ elsebool = false;
 elsebool1 = false;
 evaluer:boolean=false;
     demandeId: any;
+    orders: ArrayStore;
+
 
   constructor(private fb: FormBuilder, private opportuniteService: OpportuniteService, private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService, private wsService: WsService,
@@ -79,6 +84,14 @@ evaluer:boolean=false;
               private webSocketService: WebSocketService
 
               ) {
+// data grid etude
+      this.productsDataSource = new DataSource({
+          store: new CustomStore({
+              load: () => {
+                  return this.etudeService.getAllEtudesByOpportuniteId(this.oppid).toPromise();
+              }
+          })
+      });
 
     const currentDate = new Date();
     this.oppForm = this.fb.group({
@@ -101,7 +114,39 @@ evaluer:boolean=false;
     // set data from service equipe
       this.gridDataSource=this.getEquipes1();
   }
-getEquipes1(){
+
+    detailGridDataSourcesCache: { [key: string]: any } = {};
+
+    getDetailGridDataSource(etude: any) {
+        const etudeId = etude.id.toString();
+
+        // Vérifier si la source de données du détail pour cette étude existe déjà dans le cache
+        if (!this.detailGridDataSourcesCache[etudeId]) {
+            // Si elle n'existe pas, créer une nouvelle source de données et la stocker dans le cache
+            this.detailGridDataSourcesCache[etudeId] = new DataSource({
+                store: new CustomStore({
+                    load: () => {
+                        return this.etudeService.getTachesByEtudeId(etude.id).toPromise();
+                    }
+                })
+            });
+        }
+
+        // Retourner la source de données du détail pour cette étude à partir du cache
+        return this.detailGridDataSourcesCache[etudeId];
+    }
+    // getDetailGridDataSource(etude: any) {
+    //   console.log("tacheeeeeeeeeeeeeeeeeeeeeee"+etude.id)
+    //     return new DataSource({
+    //         store: new CustomStore({
+    //             load: () => {
+    //                 return this.etudeService.getTachesByEtudeId(etude.id).toPromise();
+    //             }
+    //         })
+    //     });
+    // }
+
+  getEquipes1(){
     this.equipeService.getEquipes().subscribe(
         (equipes: any[]) => {
             this.gridDataSource = equipes;
@@ -577,5 +622,11 @@ else {
     onHidden() {
         //this.employeeInfo = this.employee;
     }
+    //start data grid etude
+    productsDataSource: DataSource;
+
+
+
+    updatesPerSecond = 100;
 
 }
