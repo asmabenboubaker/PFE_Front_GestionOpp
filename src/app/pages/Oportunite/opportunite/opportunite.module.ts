@@ -2,7 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GridOppComponent } from './grid-opp/grid-opp.component';
 import { RouterModule, Routes } from '@angular/router';
-import {DxAccordionModule, DxButtonModule, DxDataGridModule, DxFormModule, DxPopupModule} from "devextreme-angular";
+import {
+    DxAccordionModule,
+    DxButtonModule,
+    DxDataGridModule,
+    DxFormModule,
+    DxPopupModule,
+    DxSliderModule
+} from "devextreme-angular";
 import {TranslateModule} from "@ngx-translate/core";
 import {EditOpportuniteComponent} from "./edit-opportunite/edit-opportunite.component";
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
@@ -53,6 +60,7 @@ export const routes: Routes  = [
         WorkflowComponentModule,
         SharedModuleModule,
         DxAccordionModule,
+        DxSliderModule,
     ]
 })
 export class OpportuniteModule { }

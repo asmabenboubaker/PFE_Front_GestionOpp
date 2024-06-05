@@ -90,3 +90,15 @@
 ::ng-deep .dx-accordion-item-title::before {
   color: rgb(24, 160, 170) !important;
 }
+
+// legend
+
+fieldset, legend {
+  all: revert;
+
+
+}
+.reset {
+  all: revert;
+  color: #f31515;
+}

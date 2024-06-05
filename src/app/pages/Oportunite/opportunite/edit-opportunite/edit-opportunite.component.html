@@ -289,6 +289,8 @@
                 </div>
             </dxi-item>
         </dx-accordion>
+        <fieldset class="reset">
+            <legend class="reset">Reset legend</legend>
 
         <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
@@ -313,9 +315,6 @@
                                 <!--        </div>-->
                             </div>
 
-
-
-
                             <div class="form-group ">
                                 <label for="description" class="form-label">Description:</label>
                                 <textarea class="form-control" formControlName="description" type="text" required></textarea>
@@ -324,43 +323,6 @@
 
 
                         </div>
-
-
-<!--                        <div class="dx-field">-->
-<!--                            <div class="dx-field-label">Select Equipe</div>-->
-<!--                            <div class="dx-field-value">-->
-<!--                                <dx-drop-down-box-->
-<!--                                        [(value)]="gridBoxValue"-->
-<!--                                        [inputAttr]="{ 'aria-label': 'Owner' }"-->
-<!--                                        valueExpr="id"-->
-<!--                                        displayExpr="nom"-->
-<!--                                        placeholder="Select a value..."-->
-<!--                                        [showClearButton]="true"-->
-<!--                                        [dataSource]="gridDataSource"-->
-<!--                                >-->
-<!--                                    <div *dxTemplate="let data of 'content'">-->
-<!--                                        <dx-data-grid-->
-<!--                                                [dataSource]="gridDataSource"-->
-<!--                                                [columns]="['nom', 'telephone', 'email']"-->
-<!--                                                [selection]="{ mode: 'multiple' }"-->
-<!--                                                [hoverStateEnabled]="true"-->
-<!--                                                [paging]="{ enabled: true, pageSize: 10 }"-->
-<!--                                                [filterRow]="{ visible: true }"-->
-<!--                                                [scrolling]="{ mode: 'virtual' }"-->
-<!--                                                [height]="345"-->
-<!--                                                [(selectedRowKeys)]="gridBoxValue"-->
-<!--                                        >-->
-<!--                                        </dx-data-grid>-->
-<!--                                    </div>-->
-<!--                                </dx-drop-down-box>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div *ngIf="gridBoxValue.length > 0">-->
-<!--                            <h3>Données sélectionnées dans la drop-down box :</h3>-->
-<!--                            <ul>-->
-<!--                                <li *ngFor="let item of gridBoxValue">{{ item }}</li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
 
                         <div class="form-group">
                             <label>Select Equipe</label>
@@ -373,28 +335,29 @@
 
 
 
-            <div class="workflow-container">
-                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                <app-workflow-decision
-                        *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                        (decisionEvent)="Confirmation($event)"
-                        (saveEvent)="save2()"
-                        (RetournEvent)="Retourn()"
-                        [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                        [decisions]="decissionWF"
-                        [object]="oppForm"
-                        [SaveObject]="oppForm">
-                </app-workflow-decision>
 
-                <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
-
-            </div>
         </form>
 
+        </fieldset>
+        <div class="workflow-container">
+            <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+            <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+            <app-workflow-decision
+                    *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                    (decisionEvent)="Confirmation($event)"
+                    (saveEvent)="save2()"
+                    (RetournEvent)="Retourn()"
+                    [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                    [decisions]="decissionWF"
+                    [object]="oppForm"
+                    [SaveObject]="oppForm">
+            </app-workflow-decision>
 
+            <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+            <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+            <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+        </div>
     </div>
 
     <div
