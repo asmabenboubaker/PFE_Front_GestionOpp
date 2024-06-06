@@ -453,82 +453,99 @@
                     *ngIf="etude"
             >
 
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Opportunité Info
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
 
+                    </div>
                 <form [formGroup]="techForm" >
-                    <div>
-                        <label for="nature">Nature:</label>
-                        <input type="text" id="nature" formControlName="nature">
+                    <div class="form-group">
+                        <label>Nature:</label>
+
+                        <select class="form-select" formControlName="source" id="sourceDemande">
+                            <option value="etudeFaisabilite">Étude de faisabilité</option>
+                            <option value="etudeTechnique">Étude technique</option>
+
+                        </select>
                         <div *ngIf="techForm.get('nature').invalid && techForm.get('nature').touched">
                             <span *ngIf="techForm.get('nature').errors.required">Nature is required</span>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <label for="description">Description:</label>
-                        <input type="text" formControlName="description">
+                        <input type="text" class="form-control" formControlName="description">
                         <div *ngIf="techForm.get('description').invalid && techForm.get('description').touched">
                             <span *ngIf="techForm.get('description').errors.required">Description is required</span>
                         </div>
                     </div>
 
-                    <div>
-                        <label for="specialite">Specialite:</label>
-                        <input type="text" id="specialite" formControlName="specialite">
-                    </div>
+                    <div class="form-group">
 
-                    <div>
+                        <label for="specialite">Spécialité:</label>
+                        <select class="form-select" formControlName="specialite" id="specialite">
+                            <option value="developpement-web">Développement Web</option>
+                            <option value="developpement-mobile">Développement Mobile</option>
+                            <option value="data-science">Data Science</option>
+                            <option value="cybersecurite">Cybersécurité</option>
+                            <option value="intelligence-artificielle">Intelligence Artificielle</option>
+                            <option value="gestion-de-projet">Gestion de Projet</option>
+                        </select>
+                        <div *ngIf="techForm.get('specialite').invalid && techForm.get('specialite').touched">
+                            <span *ngIf="techForm.get('specialite').errors.required">Spécialité is required</span>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
                         <label for="nbreHours">Number of Hours:</label>
-                        <input type="number" id="nbreHours" formControlName="nbreHours">
+                        <input  class="form-control"  type="number" id="nbreHours" formControlName="nbreHours">
                         <div *ngIf="techForm.get('nbreHours').invalid && techForm.get('nbreHours').touched">
                             <span *ngIf="techForm.get('nbreHours').errors.required">Number of Hours is required</span>
                         </div>
-                    </div>
+                        </div>
 
-                    <div>
-                        <label for="responsableEtude">Responsible Etude:</label>
-                        <input type="text" id="responsableEtude" formControlName="responsableEtude">
+
+                        <div class="form-group col-md-6">
+                        <label for="dateDebut">Date Debut:</label>
+                        <input type="date"  class="form-control" id="dateDebut" formControlName="dateDebut">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="responsableEtude">Responsable Etude:</label>
+                        <input class="form-control"  type="text" id="responsableEtude" formControlName="responsableEtude">
                         <div *ngIf="techForm.get('responsableEtude').invalid && techForm.get('responsableEtude').touched">
                             <span *ngIf="techForm.get('responsableEtude').errors.required">Responsible Etude is required</span>
                         </div>
                     </div>
 
-                    <div>
-                        <label for="dateDebut">Date Debut:</label>
-                        <input type="date" id="dateDebut" formControlName="dateDebut">
-                    </div>
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="oppForm"
-                                [SaveObject]="oppForm">
-                        </app-workflow-decision>
 
-                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
 
-                    </div>
                 </form>
 
-                <div class="row">
-                    <div class="col-md-4" *ngFor="let projet of equipesaff">
-                        <div class="card text-center">
-                            <div class="card-header">{{ projet.nom }}</div>
-                            <div class="card-body">
-                                <h5 class="card-title">{{ projet.telephone }}</h5>
-                                <p class="card-text">{{ projet.description }}</p>
-                                <a href="#" class="btn btn-primary">Voir plus</a>
-                            </div>
-                            <!--                    <div class="card-footer text-muted">{{ projet.date | date: 'dd/MM/yyyy' }}</div>-->
-                        </div>
-                    </div>
+                </div>
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="oppForm"
+                            [SaveObject]="oppForm">
+                    </app-workflow-decision>
+
+                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
                 </div>
                 <br>
             </div>
