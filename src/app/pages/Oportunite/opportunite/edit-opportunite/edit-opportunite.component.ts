@@ -23,7 +23,9 @@ import DataSource from "devextreme/data/data_source";
 import ArrayStore from "devextreme/data/array_store";
 import CustomStore from "devextreme/data/custom_store";
 import { Tab, initMDB } from "mdb-ui-kit";
-
+import { jsPDF } from 'jspdf';
+import { exportDataGrid } from 'devextreme/pdf_exporter';
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 
 @Component({
   selector: 'app-edit-opportunite',
@@ -627,9 +629,18 @@ else {
     }
     //start data grid etude
     productsDataSource: DataSource;
+// export on pdf
+    onExporting(e: DxDataGridTypes.ExportingEvent) {
+        const doc = new jsPDF();
+        exportDataGrid({
+            jsPDFDocument: doc,
+            component: e.component,
+            indent: 5,
+        }).then(() => {
+            doc.save('EtudeOpportunite.pdf');
+        });
+    }
 
 
-
-    updatesPerSecond = 100;
 
 }

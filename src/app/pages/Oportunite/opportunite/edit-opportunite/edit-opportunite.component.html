@@ -369,10 +369,12 @@
                                 [repaintChangesOnly]="true"
                                 [columnAutoWidth]="true"
                                 [showBorders]="true"
+                                (onExporting)="onExporting($event)"
                         >
+                            <dxo-selection mode="multiple"></dxo-selection>
                             <dxo-paging [pageSize]="10"></dxo-paging>
 
-                            <dxi-column dataField="ProductName" dataType="string"></dxi-column>
+                            <dxi-column dataField="description" dataType="string"></dxi-column>
                             <dxi-column
                                     dataField="nature"
                                     dataType="string"
@@ -386,20 +388,7 @@
 
                                     [allowSorting]="true"
                             ></dxi-column>
-                            <!--            <dxo-summary>-->
-                            <!--                <dxi-total-item column="ProductName" summaryType="count"></dxi-total-item>-->
-                            <!--                <dxi-total-item-->
-                            <!--                        column="Amount"-->
-                            <!--                        summaryType="sum"-->
-                            <!--                        displayFormat="{0}"-->
-                            <!--                        valueFormat="currency"-->
-                            <!--                ></dxi-total-item>-->
-                            <!--                <dxi-total-item-->
-                            <!--                        column="OrderCount"-->
-                            <!--                        summaryType="sum"-->
-                            <!--                        displayFormat="{0}"-->
-                            <!--                ></dxi-total-item>-->
-                            <!--            </dxo-summary>-->
+
                             <dxo-master-detail [enabled]="true" template="tacheDetail">
                             </dxo-master-detail>
                             <div *dxTemplate="let detail of 'tacheDetail'">
@@ -418,25 +407,20 @@
                                     <dxi-column dataField="nombre des ingénieurs" dataType="string" caption="nombre des heures" ></dxi-column>
                                 </dx-data-grid>
                             </div>
+                            <dxo-export
+                                    [enabled]="true"
+                                    [formats]="['pdf']"
+                                    [allowExportSelectedData]="true"
+                            ></dxo-export>
+                            <dxo-search-panel
+                                    [visible]="true"
+                                    [highlightCaseSensitive]="true"
+                            ></dxo-search-panel>
                         </dx-data-grid>
                     </div>
                 </div>
                 <!--thenya toufa lena -->
-                <!--        <div class="options">-->
-                <!--            <div class="caption">Options</div>-->
-                <!--            <div class="option">-->
-                <!--                <span>Update frequency:</span>-->
-                <!--                <dx-slider [min]="10" [step]="10" [max]="5000" [(value)]="updatesPerSecond">-->
-                <!--                    <dxo-tooltip-->
-                <!--                            [enabled]="true"-->
-                <!--                            format="#0 per second"-->
-                <!--                            showMode="always"-->
-                <!--                            position="top"-->
-                <!--                    >-->
-                <!--                    </dxo-tooltip>-->
-                <!--                </dx-slider>-->
-                <!--            </div>-->
-                <!--        </div>-->
+
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                     <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
