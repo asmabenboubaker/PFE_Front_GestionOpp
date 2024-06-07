@@ -27,11 +27,18 @@ import { jsPDF } from 'jspdf';
 import { exportDataGrid } from 'devextreme/pdf_exporter';
 import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 
+import {AddDetailsComponent} from "../add-details/add-details.component";
+import {Observable} from "rxjs";
+const TASK_DATA: any[] = [
+    {id: 1, name: 'Tâche 1', description: 'Description 1'},
+    {id: 2, name: 'Tâche 2', description: 'Description 2'},
+];
 @Component({
   selector: 'app-edit-opportunite',
   templateUrl: './edit-opportunite.component.html',
   styleUrls: ['./edit-opportunite.component.scss']
 })
+
 export class EditOpportuniteComponent implements OnInit {
 
     oppObject: any;
@@ -85,10 +92,12 @@ evaluer:boolean=false;
               private etudeService: EtudetechServiceService,
                 private cookieService: CookieService,
               private offreService: OffreService,
-              private webSocketService: WebSocketService
+              private webSocketService: WebSocketService,
+
 
               ) {
-// data grid etude
+
+   // data grid etude
       this.productsDataSource = new DataSource({
           store: new CustomStore({
               load: () => {
@@ -642,5 +651,6 @@ else {
     }
 
 
-
+//data grid tache
+    customers: any[]=[] ;
 }

@@ -15,6 +15,9 @@ import {EditOpportuniteComponent} from "./edit-opportunite/edit-opportunite.comp
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
 import { EtudeOppComponent } from './etude-opp/etude-opp.component';
+import {AddDetailsComponent} from "./add-details/add-details.component";
+import {GridModule} from "@syncfusion/ej2-angular-grids";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 
 export const routes: Routes  = [
@@ -41,13 +44,20 @@ export const routes: Routes  = [
         component: EtudeOppComponent,
         data: {breadcrumb: 'Etude opportunité'},
         pathMatch: 'full'
+    },
+    {
+        path: 'add-details',
+        component: AddDetailsComponent,
+        data: {breadcrumb: 'Add Details'},
+        pathMatch: 'full'
     }
 ];
 @NgModule({
   declarations: [
     GridOppComponent,
   EditOpportuniteComponent,
-  EtudeOppComponent
+  EtudeOppComponent,
+      AddDetailsComponent
   ],
     imports: [
         CommonModule,
@@ -61,6 +71,8 @@ export const routes: Routes  = [
         SharedModuleModule,
         DxAccordionModule,
         DxSliderModule,
+        GridModule,
+        MatFormFieldModule,
     ]
 })
 export class OpportuniteModule { }

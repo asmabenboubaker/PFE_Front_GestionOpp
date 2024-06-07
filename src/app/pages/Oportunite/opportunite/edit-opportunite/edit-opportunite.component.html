@@ -528,6 +528,24 @@
                 </form>
 
                 </div>
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Opportunité Info
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+
+                    </div>
+                <dx-data-grid
+                        id="gridContainer"
+                        [dataSource]="customers"
+                        keyExpr="ID"
+                        [columns]="['nom', 'description', 'nbreHours']"
+                        [showBorders]="true"
+                >
+                </dx-data-grid>
+                </div>
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                     <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
