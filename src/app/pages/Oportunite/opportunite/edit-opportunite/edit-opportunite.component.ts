@@ -251,7 +251,7 @@ else {
 
     console.log("this.demandeF", this.oppF)
       this.techForm = this.fb.group({
-          nature: ['', Validators.required], // Example text input field
+          nature: ['etudeFaisabilite', Validators.required], // Example text input field
           description: ['', Validators.required], // Another text input field
           specialite: [''], // Specialite field
           nbreHours: ['', Validators.required],
@@ -331,9 +331,12 @@ else {
   Confirmation(evt) {
 
       this.loadingVisible = true;
+      console.log("Form values:", this.techForm.value); // Vérifiez les valeurs du formulaire
       if (this.techForm.valid) {
+          console.log("dkhal ll if ")
           this.etudeService.createEtudeOpp(this.techForm.value, this.oppid).subscribe(
               (data :any) => {
+                  console.log("data.idddddddddddddd"+data.id)
                   const etudeId = data.id;
                   this.tasks.forEach(task => {
                       this.etudeService.addTachetoetude(etudeId, task).subscribe();
@@ -342,6 +345,7 @@ else {
               (error) => {
                 console.log("error",error)
               }
+
           );
       }
 
@@ -676,7 +680,7 @@ else {
     addTask() {
         if (this.taskForm.valid) {
             const newTask = {
-                id: this.generateUniqueId(), // Generate unique ID
+                id: this.generateUniqueId(),
                 ...this.taskForm.value
             };
             this.tasks.push(newTask);

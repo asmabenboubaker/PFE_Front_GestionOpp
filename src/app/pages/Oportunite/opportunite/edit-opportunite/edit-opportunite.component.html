@@ -456,7 +456,7 @@
                 <div class="custom-field">
                     <h1>
                     <span>
-                        Opportunité Info
+                        Etude d'opportunité
                     </span>
                     </h1>
                     <div class="fieldContent">
@@ -473,14 +473,6 @@
                         </select>
                         <div *ngIf="techForm.get('nature').invalid && techForm.get('nature').touched">
                             <span *ngIf="techForm.get('nature').errors.required">Nature is required</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <input type="text" class="form-control" formControlName="description">
-                        <div *ngIf="techForm.get('description').invalid && techForm.get('description').touched">
-                            <span *ngIf="techForm.get('description').errors.required">Description is required</span>
                         </div>
                     </div>
 
@@ -523,7 +515,13 @@
                         </div>
                     </div>
 
-
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea type="text" class="form-control" formControlName="description"></textarea>
+                        <div *ngIf="techForm.get('description').invalid && techForm.get('description').touched">
+                            <span *ngIf="techForm.get('description').errors.required">Description is required</span>
+                        </div>
+                    </div>
 
                 </form>
 
@@ -564,13 +562,14 @@
                                     <label for="nom">Nom:</label>
                                     <input type="text" class="form-control" formControlName="nom">
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Description:</label>
-                                    <input type="text" class="form-control" formControlName="description">
-                                </div>
+
                                 <div class="form-group">
                                     <label for="nbreHours">Number of Hours:</label>
                                     <input type="number" class="form-control" formControlName="nbreHours">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea type="text" class="form-control" formControlName="description"></textarea>
                                 </div>
                             </form>
                             <div class="dx-popup-bottom">
