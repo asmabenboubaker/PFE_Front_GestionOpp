@@ -41,6 +41,7 @@ import arMessages from "devextreme/localization/messages/ar.json";
 import {ColorState} from "../../shared-service/colorState";
 import CustomStore from "devextreme/data/custom_store";
 import notify from "devextreme/ui/notify";
+import {FileServiceService} from "../../../../Service/file-service.service";
 
 @Component({
     selector: 'app-attachement-grid-only',
@@ -49,9 +50,9 @@ import notify from "devextreme/ui/notify";
 
 })
 export class AttachementGridOnlyComponent implements OnInit{
-
+    fileItems: any[] = [];
     constructor(private sanitizer: DomSanitizer, private ref: ChangeDetectorRef, public env: EnvService, private router: Router, private http: HttpClient, private toastr: ToastrService,
-                private tokenStorage: TokenStorageService, private translateService: TranslateService, private cookieService: CookieService, public communService: CommunFuncService, private fileservice: AttachementModuleService) {
+                private tokenStorage: TokenStorageService, private translateService: TranslateService, private cookieService: CookieService, public communService: CommunFuncService, private fileservice: FileServiceService) {
 
 
 
@@ -61,5 +62,8 @@ export class AttachementGridOnlyComponent implements OnInit{
 
 
     ngOnInit(): void {
+        this.fileservice.getFileItems().subscribe((data) => {
+            this.fileItems = data;
+        });
     }
 }
