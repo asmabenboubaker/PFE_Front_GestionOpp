@@ -13,7 +13,7 @@ import {DatePipe} from "@angular/common";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
 import {Client} from "../../../../Models/Client";
 import {EquipeServiceService} from "../../../../Service/equipe-service.service";
-import {DxTreeViewComponent} from "devextreme-angular";
+import {DxDataGridComponent, DxTreeViewComponent} from "devextreme-angular";
 import {EtudetechServiceService} from "../../../../Service/etudetech-service.service";
 import {CookieService} from "ngx-cookie-service";
 import {OffreService} from "../../../../Service/offre.service";
@@ -51,7 +51,10 @@ export class EditOpportuniteComponent implements OnInit {
 listIdEquipe: any[] = [];
   oppForm: any;
     @ViewChild('clientSelect') clientSelect: ElementRef;
+    @ViewChild('gridContainer', {static: false}) gridContainer: DxDataGridComponent;
+
     techForm: FormGroup;
+    taskForm: FormGroup;
   oppid: any;
   decissionWF: any;
 demandedto: any;
@@ -96,6 +99,11 @@ evaluer:boolean=false;
 
 
               ) {
+      this.taskForm = this.fb.group({
+          nom: ['', Validators.required],
+          description: ['', Validators.required],
+          nbreHours: ['', Validators.required]
+      });
 
    // data grid etude
       this.productsDataSource = new DataSource({
@@ -325,8 +333,11 @@ else {
       this.loadingVisible = true;
       if (this.techForm.valid) {
           this.etudeService.createEtudeOpp(this.techForm.value, this.oppid).subscribe(
-              (data) => {
-                 console.log("data",data)
+              (data :any) => {
+                  const etudeId = data.id;
+                  this.tasks.forEach(task => {
+                      this.etudeService.addTachetoetude(etudeId, task).subscribe();
+                  });
               },
               (error) => {
                 console.log("error",error)
@@ -652,5 +663,81 @@ else {
 
 
 //data grid tache
-    customers: any[]=[] ;
+    popupVisible = false;
+    tasks: any[] = [];
+
+    openPopup() {
+        this.popupVisible = true;
+    }
+
+    closePopup() {
+        this.popupVisible = false;
+    }
+    addTask() {
+        if (this.taskForm.valid) {
+            const newTask = {
+                id: this.generateUniqueId(), // Generate unique ID
+                ...this.taskForm.value
+            };
+            this.tasks.push(newTask);
+            this.taskForm.reset();
+            this.closePopup();
+            this.gridContainer.instance.refresh(); // Refresh the grid to reflect the new data
+        }
+    }
+    generateUniqueId(): number {
+        return this.tasks.length > 0 ? Math.max(...this.tasks.map(task => task.id || 0)) + 1 : 1;
+    }
+    onToolbarPreparing(e) {
+
+
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'after',
+                template: 'ExportPDF'
+            });
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'after',
+                widget: 'dxButton',
+                options: {
+                    hint: 'Reset',
+                    icon: 'undo',
+                    onClick: this.resetGrid.bind(this),
+                }
+            });
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'after',
+                widget: 'dxButton',
+                options: {
+                    hint: 'Refresh',
+                    icon: 'refresh',
+                    onClick: this.refresh.bind(this),
+                }
+            });
+        e.toolbarOptions.items.unshift({
+            location: 'after',
+            widget: 'dxButton',
+            options: {
+                hint: 'Nouveau',
+                icon: 'plus',
+                onClick: this.openPopup.bind(this),
+            },
+        });
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'center',
+                template: 'titreGrid'
+            }
+        );
+
+
+    }
+    refresh(){
+
+    }
+    resetGrid(){
+
+    }
 }

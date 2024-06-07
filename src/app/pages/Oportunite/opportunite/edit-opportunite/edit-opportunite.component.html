@@ -531,20 +531,54 @@
                 <div class="custom-field">
                     <h1>
                     <span>
-                        Opportunité Info
+                        Details
                     </span>
                     </h1>
                     <div class="fieldContent">
 
                     </div>
                 <dx-data-grid
-                        id="gridContainer"
-                        [dataSource]="customers"
-                        keyExpr="ID"
+                        #gridContainer
+
+                        [dataSource]="tasks"
+
                         [columns]="['nom', 'description', 'nbreHours']"
                         [showBorders]="true"
+                        (onToolbarPreparing)="onToolbarPreparing($event)"
+                        id="gridContainer"
+                        keyExpr="id"
                 >
+
                 </dx-data-grid>
+                    <dx-popup
+                            [(visible)]="popupVisible"
+                            [width]="600"
+                            [height]="400"
+                            [showTitle]="true"
+                            title="Add Task"
+                            [dragEnabled]="true"
+                            [closeOnOutsideClick]="true">
+                        <div *dxTemplate="let data of 'content'">
+                            <form [formGroup]="taskForm">
+                                <div class="form-group">
+                                    <label for="nom">Nom:</label>
+                                    <input type="text" class="form-control" formControlName="nom">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <input type="text" class="form-control" formControlName="description">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nbreHours">Number of Hours:</label>
+                                    <input type="number" class="form-control" formControlName="nbreHours">
+                                </div>
+                            </form>
+                            <div class="dx-popup-bottom">
+                                <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
+                                <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
+                            </div>
+                        </div>
+                    </dx-popup>
                 </div>
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
