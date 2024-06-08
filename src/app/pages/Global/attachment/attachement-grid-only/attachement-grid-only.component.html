@@ -5,6 +5,7 @@
         currentPath="Widescreen"
         (onSelectedFileOpened)="displayImagePopup($event)"
         (onFileUploaded)="onFileUploaded($event)"
+        (onItemDownloading)="onItemDownloading($event)"
 >
     <dxo-permissions
             [create]="true"

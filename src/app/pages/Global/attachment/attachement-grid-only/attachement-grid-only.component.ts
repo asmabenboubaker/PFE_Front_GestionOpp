@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -59,8 +59,63 @@ export class AttachementGridOnlyComponent implements OnInit {
     //         // Your file upload logic here...
     //     }
     // }
+    onItemDownloading(e) {
+        console.log("Download event:", e);
 
+        // Access the file name from the item
+        const fileName = e.item.name;
 
+        // Assuming you have an endpoint to download the file
+        const downloadUrl = `http://localhost:8888/demo_war/api/downloadFile/${fileName}`;
+
+        // Fetch the file from the server
+        this.http.get(downloadUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
+            // Create a URL for the blob
+            const fileUrl = window.URL.createObjectURL(blob);
+
+            // Create an anchor element and set its href attribute to the file URL
+            const anchor = document.createElement('a');
+            anchor.href = fileUrl;
+
+            // Set the anchor's download attribute to the file name
+            anchor.download = fileName;
+
+            // Trigger a click on the anchor element to start the download
+            anchor.click();
+
+            // Clean up by revoking the object URL
+            window.URL.revokeObjectURL(fileUrl);
+        }, error => {
+            console.error('Error downloading file:', error);
+        });
+    }
+//     onItemDownloading(e) {
+//         console.log("File upload event:", e);
+//         const fileUrl = e.itemData.downloadUrl;
+// console.log("fileUrl",fileUrl)
+//         // Send a GET request to the file URL to download it
+//         this.http.get(fileUrl, {
+//             responseType: 'blob', // Set response type to Blob
+//             headers: new HttpHeaders().append('Content-Type', 'application/octet-stream') // Set content type to application/octet-stream
+//         }).subscribe((response: Blob) => {
+//             // Create a temporary URL for the Blob object
+//             const blobUrl = window.URL.createObjectURL(response);
+//
+//             // Create a temporary anchor element
+//             const anchor = document.createElement('a');
+//             anchor.href = blobUrl;
+//             anchor.download = e.itemData.name; // Set the download attribute to the file name
+//
+//             // Programmatically click the anchor element to initiate the download
+//             anchor.click();
+//
+//             // Cleanup: Revoke the Blob URL and remove the anchor element
+//             window.URL.revokeObjectURL(blobUrl);
+//             anchor.remove();
+//         }, error => {
+//             console.error('Error downloading file:', error);
+//         });
+//     }
     onFileUploaded(e) {
         console.log("test upload")
         const uploadedFile = e.fileData;
