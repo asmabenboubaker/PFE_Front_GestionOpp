@@ -2,6 +2,8 @@
         id="fileManager"
         [fileSystemProvider]="fileItems"
         height="450"
+        currentPath="Widescreen"
+        (onSelectedFileOpened)="displayImagePopup($event)"
 >
     <dxo-permissions
             [create]="true"
@@ -14,3 +16,19 @@
     >
     </dxo-permissions>
 </dx-file-manager>
+<dx-popup
+        id="photo-popup"
+        maxHeight="600"
+        [hideOnOutsideClick]="true"
+        [(title)]="imageItemToDisplay.name"
+        [(visible)]="popupVisible"
+        [showCloseButton]="true"
+>
+    <div *dxTemplate="let data of 'content'" class="photo-popup-content">
+        <img
+                [src]="sanitizedImagePath"
+                class="photo-popup-image"
+        />
+        {{sanitizedImagePath}}
+    </div>
+</dx-popup>
