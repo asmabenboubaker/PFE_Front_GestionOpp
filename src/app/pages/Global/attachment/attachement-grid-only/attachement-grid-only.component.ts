@@ -165,5 +165,19 @@ export class AttachementGridOnlyComponent implements OnInit {
         this.sanitizedImagePath = this.sanitizer.bypassSecurityTrustUrl(filePath);
         this.popupVisible = true;
     }
-
+    onItemDeleted(e) {
+        console.log("File upload event:", e);
+        const fileName= e.item.dataItem.name;
+        const apiUrl = `http://localhost:8888/demo_war/api/deleteFile/${fileName}`;
+        this.http.delete(apiUrl).subscribe(
+            (response) => {
+                console.log('File deleted successfully:', response);
+                // Handle success message or UI updates
+            },
+            (error) => {
+                console.error('Failed to delete file:', error);
+                // Handle error message or UI updates
+            }
+        );
+    }
 }
