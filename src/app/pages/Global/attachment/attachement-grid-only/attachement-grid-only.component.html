@@ -4,6 +4,7 @@
         height="450"
         currentPath="Widescreen"
         (onSelectedFileOpened)="displayImagePopup($event)"
+        (onFileUploaded)="onFileUploaded($event)"
 >
     <dxo-permissions
             [create]="true"
@@ -29,6 +30,6 @@
                 [src]="sanitizedImagePath"
                 class="photo-popup-image"
         />
-        {{sanitizedImagePath}}
+
     </div>
 </dx-popup>
