@@ -13,6 +13,7 @@
         (onFileUploaded)="onFileUploaded($event)"
         (onItemDownloading)="onItemDownloading($event)"
         (onItemDeleted)="onItemDeleted($event)"
+
 >
     <dxo-permissions
             [create]="true"
@@ -24,6 +25,14 @@
             [download]="true"
     >
     </dxo-permissions>
+<!--    <dxo-item-view>-->
+<!--        <dxo-details>-->
+<!--            <dxi-column dataField="thumbnail"></dxi-column>-->
+<!--            <dxi-column dataField="name"></dxi-column>-->
+<!--            <dxi-column dataField="size" caption="Modified"></dxi-column>-->
+
+<!--        </dxo-details>-->
+<!--    </dxo-item-view>-->
 </dx-file-manager>
 <dx-popup
         id="photo-popup"

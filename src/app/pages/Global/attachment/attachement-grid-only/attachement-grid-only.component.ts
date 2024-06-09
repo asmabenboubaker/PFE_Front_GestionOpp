@@ -124,7 +124,7 @@ export class AttachementGridOnlyComponent implements OnInit {
             alert('Downloading .exe files is not allowed.');
         } else {
             // Implement your download logic here
-            this.downloadFile(e.item.dataItem);
+           // this.downloadFile(e.item.dataItem);
         }
     }
     onItemDownloading2(e) {

@@ -23,23 +23,19 @@
 <div>
 
     <div>
-        <div class="card-header text-center bg-secondary  text-white bannerColor" >
-            <div class="col-md-12" style="text-align: center;" *ngIf="demandedto!=undefined">
-                <h5> edit opportunité ({{demandedto.id}})</h5>
-            </div>
-            <div style="" >
-                <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
-                    <div class="icon-container"  title="{{'show-event.Voir la liste des événements' | translate}}">
+
+        <div class="card-header text-center bg-secondary text-white" style="background-color: #40B3A2 !important;">
+            <div class="d-flex justify-content-center align-items-center" style="width: 100%;">
+                <div *ngIf="demandedto!=undefined" class="d-flex align-items-center">
+                    <h5> edit opportunité ({{demandedto.id}})</h5>
+                    <div class="icon-container ml-3" style="cursor: pointer;" (click)="showPopupWF()" title="{{'show-event.Voir la liste des événements' | translate}}">
                         <i class="fas fa-project-diagram"></i>
                     </div>
-                </a>
+                </div>
             </div>
-
-
-
-
         </div>
     </div>
+
 </div>
 
 
