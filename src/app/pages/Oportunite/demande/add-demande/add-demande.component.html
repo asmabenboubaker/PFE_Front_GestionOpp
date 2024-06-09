@@ -333,26 +333,17 @@
     <!--        <div  class="card-header text-center bg-secondary  text-white" style="background-color: #242f50 !important;">-->
     <!--            <h5> {{'caseRequest.TitleRqEdit'|translate}} ({{demandeForm.requestCaseNumber}})</h5>-->
     <!--        </div>-->
-    <div>
-        <div class="card-header text-center bg-secondary  text-white" style="background-color: #0096a6  !important;">
-            <div class="col-md-12" style="text-align: center;" *ngIf="demandeForm!=undefined">
-                <h5> Modifier Demande </h5>
-
-
+    <div class="card-header text-center bg-secondary text-white" style="background-color: #40B3A2 !important;">
+        <div class="d-flex justify-content-center align-items-center" style="width: 100%;">
+            <div *ngIf="demandeForm !== undefined" class="d-flex align-items-center">
+                <h5 class="mb-0">Modifier Demande ({{objectData.id}})</h5>
+                <div class="icon-container ml-3" style="cursor: pointer;" (click)="showPopupWF()" title="{{'show-event.Voir la liste des événements' | translate}}">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
             </div>
-            <div style="" >
-                <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
-                    <div class="icon-container"  title="{{'show-event.Voir la liste des événements' | translate}}">
-                       <i class="fas fa-project-diagram"></i>
-                    </div>
-                </a>
-            </div>
-
-
-
-
         </div>
     </div>
+
 </div>
 
 <!-- Tabs content -->
@@ -365,6 +356,64 @@
             aria-labelledby="ex3-tab-1"
             *ngIf="pourvalidation"
     >
+        <style>
+
+            .custom-field {
+                border: 1px solid #40B3A2;
+                border-top: none;
+                margin-top: 32px ;
+
+                padding: 8px;
+                border-radius: 8px !important;
+            }
+
+            .custom-field h1 {
+                font-size: 15px;
+                margin: -16px -8px 0;
+                color: #40B3A2;
+
+                font-weight: 500;
+            }
+
+            .custom-field h1 span {
+                float: left;
+            }
+
+            .custom-field h1:before {
+                border-top: 1px solid #40B3A2;
+                content: ' ';
+                float: left;
+                margin: 8px 2px 0 2px;
+                width: 20px;
+                border-radius: 8px !important;
+            }
+
+            .custom-field h1:after {
+                border-top: 1px solid #40B3A2;
+                content: ' ';
+                display: block;
+                height: 24px;
+                left: 2px;
+                margin: 0 1px 0 0;
+                overflow: hidden;
+                position: relative;
+                top: 8px;
+                border-top-right-radius: 8px ;
+            }
+            .fieldContent{
+
+                padding: 20px;
+            }
+
+        </style>
+
+        <div class="custom-field">
+            <h1>
+                    <span>
+                       Demande Information
+                    </span>
+            </h1>
+            <div class="fieldContent">
         <form  [formGroup]="demandeF"  method="post" novalidate>
             <div class="form-group">
                 <label>Nom:</label>
@@ -475,7 +524,18 @@
             </div>
 
         </form>
-<app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+</div>
+            </div>
+        <div class="custom-field">
+            <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+            </h1>
+
+            <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+            </div>
+
     </div>
     <div
             class="tab-pane fade {{ pourvalidation2 ? 'show active' : '' }}"

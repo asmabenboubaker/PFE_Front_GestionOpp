@@ -96,13 +96,43 @@ export class AttachementGridOnlyComponent implements OnInit {
     //         // Your file upload logic here...
     //     }
     // }
+    downloadFile(file: any) {
+        const url = `http://localhost:8888/demo_war/api/downloadFile/${file.name}`;
+        this.http.get(url, { responseType: 'blob' }).subscribe(
+            (response: Blob) => {
+                const blob = new Blob([response], { type: response.type });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = file.name;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            },
+            (error) => {
+                console.error('Download failed:', error);
+                alert('Failed to download the file.');
+            }
+        );
+    }
     onItemDownloading(e) {
+        console.log('Downloading item:', e.item);
+
+        // Example: Prevent download for specific file types
+        if (e.item.name.endsWith('.exe')) {
+            e.cancel = true;
+            alert('Downloading .exe files is not allowed.');
+        } else {
+            // Implement your download logic here
+            this.downloadFile(e.item.dataItem);
+        }
+    }
+    onItemDownloading2(e) {
         console.log("Download event:", e);
 
         // Access the file name from the item
         const fileName = e.item.name;
 
-        // Assuming you have an endpoint to download the file
         const downloadUrl = `http://localhost:8888/demo_war/api/downloadFile/${fileName}`;
 
         // Fetch the file from the server
