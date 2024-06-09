@@ -1,6 +1,12 @@
-<dx-file-manager
+
+<div class="spinnerContainer">
+    <div class="loader" *ngIf="!isLoading">
+
+    </div>
+</div>
+<dx-file-manager *ngIf="isLoading"
         id="fileManager"
-        [fileSystemProvider]="fileItems"
+        [fileSystemProvider]="objectFileProvider"
         height="450"
         currentPath="Widescreen"
         (onSelectedFileOpened)="displayImagePopup($event)"

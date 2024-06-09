@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -10,18 +10,27 @@ import { EnvService } from '../../../../../env.service';
 import { FileServiceService } from '../../../../Service/file-service.service';
 import { DxFileManagerTypes } from 'devextreme-angular/ui/file-manager';
 import CustomFileSystemProvider from 'devextreme/file_management/custom_provider';
+import RemoteFileSystemProvider from 'devextreme/file_management/remote_provider';
+import {DxFileManagerComponent} from "devextreme-angular";
+import ObjectFileSystemProvider from 'devextreme/file_management/object_provider';
 @Component({
     selector: 'app-attachement-grid-only',
     templateUrl: './attachement-grid-only.component.html',
     styleUrls: ['./attachement-grid-only.component.scss'],
 })
 export class AttachementGridOnlyComponent implements OnInit {
+    isLoading = false;
     fileItems: any[] = [];
     popupVisible = false;
     imageItemToDisplay = {} as DxFileManagerTypes.SelectedFileOpenedEvent['file'];
     sanitizedImagePath: SafeUrl = '';
     downloadUrl: SafeUrl = '';
     fileSystemProvider: CustomFileSystemProvider;
+    allowedFileExtensions: string[];
+    @ViewChild(DxFileManagerComponent, { static: false }) fileManager: DxFileManagerComponent;
+    remoteProvider: RemoteFileSystemProvider;
+
+    objectFileProvider: ObjectFileSystemProvider;
     constructor(
         private sanitizer: DomSanitizer,
         private http: HttpClient,
@@ -32,13 +41,39 @@ export class AttachementGridOnlyComponent implements OnInit {
         private communService: CommunFuncService,
         private fileservice: FileServiceService,
         public env: EnvService
-    ) {}
+    ) {
+
+        // this.fileservice.getFileItems().subscribe((data) => {
+        //     this.fileItems = data;
+        //
+        // this.objectFileProvider = new ObjectFileSystemProvider({
+        //     data: this.fileItems,
+        //     isDirectoryExpr: "isFolder",
+        //     sizeExpr: "itemSize"
+        // });
+        // });
+    }
 
     ngOnInit(): void {
-        this.fileservice.getFileItems().subscribe((data) => {
-            this.fileItems = data;
-        });
+        this.fileservice.getFileItems().subscribe(
+            (data) => {
+                this.fileItems = data;
+                this.objectFileProvider = new ObjectFileSystemProvider({
+                    data: this.fileItems,
+                    isDirectoryExpr: "isFolder",
+                    sizeExpr: "itemSize"
+                });
+                this.isLoading = true;
+            },
+            (error) => {
+                console.error('Failed to fetch file items:', error);
+                this.isLoading = false;
+            }
+        );
 
+    }
+    refresh() {
+        this.fileManager.instance.refresh();
 
     }
     // onFileUploaded(e) {
@@ -132,12 +167,12 @@ export class AttachementGridOnlyComponent implements OnInit {
             this.http.post(uploadUrl, formData).subscribe(
                 (response) => {
                     // Handle successful upload
-                    this.toastr.success('File uploaded successfully');
+                   // this.toastr.success('File uploaded successfully');
                     console.log('File uploaded successfully:', response);
                 },
                 (error) => {
                     // Handle upload error
-                    this.toastr.error('Failed to upload file');
+                   // this.toastr.error('Failed to upload file');
                     console.error('Failed to upload file:', error);
                 }
             );
@@ -179,5 +214,17 @@ export class AttachementGridOnlyComponent implements OnInit {
                 // Handle error message or UI updates
             }
         );
+    }
+
+    // load data
+    loadingVisible = false;
+    onShown() {
+        setTimeout(() => {
+            this.loadingVisible = false;
+        }, 3000);
+    }
+
+    onHidden() {
+        //this.employeeInfo = this.employee;
     }
 }
