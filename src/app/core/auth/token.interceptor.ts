@@ -41,21 +41,21 @@ export class TokenInterceptor implements HttpInterceptor {
               localStorage.clear();
               this.cookieService.deleteAll('/', window.location.hostname.substring(window.location.hostname.indexOf('.')));
               this.router.navigate(['/login']);
-              this.toastr.error(message, 'Unauthorized', {
-                closeButton: true,
-                positionClass: 'toast-top-right',
-                progressBar: true,
-                disableTimeOut: false,
-              });
+              // this.toastr.error(message, 'Unauthorized', {
+              //   closeButton: true,
+              //   positionClass: 'toast-top-right',
+              //   progressBar: true,
+              //   disableTimeOut: false,
+              // });
             }
             else{
             const message = 'Something went wrong!';
-            this.toastr.error(message, '', {
-              closeButton: true,
-              positionClass: 'toast-top-right',
-              progressBar: true,
-              disableTimeOut: false,
-            });
+            // this.toastr.error(message, '', {
+            //   closeButton: true,
+            //   positionClass: 'toast-top-right',
+            //   progressBar: true,
+            //   disableTimeOut: false,
+            // });
           }
 
           }

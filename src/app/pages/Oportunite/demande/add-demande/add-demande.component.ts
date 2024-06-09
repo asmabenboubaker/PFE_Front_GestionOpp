@@ -59,7 +59,8 @@ export class AddDemandeComponent implements OnInit,OnChanges {
 showModal:boolean=false;
   oppadd:any;
 demandeObejct:any;
-
+  ClassId:any;
+  ObjectId:any;
   demande = new DemandeDto(null, null, null, null)
   gridBoxValue = [];
   gridBoxValueexp:any = [];
@@ -185,6 +186,8 @@ demandeObejct:any;
     });
 
     this.demandeid=this.route.snapshot.paramMap.get('id');
+    this.ClassId=27;
+    this.ObjectId=this.route.snapshot.paramMap.get('id');
     // list cats
     this.demandeService.getCategories().subscribe((cats) => {
       this.cats = cats;

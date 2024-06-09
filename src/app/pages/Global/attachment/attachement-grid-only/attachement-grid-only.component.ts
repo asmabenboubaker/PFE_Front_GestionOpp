@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -31,6 +31,8 @@ export class AttachementGridOnlyComponent implements OnInit {
     remoteProvider: RemoteFileSystemProvider;
 
     objectFileProvider: ObjectFileSystemProvider;
+    @Input() classid: any;
+    @Input() objectid: any;
     constructor(
         private sanitizer: DomSanitizer,
         private http: HttpClient,
@@ -55,7 +57,7 @@ export class AttachementGridOnlyComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.fileservice.getFileItems().subscribe(
+        this.fileservice.getFileItems(this.classid,this.objectid).subscribe(
             (data) => {
                 this.fileItems = data;
                 this.objectFileProvider = new ObjectFileSystemProvider({
@@ -161,8 +163,8 @@ export class AttachementGridOnlyComponent implements OnInit {
             const formData = new FormData();
             formData.append('file', uploadedFile);
 
-            const uploadUrl = 'http://localhost:8888/demo_war/api/addFile/27/407';
-
+           // const uploadUrl = 'http://localhost:8888/demo_war/api/addFile/27/407';
+        const uploadUrl = `${this.env.piOpp}addFile/${this.classid}/${this.objectid}`;
             // Send file to backend
             this.http.post(uploadUrl, formData).subscribe(
                 (response) => {
@@ -203,7 +205,8 @@ export class AttachementGridOnlyComponent implements OnInit {
     onItemDeleted(e) {
         console.log("File upload event:", e);
         const fileName= e.item.dataItem.name;
-        const apiUrl = `http://localhost:8888/demo_war/api/deleteFile/${fileName}`;
+       // const apiUrl = `http://localhost:8888/demo_war/api/deleteFile/${fileName}`;
+        const apiUrl = `${this.env.piOpp}deleteFile/${fileName}`;
         this.http.delete(apiUrl).subscribe(
             (response) => {
                 console.log('File deleted successfully:', response);

@@ -12,8 +12,9 @@ export class FileServiceService {
 
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService,private tokenStorage: TokenStorageService) { }
 
-  getFileItems(): Observable<any[]> {
-    const url = `${this.env.piOpp}getFilesByClassAndObject/27/407`;
+  getFileItems(classeId:number,objectId:number): Observable<any[]> {
+    const url = `${this.env.piOpp}getFilesByClassAndObject/${classeId}/${objectId}`;
+   // const url = `${this.env.piOpp}getFilesByClassAndObject/27/407`;
     return this.http.get<any[]>(url);
   }
 }
