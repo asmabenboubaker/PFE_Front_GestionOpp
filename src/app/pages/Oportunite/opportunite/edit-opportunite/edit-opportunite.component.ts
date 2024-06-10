@@ -99,6 +99,16 @@ evaluer:boolean=false;
 
 
               ) {
+
+      this.demandedto = {
+          workflow: {
+              wfProcessID: 'some-id',
+              historicWF: []
+          },
+          events: [],
+          userActivity: []
+      };
+
       this.taskForm = this.fb.group({
           nom: ['', Validators.required],
           description: ['', Validators.required],
@@ -224,12 +234,12 @@ this.decissionWF=data.workflow.decisionsWF;
 if(this.decissionWF=="Affecter Equipe\n"){
     this.creationOpp= true;
 
-}else if (this.decissionWF[0]=="Etude \n" || this.decissionWF[1]=="Evaluer"){
+}else if (this.decissionWF[0]=="Pour Validation" || this.decissionWF[1]=="Etude \\n"){
     this.Affectaionequipe = true;
 }
-else if (this.decissionWF=="Rapport\n"){
+else if (this.decissionWF=="Evaluer"){
     this.etude = true;
-}else if (this.decissionWF=="Evaluer"){
+}else if (this.decissionWF=="Pour Validation"){
     this.etude = true;
 }
 //['Accepter\n', 'Rejeter\n']

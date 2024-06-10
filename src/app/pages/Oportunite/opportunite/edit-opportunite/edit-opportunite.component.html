@@ -27,7 +27,7 @@
         <div class="card-header text-center bg-secondary text-white" style="background-color: #40B3A2 !important;">
             <div class="d-flex justify-content-center align-items-center" style="width: 100%;">
                 <div *ngIf="demandedto!=undefined" class="d-flex align-items-center">
-                    <h5> edit opportunité ({{demandedto.id}})</h5>
+                    <h5> edit opportunité ({{demandedto?.id}})</h5>
                     <div class="icon-container ml-3" style="cursor: pointer;" (click)="showPopupWF()" title="{{'show-event.Voir la liste des événements' | translate}}">
                         <i class="fas fa-project-diagram"></i>
                     </div>
@@ -914,13 +914,17 @@
         [closeOnOutsideClick]="true"
         [(visible)]="popupViewerVisible">
     <div *dxTemplate="let data of 'content'">
-        <app-journal [viewerUrl]="demandedto.workflow.wfProcessID" [historicsWF]="demandedto.workflow.historicWF" [historicsEvt]="demandedto.events"
-                     [historicsAcces]="demandedto.userActivity"></app-journal>
+        <app-journal
+                [viewerUrl]="demandedto?.workflow?.wfProcessID"
+                [historicsWF]="demandedto?.workflow?.historicWF"
+                [historicsEvt]="demandedto?.events"
+                [historicsAcces]="demandedto?.userActivity">
+        </app-journal>
     </div>
 </dx-popup>
 <dx-load-panel
     #loadPanel
-    shadingColor="#40B3A2"
+    shadingColor="rgba(0,0,0,0.4)"
     [position]="{ of: '#employee' }"
     [(visible)]="loadingVisible"
     [showIndicator]="true"
