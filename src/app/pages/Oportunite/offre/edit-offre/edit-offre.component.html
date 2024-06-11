@@ -245,6 +245,63 @@
             </svg></button>
 
         </form>
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Details
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+
+                    </div>
+                    <dx-data-grid
+                        #gridContainer
+
+                        [dataSource]="tasks"
+
+                        [columns]="['nom', 'quantite', 'prixUnitaire']"
+                        [showBorders]="true"
+                        (onToolbarPreparing)="onToolbarPreparing($event)"
+                        id="gridContainer"
+                        keyExpr="id"
+                    >
+
+                    </dx-data-grid>
+                    <dx-popup
+                            [(visible)]="popupVisible"
+                            [width]="600"
+                            [height]="400"
+                            [showTitle]="true"
+                            title="Ajouter Article"
+                            [dragEnabled]="true"
+                            [closeOnOutsideClick]="true">
+                        <div *dxTemplate="let data of 'content'">
+                            <form [formGroup]="taskForm">
+                                <div class="form-group">
+                                    <label>Nom:</label>
+                                    <input type="text" class="form-control" formControlName="nom">
+                                </div>
+
+                                <div class="form-group">
+                                    <label >Quantite:</label>
+                                    <input type="number" class="form-control" formControlName="quantite">
+                                </div>
+                                <div class="form-group">
+                                    <label >prix Unitaire:</label>
+                                    <input type="number" class="form-control" formControlName="prixUnitaire">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea type="text" class="form-control" formControlName="description"></textarea>
+                                </div>
+                            </form>
+                            <div class="dx-popup-bottom">
+                                <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
+                                <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
+                            </div>
+                        </div>
+                    </dx-popup>
+                </div>
             </div>
         </div>
     </div>
@@ -255,7 +312,13 @@
             aria-labelledby="ex3-tab-2"
             *ngIf="validation"
     >
-
+        <div class="custom-field">
+            <h1>
+                    <span>
+                        Offre de prix
+                    </span>
+            </h1>
+            <div class="fieldContent">
         <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -315,7 +378,8 @@
             </div>
             <button (click)="downloadPdfOnClick()"  class="btn btn-primary btn-sm">Download PDF</button>
         </form>
-
+            </div>
+        </div>
     </div>
     <div
             class="tab-pane fade {{ reponse ? 'show active' : '' }}"
@@ -324,7 +388,13 @@
             aria-labelledby="ex3-tab-3"
             *ngIf="reponse"
     >
-
+        <div class="custom-field">
+            <h1>
+                    <span>
+                        Offre de prix
+                    </span>
+            </h1>
+            <div class="fieldContent">
         <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -386,7 +456,8 @@
 
             >Download PDF</button>
         </form>
-
+            </div>
+        </div>
     </div>
 
 
@@ -399,6 +470,13 @@
             aria-labelledby="ex3-tab-4"
             *ngIf="elsebool"
     >
+        <div class="custom-field">
+            <h1>
+                    <span>
+                        Offre de prix
+                    </span>
+            </h1>
+            <div class="fieldContent">
         <!-- Your content for the new tab goes here -->
         <form [formGroup]="offreF" class="row g-3 needs-validation custom-form" novalidate>
 
@@ -459,7 +537,8 @@
 
             <button  (click)="downloadPdfOnClick()"  class="btn btn-primary btn-sm">Download PDF</button>
         </form>
-
+            </div>
+        </div>
     </div>
 
 

@@ -16,6 +16,7 @@ import {DatePipe} from "@angular/common";
 import {BcServiceService} from "../../../../Service/bc-service.service";
 import {CookieService} from "ngx-cookie-service";
 import {WebSocketService} from "../../../../Service/web-socket.service";
+import {DxDataGridComponent} from "devextreme-angular";
 
 @Component({
   selector: 'app-edit-offre',
@@ -32,6 +33,7 @@ export class EditOffreComponent implements OnInit {
     validation: boolean = false;
     reponse: boolean = false;
     elsebool: boolean = false;
+    taskForm: FormGroup;
   offreF= new FormGroup({
     id: new FormControl(''),
     modePaiement: new FormControl(''),
@@ -40,6 +42,7 @@ export class EditOffreComponent implements OnInit {
     description: new FormControl(''),
   });
     showModal: boolean = false;
+    @ViewChild('gridContainer', {static: false}) gridContainer: DxDataGridComponent;
   constructor(private offreService : OffreService,private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService,   private wsService: WsService,
               private translateService: TranslateService,
@@ -61,10 +64,16 @@ export class EditOffreComponent implements OnInit {
         description: null,
         });
 
-
+      this.taskForm = this.fb.group({
+          nom: ['', Validators.required],
+          description: ['', Validators.required],
+          quantite: ['', Validators.required],
+          prixUnitaire: ['', Validators.required],
+      });
 
   }
     oppObject:any;
+    tasks: any[] = [];
   ngOnInit(): void {
     this.loadopps()
     this.oppid=this.route.snapshot.paramMap.get('id');
@@ -120,6 +129,8 @@ this.offreF.get('description').setValue(data.description);
           console.log("Error :", error);
         }
     );
+
+    this.getAllArticles();
   }
   loadopps()
   {
@@ -282,5 +293,98 @@ this.offreF.get('description').setValue(data.description);
 
     onHidden() {
         //this.employeeInfo = this.employee;
+    }
+    // data grid article
+    onToolbarPreparing(e) {
+
+
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'after',
+                template: 'ExportPDF'
+            });
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'after',
+                widget: 'dxButton',
+                options: {
+                    hint: 'Reset',
+                    icon: 'undo',
+                    onClick: this.resetGrid.bind(this),
+                }
+            });
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'after',
+                widget: 'dxButton',
+                options: {
+                    hint: 'Refresh',
+                    icon: 'refresh',
+                    onClick: this.refresh.bind(this),
+                }
+            });
+        e.toolbarOptions.items.unshift({
+            location: 'after',
+            widget: 'dxButton',
+            options: {
+                hint: 'Nouveau',
+                icon: 'plus',
+                onClick: this.openPopup.bind(this),
+            },
+        });
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'center',
+                template: 'titreGrid'
+            }
+        );
+
+
+    }
+    refresh(){
+
+    }
+    resetGrid(){
+
+    }
+    popupVisible = false;
+    openPopup() {
+        this.popupVisible = true;
+    }
+    getAllArticles() {
+        this.offreService.getAllArticles()
+            .subscribe(
+                (articles: any[]) => {
+                    this.tasks = articles;
+                    console.log('Articles:', articles);
+                    // Handle success
+                },
+                error => {
+                    console.error('Error retrieving articles:', error);
+                    // Handle error
+                }
+            );
+    }
+    addTask(){
+const formData = this.taskForm.value;
+        console.log('formData:', formData);
+        this.offreService.createArticleAndAssignToOffreDePrix(this.oppid, formData)
+            .subscribe(
+                response => {
+                    console.log('Article added successfully:', response);
+                    // Handle success
+                    this.getAllArticles();
+                    this.taskForm.reset();
+                    this.popupVisible = false;
+                },
+                error => {
+                    console.error('Error adding article:', error);
+                    // Handle error
+                }
+            );
+
+    }
+    closePopup() {
+        this.popupVisible = false;
     }
 }

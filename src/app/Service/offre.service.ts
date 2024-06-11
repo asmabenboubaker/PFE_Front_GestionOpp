@@ -315,4 +315,12 @@ export class OffreService {
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService,private tokenStorage: TokenStorageService) { }
 
 
+  // add article to offre
+
+  createArticleAndAssignToOffreDePrix(offreDePrixId: number, article: any): Observable<any> {
+    return this.http.post<any>(`${this.env.piOpp}articles/assignToOffreDePrix/${offreDePrixId}`, article);
+  }
+  getAllArticles(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.env.piOpp}articles`);
+  }
 }
