@@ -427,7 +427,7 @@
             <div class="form-group">
                 <label>Client</label>
                 <select #clientSelect class="form-select" >
-                    <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+                    <option *ngFor="let client of clients" [value]="client?.id">{{ client.nom }}</option>
                 </select>
                 <div *ngIf="demandeF.get('client').invalid && (demandeF.get('client').dirty || demandeF.get('client').touched)" class="text-danger">
                     <div *ngIf="demandeF.get('client').errors.required">
@@ -574,6 +574,15 @@
                 <label>Description:</label>
                 <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
             </div>
+            <div class="custom-field">
+                <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                </h1>
+
+                <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+            </div>
 
             <div class="workflow-container">
                 <app-workflow-decision
@@ -630,6 +639,15 @@
             <div class="form-group">
                 <label>Description:</label>
                 <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+            </div>
+            <div class="custom-field">
+                <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                </h1>
+
+                <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
             </div>
 
             <div class="workflow-container">

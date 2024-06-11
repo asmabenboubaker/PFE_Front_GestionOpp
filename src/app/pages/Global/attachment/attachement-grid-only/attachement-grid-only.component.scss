@@ -237,3 +237,35 @@
 
   /*margin-top: 10%;*/
 }
+/* In attachement-grid-only.component.scss */
+
+:host ::ng-deep .dx-filemanager-dirs-tree-item-text,
+:host ::ng-deep .dx-icon-folder {
+  display: none;
+}
+
+:host ::ng-deep .dx-treeview-node-container,
+:host ::ng-deep .dx-treeview-toggle-item-visibility-opened {
+  display: none;
+}
+
+:host ::ng-deep .dx-splitter-wrapper,
+:host ::ng-deep .dx-splitter-wrapper .dx-splitter,
+:host ::ng-deep .dx-splitter-wrapper .dx-splitter-border {
+  pointer-events: none; /* Disable mouse interactions */
+  opacity: 0.5; /* Visually indicate the disabled state */
+}
+
+:host ::ng-deep .dx-state-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.dx-drawer-panel-content-initial {
+  display: none !important;
+  border: solid red 2px;
+}
+
+:host ::ng-deep .dx-filemanager .dx-filemanager-container .dx-drawer-panel-content.dx-drawer-panel-content-initial {
+  display: none !important;
+}

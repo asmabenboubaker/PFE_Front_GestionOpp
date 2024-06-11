@@ -260,4 +260,6 @@ export class AttachementGridOnlyComponent implements OnInit {
     onHidden() {
         //this.employeeInfo = this.employee;
     }
+
+
 }
