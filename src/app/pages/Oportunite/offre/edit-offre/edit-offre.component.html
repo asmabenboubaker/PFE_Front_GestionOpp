@@ -248,7 +248,7 @@
                 <div class="custom-field">
                     <h1>
                     <span>
-                        Details
+                      Article
                     </span>
                     </h1>
                     <div class="fieldContent">
@@ -265,6 +265,26 @@
                         id="gridContainer"
                         keyExpr="id"
                     >
+
+                        <dxi-column dataField="nom"></dxi-column>
+                        <dxi-column dataField="quantite"></dxi-column>
+                        <dxi-column dataField="prixUnitaire"></dxi-column>
+
+                            <dxi-column [allowResizing]="false"
+                                        [fixed]="false" caption="{{'' | translate}}"
+                                        cellTemplate="cellTemplateActions"
+                            >
+                            </dxi-column>
+                            <div *dxTemplate="let data of 'cellTemplateActions'"
+                                 style="display: flex; justify-content: center; align-items: center;">
+                                <a (click)="editTask(data.data)" target="_blank"
+                                   title="Consulter demande"><i
+                                        class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
+                                <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
+                                    <i class="fa fa-trash" style="color:#168c94;">
+                                    </i></a>
+                            </div>
 
                     </dx-data-grid>
                     <dx-popup

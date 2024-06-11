@@ -323,4 +323,15 @@ export class OffreService {
   getAllArticles(): Observable<any[]> {
     return this.http.get<any[]>(`${this.env.piOpp}articles`);
   }
+  updateArticle(id: number, article: any): Observable<any> {
+    return this.http.put(`${this.env.piOpp}articles/${id}`, article);
+  }
+
+  deleteArticle(id: number): Observable<any> {
+    return this.http.delete(`${this.env.piOpp}articles/${id}`);
+  }
+  getArticleById(id: number): Observable<any> {
+    return this.http.get(`${this.env.piOpp}articles/${id}`);
+  }
+
 }

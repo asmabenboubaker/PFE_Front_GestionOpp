@@ -365,26 +365,78 @@ this.offreF.get('description').setValue(data.description);
                 }
             );
     }
-    addTask(){
-const formData = this.taskForm.value;
-        console.log('formData:', formData);
-        this.offreService.createArticleAndAssignToOffreDePrix(this.oppid, formData)
-            .subscribe(
-                response => {
-                    console.log('Article added successfully:', response);
-                    // Handle success
-                    this.getAllArticles();
-                    this.taskForm.reset();
-                    this.popupVisible = false;
-                },
-                error => {
-                    console.error('Error adding article:', error);
-                    // Handle error
-                }
-            );
+//     addTask(){
+// const formData = this.taskForm.value;
+//         console.log('formData:', formData);
+//         this.offreService.createArticleAndAssignToOffreDePrix(this.oppid, formData)
+//             .subscribe(
+//                 response => {
+//                     console.log('Article added successfully:', response);
+//                     // Handle success
+//                     this.getAllArticles();
+//                     this.taskForm.reset();
+//                     this.popupVisible = false;
+//                 },
+//                 error => {
+//                     console.error('Error adding article:', error);
+//                     // Handle error
+//                 }
+//             );
+//
+//     }
 
+    addTask() {
+
+        if (this.taskForm.valid) {
+            const taskData = this.taskForm.value;
+            if (this.isEditMode) {
+                taskData.id = this.selectedTask.id;
+                console.log('Updating task id :', taskData.id);
+                this.offreService.updateArticle(taskData.id,taskData).subscribe(
+                    (response) => {
+                        this.getAllArticles();
+                        this.popupVisible = false;
+                        this.taskForm.reset();
+                    },
+                    (error) => {
+                        console.error('Error updating task:', error);
+                    }
+                );
+            } else {
+                this.offreService.createArticleAndAssignToOffreDePrix(this.oppid,taskData).subscribe(
+                    (response) => {
+                        this.getAllArticles();
+                        this.popupVisible = false;
+                        this.taskForm.reset();
+                    },
+                    (error) => {
+                        console.error('Error adding task:', error);
+                    }
+                );
+            }
+        }
     }
     closePopup() {
         this.popupVisible = false;
+    }
+    deleteArticle(taskId: number) {
+        this.offreService.deleteArticle(taskId).subscribe(
+            () => {
+                this.getAllArticles();
+                this.popupVisible = false;
+            },
+            (error) => {
+                console.error('Error deleting task:', error);
+            }
+        );
+    }
+    selectedTask: any;
+    isEditMode: boolean = false;
+    editTask(task: any) {
+        this.isEditMode = true;
+        this.selectedTask = task;
+        console.log('Editing task:', task); // Debug: Log the task to be edited
+        this.taskForm.patchValue(task);
+        this.popupVisible = true;
     }
 }
