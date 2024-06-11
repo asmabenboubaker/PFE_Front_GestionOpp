@@ -34,6 +34,7 @@ export class EditOffreComponent implements OnInit {
     reponse: boolean = false;
     elsebool: boolean = false;
     taskForm: FormGroup;
+    article:any[]=[];
   offreF= new FormGroup({
     id: new FormControl(''),
     modePaiement: new FormControl(''),
@@ -131,6 +132,16 @@ this.offreF.get('description').setValue(data.description);
     );
 
     this.getAllArticles();
+    //set articles
+    this.offreService.getArticlesByOffreId(this.oppid).toPromise().then(
+        data => {
+            this.article = data;
+            console.log("Fetched Successfully :", data);
+        },
+        error => {
+            console.log("Error :", error);
+        }
+    );
   }
   loadopps()
   {
@@ -227,7 +238,7 @@ this.offreF.get('description').setValue(data.description);
 
     downloadPdfOnClick() {
         const formData = this.offreF.value;
-        this.offreService.generatePdf(formData);
+        this.offreService.generatePdf(formData,this.article);
     }
     Retourn(){
 

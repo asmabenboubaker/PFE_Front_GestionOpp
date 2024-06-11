@@ -71,11 +71,10 @@ export class OffreService {
     const url = `${this.env.piOpp}offres/monthly-count`;
     return this.http.get<any[]>(url);
   }
-  generatePdf(formData: any) {
+  generatePdf(formData: any, articles: any[]) {
     const doc = new jsPDF.default();
-  // date d'aujourd'hui only date
-
     const today = new Date().toLocaleDateString();
+
     autoTable(doc, {
       body: [
         [
@@ -107,9 +106,7 @@ export class OffreService {
       body: [
         [
           {
-            content: 'Reference: #INV0001'
-                +'\nDate:'+today
-                +'\nMode de paiement: '+formData.modePaiement,
+            content: 'Reference: #INV0001' + '\nDate:' + today + '\nMode de paiement: ' + formData.modePaiement,
             styles: {
               halign: 'right'
             }
@@ -123,34 +120,19 @@ export class OffreService {
       body: [
         [
           {
-            content: 'Billed to:'
-                +'\nJohn Doe'
-                +'\nBilling Address line 1'
-                +'\nBilling Address line 2'
-                +'\nZip code - City'
-                +'\nCountry',
+            content: 'Billed to:' + '\nJohn Doe' + '\nBilling Address line 1' + '\nBilling Address line 2' + '\nZip code - City' + '\nCountry',
             styles: {
               halign: 'left'
             }
           },
           {
-            content: 'Shipping address:'
-                +'\nJohn Doe'
-                +'\nShipping Address line 1'
-                +'\nShipping Address line 2'
-                +'\nZip code - City'
-                +'\nCountry',
+            content: 'Shipping address:' + '\nJohn Doe' + '\nShipping Address line 1' + '\nShipping Address line 2' + '\nZip code - City' + '\nCountry',
             styles: {
               halign: 'left'
             }
           },
           {
-            content: 'From:'
-                +'\nCompany name'
-                +'\nShipping Address line 1'
-                +'\nShipping Address line 2'
-                +'\nZip code - City'
-                +'\nCountry',
+            content: 'From:' + '\nCompany name' + '\nShipping Address line 1' + '\nShipping Address line 2' + '\nZip code - City' + '\nCountry',
             styles: {
               halign: 'right'
             }
@@ -166,17 +148,16 @@ export class OffreService {
           {
             content: 'Montant',
             styles: {
-              halign:'right',
+              halign: 'right',
               fontSize: 14
             }
           }
         ],
         [
           {
-
             content: formData.montant,
             styles: {
-              halign:'right',
+              halign: 'right',
               fontSize: 20,
               textColor: '#0d39e3'
             }
@@ -184,9 +165,9 @@ export class OffreService {
         ],
         [
           {
-            content: 'Due date:'+today,
+            content: 'Due date:' + today,
             styles: {
-              halign:'right'
+              halign: 'right'
             }
           }
         ]
@@ -200,7 +181,7 @@ export class OffreService {
           {
             content: 'Products & Services',
             styles: {
-              halign:'left',
+              halign: 'left',
               fontSize: 14
             }
           }
@@ -209,61 +190,70 @@ export class OffreService {
       theme: 'plain'
     });
 
+    // Generate the table body dynamically from the articles data
+    const tableBody = articles.map(article => [
+      article.nom,
+      'Category', // Assuming a placeholder as category is not part of the form data
+      article.quantite,
+      article.prixUnitaire,
+      '0', // Assuming 0 as a placeholder for tax if it's not provided
+      article.quantite * article.prixUnitaire
+    ]);
+
     autoTable(doc, {
       head: [['Items', 'Category', 'Quantity', 'Price', 'Tax', 'Amount']],
-      body: [
-        ['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
-        ['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
-        ['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
-        ['Product or service name', 'Category', '2', '$450', '$50', '$1000']
-      ],
+      body: tableBody,
       theme: 'striped',
-      headStyles:{
+      headStyles: {
         fillColor: '#343a40'
       }
     });
+
+    // Calculate totals dynamically
+    const subtotal = articles.reduce((acc, article) => acc + (article.quantite * article.prixUnitaire), 0);
+    const totalTax = 0; // Assuming no tax for now
 
     autoTable(doc, {
       body: [
         [
           {
             content: 'Subtotal:',
-            styles:{
-              halign:'right'
+            styles: {
+              halign: 'right'
             }
           },
           {
-            content: '$3600',
-            styles:{
-              halign:'right'
+            content: '$' + subtotal,
+            styles: {
+              halign: 'right'
             }
           },
         ],
         [
           {
             content: 'Total tax:',
-            styles:{
-              halign:'right'
+            styles: {
+              halign: 'right'
             }
           },
           {
-            content: '$400',
-            styles:{
-              halign:'right'
+            content: '$' + totalTax,
+            styles: {
+              halign: 'right'
             }
           },
         ],
         [
           {
             content: 'Total amount:',
-            styles:{
-              halign:'right'
+            styles: {
+              halign: 'right'
             }
           },
           {
-            content: '$4000',
-            styles:{
-              halign:'right'
+            content: '$' + (subtotal + totalTax),
+            styles: {
+              halign: 'right'
             }
           },
         ],
@@ -291,7 +281,7 @@ export class OffreService {
           }
         ],
       ],
-      theme: "plain"
+      theme: 'plain'
     });
 
     autoTable(doc, {
@@ -305,12 +295,252 @@ export class OffreService {
           }
         ]
       ],
-      theme: "plain"
+      theme: 'plain'
     });
 
-    return doc.save("invoice");
-
+    return doc.save('invoice');
   }
+
+  // generatePdf(formData: any) {
+  //   const doc = new jsPDF.default();
+  // // date d'aujourd'hui only date
+  //
+  //   const today = new Date().toLocaleDateString();
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Picosoft',
+  //           styles: {
+  //             halign: 'left',
+  //             fontSize: 20,
+  //             textColor: '#ffffff'
+  //           }
+  //         },
+  //         {
+  //           content: 'Offre de Prix',
+  //           styles: {
+  //             halign: 'right',
+  //             fontSize: 20,
+  //             textColor: '#ffffff'
+  //           }
+  //         }
+  //       ],
+  //     ],
+  //     theme: 'plain',
+  //     styles: {
+  //       fillColor: '#67282d'
+  //     }
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Reference: #INV0001'
+  //               +'\nDate:'+today
+  //               +'\nMode de paiement: '+formData.modePaiement,
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         }
+  //       ],
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Billed to:'
+  //               +'\nJohn Doe'
+  //               +'\nBilling Address line 1'
+  //               +'\nBilling Address line 2'
+  //               +'\nZip code - City'
+  //               +'\nCountry',
+  //           styles: {
+  //             halign: 'left'
+  //           }
+  //         },
+  //         {
+  //           content: 'Shipping address:'
+  //               +'\nJohn Doe'
+  //               +'\nShipping Address line 1'
+  //               +'\nShipping Address line 2'
+  //               +'\nZip code - City'
+  //               +'\nCountry',
+  //           styles: {
+  //             halign: 'left'
+  //           }
+  //         },
+  //         {
+  //           content: 'From:'
+  //               +'\nCompany name'
+  //               +'\nShipping Address line 1'
+  //               +'\nShipping Address line 2'
+  //               +'\nZip code - City'
+  //               +'\nCountry',
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         }
+  //       ],
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Montant',
+  //           styles: {
+  //             halign:'right',
+  //             fontSize: 14
+  //           }
+  //         }
+  //       ],
+  //       [
+  //         {
+  //
+  //           content: formData.montant,
+  //           styles: {
+  //             halign:'right',
+  //             fontSize: 20,
+  //             textColor: '#0d39e3'
+  //           }
+  //         }
+  //       ],
+  //       [
+  //         {
+  //           content: 'Due date:'+today,
+  //           styles: {
+  //             halign:'right'
+  //           }
+  //         }
+  //       ]
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Products & Services',
+  //           styles: {
+  //             halign:'left',
+  //             fontSize: 14
+  //           }
+  //         }
+  //       ]
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     head: [['Items', 'Category', 'Quantity', 'Price', 'Tax', 'Amount']],
+  //     body: [
+  //       ['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
+  //       ['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
+  //       ['Product or service name', 'Category', '2', '$450', '$50', '$1000'],
+  //       ['Product or service name', 'Category', '2', '$450', '$50', '$1000']
+  //     ],
+  //     theme: 'striped',
+  //     headStyles:{
+  //       fillColor: '#343a40'
+  //     }
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Subtotal:',
+  //           styles:{
+  //             halign:'right'
+  //           }
+  //         },
+  //         {
+  //           content: '$3600',
+  //           styles:{
+  //             halign:'right'
+  //           }
+  //         },
+  //       ],
+  //       [
+  //         {
+  //           content: 'Total tax:',
+  //           styles:{
+  //             halign:'right'
+  //           }
+  //         },
+  //         {
+  //           content: '$400',
+  //           styles:{
+  //             halign:'right'
+  //           }
+  //         },
+  //       ],
+  //       [
+  //         {
+  //           content: 'Total amount:',
+  //           styles:{
+  //             halign:'right'
+  //           }
+  //         },
+  //         {
+  //           content: '$4000',
+  //           styles:{
+  //             halign:'right'
+  //           }
+  //         },
+  //       ],
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Description',
+  //           styles: {
+  //             halign: 'left',
+  //             fontSize: 14
+  //           }
+  //         }
+  //       ],
+  //       [
+  //         {
+  //           content: formData.description,
+  //           styles: {
+  //             halign: 'left'
+  //           }
+  //         }
+  //       ],
+  //     ],
+  //     theme: "plain"
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'This is a centered footer',
+  //           styles: {
+  //             halign: 'center'
+  //           }
+  //         }
+  //       ]
+  //     ],
+  //     theme: "plain"
+  //   });
+  //
+  //   return doc.save("invoice");
+  //
+  // }
 
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService,private tokenStorage: TokenStorageService) { }
 
@@ -333,5 +563,7 @@ export class OffreService {
   getArticleById(id: number): Observable<any> {
     return this.http.get(`${this.env.piOpp}articles/${id}`);
   }
-
+getArticlesByOffreId(offreId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.env.piOpp}articles/offre/${offreId}/articles`);
+}
 }

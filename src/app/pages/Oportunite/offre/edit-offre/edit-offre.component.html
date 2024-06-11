@@ -223,7 +223,83 @@
                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                 <input class="form-control" formControlName="dateLivraison" id="dateLivraison" type="date" required>
             </div>
+            <div class="custom-field">
+                <h1>
+                    <span>
+                      Articles
+                    </span>
+                </h1>
+                <div class="fieldContent">
 
+                </div>
+                <dx-data-grid
+                    #gridContainer
+
+                    [dataSource]="tasks"
+
+                    [columns]="['nom', 'quantite', 'prixUnitaire']"
+                    [showBorders]="true"
+                    (onToolbarPreparing)="onToolbarPreparing($event)"
+                    id="gridContainer"
+                    keyExpr="id"
+                >
+
+                    <dxi-column dataField="nom"></dxi-column>
+                    <dxi-column dataField="quantite"></dxi-column>
+                    <dxi-column dataField="prixUnitaire"></dxi-column>
+
+                    <dxi-column [allowResizing]="false"
+                                [fixed]="false" caption="{{'' | translate}}"
+                                cellTemplate="cellTemplateActions"
+                    >
+                    </dxi-column>
+                    <div *dxTemplate="let data of 'cellTemplateActions'"
+                         style="display: flex; justify-content: center; align-items: center;">
+                        <a (click)="editTask(data.data)" target="_blank"
+                           title="Consulter demande"><i
+                                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
+                        <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
+                            <i class="fa fa-trash" style="color:#168c94;">
+                            </i></a>
+                    </div>
+
+                </dx-data-grid>
+                <dx-popup
+                        [(visible)]="popupVisible"
+                        [width]="600"
+                        [height]="400"
+                        [showTitle]="true"
+                        title="Ajouter Article"
+                        [dragEnabled]="true"
+                        [closeOnOutsideClick]="true">
+                    <div *dxTemplate="let data of 'content'">
+                        <form [formGroup]="taskForm">
+                            <div class="form-group">
+                                <label>Nom:</label>
+                                <input type="text" class="form-control" formControlName="nom">
+                            </div>
+
+                            <div class="form-group">
+                                <label >Quantite:</label>
+                                <input type="number" class="form-control" formControlName="quantite">
+                            </div>
+                            <div class="form-group">
+                                <label >prix Unitaire:</label>
+                                <input type="number" class="form-control" formControlName="prixUnitaire">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea type="text" class="form-control" formControlName="description"></textarea>
+                            </div>
+                        </form>
+                        <div class="dx-popup-bottom">
+                            <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
+                            <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
+                        </div>
+                    </div>
+                </dx-popup>
+            </div>
             <div class="workflow-container">
                 <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                 <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
@@ -245,83 +321,7 @@
             </svg></button>
 
         </form>
-                <div class="custom-field">
-                    <h1>
-                    <span>
-                      Article
-                    </span>
-                    </h1>
-                    <div class="fieldContent">
 
-                    </div>
-                    <dx-data-grid
-                        #gridContainer
-
-                        [dataSource]="tasks"
-
-                        [columns]="['nom', 'quantite', 'prixUnitaire']"
-                        [showBorders]="true"
-                        (onToolbarPreparing)="onToolbarPreparing($event)"
-                        id="gridContainer"
-                        keyExpr="id"
-                    >
-
-                        <dxi-column dataField="nom"></dxi-column>
-                        <dxi-column dataField="quantite"></dxi-column>
-                        <dxi-column dataField="prixUnitaire"></dxi-column>
-
-                            <dxi-column [allowResizing]="false"
-                                        [fixed]="false" caption="{{'' | translate}}"
-                                        cellTemplate="cellTemplateActions"
-                            >
-                            </dxi-column>
-                            <div *dxTemplate="let data of 'cellTemplateActions'"
-                                 style="display: flex; justify-content: center; align-items: center;">
-                                <a (click)="editTask(data.data)" target="_blank"
-                                   title="Consulter demande"><i
-                                        class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
-
-                                <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
-                                    <i class="fa fa-trash" style="color:#168c94;">
-                                    </i></a>
-                            </div>
-
-                    </dx-data-grid>
-                    <dx-popup
-                            [(visible)]="popupVisible"
-                            [width]="600"
-                            [height]="400"
-                            [showTitle]="true"
-                            title="Ajouter Article"
-                            [dragEnabled]="true"
-                            [closeOnOutsideClick]="true">
-                        <div *dxTemplate="let data of 'content'">
-                            <form [formGroup]="taskForm">
-                                <div class="form-group">
-                                    <label>Nom:</label>
-                                    <input type="text" class="form-control" formControlName="nom">
-                                </div>
-
-                                <div class="form-group">
-                                    <label >Quantite:</label>
-                                    <input type="number" class="form-control" formControlName="quantite">
-                                </div>
-                                <div class="form-group">
-                                    <label >prix Unitaire:</label>
-                                    <input type="number" class="form-control" formControlName="prixUnitaire">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description:</label>
-                                    <textarea type="text" class="form-control" formControlName="description"></textarea>
-                                </div>
-                            </form>
-                            <div class="dx-popup-bottom">
-                                <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
-                                <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
-                            </div>
-                        </div>
-                    </dx-popup>
-                </div>
             </div>
         </div>
     </div>
