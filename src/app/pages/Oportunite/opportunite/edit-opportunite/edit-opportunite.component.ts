@@ -377,6 +377,7 @@ else {
         disableTimeOut: false,
         timeOut: this.env.timeOutToastr
       })
+        this.router.navigate(['opportunite/all']);
         if(evt.decision.trim()==="Etude") {
             this.sendNotification(this.oppid);
         }
@@ -387,7 +388,7 @@ else {
             this.sendNotificationoffre(this.oppid);
         }
       //redirect to opportunité list
-        this.router.navigate(['opportunite/all']);
+
 
 
     }, error => {

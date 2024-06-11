@@ -17,7 +17,7 @@
         <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
             <button
                     class="btn btn-primary"
-                    (click)="onCreateOpportunityClick()">Créer Opportunité</button></div>
+                    (click)="onCreateOpportunityClick()">Créer offre</button></div>
     </div>
 </dx-popup>
 <div>
@@ -722,7 +722,69 @@
 
                     </article>
 
+                    <div class="custom-field">
+                        <h1>
+    <span>
+        Etudes d'opportunitées
+    </span>
+                        </h1>
+                        <div class="fieldContent">
+                            <dx-data-grid
 
+                                    [dataSource]="productsDataSource"
+                                    [repaintChangesOnly]="true"
+                                    [columnAutoWidth]="true"
+                                    [showBorders]="true"
+                                    (onExporting)="onExporting($event)"
+                            >
+                                <dxo-selection mode="multiple"></dxo-selection>
+                                <dxo-paging [pageSize]="10"></dxo-paging>
+
+                                <dxi-column dataField="description" dataType="string"></dxi-column>
+                                <dxi-column
+                                        dataField="nature"
+                                        dataType="string"
+                                        format="currency"
+                                ></dxi-column>
+                                <dxi-column dataField="responsableEtude" dataType="datetime"></dxi-column>
+                                <dxi-column dataField="dateDebut" dataType="number"></dxi-column>
+                                <dxi-column
+                                        dataField="nbreHours"
+                                        dataType="number"
+
+                                        [allowSorting]="true"
+                                ></dxi-column>
+
+                                <dxo-master-detail [enabled]="true" template="tacheDetail">
+                                </dxo-master-detail>
+                                <div *dxTemplate="let detail of 'tacheDetail'">
+                                    <dx-data-grid
+                                            [dataSource]="getDetailGridDataSource(detail.data)"
+                                            [columnAutoWidth]="true"
+                                            [repaintChangesOnly]="true"
+                                            [showBorders]="true"
+                                    >
+                                        <dxo-paging [pageSize]="5"></dxo-paging>
+
+                                        <dxi-column dataField="id" dataType="number" caption="ID"></dxi-column>
+                                        <dxi-column dataField="nom" dataType="string" caption="Nom"></dxi-column>
+                                        <dxi-column dataField="description" dataType="string" caption="Description"></dxi-column>
+                                        <dxi-column dataField="nbreHours" dataType="string" caption="nombre des heures" ></dxi-column>
+                                        <dxi-column dataField="nombre des ingénieurs" dataType="string" caption="nombre des heures" ></dxi-column>
+                                    </dx-data-grid>
+                                </div>
+                                <dxo-export
+                                        [enabled]="true"
+                                        [formats]="['pdf']"
+                                        [allowExportSelectedData]="true"
+                                ></dxo-export>
+                                <dxo-search-panel
+                                        [visible]="true"
+                                        [highlightCaseSensitive]="true"
+                                ></dxo-search-panel>
+                            </dx-data-grid>
+                        </div>
+                    </div>
 
                     <div class="workflow-container">
                         <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
