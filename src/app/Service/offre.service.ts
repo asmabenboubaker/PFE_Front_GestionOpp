@@ -106,7 +106,7 @@ export class OffreService {
       body: [
         [
           {
-            content: 'Reference: #INV0001' + '\nDate:' + today + '\nMode de paiement: ' + formData.modePaiement,
+            content: 'Reference: #INV0001' + '\nDate:' + today ,
             styles: {
               halign: 'right'
             }
@@ -120,19 +120,14 @@ export class OffreService {
       body: [
         [
           {
-            content: 'Billed to:' + '\nJohn Doe' + '\nBilling Address line 1' + '\nBilling Address line 2' + '\nZip code - City' + '\nCountry',
+            content: 'Client:' + '\nJohn Doe' + '\nBilling Address line 1' + '\nBilling Address line 2' + '\nZip code - City' + '\nCountry',
             styles: {
               halign: 'left'
             }
           },
+
           {
-            content: 'Shipping address:' + '\nJohn Doe' + '\nShipping Address line 1' + '\nShipping Address line 2' + '\nZip code - City' + '\nCountry',
-            styles: {
-              halign: 'left'
-            }
-          },
-          {
-            content: 'From:' + '\nCompany name' + '\nShipping Address line 1' + '\nShipping Address line 2' + '\nZip code - City' + '\nCountry',
+            content: 'From:' + '\nPicosoft' + '\n4 rue André Ampère - ZI chotrana,' + '\nZI chotrana' + '\n 2083' + '\nTunis',
             styles: {
               halign: 'right'
             }
@@ -217,7 +212,7 @@ export class OffreService {
       body: [
         [
           {
-            content: 'Subtotal:',
+            content: 'Prix:',
             styles: {
               halign: 'right'
             }
@@ -245,7 +240,7 @@ export class OffreService {
         ],
         [
           {
-            content: 'Total amount:',
+            content: 'Prix total:',
             styles: {
               halign: 'right'
             }

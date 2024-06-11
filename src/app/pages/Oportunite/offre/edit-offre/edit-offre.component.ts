@@ -17,6 +17,7 @@ import {BcServiceService} from "../../../../Service/bc-service.service";
 import {CookieService} from "ngx-cookie-service";
 import {WebSocketService} from "../../../../Service/web-socket.service";
 import {DxDataGridComponent} from "devextreme-angular";
+import { Tab, initMDB } from "mdb-ui-kit";
 
 @Component({
   selector: 'app-edit-offre',
@@ -76,6 +77,8 @@ export class EditOffreComponent implements OnInit {
     oppObject:any;
     tasks: any[] = [];
   ngOnInit(): void {
+
+      initMDB({ Tab });
     this.loadopps()
     this.oppid=this.route.snapshot.paramMap.get('id');
       this.offreService.getOffreByidd(this.oppid).toPromise().then(
