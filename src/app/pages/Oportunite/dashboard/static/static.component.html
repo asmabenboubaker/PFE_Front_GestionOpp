@@ -98,59 +98,35 @@
 <br>
 <br>
 <br>
-<dx-box direction="row" width="100%" [height]="125">
-    <dxi-item class=" demo-dark" [ratio]="1">
 
-        <dx-pie-chart
-                id="pie"
-                title="Demande par Categorie"
-                palette="bright"
-                [dataSource]="areas"
-                (onPointClick)="pointClickHandler($event)"
-                (onLegendClick)="legendClickHandler($event)"
-        >
-            <dxi-series argumentField="country" valueField="area">
-                <dxo-label [visible]="true">
-                    <dxo-connector [visible]="true" [width]="1"></dxo-connector>
-                </dxo-label>
-            </dxi-series>
-            <dxo-size [width]="500"></dxo-size>
-            <dxo-export [enabled]="true"></dxo-export>
-        </dx-pie-chart>
-
-
-
-    </dxi-item>
-    <dxi-item class=" demo-light" [ratio]="1">
-        <dx-pie-chart
-                id="pie"
-                title="Demande par Categorie"
-                palette="bright"
-                [dataSource]="areas"
-                (onPointClick)="pointClickHandler($event)"
-                (onLegendClick)="legendClickHandler($event)"
-        >
-            <dxi-series argumentField="country" valueField="area">
-                <dxo-label [visible]="true">
-                    <dxo-connector [visible]="true" [width]="1"></dxo-connector>
-                </dxo-label>
-            </dxi-series>
-            <dxo-size [width]="500"></dxo-size>
-            <dxo-export [enabled]="true"></dxo-export>
-        </dx-pie-chart>
-
-
-    </dxi-item>
-
-</dx-box>
 
 <br>
 <br>
 <br>
-<dx-box direction="row" width="100%" [height]="125">
-    <dxi-item class=" demo-dark" [ratio]="1">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <dx-pie-chart
+                    id="pie"
+                    title="Demande par Categorie"
+                    palette="bright"
+                    [dataSource]="areas"
+                    (onPointClick)="pointClickHandler($event)"
+                    (onLegendClick)="legendClickHandler($event)"
+            >
+                <dxi-series argumentField="country" valueField="area">
+                    <dxo-label [visible]="true">
+                        <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+                    </dxo-label>
+                </dxi-series>
+                <dxo-size [width]="500"></dxo-size>
+                <dxo-export [enabled]="true"></dxo-export>
+            </dx-pie-chart>
 
 
+        </div>
+        <div class="col-md">
             <dx-chart
                     [dataSource]="monthlyOffreCounts"
                     title="Nombre total d'offres de prix par mois">
@@ -169,28 +145,9 @@
                 </dxo-value-axis>
             </dx-chart>
 
-    </dxi-item>
-    <dxi-item class=" demo-light" [ratio]="1">
-
-
-    </dxi-item>
-
-</dx-box>
-<!--<dx-pie-chart-->
-<!--        id="pie"-->
-<!--        title="Demande par Categorie"-->
-<!--        palette="bright"-->
-<!--        [dataSource]="areas"-->
-<!--        (onPointClick)="pointClickHandler($event)"-->
-<!--        (onLegendClick)="legendClickHandler($event)"-->
-<!--&gt;-->
-<!--    <dxi-series argumentField="country" valueField="area">-->
-<!--        <dxo-label [visible]="true">-->
-<!--            <dxo-connector [visible]="true" [width]="1"></dxo-connector>-->
-<!--        </dxo-label>-->
-<!--    </dxi-series>-->
-<!--    <dxo-size [width]="500"></dxo-size>-->
-<!--    <dxo-export [enabled]="true"></dxo-export>-->
-<!--</dx-pie-chart>-->
-
-
+        </div>
+        <div class="col-md">
+            One of three columns
+        </div>
+    </div>
+</div>

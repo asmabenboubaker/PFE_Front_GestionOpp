@@ -96,7 +96,13 @@
                     aria-labelledby="ex3-tab-1"
                     *ngIf="creationOpp"
             >
-
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
                 <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
@@ -115,12 +121,7 @@
                                     <div class="form-group ">
                                         <label for="nom" class="form-label">Nom:</label>
                                         <input class="form-control" formControlName="nom" id="nom" type="text" required>
-                                        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-                                        <!--             class="alert alert-danger">-->
-                                        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-                                        <!--                Nom is required.-->
-                                        <!--            </div>-->
-                                        <!--        </div>-->
+
                                     </div>
 
 
@@ -198,6 +199,16 @@
 
                         </div>
                     </section>
+                    <div class="custom-field">
+                        <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                        </h1>
+                        <div class="fieldContent">
+                        <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+                        </div>
+                    </div>
 
 
                     <div class="workflow-container">
@@ -220,7 +231,8 @@
 
                     </div>
                 </form>
-
+                    </div>
+                </div>
             </div>
             <div
                     class="tab-pane fade {{ Affectaionequipe ? 'show active' : '' }}"
@@ -417,7 +429,16 @@
                     </div>
                 </div>
                 <!--thenya toufa lena -->
-
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+                        <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+                    </div>
+                </div>
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                     <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
@@ -550,7 +571,7 @@
                             [width]="600"
                             [height]="400"
                             [showTitle]="true"
-                            title="Add Task"
+                            title="Ajouter details"
                             [dragEnabled]="true"
                             [closeOnOutsideClick]="true">
                         <div *dxTemplate="let data of 'content'">
@@ -575,6 +596,16 @@
                             </div>
                         </div>
                     </dx-popup>
+                </div>
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+                        <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+                    </div>
                 </div>
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
@@ -645,7 +676,16 @@
 
                     </article>
 
-
+                    <div class="custom-field">
+                        <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                        </h1>
+                        <div class="fieldContent">
+                            <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+                        </div>
+                    </div>
 
                     <div class="workflow-container">
                         <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
@@ -785,7 +825,16 @@
                             </dx-data-grid>
                         </div>
                     </div>
-
+                    <div class="custom-field">
+                        <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                        </h1>
+                        <div class="fieldContent">
+                            <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+                        </div>
+                    </div>
                     <div class="workflow-container">
                         <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                         <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
@@ -854,7 +903,16 @@
 
                     </article>
 
-
+                    <div class="custom-field">
+                        <h1>
+                    <span>
+                      Gestion des fichiers
+                    </span>
+                        </h1>
+                        <div class="fieldContent">
+                            <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+                        </div>
+                    </div>
 
                     <div class="workflow-container">
                         <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->

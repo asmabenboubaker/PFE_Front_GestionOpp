@@ -7,13 +7,13 @@
 <dx-file-manager *ngIf="isLoading"
                  id="fileManager"
                  [fileSystemProvider]="objectFileProvider"
-                 height="450"
+                 height="300"
                  currentPath="Widescreen"
                  (onSelectedFileOpened)="displayImagePopup($event)"
                  (onFileUploaded)="onFileUploaded($event)"
                  (onItemDownloading)="onItemDownloading($event)"
                  (onItemDeleted)="onItemDeleted($event)"
-                 SHOW
+
 >
     <dxo-permissions
             [create]="true"

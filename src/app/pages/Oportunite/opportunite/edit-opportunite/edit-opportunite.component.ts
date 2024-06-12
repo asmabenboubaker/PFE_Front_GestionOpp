@@ -81,7 +81,8 @@ evaluer:boolean=false;
     demandeId: any;
     orders: ArrayStore;
 
-
+    ClassId: any=31;
+    ObjectId: any;
   constructor(private fb: FormBuilder, private opportuniteService: OpportuniteService, private clientService: ClientServiceService,
               private toastr: ToastrService, private env: EnvService, private wsService: WsService,
               private translateService: TranslateService,
@@ -191,6 +192,7 @@ evaluer:boolean=false;
   ngOnInit(): void {
       initMDB({ Tab });
       this.oppid = this.route.snapshot.paramMap.get('id');
+      this.ObjectId=this.route.snapshot.paramMap.get('id');
 //set oppObject
       this.opportuniteService.getOpportuniteByidd(this.oppid).toPromise().then(
           data => {

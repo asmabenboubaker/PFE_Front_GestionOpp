@@ -18,6 +18,7 @@ import { EtudeOppComponent } from './etude-opp/etude-opp.component';
 import {AddDetailsComponent} from "./add-details/add-details.component";
 import {GridModule} from "@syncfusion/ej2-angular-grids";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {AttachmentModule} from "../../Global/attachment/attachment.module";
 
 
 export const routes: Routes  = [
@@ -73,6 +74,7 @@ export const routes: Routes  = [
         DxSliderModule,
         GridModule,
         MatFormFieldModule,
+        AttachmentModule,
     ]
 })
 export class OpportuniteModule { }

@@ -89,7 +89,7 @@ demandeObejct:any;
   pourvalidation : boolean=false;
   pourvalidation2 : boolean=false;
   elsedesision:boolean=false;
-
+  listIddomainde: any[] = [];
  //document
   @Output() JsonDocViewerFromFormToComponent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
   constructor(private fb: FormBuilder,private demandeService: DemandeService,private clientService: ClientServiceService,
@@ -122,14 +122,14 @@ demandeObejct:any;
     // }
     const currentDate = new Date();
     this.demandeForm = this.fb.group({
-      id: null, // You might want to initialize other properties based on your requirements
+      id: null,
       nom: ['', Validators.required],
       description: null,
       dateDeCreation: currentDate,
       statut: [null, Validators.required],
       source: [''],
       commentaires: [''],
-      deadline: [''], // Assurez-vous que la propriété deadline est correctement définie dans le formulaire
+      deadline: [''],
       client: ['']
     });
   }
@@ -273,7 +273,33 @@ demandeObejct:any;
   }
 
   Confirmation(evt) {
+
+
     this.loadingVisible = true;
+
+
+    this.listIddomainde = this.gridBoxValue.map(equipe => equipe.id);
+if(this.listIddomainde.length!=0) {
+  this.demandeService.affecterDomaines(this.demandeid, this.listIddomainde).subscribe({
+    next: (response) => {
+      console.log('Domaines affectés:', response);
+      this.updateAndAssignToClient();
+    },
+    error: (error) => {
+      this.toastr.error("Failed to affect domaines", "", {
+        closeButton: true,
+        positionClass: 'toast-top-right',
+        extendedTimeOut: this.env.extendedTimeOutToastr,
+        progressBar: true,
+        disableTimeOut: false,
+        timeOut: this.env.timeOutToastr
+      });
+      console.log("error", error);
+    }
+  });
+
+}
+
     const formData = this.demandeF.value;
 
     // Utiliser les valeurs extraites
@@ -317,7 +343,7 @@ demandeObejct:any;
   }
 
 
-  listIddomainde: any[] = [];
+
   save() {
     if(this.gridBoxValue.length==0){
       this.toastr.warning("Veuillez sélectionner categorie", "", {
@@ -331,8 +357,6 @@ demandeObejct:any;
       return;
     }
 
-
-    // Récupérer les valeurs du FormGroup
     const formData = this.demandeF.value;
 
     // Use Object.assign to update demandeDTO
@@ -348,9 +372,9 @@ demandeObejct:any;
     console.log('Client Select Value:', this.clientSelect?.nativeElement.value);
     console.log("data save", formData);
     console.log("demainde affecter", this.gridBoxValue);
-    // set listidequipe with id from gridBoxValue
+
     this.listIddomainde = this.gridBoxValue.map(equipe => equipe.id);
-    // First call to affecterDomaines
+
     this.demandeService.affecterDomaines(this.demandeid, this.listIddomainde).subscribe({
       next: (response) => {
         console.log('Domaines affectés:', response);
@@ -369,6 +393,7 @@ demandeObejct:any;
         console.log("error", error);
       }
     });
+    this.router.navigate(['Demande/user']);
   }
 
   private updateAndAssignToClient() {
@@ -387,7 +412,7 @@ demandeObejct:any;
         });
 
         // Redirect to demande list
-        this.router.navigate(['Demande/user']);
+        //this.router.navigate(['Demande/user']);
       },
       error: (error) => {
         this.toastr.error("Failed to add", "", {
