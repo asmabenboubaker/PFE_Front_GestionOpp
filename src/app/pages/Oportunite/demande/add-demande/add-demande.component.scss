@@ -70,3 +70,22 @@
 .alignRight {
   text-align: right;
 }
+
+
+
+// mic
+.textarea-container {
+  position: relative;
+}
+
+.textarea-container textarea {
+  width: 100%;
+  padding-right: 40px; /* Adjust this value as needed */
+}
+
+.textarea-container i {
+  position: absolute;
+  top: 10px; /* Adjust this value as needed to position vertically */
+  right: 10px; /* Adjust this value as needed to position horizontally */
+  cursor: pointer;
+}

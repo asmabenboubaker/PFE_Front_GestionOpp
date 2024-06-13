@@ -127,17 +127,6 @@
                 </div>
             </div>
 
-<!--            <div class="form-group">-->
-<!--                <label>Statut:</label>-->
-<!--                <select class="form-select" formControlName="statut" >-->
-<!--                    <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>-->
-<!--                </select>-->
-<!--                <div *ngIf="demandeF.get('statut').invalid && (demandeF.get('statut').dirty || demandeF.get('statut').touched)" class="text-danger">-->
-<!--                    <div *ngIf="demandeF.get('statut').errors.required">-->
-<!--                        Le statut est requis.-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="form-group">
                 <label>Source de la demande</label>
 
@@ -164,7 +153,10 @@
             </div>
             <div class="form-group">
                 <label>Description:</label>
+                <div class="textarea-container">
                 <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+                <i class="fas fa-microphone" (click)="startListening()"></i>
+                </div>
                 <div *ngIf="demandeF.get('description').invalid && (demandeF.get('description').dirty || demandeF.get('description').touched)" class="text-danger">
                     <div *ngIf="demandeF.get('description').errors.required">
                         La description est requise.

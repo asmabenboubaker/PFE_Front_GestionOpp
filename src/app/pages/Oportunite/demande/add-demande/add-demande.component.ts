@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter, inject,
-  Input,
+  Input, NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -33,7 +33,7 @@ import {CookieService} from "ngx-cookie-service";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
 import {OffreService} from "../../../../Service/offre.service";
 import {WebSocketService} from "../../../../Service/web-socket.service";
-
+declare var webkitSpeechRecognition;
 @Component({
   selector: 'app-add-demande',
   templateUrl: './add-demande.component.html',
@@ -104,7 +104,8 @@ demandeObejct:any;
               private opportuniteService:OpportuniteService,
               private offreService: OffreService,
               private formBuilder: FormBuilder,
-              private webSocketService: WebSocketService
+              private webSocketService: WebSocketService,
+              private ngZone: NgZone
   ) {
 
 
@@ -631,6 +632,33 @@ username:any;
 
   onHidden() {
     //this.employeeInfo = this.employee;
+  }
+
+  //mic
+
+  recognition: any;
+  isListening = false;
+  results;
+  startListening() {
+    // let voiceHandler = this.hiddenSearchHandler?.nativeElement;
+    if ('webkitSpeechRecognition' in window) {
+      const vSearch = new webkitSpeechRecognition();
+      vSearch.continuous = false;
+      vSearch.interimresults = false;
+      vSearch.lang = 'fr-FR';
+      // vSearch.lang = 'en-US';
+      vSearch.start();
+      vSearch.onresult = (e) => {
+        console.log(e);
+        // voiceHandler.value = e?.results[0][0]?.transcript;
+        this.results = e.results[0][0].transcript;
+        this.demandeF.get('description').setValue(this.results);
+        // console.log(this.results);
+        vSearch.stop();
+      };
+    } else {
+      alert('Your browser does not support voice recognition!');
+    }
   }
 
 }
