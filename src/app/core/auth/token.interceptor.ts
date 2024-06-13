@@ -36,7 +36,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
         catchError((error: any) => {
           if (error instanceof HttpErrorResponse && this.errorHandlingService.showError()) {
-            if (error.status === 401 || error.status === 403){
+            if (error.status === 401){
               const message = 'Something went wrong!';
               localStorage.clear();
               this.cookieService.deleteAll('/', window.location.hostname.substring(window.location.hostname.indexOf('.')));

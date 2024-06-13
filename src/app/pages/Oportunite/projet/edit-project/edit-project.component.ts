@@ -74,18 +74,12 @@ export class EditProjectComponent implements OnInit {
     const projectData = {
       key: key.toUpperCase(),
       name: formData.nom,
-      projectTypeKey: "business",
-      projectTemplateKey: "com.atlassian.jira-core-project-templates:jira-core-project-management",
+      projectTypeKey: 'business',
+      projectTemplateKey: 'com.atlassian.jira-core-project-templates:jira-core-simplified-process-control',
       description: formData.description,
-      lead: "asmaboubaker",
-      url: "http://atlassian.com",
-      assigneeType: "PROJECT_LEAD",
-      avatarId: 10200,
-      issueSecurityScheme: 10001,
-      permissionScheme: 10011,
-      notificationScheme: 10021,
-      categoryId: 10120
-
+      leadAccountId: '712020:c4a36858-f637-4956-aaee-450a47fd5bf7',
+      assigneeType: 'PROJECT_LEAD',
+      url: 'http://atlassian.com'
     };
 
     // Appelez la méthode du service pour créer le projet dans Jira
