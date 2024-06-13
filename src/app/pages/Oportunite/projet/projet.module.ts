@@ -17,15 +17,11 @@ import {DxGanttModule, DxPieChartModule} from "devextreme-angular";
 import { StaticProjectComponent } from './static-project/static-project.component';
 import {DxiSeriesModule, DxoConnectorModule, DxoSizeModule} from "devextreme-angular/ui/nested";
 import {GanttModule} from "@syncfusion/ej2-angular-gantt";
+import { AddProjetComponent } from './add-projet/add-projet.component';
 
 
 export const routes: Routes  = [
-  {
-      path: 'all',
-      component: GridProjetComponent,
-      data: {breadcrumb: 'Consultation projet'},
-      pathMatch: 'full'
-  },
+
     {
         path: 'edit/:id',
         component: EditProjectComponent,
@@ -58,6 +54,19 @@ export const routes: Routes  = [
         data: {breadcrumb: 'Static'},
         pathMatch: 'full'
 
+    },
+    {
+        path:'allproject',
+        component:GridProjetComponent,
+        data: {breadcrumb: 'All project'},
+        pathMatch: 'full'
+    },
+    //add project
+    {
+        path:'addProject',
+        component:AddProjetComponent,
+        data: {breadcrumb: 'Add project'},
+        pathMatch: 'full'
     }
 ];
 
@@ -71,6 +80,7 @@ export const routes: Routes  = [
       MeetingComponent,
       EquipeComponent,
       StaticProjectComponent,
+      AddProjetComponent,
   ],
     imports: [
         CommonModule,

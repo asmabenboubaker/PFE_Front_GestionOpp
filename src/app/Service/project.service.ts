@@ -33,6 +33,10 @@ export class ProjectService {
             catchError(this.handleError)
         );
     }
+    // add project
+    addProject(project: any): Observable<any> {
+        return this.http.post<any>(`${this.env.piOpp}projets`, project);
+    }
 
     private handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {

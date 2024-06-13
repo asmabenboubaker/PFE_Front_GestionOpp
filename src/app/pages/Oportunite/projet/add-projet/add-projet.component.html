@@ -1,0 +1,69 @@
+<div class="container">
+    <h2>{{ 'addProject' | translate }}</h2>
+    <form [formGroup]="addProjetForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="nom">{{ 'projectName' | translate }}</label>
+            <input type="text" id="nom" formControlName="nom" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="responsable">{{ 'responsible' | translate }}</label>
+            <input type="text" id="responsable" formControlName="responsable" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="participants">{{ 'participants' | translate }}</label>
+            <input type="text" id="participants" formControlName="participants" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="objectif">{{ 'objective' | translate }}</label>
+            <input type="text" id="objectif" formControlName="objectif" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="lieu">{{ 'location' | translate }}</label>
+            <input type="text" id="lieu" formControlName="lieu" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="type">{{ 'type' | translate }}</label>
+            <input type="text" id="type" formControlName="type" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="commentaires">{{ 'comments' | translate }}</label>
+            <input type="text" id="commentaires" formControlName="commentaires" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="idJira">{{ 'jiraId' | translate }}</label>
+            <input type="text" id="idJira" formControlName="idJira" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="priorite">{{ 'priority' | translate }}</label>
+            <input type="number" id="priorite" formControlName="priorite" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="budget">{{ 'budget' | translate }}</label>
+            <input type="number" id="budget" formControlName="budget" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="description">{{ 'description' | translate }}</label>
+            <textarea id="description" formControlName="description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="dateDebut">{{ 'startDate' | translate }}</label>
+            <input type="date" id="dateDebut" formControlName="dateDebut" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="dateFin">{{ 'endDate' | translate }}</label>
+            <input type="date" id="dateFin" formControlName="dateFin" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label for="JiraProject" class="form-label">Créer le projet dans Jira :</label>
+            <select class="form-control" formControlName="JiraProject" id="JiraProject">
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" >{{ 'submit' | translate }}</button>
+        </div>
+    </form>
+</div>

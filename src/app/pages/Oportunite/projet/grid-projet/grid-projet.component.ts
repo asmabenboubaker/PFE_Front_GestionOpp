@@ -92,13 +92,7 @@ export class GridProjetComponent implements OnInit {
 
   }
   addProjet() {
-    // Navigate to the add-demande component without an ID
-
-    // this.demandeService.Initdemande().subscribe(data => {
-    //   this.demandeadd = data['id'];
-    //   this.router.navigate(['Demande/add/'+this.demandeadd]);
-    // });
-
+          this.router.navigate(['/projet/addProject']);
   }
   id
   Editprojet(id) {
@@ -106,7 +100,7 @@ export class GridProjetComponent implements OnInit {
     this.id = id.data.id;
 
     // Navigate to the add-demande component with the specific ID
-    this.router.navigate(['projet/edit', this.id]);
+    this.router.navigate(['projet/edit/', this.id]);
   }
   showbordereaux(id: any) {
     this.router.navigate(["projet/edit/"+id])
