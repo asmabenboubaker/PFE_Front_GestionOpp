@@ -39,9 +39,18 @@ export class AddProjetComponent implements OnInit {
     });
   }
   onSubmit() {
+      const formData = this.addProjetForm.value;
 
+      // Generate the Jira project key
+      const key = this.generateProjectKey(formData.nom);
 
-    this.projetService.addProject(this.addProjetForm.value).subscribe(
+      // Construct the Jira link
+      const jiraLink = `https://boubaker-asma.atlassian.net/jira/core/projects/${key}/board`;
+
+      // Update the form data with the constructed Jira link
+      formData.lienJira = jiraLink;
+
+    this.projetService.addProject(formData).subscribe(
         data => {
 
             const decision = this.addProjetForm.get('JiraProject').value;
@@ -64,7 +73,7 @@ export class AddProjetComponent implements OnInit {
           this.router.navigate(['/projet/allproject']);
         },
         error => {
-          this.translateService.get("projectCreationFailed").subscribe(
+          this.translateService.get("project CreationFailed").subscribe(
               res => {
                 this.toastr.error(res, "", {
                   closeButton: true,
@@ -84,7 +93,7 @@ export class AddProjetComponent implements OnInit {
         // Récupérez les données du projet à partir du formulaire
         const formData = this.addProjetForm.value;
         const key = this.generateProjectKey(formData.nom);
-        this.addProjetForm.get('lienJira').setValue(key.toUpperCase());
+
         const projectData = {
             key: key.toUpperCase(),
             name: formData.nom,
