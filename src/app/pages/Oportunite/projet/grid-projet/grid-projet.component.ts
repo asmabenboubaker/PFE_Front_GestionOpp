@@ -12,6 +12,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {jsPDF} from "jspdf";
 import {exportDataGrid as exportDataGridToPdf} from "devextreme/pdf_exporter";
 import CustomStore from "devextreme/data/custom_store";
+import {ProjectService} from "../../../../Service/project.service";
 
 @Component({
   selector: 'app-grid-projet',
@@ -27,7 +28,7 @@ export class GridProjetComponent implements OnInit {
   popupDeleteVisible: boolean=false;
   iddoc:any;
   constructor(
-      private demandeService: DemandeService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
+      private projetService: ProjectService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
       private http: HttpClient,private clientService: ClientServiceService,
       private env: EnvService,private router: Router,private toastr: ToastrService,
       private translateService:TranslateService
@@ -125,7 +126,7 @@ export class GridProjetComponent implements OnInit {
     this.popupDeleteVisible=false;
   }
   deleteprojet() {
-    this.demandeService.deleteDemande(this.iddoc).subscribe(data=>{
+    this.projetService.deleteProject(this.iddoc).subscribe(data=>{
       this.refresh();
       this.translateService.get("deleteWithSuccess").subscribe(
           res => {

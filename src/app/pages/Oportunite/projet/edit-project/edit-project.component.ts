@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {OpportuniteService} from "../../../../Service/opportunite.service";
 import {ClientServiceService} from "../../../../Service/client-service.service";
 import {ToastrService} from "ngx-toastr";
@@ -19,7 +19,8 @@ import {ProjectService} from "../../../../Service/project.service";
 })
 export class EditProjectComponent implements OnInit {
 
-
+  editProjetForm: FormGroup;
+  projectId: number;
 
 
 
@@ -52,21 +53,59 @@ export class EditProjectComponent implements OnInit {
       private datePipe: DatePipe,
       private projectService: ProjectService
   ) { }
-
+  private initForm(): void {
+    this.editProjetForm = this.fb.group({
+      id: [''],
+      nom: ['', Validators.required],
+      responsable: ['', Validators.required],
+      participants: [''],
+      objectif: ['', Validators.required],
+      lieu: [''],
+      type: ['', Validators.required],
+      commentaires: [''],
+      lienJira: ['', Validators.required],
+      idJira: [''],
+      priorite: [0, Validators.required],
+      budget: [0, Validators.required],
+      description: [''],
+      dateDebut: ['', Validators.required],
+      dateFin: ['', Validators.required],
+      JiraProject: ['']
+    });
+  }
   ngOnInit(): void {
     this.oppid = this.route.snapshot.paramMap.get('id');
     this.projectService.getCSRFTokenFromCookies();
-  }
-  onSubmit(): void {
+    this.projectId = +this.route.snapshot.paramMap.get('id');
+    this.initForm();
 
-    const decision = this.projetF.get('JiraProject').value;
-    console.log('Décision de création du projet dans Jira :', decision);
-    if (decision === 'oui') {
-      this.createProjectInJira();
-    } else {
-        console.log('Création du projet dans Jira annulée');
-    }
+    // Load existing project data
+    this.projectService.getProjectById(this.projectId).subscribe(
+        data => {
+          this.editProjetForm.patchValue(data);
+        },
+        error => {
+          this.toastr.error('Error loading project data', '', {
+            closeButton: true,
+            positionClass: 'toast-top-right',
+            extendedTimeOut: 5000,
+            progressBar: true,
+            disableTimeOut: false,
+            timeOut: 5000,
+          });
+        }
+    );
   }
+  // onSubmit(): void {
+  //
+  //   const decision = this.projetF.get('JiraProject').value;
+  //   console.log('Décision de création du projet dans Jira :', decision);
+  //   if (decision === 'oui') {
+  //     this.createProjectInJira();
+  //   } else {
+  //       console.log('Création du projet dans Jira annulée');
+  //   }
+  // }
   private createProjectInJira(): void {
     // Récupérez les données du projet à partir du formulaire
     const formData = this.projetF.value;
@@ -101,5 +140,44 @@ export class EditProjectComponent implements OnInit {
     const key = words.map(word => word.charAt(0)).join('');
 
     return key;
+  }
+
+  onSubmit(): void {
+    if (this.editProjetForm.invalid) {
+      this.toastr.error('Please fill in all required fields', '', {
+        closeButton: true,
+        positionClass: 'toast-top-right',
+        extendedTimeOut: 5000,
+        progressBar: true,
+        disableTimeOut: false,
+        timeOut: 5000,
+      });
+      return;
+    }
+// set id
+    this.editProjetForm.patchValue({id: this.projectId});
+    this.projectService.updateProject(this.projectId, this.editProjetForm.value).subscribe(
+        data => {
+          this.toastr.success('Project updated successfully', '', {
+            closeButton: true,
+            positionClass: 'toast-top-right',
+            extendedTimeOut: 5000,
+            progressBar: true,
+            disableTimeOut: false,
+            timeOut: 5000,
+          });
+          this.router.navigate(['/projet/allproject']);
+        },
+        error => {
+          this.toastr.error('Project update failed', '', {
+            closeButton: true,
+            positionClass: 'toast-top-right',
+            extendedTimeOut: 5000,
+            progressBar: true,
+            disableTimeOut: false,
+            timeOut: 5000,
+          });
+        }
+    );
   }
 }

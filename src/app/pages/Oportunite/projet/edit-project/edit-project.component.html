@@ -1,73 +1,65 @@
-<form [formGroup]="projetF" class="row g-3 needs-validation custom-form" novalidate>
-    <div class="col-md-6">
-        <label for="nom" class="form-label">Nom:</label>
-        <input class="form-control" formControlName="nom" id="nom" type="text" required>
-        <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
-        <!--             class="alert alert-danger">-->
-        <!--            <div *ngIf="demandeForm.get('nom').errors.required">-->
-        <!--                Nom is required.-->
-        <!--            </div>-->
-        <!--        </div>-->
-    </div>
-    <div class="col-md-6">
-        <label for="responsable" class="form-label">Responsable:</label>
-        <input class="form-control" formControlName="responsable" id="responsable" type="text" required>
+<div class="container">
+    <h2>Edit Project</h2>
+    <form [formGroup]="editProjetForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="nom">Project Name</label>
+            <input type="text" id="nom" formControlName="nom" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="responsable">Responsible</label>
+            <input type="text" id="responsable" formControlName="responsable" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="participants">Participants</label>
+            <input type="text" id="participants" formControlName="participants" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="objectif">Objective</label>
+            <input type="text" id="objectif" formControlName="objectif" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="lieu">Location</label>
+            <input type="text" id="lieu" formControlName="lieu" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <input type="text" id="type" formControlName="type" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="commentaires">Comments</label>
+            <input type="text" id="commentaires" formControlName="commentaires" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="lienJira">Jira Link</label>
+            <input type="text" id="lienJira" formControlName="lienJira" class="form-control" required>
+        </div>
+<!--        <div class="form-group">-->
+<!--            <label for="idJira">Jira ID</label>-->
+<!--            <input type="text" id="idJira" formControlName="idJira" class="form-control">-->
+<!--        </div>-->
+        <div class="form-group">
+            <label for="priorite">Priority</label>
+            <input type="number" id="priorite" formControlName="priorite" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="budget">Budget</label>
+            <input type="number" id="budget" formControlName="budget" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="dateDebut">Start Date</label>
+            <input type="date" id="dateDebut" formControlName="dateDebut" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="dateFin">End Date</label>
+            <input type="date" id="dateFin" formControlName="dateFin" class="form-control" required>
+        </div>
 
-    </div>
-
-    <div class="col-md-6">
-        <label for="participants" class="form-label">Participants:</label>
-        <input class="form-control" formControlName="participants" id="participants" type="text" required>
-
-    </div>
-    <div class="col-md-6">
-        <label for="objectif" class="form-label">objectif:</label>
-        <input class="form-control" formControlName="objectif" id="objectif" type="text" required>
-
-    </div>
-    <div class="col-md-6">
-        <label for="lieu" class="form-label">lieu:</label>
-        <input class="form-control" formControlName="objectif" id="lieu" type="text" required>
-
-    </div>
-    <div class="col-md-6">
-        <label for="type" class="form-label">type:</label>
-        <input class="form-control" formControlName="type" id="type" type="text" required>
-
-    </div>
-    <div class="col-md-6">
-        <label for="commentaires" class="form-label">commentaires:</label>
-        <input class="form-control" formControlName="type" id="commentaires" type="text" required>
-
-    </div>
-
-
-
-    <div class="col-md-6">
-        <label for="priorite" class="form-label">priorite:</label>
-        <input class="form-control" formControlName="priorite" id="priorite" type="Number" required>
-
-    </div>
-    <div class="col-md-6">
-        <label for="budget" class="form-label">budget:</label>
-        <input class="form-control" formControlName="priorite" id="budget" type="Number" required>
-
-    </div>
-    <div class="col-md-6">
-        <label for="description" class="form-label">description:</label>
-        <input class="form-control" formControlName="description" id="description" type="text" required>
-
-    </div>
-    <div class="col-md-6">
-        <label for="JiraProject" class="form-label">Créer le projet dans Jira :</label>
-        <select class="form-control" formControlName="JiraProject" id="JiraProject">
-            <option value="oui">Oui</option>
-            <option value="non">Non</option>
-        </select>
-    </div>
-
-    <div class="col-12">
-        <button type="button" class="btn btn-primary" (click)="onSubmit()">Soumettre</button>
-    </div>
-</form>
-
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

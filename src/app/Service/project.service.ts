@@ -60,4 +60,16 @@ export class ProjectService {
     getprojets(): Observable<any[]> {
         return this.http.get<any[]>(`${this.env.piOpp}projetslist`);
     }
+    //delete project
+    deleteProject(id: number): Observable<any> {
+        return this.http.delete(`${this.env.piOpp}projets/${id}`);
+    }
+    // get by id
+    getProjectById(id: number): Observable<any> {
+        return this.http.get(`${this.env.piOpp}projets/${id}`);
+    }
+    //update project
+    updateProject(id: number, project: any): Observable<any> {
+        return this.http.put(`${this.env.piOpp}projets/${id}`, project);
+    }
 }
