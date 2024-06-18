@@ -72,6 +72,7 @@ export class OffreService {
     return this.http.get<any[]>(url);
   }
   generatePdf(formData: any, articles: any[]) {
+    console.log('formData', articles);
     const doc = new jsPDF.default();
     const today = new Date().toLocaleDateString();
 

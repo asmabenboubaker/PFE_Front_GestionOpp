@@ -13,7 +13,7 @@ import {Service} from "./task-board/app.service";
 import { AddTaskComponent } from './add-task/add-task.component';
 import {ClientModule} from "../client/client.module";
 import { EquipeComponent } from './equipe/equipe.component';
-import {DxGanttModule, DxPieChartModule} from "devextreme-angular";
+import {DxBoxModule, DxGanttModule, DxPieChartModule} from "devextreme-angular";
 import { StaticProjectComponent } from './static-project/static-project.component';
 import {DxiSeriesModule, DxoConnectorModule, DxoSizeModule} from "devextreme-angular/ui/nested";
 import {GanttModule} from "@syncfusion/ej2-angular-gantt";
@@ -96,6 +96,7 @@ export const routes: Routes  = [
         DxoConnectorModule,
         DxoSizeModule,
         GanttModule,
+        DxBoxModule,
 
     ],
     providers: [

@@ -135,16 +135,7 @@ this.offreF.get('description').setValue(data.description);
     );
 
     this.getAllArticles();
-    //set articles
-    this.offreService.getArticlesByOffreId(this.oppid).toPromise().then(
-        data => {
-            this.article = data;
-            console.log("Fetched Successfully :", data);
-        },
-        error => {
-            console.log("Error :", error);
-        }
-    );
+
   }
   loadopps()
   {
@@ -241,7 +232,7 @@ this.offreF.get('description').setValue(data.description);
 
     downloadPdfOnClick() {
         const formData = this.offreF.value;
-        this.offreService.generatePdf(formData,this.article);
+        this.offreService.generatePdf(formData,this.tasks);
     }
     Retourn(){
 
@@ -366,7 +357,8 @@ this.offreF.get('description').setValue(data.description);
         this.popupVisible = true;
     }
     getAllArticles() {
-        this.offreService.getAllArticles()
+        //set articles
+        this.offreService.getArticlesByOffreId(this.oppid)
             .subscribe(
                 (articles: any[]) => {
                     this.tasks = articles;
@@ -378,6 +370,18 @@ this.offreF.get('description').setValue(data.description);
                     // Handle error
                 }
             );
+        // this.offreService.getAllArticles()
+        //     .subscribe(
+        //         (articles: any[]) => {
+        //             this.tasks = articles;
+        //             console.log('Articles:', articles);
+        //             // Handle success
+        //         },
+        //         error => {
+        //             console.error('Error retrieving articles:', error);
+        //             // Handle error
+        //         }
+        //     );
     }
 //     addTask(){
 // const formData = this.taskForm.value;
@@ -453,4 +457,18 @@ this.offreF.get('description').setValue(data.description);
         this.taskForm.patchValue(task);
         this.popupVisible = true;
     }
+    // toolbar :
+    backButtonOptions = {
+        icon: 'back',
+        onClick: () => {
+            this.router.navigate(['/offre/all']);
+        }
+    };
+    addButtonOptions = {
+        icon: 'fa fa-download',
+
+        onClick: () => {
+            this.downloadPdfOnClick();
+        }
+    };
 }

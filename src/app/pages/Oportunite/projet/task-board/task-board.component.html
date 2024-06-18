@@ -12,27 +12,7 @@
     </dxi-item>
 
 </dx-toolbar>
-<div class="container">
-    <div class="container">
-        <div class="row">
-            <div class="col-md">
 
-                <h6>17</h6>
-                <span>Completed</span>
-            </div>
-            <div class="col-md">
-                <h6>34</h6>
-                <span>ToDo</span>
-            </div>
-            <div class="col-md">
-                <h6>78</h6>
-                <span>All Tasks</span>
-            </div>
-
-        </div>
-
-    </div>
-</div>
 <br>
 
 <div class="container">
@@ -101,11 +81,4 @@
             [(visible)]="popupEdit">
         <app-add-task *ngIf="this.id" [id]="''+this.id" (add)="add($event)" ></app-add-task>
     </dx-popup>
-</div>
-<div class="container">
-    <dx-button
-            class="btn-lg btn-block"
-            text="Ajouter task"
-            (onClick)="togglePopup()">
-    </dx-button>
 </div>
