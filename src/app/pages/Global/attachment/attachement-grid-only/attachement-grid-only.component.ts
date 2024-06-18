@@ -20,6 +20,7 @@ import ObjectFileSystemProvider from 'devextreme/file_management/object_provider
 })
 export class AttachementGridOnlyComponent implements OnInit {
     isLoading = false;
+    isLoading2 = false;
     fileItems: any[] = [];
     popupVisible = false;
     imageItemToDisplay = {} as DxFileManagerTypes.SelectedFileOpenedEvent['file'];
@@ -197,15 +198,11 @@ export class AttachementGridOnlyComponent implements OnInit {
         const uploadUrl = `${this.env.piOpp}addFile/${this.classid}/${this.objectid}`;
             // Send file to backend
             this.http.post(uploadUrl, formData).subscribe(
+
                 (response) => {
                     // Handle successful upload
-                   // this.toastr.success('File uploaded successfully');
+                    this.toastr.success('<i class="fa fa-check"></i>');
                     console.log('File uploaded successfully:', response);
-                },
-                (error) => {
-                    // Handle upload error
-                   // this.toastr.error('Failed to upload file');
-                    console.error('Failed to upload file:', error);
                 }
             );
 
@@ -234,9 +231,9 @@ export class AttachementGridOnlyComponent implements OnInit {
     }
     onItemDeleted(e) {
         console.log("File upload event:", e);
-        const fileName= e.item.dataItem.name;
+        const fileName= e.item.dataItem.id;
        // const apiUrl = `http://localhost:8888/demo_war/api/deleteFile/${fileName}`;
-        const apiUrl = `${this.env.piOpp}deleteFile/${fileName}`;
+        const apiUrl = `${this.env.piOpp}deleteFileById/${fileName}`;
         this.http.delete(apiUrl).subscribe(
             (response) => {
                 console.log('File deleted successfully:', response);
