@@ -199,7 +199,7 @@ export class EditProjectComponent implements OnInit {
   }
 
   taskManagerButtonOptions = {
-    icon: 'todo',
+    icon: 'taskcomplete',
     text: 'les tâches',
     onClick: () => {
       this.router.navigate(['/projet/tasks/' + this.projectId]);

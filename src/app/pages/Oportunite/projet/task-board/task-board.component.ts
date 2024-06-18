@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {DxSortableComponent, DxSortableTypes} from 'devextreme-angular/ui/sortable';
 import { Employee, Task, Service } from './app.service';
 import { TaskServiceService } from "../../../../Service/task-service.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-task-board',
@@ -11,36 +11,26 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class TaskBoardComponent implements OnInit {
 
-
-
-
-  taskToEdit
-  popupTitle
-  popupVisibleedit=false
-  editTask(task: any): void {
-    console.log("task"+task);
-    this.taskToEdit = task;
-    this.popupTitle = "Edit Task";
-    this.popupVisibleedit = true;
-  }
   @ViewChild(DxSortableComponent, { static: false }) sortable: DxSortableComponent;
-
   @Input() dataSource: any[];
-
+  taskToEdit;
+  popupTitle;
+  popupVisibleedit = false;
   addTaskEvent: EventEmitter<any> = new EventEmitter<any>();
   lists: any[][] = [];
   statuses = ['a faire', 'en cours', 'fini'];
   employees: Record<'ID', Employee> | {} = {};
   popupVisible = false;
   idprojet: any;
-  constructor(private service: Service, private taskService: TaskServiceService,public route: ActivatedRoute) {}
+  id;
+  popupEdit;
+
+  constructor(private taskService: TaskServiceService, public route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-
-    this.idprojet=this.route.snapshot.paramMap.get('id');
+    this.idprojet = this.route.snapshot.paramMap.get('id');
     this.taskService.getTasks(this.idprojet).subscribe(tasks => {
       this.statuses.forEach((status) => {
-        console.log(tasks);
         const filteredTasks = tasks.filter((task) => task.status === status);
         this.lists.push(filteredTasks);
       });
@@ -50,7 +40,6 @@ export class TaskBoardComponent implements OnInit {
   onListReorder(e: DxSortableTypes.ReorderEvent) {
     const list = this.lists.splice(e.fromIndex, 1)[0];
     this.lists.splice(e.toIndex, 0, list);
-
     const status = this.statuses.splice(e.fromIndex, 1)[0];
     this.statuses.splice(e.toIndex, 0, status);
   }
@@ -59,56 +48,47 @@ export class TaskBoardComponent implements OnInit {
     e.itemData = e.fromData[e.fromIndex];
   }
 
-   onTaskDrop(e: DxSortableTypes.AddEvent) {
-     console.log(e.itemData);
-     console.log( e);
-     const updatedTask = e.itemData;
-     console.log(updatedTask.status);
+  onTaskDrop(e: DxSortableTypes.AddEvent) {
+    const updatedTask = e.itemData;
+    const toListIndex = this.lists.findIndex((list) => list === e.toData);
+    updatedTask.status = this.statuses[toListIndex];
 
-     console.log("=================================")
+    this.taskService.updateTaskStatus(updatedTask.id, updatedTask.status).subscribe(
+        (response) => {
+          console.log('Task status updated successfully:', response);
+        },
+        (error) => {
+          console.error('Error updating task status:', error);
+        }
+    );
 
-     const toListIndex = this.lists.findIndex((list) => list === e.toData);
-     updatedTask.status = this.statuses[toListIndex];
-     console.log(updatedTask.status);
-
-     this.taskService.updateTaskStatus(updatedTask.id, updatedTask.status).subscribe(
-         (response) => {
-            console.log('Task status updated successfully:', response);
-         },
-         (error) => {
-            console.error('Error updating task status:', error);
-      });
-
-
-     e.fromData.splice(e.fromIndex, 1);
-     e.toData.splice(e.toIndex, 0, e.itemData);
-
-   }
-  togglePopup(){
-    // change  boolean to true
-    this.popupVisible = true;
+    e.fromData.splice(e.fromIndex, 1);
+    e.toData.splice(e.toIndex, 0, e.itemData);
   }
 
+  togglePopup() {
+    this.popupVisible = !this.popupVisible;
+  }
 
   // Handle the emitted task data
   addTask(taskData: any) {
-    // Push the new task into the appropriate list based on its status
     const listIndex = this.statuses.findIndex(status => status === taskData.status);
     if (listIndex !== -1) {
       this.lists[listIndex].push(taskData);
     }
-    // close popup
     this.popupVisible = false;
   }
-  add(e){
-    this.popupVisible = e
 
-    this.refresh()
+  add(e) {
+    this.popupVisible = e;
+    this.refresh();
   }
+
   refresh(): void {
     this.sortable.instance.update();
   }
-  deletetask(id: number){
+
+  deletetask(id: number) {
     this.deleteTaskLocally(id);
     this.taskService.deleteTask(id).subscribe(
         (response) => {
@@ -119,10 +99,9 @@ export class TaskBoardComponent implements OnInit {
           console.error('Error deleting task:', error);
         }
     );
-
   }
+
   deleteTaskLocally(id: number) {
-    // Find and remove the task from the lists
     this.lists.forEach((list) => {
       const index = list.findIndex(task => task.id === id);
       if (index !== -1) {
@@ -130,13 +109,24 @@ export class TaskBoardComponent implements OnInit {
       }
     });
   }
-  id
-  popupEdit
-  Editclient(id) {
-    this.id = id
-    console.log(this.id)
-    this.popupEdit = true
 
+  Editclient(id) {
+    this.id = id;
+    this.popupEdit = true;
   }
 
+  backButtonOptions = {
+    icon: 'back',
+    onClick: () => {
+      this.router.navigate(['/projet/allproject']);
+    }
+  };
+
+  addButtonOptions = {
+    icon: 'plus',
+    text: 'Add Task',
+    onClick: () => {
+      this.togglePopup();
+    }
+  };
 }

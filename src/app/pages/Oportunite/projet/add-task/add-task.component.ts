@@ -10,20 +10,17 @@ import {ActivatedRoute, Route, Router} from "@angular/router";
   styleUrls: ['./add-task.component.scss']
 })
 export class AddTaskComponent implements OnInit,OnChanges {
-  @Output() add = new EventEmitter<boolean>();
+  @Output() add = new EventEmitter<any>();
   @Input() taskToEdit: any;
   @Input() id: string;
-idprojet:any;
+  idprojet: any;
   statuses: string[] = ['a faire', 'en cours', 'fini'];
   form: FormGroup;
-  constructor(private formBuilder: FormBuilder,private taskService: TaskServiceService,
-              public route: ActivatedRoute,
-              ) { }
+
+  constructor(private formBuilder: FormBuilder, private taskService: TaskServiceService, public route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // set idproject form route
-
-    this.idprojet=this.route.snapshot.paramMap.get('id');
+    this.idprojet = this.route.snapshot.paramMap.get('id');
     this.form = this.formBuilder.group({
       subject: ['', Validators.required],
       priority: [''],
@@ -32,7 +29,7 @@ idprojet:any;
       end_date: [''],
       details: ['']
     });
-console.log("taskToEdit",this.taskToEdit);
+
     if (this.taskToEdit) {
       this.form.patchValue({
         subject: this.taskToEdit.subject,
@@ -44,19 +41,20 @@ console.log("taskToEdit",this.taskToEdit);
       });
     }
   }
-  Return(){
-  this.add.emit(false)
 
-   }
+  Return() {
+    this.add.emit(false);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.changinID(changes.id.currentValue);
   }
-  changinID(id){
+
+  changinID(id) {
     if (this.id) {
       const clientId = +this.id;
       this.taskService.getTaskById(clientId).subscribe(
-          (client: Client) => {
-
+          (client) => {
             this.form.patchValue(client);
           },
           (error) => {
@@ -65,42 +63,25 @@ console.log("taskToEdit",this.taskToEdit);
       );
     }
   }
-  // onSubmit(): void {
-  //   // Call your service method to add the task
-  //   this.taskService.addTask(this.form.value).subscribe(
-  //       (response) => {
-  //         console.log('Task added successfully:', response);
-  //         // Refresh the task list or handle the response as needed
-  //       },
-  //       (error) => {
-  //         console.error('Error adding task:', error);
-  //       }
-  //   );
-  //
-  //   // send  the form data to task board
-  //   this.add.emit(this.form.value);
-  //   // Emit an event to close the modal
-  //
-  // }
-  //
+
   onSubmit(): void {
     if (this.id) {
-      // Call your service method to update the task
+      // Update task
       this.taskService.updateTask(+this.id, this.form.value).subscribe(
           (response) => {
             console.log('Task updated successfully:', response);
-            // Refresh the task list or handle the response as needed
           },
           (error) => {
             console.error('Error updating task:', error);
           }
       );
     } else {
-      // Call your service method to add the task
-      this.taskService.addTask(this.form.value,this.idprojet).subscribe(
+      // Add task
+      this.taskService.addTask(this.form.value, this.idprojet).subscribe(
           (response) => {
             console.log('Task added successfully:', response);
-            // Refresh the task list or handle the response as needed
+            // Emit the newly created task data
+            this.add.emit(response);
           },
           (error) => {
             console.error('Error adding task:', error);
@@ -108,8 +89,7 @@ console.log("taskToEdit",this.taskToEdit);
       );
     }
 
-    // Emit an event to close the modal
+    // Close the modal
     this.add.emit(false);
   }
-
 }
