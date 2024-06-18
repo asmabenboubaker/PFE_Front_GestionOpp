@@ -59,14 +59,14 @@ export class EditProjectComponent implements OnInit {
       nom: ['', Validators.required],
       responsable: ['', Validators.required],
       participants: [''],
-      objectif: ['', Validators.required],
+      objectif: [''],
       lieu: [''],
       type: ['', Validators.required],
       commentaires: [''],
       lienJira: ['', Validators.required],
       idJira: [''],
       priorite: [0, Validators.required],
-      budget: [0, Validators.required],
+      budget: [0],
       description: [''],
       dateDebut: ['', Validators.required],
       dateFin: ['', Validators.required],
@@ -179,5 +179,30 @@ export class EditProjectComponent implements OnInit {
           });
         }
     );
+  }
+  //tooolbar
+  backButtonOptions = {
+    icon: 'back',
+    onClick: () => {
+      this.router.navigate(['/projet/allproject']);
+    }
+  }
+
+
+
+  statisticsButtonOptions = {
+    icon: 'chart',
+    text: 'Statistiques',
+    onClick: () => {
+      this.router.navigate(['/projet/static/' + this.projectId]);
+    }
+  }
+
+  taskManagerButtonOptions = {
+    icon: 'todo',
+    text: 'les tâches',
+    onClick: () => {
+      this.router.navigate(['/projet/tasks/' + this.projectId]);
+    }
   }
 }

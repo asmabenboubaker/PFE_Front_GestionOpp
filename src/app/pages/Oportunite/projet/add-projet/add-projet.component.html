@@ -1,69 +1,136 @@
 <div class="container">
-    <h2>{{ 'addProject' | translate }}</h2>
-    <form [formGroup]="addProjetForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="nom">{{ 'projectName' | translate }}</label>
-            <input type="text" id="nom" formControlName="nom" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="responsable">{{ 'responsible' | translate }}</label>
-            <input type="text" id="responsable" formControlName="responsable" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="participants">{{ 'participants' | translate }}</label>
-            <input type="text" id="participants" formControlName="participants" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="objectif">{{ 'objective' | translate }}</label>
-            <input type="text" id="objectif" formControlName="objectif" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="lieu">{{ 'location' | translate }}</label>
-            <input type="text" id="lieu" formControlName="lieu" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="type">{{ 'type' | translate }}</label>
-            <input type="text" id="type" formControlName="type" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="commentaires">{{ 'comments' | translate }}</label>
-            <input type="text" id="commentaires" formControlName="commentaires" class="form-control">
-        </div>
+    <style>
+        /* Defining a custom border on all
+            sides except the top side */
+        .custom-field {
+            border: 1px solid #40B3A2;
+            border-top: none;
+            margin-top: 32px ;
 
-        <div class="form-group">
-            <label for="idJira">{{ 'jiraId' | translate }}</label>
-            <input type="text" id="idJira" formControlName="idJira" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="priorite">{{ 'priority' | translate }}</label>
-            <input type="number" id="priorite" formControlName="priorite" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="budget">{{ 'budget' | translate }}</label>
-            <input type="number" id="budget" formControlName="budget" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="description">{{ 'description' | translate }}</label>
-            <textarea id="description" formControlName="description" class="form-control"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="dateDebut">{{ 'startDate' | translate }}</label>
-            <input type="date" id="dateDebut" formControlName="dateDebut" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="dateFin">{{ 'endDate' | translate }}</label>
-            <input type="date" id="dateFin" formControlName="dateFin" class="form-control" required>
-        </div>
-        <div class="col-md-6">
-            <label for="JiraProject" class="form-label">Créer le projet dans Jira :</label>
-            <select class="form-control" formControlName="JiraProject" id="JiraProject">
-                <option value="oui">Oui</option>
-                <option value="non">Non</option>
-            </select>
-        </div>
+            padding: 8px;
+            border-radius: 8px !important;
+        }
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" >{{ 'submit' | translate }}</button>
-        </div>
-    </form>
+        /* Defining the style of the
+        heading/legend for custom fieldset */
+        .custom-field h1 {
+            font-size: 15px;
+            margin: -16px -8px 0;
+            color: #40B3A2;
+
+            font-weight: 500;
+        }
+
+        /* Using float:left allows us to mimic
+           the legend like fieldset. The
+           float:right property can also be
+           used to show the legend on right side */
+
+        .custom-field h1 span {
+            float: left;
+        }
+
+        /* Creating the custom top border to make
+            it look like fieldset defining small
+            border before the legend. The width
+            can be modified to change position
+            of the legend */
+        .custom-field h1:before {
+            border-top: 1px solid #40B3A2;
+            content: ' ';
+            float: left;
+            margin: 8px 2px 0 2px;
+            width: 20px;
+            border-radius: 8px !important;
+        }
+
+        /* Defining a long border after the
+        legend, using overflow hidden to
+        actually hide the line behind the
+        legend text. It can be removed
+        for a different effect */
+        .custom-field h1:after {
+            border-top: 1px solid #40B3A2;
+            content: ' ';
+            display: block;
+            height: 24px;
+            left: 2px;
+            margin: 0 1px 0 0;
+            overflow: hidden;
+            position: relative;
+            top: 8px;
+            border-top-right-radius: 8px ;
+        }
+        .fieldContent{
+
+            padding: 20px;
+        }
+    </style>
+
+    <div class="custom-field">
+        <h1>
+                    <span>
+                       Ajouter Projet
+                    </span>
+        </h1>
+        <div class="fieldContent">
+            <form [formGroup]="addProjetForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="nom">Project Name</label>
+                    <input type="text" id="nom" formControlName="nom" class="form-control" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="responsable">Responsable</label>
+                        <input type="text" id="responsable" formControlName="responsable" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="participants">Participants</label>
+                        <input type="text" id="participants" formControlName="participants" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <input type="text" id="type" formControlName="type" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="priorite">Priority</label>
+                    <input type="number" id="priorite" formControlName="priorite" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" formControlName="description" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="commentaires">Comments</label>
+                    <textarea type="text" id="commentaires" formControlName="commentaires" class="form-control"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="dateDebut">Start Date</label>
+                        <input type="date" id="dateDebut" formControlName="dateDebut" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="dateFin">End Date</label>
+                        <input type="date" id="dateFin" formControlName="dateFin" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="JiraProject" class="form-label">Créer le projet dans Jira :</label>
+                    <select class="form-control" formControlName="JiraProject" id="JiraProject">
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+            </div>
+    </div>
 </div>
