@@ -96,18 +96,18 @@
                                 <div class="row w-100 m-0 p-3">
                                     <div class="col-md-6 col-12 mb-md-0 mb-3 ps-md-0">
                                         <p class="mb-2 repeater-title">Item</p>
-                                        <select class="form-select item-details mb-2" [(ngModel)]="item.itemDetails">
+                                        <select class="form-select item-details mb-2" [(ngModel)]="item.itemDetails" name="itemDetails-{{i}}">
                                             <option selected disabled>Select Item</option>
                                             <option value="App Design">App Design</option>
                                             <option value="App Customization">App Customization</option>
                                             <option value="ABC Template">ABC Template</option>
                                             <option value="App Development">App Development</option>
                                         </select>
-                                        <textarea class="form-control" rows="2" placeholder="Item Information" [(ngModel)]="item.itemInformation"></textarea>
+                                        <textarea class="form-control" rows="2" placeholder="Item Information" [(ngModel)]="item.itemInformation" name="itemInformation-{{i}}"></textarea>
                                     </div>
                                     <div class="col-md-3 col-12 mb-md-0 mb-3">
                                         <p class="mb-2 repeater-title">Cost</p>
-                                        <input type="text" class="form-control invoice-item-price mb-2" placeholder="00" [(ngModel)]="item.itemCost" />
+                                        <input type="text" class="form-control invoice-item-price mb-2" placeholder="00" [(ngModel)]="item.itemCost" name="itemCost-{{i}}"/>
                                         <div>
                                             <span>Discount:</span>
                                             <span class="discount me-2">0%</span>
@@ -117,7 +117,7 @@
                                     </div>
                                     <div class="col-md-2 col-12 mb-md-0 mb-3">
                                         <p class="mb-2 repeater-title">Qty</p>
-                                        <input type="text" class="form-control invoice-item-qty" placeholder="1" [(ngModel)]="item.itemQty"  />
+                                        <input type="text" class="form-control invoice-item-qty" placeholder="1" [(ngModel)]="item.itemQty" name="itemQty-{{i}}" />
                                     </div>
                                     <div class="col-md-1 col-12 pe-0">
                                         <p class="mb-2 repeater-title">Price</p>

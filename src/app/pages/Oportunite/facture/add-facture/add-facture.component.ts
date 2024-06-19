@@ -18,7 +18,7 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./add-facture.component.scss']
 })
 export class AddFactureComponent implements OnInit {
-  invoiceItems: any[] = [];
+
   factureData: any = {
     dateFacture: '',
     dueDate: '',
@@ -27,15 +27,14 @@ export class AddFactureComponent implements OnInit {
     invoiceContact: '',
     salesperson: '',
     description: '',
-    invoiceItems: [
-      {
-        itemDetails: '',
-        itemInformation: '',
-        itemCost: 0,
-        itemQty: 0,
-      }
-    ]
+    invoiceItems: []
   };
+  invoiceItems: any[] = [{
+    itemDetails: '',
+    itemInformation: '',
+    itemCost: 0,
+    itemQty: 0,
+  }];
 
   // Calculate totals
   calculateTotals() {
@@ -57,7 +56,7 @@ export class AddFactureComponent implements OnInit {
       itemQty: 0,
     });
 
-
+    this.calculateTotals();
   }
   calculateTotal(index: number) {
     const item = this.factureData.items[index];
@@ -68,12 +67,9 @@ export class AddFactureComponent implements OnInit {
     this.invoiceItems.splice(index, 1);
   }
   sendFacture() {
-    console.log('Before Assignment:', this.factureData);
-    // Assign the items to the facture data
     this.factureData.invoiceItems = [...this.invoiceItems];
-    console.log('After Assignment:', this.factureData);
 
-    // Make API call to create facture
+    console.log('Before sending:', this.factureData);
     this.http.post<any>('http://localhost:8888/demo_war/api/saveFactureWithItems', this.factureData)
         .subscribe(
             response => {
@@ -160,6 +156,7 @@ export class AddFactureComponent implements OnInit {
 
   ngOnInit(): void {
     this.addItem();
+    // this.invoiceItems = this.factureData.invoiceItems.map(item => ({ ...item }));
   }
 
   nextTask(e: any) {
