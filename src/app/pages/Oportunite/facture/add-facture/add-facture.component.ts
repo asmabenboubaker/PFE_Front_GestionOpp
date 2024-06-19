@@ -10,6 +10,7 @@ import {FactureDTO} from "../../../../Models/FactureDTO";
 import {ToastrService} from "ngx-toastr";
 import {EnvService} from "../../../../../env.service";
 import {TranslateService} from "@ngx-translate/core";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-add-facture',
@@ -18,17 +19,96 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class AddFactureComponent implements OnInit {
   invoiceItems: any[] = [];
+  factureData: any = {
+    dateFacture: '',
+    dueDate: '',
+    invoiceTo: '',
+    invoiceAddress: '',
+    invoiceContact: '',
+    salesperson: '',
+    description: '',
+    invoiceItems: [
+      {
+        itemDetails: '',
+        itemInformation: '',
+        itemCost: 0,
+        itemQty: 0,
+      }
+    ]
+  };
+
+  // Calculate totals
+  calculateTotals() {
+    this.subtotal = this.factureData.items.reduce((sum, item) => sum + item.rate * item.qty, 0);
+    // Assume discount and tax are percentages for simplicity
+    this.discount = this.subtotal * (0 / 100); // Update discount logic as needed
+    this.tax = this.subtotal * (0 / 100); // Update tax logic as needed
+    this.total = this.subtotal - this.discount + this.tax;
+  }
+  subtotal: number = 0;
+  discount: number = 0;
+  tax: number = 0;
+  total: number = 0;
   addItem() {
     this.invoiceItems.push({
       itemDetails: '',
       itemInformation: '',
       itemCost: 0,
-      itemQty: 1
+      itemQty: 0,
     });
+
+
   }
+  calculateTotal(index: number) {
+    const item = this.factureData.items[index];
+    item.amount = item.qty * item.rate;
+  }
+
   removeItem(index: number) {
     this.invoiceItems.splice(index, 1);
   }
+  sendFacture() {
+    console.log('Before Assignment:', this.factureData);
+    // Assign the items to the facture data
+    this.factureData.invoiceItems = [...this.invoiceItems];
+    console.log('After Assignment:', this.factureData);
+
+    // Make API call to create facture
+    this.http.post<any>('http://localhost:8888/demo_war/api/saveFactureWithItems', this.factureData)
+        .subscribe(
+            response => {
+              console.log('Facture created successfully!', response);
+              // Optionally reset form or navigate to another page
+            },
+            error => {
+              console.error('Error creating facture', error);
+              // Handle error appropriately, show user feedback, etc.
+            }
+        );
+  }
+//   sendFacture() {
+//     console.log('Invoice Data:', this.factureData);
+//     // Assign the items to the facture data
+//     this.factureData.items = this.invoiceItems;
+// console.log(this.factureData);
+//     // Make API call to create facture
+//     this.http.post<any>('http://localhost:8888/demo_war/api/saveFactureWithItems', this.factureData)
+//         .subscribe(
+//             response => {
+//               console.log('Facture created successfully!', response);
+//               // Optionally reset form or navigate to another page
+//             },
+//             error => {
+//               console.error('Error creating facture', error);
+//               // Handle error appropriately, show user feedback, etc.
+//             }
+//         );
+//   }
+
+
+
+
+
   factureForm: FormGroup ;
   facture = new FactureDTO(null, null, null, null);
   eventvalueworkflow:any;
@@ -47,6 +127,7 @@ export class AddFactureComponent implements OnInit {
                 private translateService: TranslateService,
                 private toastr: ToastrService,
                 private env: EnvService,
+              private http: HttpClient
               ) {
 
     this.factureForm = this.fb.group({
@@ -78,7 +159,7 @@ export class AddFactureComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.addItem();
   }
 
   nextTask(e: any) {
