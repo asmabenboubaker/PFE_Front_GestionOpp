@@ -17,6 +17,18 @@ import {TranslateService} from "@ngx-translate/core";
   styleUrls: ['./add-facture.component.scss']
 })
 export class AddFactureComponent implements OnInit {
+  invoiceItems: any[] = [];
+  addItem() {
+    this.invoiceItems.push({
+      itemDetails: '',
+      itemInformation: '',
+      itemCost: 0,
+      itemQty: 1
+    });
+  }
+  removeItem(index: number) {
+    this.invoiceItems.splice(index, 1);
+  }
   factureForm: FormGroup ;
   facture = new FactureDTO(null, null, null, null);
   eventvalueworkflow:any;
