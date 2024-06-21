@@ -8,6 +8,7 @@ import { AddFactureComponent } from './add-facture/add-facture.component';
 import {AddDemandeComponent} from "../demande/add-demande/add-demande.component";
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 import {CardsModule} from "angular-bootstrap-md";
+import { EditFactureComponent } from './edit-facture/edit-facture.component';
 
 export const routes: Routes  = [
 
@@ -28,13 +29,21 @@ export const routes: Routes  = [
         component: GridFactureComponent,
         data: {breadcrumb: 'Consultation factures'},
         pathMatch: 'full'
+    },
+    //add edit
+    {
+        path: 'edit/:id',
+        component:  EditFactureComponent,
+        data: {breadcrumb: 'edit facture'},
+        pathMatch: 'full'
     }
 ];
 
 @NgModule({
   declarations: [
     GridFactureComponent,
-    AddFactureComponent
+    AddFactureComponent,
+    EditFactureComponent
   ],
     imports: [
         CommonModule,

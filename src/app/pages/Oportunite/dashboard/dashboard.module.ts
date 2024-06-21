@@ -11,6 +11,8 @@ import {
   DxoLabelModule,
   DxoSizeModule
 } from "devextreme-angular/ui/nested";
+import { MapsComponent } from './maps/maps.component';
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 
 export const routes: Routes  = [
   {
@@ -22,7 +24,8 @@ export const routes: Routes  = [
 ];
 @NgModule({
   declarations: [
-    StaticComponent
+    StaticComponent,
+    MapsComponent
   ],
     imports: [
         CommonModule,
@@ -36,6 +39,7 @@ export const routes: Routes  = [
         DxChartModule,
         DxPolarChartModule,
         DxBoxModule,
+        LeafletModule
     ]
 })
 export class DashboardModule { }

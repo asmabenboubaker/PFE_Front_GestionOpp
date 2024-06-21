@@ -74,7 +74,7 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/devextreme/dist/css/dx.material.blue.light.compact.css",
               "node_modules/devexpress-gantt/dist/dx-gantt.min.css",
-
+              "./node_modules/leaflet/dist/leaflet.css",
               {
                 "input": "src/assets/Style/dx.material.myTheme.css",
                 "bundleName": "dx.material.myTheme"

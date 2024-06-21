@@ -354,3 +354,32 @@ body {
 .me-5 {
   margin-right: 3rem !important;
 }
+.bx {
+  font-family: 'boxicons' !important;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fs-4 {
+  font-size: 1.5rem !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}

@@ -30,10 +30,10 @@
     [allowColumnResizing]="true"
     id="gridContainer"
     (onToolbarPreparing)="onToolbarPreparing($event)"
-    [columnAutoWidth]="true"
+    [columnAutoWidth]="false"
     [dataSource]="dataSourceElement"
     [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-    [rowAlternationEnabled]="true"
+
     [showColumnLines]="true"
 
     keyExpr="id"
@@ -44,11 +44,10 @@
 
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-    <dxi-column dataField="nom" dataType="string"></dxi-column>
-    <dxi-column dataField="statut" dataType="string"></dxi-column>
+
 
     <dxi-column dataField="description" dataType="string"></dxi-column>
-    <dxi-column dataField="dateDeCreation" dataType="date"></dxi-column>
+    <dxi-column dataField="dateFacture" dataType="date"></dxi-column>
 
 
     <dxi-column [allowResizing]="false"

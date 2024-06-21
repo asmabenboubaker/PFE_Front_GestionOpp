@@ -74,7 +74,9 @@ export class AddFactureComponent implements OnInit {
         .subscribe(
             response => {
               console.log('Facture created successfully!', response);
-              // Optionally reset form or navigate to another page
+              //navigate to facture list
+                this.router.navigate(['Facture/all']);
+
             },
             error => {
               console.error('Error creating facture', error);

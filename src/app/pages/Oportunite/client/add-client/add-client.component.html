@@ -20,7 +20,18 @@
             </div>
         </div>
     </div>
-
+    <div class="col-md-6">
+        <label for="pays" class="form-label">Pays:</label>
+        <select class="form-select" formControlName="pays" id="pays">
+            <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
+        </select>
+        <div *ngIf="domaineForm.get('pays').invalid && (domaineForm.get('pays').dirty || domaineForm.get('pays').touched)"
+             class="alert alert-danger">
+            <div *ngIf="domaineForm.get('pays').errors.required">
+                Pays is required.
+            </div>
+        </div>
+    </div>
     <div class="col-md-6">
         <label for="telephne" class="form-label">Téléphone:</label>
         <input class="form-control" formControlName="telephne" id="telephne" type="tel">

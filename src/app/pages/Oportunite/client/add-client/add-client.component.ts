@@ -25,18 +25,14 @@ export class AddClientComponent implements OnInit,OnChanges  {
 
   private msg: string = 'defaultErrorMessageKey';
   dataSourcePays
-  newClient: Client = {
-    id: 0,
-    nom: '',
-    adresse: '',
-    telephne: '',
-    email: '',
-    description: '',
-    dateInscription: null,
-    typeClient: '',
-    notes: ''
-  };
 
+  countries: { name: string, code: string }[] = [
+    { name: 'United States', code: 'US' },
+    { name: 'Australia', code: 'AU' },
+    { name: 'India', code: 'IN' },
+    { name: 'Saudi Arabia', code: 'SA' },
+    { name: 'Germany', code: 'DE' },
+  ];
   domaineForm = this.fb.group({
     id: null,
     nom: ['', Validators.required],
@@ -46,7 +42,8 @@ export class AddClientComponent implements OnInit,OnChanges  {
     description: null,
     dateInscription:null,
     typeClient: null,
-    notes: null
+    notes: null,
+    pays: ['']
   })
   // domaineForm = this.fb.group({
   //   id: [null],
@@ -66,7 +63,10 @@ export class AddClientComponent implements OnInit,OnChanges  {
               private tokenStorage: TokenStorageService,
               private http: HttpClient,
               private router: Router
-  ) { }
+  ) {
+
+
+  }
   onFieldDataChanged(e: any) {
     // Handle field data changes if needed
   }
@@ -111,7 +111,7 @@ export class AddClientComponent implements OnInit,OnChanges  {
         console.log('iddddddddddd' + this.id);
 
         this.domaineForm.value.id = this.id;
-
+console.log("data"+this.domaineForm.value);
         this.clientService.updateClient(clientData, this.id)
             .subscribe((data: any) => {
 

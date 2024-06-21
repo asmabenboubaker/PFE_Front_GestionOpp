@@ -40,7 +40,7 @@ export class GridFactureComponent implements OnInit {
     this.getAllFactures();
   }
     showbordereaux(id: any) {
-        this.router.navigate(["Facture/add/"+id])
+        this.router.navigate(["Facture/edit/"+id])
 
     }
     popupDelete(id:any) {
@@ -126,7 +126,7 @@ export class GridFactureComponent implements OnInit {
 
     deletedemande() {
         this.factureService.deleteFacture(this.iddoc).subscribe(data=>{
-            this.refresh();
+
             this.translateService.get("deleteWithSuccess").subscribe(
                 res => {
                     this.toastr.success(res, "", {
@@ -140,6 +140,7 @@ export class GridFactureComponent implements OnInit {
                 }
             )
             this.popupDeleteVisible = false;
+            this.refresh();
         }, error => {
             this.toastr.error(error.error.message, "", {
                 closeButton: true,

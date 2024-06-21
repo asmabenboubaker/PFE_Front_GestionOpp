@@ -23,4 +23,7 @@ export class FactureService {
     const url = `${this.env.piOpp+this.Wservice.getFacture}/${id}`;
     return this.http.delete<void>(url);
   }
+  getFactureById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.env.piOpp+this.Wservice.getFacture}/invoiceItems/${id}`);
+  }
 }

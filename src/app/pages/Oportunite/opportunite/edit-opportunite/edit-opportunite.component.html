@@ -564,7 +564,22 @@
                         ID="gridContainer"
                         keyExpr="ID"
                 >
+                    <dxi-column dataField="nom"></dxi-column>
+                    <dxi-column dataField="description"></dxi-column>
+                    <dxi-column dataField="nbreHours"></dxi-column>
+                    <dxi-column [allowResizing]="false"
+                                [fixed]="false" caption="{{'' | translate}}"
+                                cellTemplate="cellTemplateActions"
+                    >
+                    </dxi-column>
+                    <div *dxTemplate="let data of 'cellTemplateActions'"
+                         style="display: flex; justify-content: center; align-items: center;">
 
+
+                        <a (click)="deleteDetails(data.data.ID)" target="_blank"   title="" >
+                            <i class="fa fa-trash" style="color:#168c94;">
+                            </i></a>
+                    </div>
                 </dx-data-grid>
                     <dx-popup
                             [(visible)]="popupVisible"

@@ -745,7 +745,7 @@ else {
         e.toolbarOptions.items.unshift(
             {
                 location: 'center',
-                template: 'titreGrid'
+                template: 'Details'
             }
         );
 
@@ -756,5 +756,35 @@ else {
     }
     resetGrid(){
 
+    }
+    deleteDetails(taskId: any) {
+        // delete element static from data grid
+        console.log("taskId", taskId);
+        console.log("Before deletion:", this.tasks);
+
+        //detele form data grid
+        this.tasks = this.tasks.filter(task => task.ID !== taskId);
+
+        console.log("After deletion:", this.tasks);
+
+        if (this.gridContainer && this.gridContainer.instance) {
+            this.gridContainer.instance.refresh();
+            console.log("Grid refreshed");
+        } else {
+            console.error("Grid container or instance is not defined");
+        }
+    }
+
+    deleteDetails2(taskId: any) {
+        console.log("taskId",taskId);
+        this.opportuniteService.deleteDetails(taskId).subscribe(
+            () => {
+                this.gridContainer.instance.refresh();
+                this.popupVisible = false;
+            },
+            (error) => {
+                console.error('Error deleting task:', error);
+            }
+        );
     }
 }

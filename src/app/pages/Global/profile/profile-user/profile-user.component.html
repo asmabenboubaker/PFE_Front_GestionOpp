@@ -1,402 +1,1555 @@
-<input #inputt (change)="fileChange($event)" accept="image/*" hidden id="addfileemplye$" type="file">
-<div class="row" style="align-items: center">
-    <div class="col-3 hideP"></div>
-    <div [ngClass]="width ? 'col-12':'col-6'" class="col-6" style="height:fit-content">
-        <div *ngIf="user" class="card card1">
-            <h4 *ngIf="user.mydata.civilite !== null && user.mydata.civilite !== undefined"
-                class="card-title"
-                style="padding:1%; text-align: center;color: #ffdd00;">{{user.mydata.civilite}}
-                .{{user.mydata.displayname}}</h4>
-            <h4 *ngIf="user.mydata.civilite === null || user.mydata.civilite === undefined"
-                class="card-title"
-                style="padding:1%; text-align: center;color: #ffdd00;">{{user.mydata.displayname}}</h4>
-            <div class="av2">
-                <div class="avatar-wrapper">
-                    <img (click)="inputt.click()"
-                         *ngIf="user.mydata.thumbnailphoto !== null && user.mydata.thumbnailphoto !== undefined && user.mydata.thumbnailphoto !== 'null'"
-                         [src]="'data:'+ user.mydata.photoContentType + ';base64,' + user.mydata.thumbnailphoto"
-                         class="profile-pic" id="previewImageEmployecartevisite"/>
-                    <img (click)="inputt.click()"
-                         *ngIf="user.mydata.thumbnailphoto === null || user.mydata.thumbnailphoto === undefined || user.mydata.thumbnailphoto === 'null'"
-                         class="profile-pic"
-                         id="previewImageEmployecartevisite" name="previewImage"
-                         src="./assets/img/users/default-user.jpg" title="Ajouter Photo"/>
-                    <i (click)="clearimage()" *ngIf="showclearicon" aria-hidden="true"
-                       class="fa fa-times clearimage" title="Supprimer"></i>
-                    <i (click)="uploadImage()" *ngIf="showValidicon" aria-hidden="true"
-                       class="fa fa-check checkimage" title="Ajouter"></i>
-                </div>
-            </div>
-            <div class="card-body bodypro" style="color: white">
-                <div class="row">
-                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-at"></i>
-                        Mail:</strong> {{user.mydata.mail}}</div>
-                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-registered"></i>
-                        Matricule:</strong> {{user.mydata.matricule}}</div>
-                </div>
-                <div class="row" style="margin-top:1%">
-                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-building"></i>
-                        Département:</strong> {{user.departement}}</div>
-                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-tasks"></i>
-                        Département rôle:</strong> {{user.departementRole}}</div>
-                </div>
-                <div class="row" style="margin-top:1%">
-                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-crown"></i>
-                        Chef:</strong> <span *ngFor="let manager of user.managerName"> {{manager}} </span></div>
-                    <div [ngClass]="width2 ? 'col-12':'col-6'">
-                        <div class="d-flex" style="width: 15% !important;float: left;">
-                            <strong><i class="fas fa-phone"></i>Tél:</strong>
-                        </div>
-                        <div class="d-flex" style="width: 60% !important;float: left;">
-                            <span *ngIf="!editMode" class="ml-2">{{user.mydata.mobile}}</span>
-                            <form *ngIf="editMode" class="md-form md-outline row g-2 needs-validation" novalidate
-                                  style="width: 100% !important;">
-                                <div class="d-flex" style="width: 80% !important;float: left;">
-                                    <input #phoneNumber=ngModel [(ngModel)]="user.mydata.mobile" id="phoneNumber"
-                                           name="phoneNumber" pattern="^\+?\d{0,12}\s?\d{8}$|^\+?\d{10,12}$"
-                                           required style="width: 100% !important;" type="text">
+<!--<input #inputt (change)="fileChange($event)" accept="image/*" hidden id="addfileemplye$" type="file">-->
+<!--<div class="row" style="align-items: center">-->
+<!--    <div class="col-3 hideP"></div>-->
+<!--    <div [ngClass]="width ? 'col-12':'col-6'" class="col-6" style="height:fit-content">-->
+<!--        <div *ngIf="user" class="card card1">-->
+<!--            <h4 *ngIf="user.mydata.civilite !== null && user.mydata.civilite !== undefined"-->
+<!--                class="card-title"-->
+<!--                style="padding:1%; text-align: center;color: #ffdd00;">{{user.mydata.civilite}}-->
+<!--                .{{user.mydata.displayname}}</h4>-->
+<!--            <h4 *ngIf="user.mydata.civilite === null || user.mydata.civilite === undefined"-->
+<!--                class="card-title"-->
+<!--                style="padding:1%; text-align: center;color: #ffdd00;">{{user.mydata.displayname}}</h4>-->
+<!--            <div class="av2">-->
+<!--                <div class="avatar-wrapper">-->
+<!--                    <img (click)="inputt.click()"-->
+<!--                         *ngIf="user.mydata.thumbnailphoto !== null && user.mydata.thumbnailphoto !== undefined && user.mydata.thumbnailphoto !== 'null'"-->
+<!--                         [src]="'data:'+ user.mydata.photoContentType + ';base64,' + user.mydata.thumbnailphoto"-->
+<!--                         class="profile-pic" id="previewImageEmployecartevisite"/>-->
+<!--                    <img (click)="inputt.click()"-->
+<!--                         *ngIf="user.mydata.thumbnailphoto === null || user.mydata.thumbnailphoto === undefined || user.mydata.thumbnailphoto === 'null'"-->
+<!--                         class="profile-pic"-->
+<!--                         id="previewImageEmployecartevisite" name="previewImage"-->
+<!--                         src="./assets/img/users/default-user.jpg" title="Ajouter Photo"/>-->
+<!--                    <i (click)="clearimage()" *ngIf="showclearicon" aria-hidden="true"-->
+<!--                       class="fa fa-times clearimage" title="Supprimer"></i>-->
+<!--                    <i (click)="uploadImage()" *ngIf="showValidicon" aria-hidden="true"-->
+<!--                       class="fa fa-check checkimage" title="Ajouter"></i>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="card-body bodypro" style="color: white">-->
+<!--                <div class="row">-->
+<!--                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-at"></i>-->
+<!--                        Mail:</strong> {{user.mydata.mail}}</div>-->
+<!--                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-registered"></i>-->
+<!--                        Matricule:</strong> {{user.mydata.matricule}}</div>-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-top:1%">-->
+<!--                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-building"></i>-->
+<!--                        Département:</strong> {{user.departement}}</div>-->
+<!--                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-tasks"></i>-->
+<!--                        Département rôle:</strong> {{user.departementRole}}</div>-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-top:1%">-->
+<!--                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-crown"></i>-->
+<!--                        Chef:</strong> <span *ngFor="let manager of user.managerName"> {{manager}} </span></div>-->
+<!--                    <div [ngClass]="width2 ? 'col-12':'col-6'">-->
+<!--                        <div class="d-flex" style="width: 15% !important;float: left;">-->
+<!--                            <strong><i class="fas fa-phone"></i>Tél:</strong>-->
+<!--                        </div>-->
+<!--                        <div class="d-flex" style="width: 60% !important;float: left;">-->
+<!--                            <span *ngIf="!editMode" class="ml-2">{{user.mydata.mobile}}</span>-->
+<!--                            <form *ngIf="editMode" class="md-form md-outline row g-2 needs-validation" novalidate-->
+<!--                                  style="width: 100% !important;">-->
+<!--                                <div class="d-flex" style="width: 80% !important;float: left;">-->
+<!--                                    <input #phoneNumber=ngModel [(ngModel)]="user.mydata.mobile" id="phoneNumber"-->
+<!--                                           name="phoneNumber" pattern="^\+?\d{0,12}\s?\d{8}$|^\+?\d{10,12}$"-->
+<!--                                           required style="width: 100% !important;" type="text">-->
 
-                                </div>
-                                <div class="d-flex" style="width: 20% !important;float: left;">
-                                    <i (click)="updatePhoneNumber(user.mydata.matricule, user.mydata.mobile); editMode = false"
-                                       *ngIf="editMode && !phoneNumber.invalid"
-                                       class="fa fa-check ml-2"
-                                       style="cursor: pointer;color: red"></i>
-                                    <i (click)="editMode = true" *ngIf="!editMode" class="fa fa-pencil ml-2"
-                                       style="cursor: pointer;color: red"></i>
-                                </div>
-                                <div *ngIf="phoneNumber.invalid && phoneNumber.dirty," class="text-danger">
-                                    <span *ngIf="phoneNumber.errors.required">num de tél obligatoire</span>
-                                    <span *ngIf="phoneNumber.errors.pattern">num invalid (+216 22 222 222)</span>
-                                </div>
-                            </form>
-                            <div class="d-flex" style="width: 20% !important;float: left;">
-                                <i (click)="editMode = true" *ngIf="!editMode" class="fa fa-pencil ml-2"
-                                   style="cursor: pointer;color: red"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-top:1%">
-                    <div [ngClass]="width2 ? 'col-12':'col-6'"></div>
+<!--                                </div>-->
+<!--                                <div class="d-flex" style="width: 20% !important;float: left;">-->
+<!--                                    <i (click)="updatePhoneNumber(user.mydata.matricule, user.mydata.mobile); editMode = false"-->
+<!--                                       *ngIf="editMode && !phoneNumber.invalid"-->
+<!--                                       class="fa fa-check ml-2"-->
+<!--                                       style="cursor: pointer;color: red"></i>-->
+<!--                                    <i (click)="editMode = true" *ngIf="!editMode" class="fa fa-pencil ml-2"-->
+<!--                                       style="cursor: pointer;color: red"></i>-->
+<!--                                </div>-->
+<!--                                <div *ngIf="phoneNumber.invalid && phoneNumber.dirty," class="text-danger">-->
+<!--                                    <span *ngIf="phoneNumber.errors.required">num de tél obligatoire</span>-->
+<!--                                    <span *ngIf="phoneNumber.errors.pattern">num invalid (+216 22 222 222)</span>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                            <div class="d-flex" style="width: 20% !important;float: left;">-->
+<!--                                <i (click)="editMode = true" *ngIf="!editMode" class="fa fa-pencil ml-2"-->
+<!--                                   style="cursor: pointer;color: red"></i>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row" style="margin-top:1%">-->
+<!--                    <div [ngClass]="width2 ? 'col-12':'col-6'"></div>-->
 
-                </div>
+<!--                </div>-->
 
-            </div>
-        </div>
-    </div>
-    <div class="col-3 hideP"></div>
-</div>
-<div class="row m-1">
-    <div class="col-md-6 col-lg-6 col-xs-12 pl-0" style="margin-top: 1%">
-        <div class="card card2">
-            <div class="card-body" style="color:white">
-                <div class="favoris">
-                    <h5 class="headerP">
-                        <strong><i class="far fa-star"></i> Gestion des Favoris <i (click)="getListFavoris()"
-                                                                                   class="fa fa-pencil"
-                                                                                   style="cursor: pointer;"
-                                                                                   title="Gérer mes favoris"></i></strong>
-                    </h5>
-                    <ul *ngIf="user">
-                        <li *ngFor="let fav of userFavoris">{{fav.sid}}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-6 col-xs-12 pr-0" style="margin-top: 1%">
-        <div class="card card2">
-            <div class="card-body" style="color:white">
-                <div *ngIf="user" class="chef">
-                    <div class="row col-md-12 col-sm-12 col-lg-12">
-                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-                            <ul>
-                                <h5 class="headerP">
-                                    <strong>Chef de</strong>
-                                </h5>
-                                <li *ngFor="let r of user.managerOf.entites">{{r.entite}}</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-                            <ul>
-                                <h5 class="headerP">
-                                    <strong> Interim</strong>
-                                </h5>
-                                <li *ngFor="let r of user.managerOf.interim">{{r}}</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
-                            <ul>
-                                <h5 class="headerP">
-                                    <strong> Remplaçant</strong>
-                                </h5>
-                                <li *ngFor="let r of user.managerOf.personnes">{{r}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!--    <div class="col-md-6 col-lg-6 col-xs-12" style="margin-top: 1%">-->
-    <!--        <div class="card card2">-->
-    <!--            <div class="card-body" style="color:white">-->
-    <!--                <div class="roles" *ngIf="user">-->
-    <!--                    <div class="row col-md-12 col-sm-12 col-lg-12">-->
-    <!--                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">-->
-    <!--                            <ul>-->
-    <!--                                <h5 class="headerP">-->
-    <!--                                    <strong>Profil</strong>-->
-    <!--                                </h5>-->
-    <!--                                <li *ngIf="profile">{{ profile}}</li>-->
-    <!--                            </ul>-->
-    <!--                            <h5 class="headerP">-->
-    <!--                                <strong> Niveau de sécurité</strong><span-->
-    <!--                                    style="font-weight: 400">&ensp;{{securityLevel}}</span>-->
-    <!--                            </h5>-->
-    <!--                        </div>-->
-    <!--                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" style="padding-right: 0px;">-->
-    <!--                            <ul>-->
-    <!--                                <h5 class="headerP">-->
-    <!--                                    <strong> Rôle(s)</strong>-->
-    <!--                                </h5>-->
-    <!--                                <li *ngFor="let r of roles">{{r}}</li>-->
-    <!--                            </ul>-->
-    <!--                        </div>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <div class="col-md-12 col-lg-12 col-xs-12 p-0" style="margin-top: 1%">
-        <div class="card card2">
-            <div class="card-body" style="color:white">
-                <h5 class="headerP">
-                    <strong><i class="fas fa-star-of-life"></i> PS Toolkit <i (click)="refresh()"
-                                                                              class="fa fa-refresh"
-                                                                              style="cursor: pointer;"
-                                                                              title="Actualiser la page"></i></strong>
-                </h5>
-                <div class="row col-md-12 col-sm-12 col-lg-12 padding0">
-                    <div class="col-md-6 col-sm-12 col-lg-6">
-                        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
-                            <div class="card border-0 shadow-0 h-100 position-relative">
-                                <div [ngStyle]="{'height':this.pstkEnabled() === true ?'160px':'50px'}"
-                                     class="card-body pr-0 pl-0 pt-3 pb-3">
-                                    <app-config-pstk
-                                        #configPstkComponent
-                                        (closepopupSetingPSTK)="closepopupSetingPSTK($event)"
-                                        (pstkInfoEvent)="pstkInfoEvent($event)"
-                                        (submitEvent)="submitEvent($event)"
-                                        [PopupDisplay]="false"
-                                        [popupSetingPSTK]="popupSetingPSTK"
-                                    ></app-config-pstk>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="col-3 hideP"></div>-->
+<!--</div>-->
+<!--<div class="row m-1">-->
+<!--    <div class="col-md-6 col-lg-6 col-xs-12 pl-0" style="margin-top: 1%">-->
+<!--        <div class="card card2">-->
+<!--            <div class="card-body" style="color:white">-->
+<!--                <div class="favoris">-->
+<!--                    <h5 class="headerP">-->
+<!--                        <strong><i class="far fa-star"></i> Gestion des Favoris <i (click)="getListFavoris()"-->
+<!--                                                                                   class="fa fa-pencil"-->
+<!--                                                                                   style="cursor: pointer;"-->
+<!--                                                                                   title="Gérer mes favoris"></i></strong>-->
+<!--                    </h5>-->
+<!--                    <ul *ngIf="user">-->
+<!--                        <li *ngFor="let fav of userFavoris">{{fav.sid}}</li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="col-md-6 col-lg-6 col-xs-12 pr-0" style="margin-top: 1%">-->
+<!--        <div class="card card2">-->
+<!--            <div class="card-body" style="color:white">-->
+<!--                <div *ngIf="user" class="chef">-->
+<!--                    <div class="row col-md-12 col-sm-12 col-lg-12">-->
+<!--                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">-->
+<!--                            <ul>-->
+<!--                                <h5 class="headerP">-->
+<!--                                    <strong>Chef de</strong>-->
+<!--                                </h5>-->
+<!--                                <li *ngFor="let r of user.managerOf.entites">{{r.entite}}</li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">-->
+<!--                            <ul>-->
+<!--                                <h5 class="headerP">-->
+<!--                                    <strong> Interim</strong>-->
+<!--                                </h5>-->
+<!--                                <li *ngFor="let r of user.managerOf.interim">{{r}}</li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">-->
+<!--                            <ul>-->
+<!--                                <h5 class="headerP">-->
+<!--                                    <strong> Remplaçant</strong>-->
+<!--                                </h5>-->
+<!--                                <li *ngFor="let r of user.managerOf.personnes">{{r}}</li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
 
-                    <div *ngIf="ListeScanner && this.pstkEnabled() === true" class="col-md-6 col-sm-12 col-lg-6">
-                        <div class="col-md-12 col-lg-12 col-sm-12 padding0">
-                            <div class="card border-0 shadow-0 h-100 position-relative">
-                                <div class="card-body p-0">
-                                    <div class="card-text p-2">
-                                        <p *ngIf="avertissementPstk"
-                                           class="note note-danger fst-normal fs-6 text-danger m-0">
-                                            <strong>{{'ATTACHEMENT.avertissement' | translate }} : </strong>
-                                            {{'ATTACHEMENT.UserLicensePstk' | translate}}
-                                        </p>
-                                        <form #config="ngForm">
-                                            <div class="row col-md-12 col-lg-12 col-sm-12 mb-2 mt-1">
-                                                <div class="col-md-6 col-lg-6 col-sm-12">
-                                                    <dx-select-box
-                                                        #scannerName="ngModel"
-                                                        (ngModelChange)="changeScannerName($event)"
-                                                        [(ngModel)]="configjson.scannerName"
-                                                        [dataSource]="ListeScanner"
-                                                        [labelMode]="'floating'"
-                                                        [searchEnabled]="true"
-                                                        [showClearButton]="true"
-                                                        [stylingMode]="'outlined'"
-                                                        label="{{'ATTACHEMENT.scannerName'|translate}}"
-                                                        name="scannerName"
-                                                        placeholder="sélectionner un scanner">
-                                                    </dx-select-box>
+<!--    &lt;!&ndash;    <div class="col-md-6 col-lg-6 col-xs-12" style="margin-top: 1%">&ndash;&gt;-->
+<!--    &lt;!&ndash;        <div class="card card2">&ndash;&gt;-->
+<!--    &lt;!&ndash;            <div class="card-body" style="color:white">&ndash;&gt;-->
+<!--    &lt;!&ndash;                <div class="roles" *ngIf="user">&ndash;&gt;-->
+<!--    &lt;!&ndash;                    <div class="row col-md-12 col-sm-12 col-lg-12">&ndash;&gt;-->
+<!--    &lt;!&ndash;                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">&ndash;&gt;-->
+<!--    &lt;!&ndash;                            <ul>&ndash;&gt;-->
+<!--    &lt;!&ndash;                                <h5 class="headerP">&ndash;&gt;-->
+<!--    &lt;!&ndash;                                    <strong>Profil</strong>&ndash;&gt;-->
+<!--    &lt;!&ndash;                                </h5>&ndash;&gt;-->
+<!--    &lt;!&ndash;                                <li *ngIf="profile">{{ profile}}</li>&ndash;&gt;-->
+<!--    &lt;!&ndash;                            </ul>&ndash;&gt;-->
+<!--    &lt;!&ndash;                            <h5 class="headerP">&ndash;&gt;-->
+<!--    &lt;!&ndash;                                <strong> Niveau de sécurité</strong><span&ndash;&gt;-->
+<!--    &lt;!&ndash;                                    style="font-weight: 400">&ensp;{{securityLevel}}</span>&ndash;&gt;-->
+<!--    &lt;!&ndash;                            </h5>&ndash;&gt;-->
+<!--    &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" style="padding-right: 0px;">&ndash;&gt;-->
+<!--    &lt;!&ndash;                            <ul>&ndash;&gt;-->
+<!--    &lt;!&ndash;                                <h5 class="headerP">&ndash;&gt;-->
+<!--    &lt;!&ndash;                                    <strong> Rôle(s)</strong>&ndash;&gt;-->
+<!--    &lt;!&ndash;                                </h5>&ndash;&gt;-->
+<!--    &lt;!&ndash;                                <li *ngFor="let r of roles">{{r}}</li>&ndash;&gt;-->
+<!--    &lt;!&ndash;                            </ul>&ndash;&gt;-->
+<!--    &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--    &lt;!&ndash;    </div>&ndash;&gt;-->
+<!--    <div class="col-md-12 col-lg-12 col-xs-12 p-0" style="margin-top: 1%">-->
+<!--        <div class="card card2">-->
+<!--            <div class="card-body" style="color:white">-->
+<!--                <h5 class="headerP">-->
+<!--                    <strong><i class="fas fa-star-of-life"></i> PS Toolkit <i (click)="refresh()"-->
+<!--                                                                              class="fa fa-refresh"-->
+<!--                                                                              style="cursor: pointer;"-->
+<!--                                                                              title="Actualiser la page"></i></strong>-->
+<!--                </h5>-->
+<!--                <div class="row col-md-12 col-sm-12 col-lg-12 padding0">-->
+<!--                    <div class="col-md-6 col-sm-12 col-lg-6">-->
+<!--                        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">-->
+<!--                            <div class="card border-0 shadow-0 h-100 position-relative">-->
+<!--                                <div [ngStyle]="{'height':this.pstkEnabled() === true ?'160px':'50px'}"-->
+<!--                                     class="card-body pr-0 pl-0 pt-3 pb-3">-->
+<!--                                    <app-config-pstk-->
+<!--                                        #configPstkComponent-->
+<!--                                        (closepopupSetingPSTK)="closepopupSetingPSTK($event)"-->
+<!--                                        (pstkInfoEvent)="pstkInfoEvent($event)"-->
+<!--                                        (submitEvent)="submitEvent($event)"-->
+<!--                                        [PopupDisplay]="false"-->
+<!--                                        [popupSetingPSTK]="popupSetingPSTK"-->
+<!--                                    ></app-config-pstk>-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+<!--                    <div *ngIf="ListeScanner && this.pstkEnabled() === true" class="col-md-6 col-sm-12 col-lg-6">-->
+<!--                        <div class="col-md-12 col-lg-12 col-sm-12 padding0">-->
+<!--                            <div class="card border-0 shadow-0 h-100 position-relative">-->
+<!--                                <div class="card-body p-0">-->
+<!--                                    <div class="card-text p-2">-->
+<!--                                        <p *ngIf="avertissementPstk"-->
+<!--                                           class="note note-danger fst-normal fs-6 text-danger m-0">-->
+<!--                                            <strong>{{'ATTACHEMENT.avertissement' | translate }} : </strong>-->
+<!--                                            {{'ATTACHEMENT.UserLicensePstk' | translate}}-->
+<!--                                        </p>-->
+<!--                                        <form #config="ngForm">-->
+<!--                                            <div class="row col-md-12 col-lg-12 col-sm-12 mb-2 mt-1">-->
+<!--                                                <div class="col-md-6 col-lg-6 col-sm-12">-->
+<!--                                                    <dx-select-box-->
+<!--                                                        #scannerName="ngModel"-->
+<!--                                                        (ngModelChange)="changeScannerName($event)"-->
+<!--                                                        [(ngModel)]="configjson.scannerName"-->
+<!--                                                        [dataSource]="ListeScanner"-->
+<!--                                                        [labelMode]="'floating'"-->
+<!--                                                        [searchEnabled]="true"-->
+<!--                                                        [showClearButton]="true"-->
+<!--                                                        [stylingMode]="'outlined'"-->
+<!--                                                        label="{{'ATTACHEMENT.scannerName'|translate}}"-->
+<!--                                                        name="scannerName"-->
+<!--                                                        placeholder="sélectionner un scanner">-->
+<!--                                                    </dx-select-box>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-md-6 col-lg-6 col-sm-12">-->
+<!--                                                    <dx-select-box-->
+<!--                                                        #scannerProfil="ngModel"-->
+<!--                                                        (ngModelChange)="changeScannerProfile($event)"-->
+<!--                                                        [(ngModel)]="configjson.scannerProfil"-->
+<!--                                                        [dataSource]="scan_preferences"-->
+<!--                                                        [labelMode]="'floating'"-->
+<!--                                                        [searchEnabled]="true"-->
+<!--                                                        [showClearButton]="true"-->
+<!--                                                        [stylingMode]="'outlined'"-->
+<!--                                                        displayExpr="name"-->
+<!--                                                        label="{{'ATTACHEMENT.ProfileScanner'|translate}}"-->
+<!--                                                        name="scannerProfil"-->
+<!--                                                        placeholder="sélectionner un profil de numérisation">-->
+<!--                                                    </dx-select-box>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </form>-->
+
+<!--                                        <div class="row col-md-12 col-lg-12 col-sm-12 mb-2" style="color: black;">-->
+<!--                                            <p *ngIf="this.pstkEnabled() === true"-->
+<!--                                               class="note note-danger fst-normal fs-6 text-danger">-->
+<!--                                                <strong>{{'ATTACHEMENT.Reinsignement' | translate }} : </strong>-->
+<!--                                                {{'ATTACHEMENT.notifImprimant' | translate }}-->
+<!--                                            </p>-->
+<!--                                            <div class="row">-->
+<!--                                                <div class="col-md-6 col-lg-6 col-sm-12 text-center">-->
+<!--                                                    <span *ngIf="this.pstkEnabled() === true" class="float-md-left">-->
+<!--                                                        <dx-check-box (valueChange)="switchImprimanteChange($event)"-->
+<!--                                                                      [value]="imprimante"></dx-check-box>-->
+<!--                                                    Imprimante thermique</span>-->
+<!--                                                </div>-->
+<!--                                                <div *ngIf="imprimante && this.pstkEnabled() === true"-->
+<!--                                                     class="col-md-6 col-lg-6 col-sm-12 text-center">-->
+<!--                                                    &lt;!&ndash;                                                    <dx-select-box *ngIf="imprimante && envEnabled === true"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   [showClearButton]="true"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   placeholder="sélectionner un script"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   [dataSource]="listScript"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   [labelMode]="'floating'"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   [stylingMode]="'outlined'"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   [value]="scriptSelected"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   label="{{'Script'|translate}}"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   [searchEnabled]="true"&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                                   (onValueChanged)="scriptChange($event)">&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                                    </dx-select-box>&ndash;&gt;-->
+<!--                                                    <fieldset>-->
+<!--                                                        <legend class="position-absolute top-0 bg-white d-flex "-->
+<!--                                                                style="width:max-content;transform:translateX(30px); transform:translateY(-50%); font-size: 90%;-->
+<!--    background: white;-->
+<!--    z-index: 100; ">-->
+<!--                                                            <i aria-hidden="true" class="fa fa-plug mr-1"-->
+<!--                                                               style="color: black"></i>{{'port' | translate}}-->
+<!--                                                        </legend>-->
+
+<!--                                                        <dx-number-box (onValueChanged)="scriptChange($event)"-->
+<!--                                                                       [min]="0"-->
+<!--                                                                       [showClearButton]="true"-->
+<!--                                                                       [step]="1"-->
+<!--                                                                       [value]="scriptSelected"-->
+<!--                                                                       format="LPT#0"-->
+<!--                                                        >-->
+<!--                                                            <dx-validator>-->
+<!--                                                                <dxi-validation-rule-->
+<!--                                                                        message="{{'Le champ est obligatoire'|translate}}"-->
+<!--                                                                        type="required">-->
+<!--                                                                </dxi-validation-rule>-->
+<!--                                                            </dx-validator>-->
+<!--                                                        </dx-number-box>-->
+<!--                                                    </fieldset>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="col-md-6 col-lg-6 col-xs-12 p-0" style="margin-top: 1%">-->
+<!--        <div class="card card2">-->
+<!--            <div class="card-body" style="color:white">-->
+<!--                <div class="groupes">-->
+<!--                    <h5 class="headerP">-->
+<!--                        <strong><i class="fas fa-users"></i> Groupe(s)</strong>-->
+<!--                    </h5>-->
+<!--                    <ul *ngIf="user">-->
+<!--                        <li *ngFor="let grp of user.groups">{{grp}}</li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<dx-popup-->
+<!--        (onHiding)="getMyFavory()"-->
+<!--        [(visible)]="popupfavoris"-->
+<!--        [hideOnOutsideClick]="false"-->
+<!--        [dragEnabled]="true"-->
+<!--        [height]="700"-->
+<!--        [maxHeight]="700"-->
+<!--        [maxWidth]="'85%'"-->
+<!--        [showTitle]="true"-->
+<!--        [width]="'70%'"-->
+<!--        resizeEnabled="true"-->
+<!--        title="Gérer mes favoris">-->
+<!--    &lt;!&ndash;    <dx-scroll-view width="100%" height="100%">&ndash;&gt;-->
+<!--    <div>-->
+<!--        <app-select-orga (personnes)="getPersonnefinale($event)" [mode]="false"-->
+<!--                         [selectMode]="'multiple'"-->
+<!--                         [selectdata]="userFavoris" selectbox="asmail"></app-select-orga>-->
+
+<!--        <div class="footer">-->
+<!--            <div class="col-md-12 col-lg-12 col-sm-12 row">-->
+<!--                <div class="col-md-6 col-lg-6 col-sm-6">-->
+<!--                    <button (click)="Return()" class="btn btn-light"-->
+<!--                            type="button"> Annuler-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;                    <div class="col-md-6 col-lg-6 col-sm-6  alignRight">&ndash;&gt;-->
+<!--                &lt;!&ndash;                        <button type="submit" class="btn btn-success me-md-2"&ndash;&gt;-->
+<!--                &lt;!&ndash;                                style="background-color: #0c8d12" (click)="confirmer()">Confirmer&ndash;&gt;-->
+<!--                &lt;!&ndash;                        </button>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;    </dx-scroll-view>&ndash;&gt;-->
+<!--</dx-popup>-->
+
+<!--<dx-popup-->
+<!--        [(visible)]="popupInstallToolkitVisible"-->
+<!--        [hideOnOutsideClick]="true"-->
+<!--        [dragEnabled]="false"-->
+<!--        [height]="'auto'"-->
+<!--        [maxWidth]="940"-->
+<!--        [showTitle]="true"-->
+<!--        [width]="500"-->
+<!--        title="{{'ATTACHEMENT.popuptoolkittitle' | translate }}">-->
+<!--    <div class="row">-->
+<!--        <p> {{'ATTACHEMENT.downloadPstoolkit' | translate }} </p>-->
+<!--    </div>-->
+<!--    <div class="row">-->
+<!--        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">-->
+<!--            <button (click)="popupInstallToolkitVisible=false"-->
+<!--                    class="btn btn-outline-secondary  mb-1 mr-1"-->
+<!--                    type="button">{{ 'annuler' | translate }}-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">-->
+<!--            <button (click)="TelechargerTollkit()" class="btn btn-success"-->
+<!--                    type="submit">{{ 'ATTACHEMENT.download' | translate }}-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</dx-popup>-->
+
+<!--<dx-load-panel-->
+<!--    #loadPanel-->
+<!--    [(visible)]="loadingVisible"-->
+<!--    [hideOnOutsideClick]="false"-->
+<!--    [position]="{ of: '#positionLoadPanel' }"-->
+<!--    [shading]="true"-->
+<!--    [showIndicator]="true"-->
+<!--    [showPane]="true"-->
+<!--    shadingColor="rgba(0,0,0,0.4)">-->
+<!--</dx-load-panel>-->
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css" integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="container">
+    <div class="row">
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <div class="text-center border-end">
+
+                                <div class="av2">
+                                    <input #inputt (change)="fileChange($event)" accept="image/*" hidden id="addfileemplye$" type="file">
+
+                                    <div class="avatar-wrapper">
+                                                        <img (click)="inputt.click()"
+                                                             *ngIf="user.mydata.thumbnailphoto !== null && user.mydata.thumbnailphoto !== undefined && user.mydata.thumbnailphoto !== 'null'"
+                                                             [src]="'data:'+ user.mydata.photoContentType + ';base64,' + user.mydata.thumbnailphoto"
+                                                             class="profile-pic" id="previewImageEmployecartevisite"/>
+                                                        <img (click)="inputt.click()"
+                                                             *ngIf="user.mydata.thumbnailphoto === null || user.mydata.thumbnailphoto === undefined || user.mydata.thumbnailphoto === 'null'"
+                                                             class="profile-pic"
+                                                             id="previewImageEmployecartevisite" name="previewImage"
+                                                             src="./assets/img/users/default-user.jpg" title="Ajouter Photo"/>
+                                                        <i (click)="clearimage()" *ngIf="showclearicon" aria-hidden="true"
+                                                           class="fa fa-times clearimage" title="Supprimer"></i>
+                                                        <i (click)="uploadImage()" *ngIf="showValidicon" aria-hidden="true"
+                                                           class="fa fa-check checkimage" title="Ajouter"></i>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-6 col-lg-6 col-sm-12">
-                                                    <dx-select-box
-                                                        #scannerProfil="ngModel"
-                                                        (ngModelChange)="changeScannerProfile($event)"
-                                                        [(ngModel)]="configjson.scannerProfil"
-                                                        [dataSource]="scan_preferences"
-                                                        [labelMode]="'floating'"
-                                                        [searchEnabled]="true"
-                                                        [showClearButton]="true"
-                                                        [stylingMode]="'outlined'"
-                                                        displayExpr="name"
-                                                        label="{{'ATTACHEMENT.ProfileScanner'|translate}}"
-                                                        name="scannerProfil"
-                                                        placeholder="sélectionner un profil de numérisation">
-                                                    </dx-select-box>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <div class="row col-md-12 col-lg-12 col-sm-12 mb-2" style="color: black;">
-                                            <p *ngIf="this.pstkEnabled() === true"
-                                               class="note note-danger fst-normal fs-6 text-danger">
-                                                <strong>{{'ATTACHEMENT.Reinsignement' | translate }} : </strong>
-                                                {{'ATTACHEMENT.notifImprimant' | translate }}
-                                            </p>
-                                            <div class="row">
-                                                <div class="col-md-6 col-lg-6 col-sm-12 text-center">
-                                                    <span *ngIf="this.pstkEnabled() === true" class="float-md-left">
-                                                        <dx-check-box (valueChange)="switchImprimanteChange($event)"
-                                                                      [value]="imprimante"></dx-check-box>
-                                                    Imprimante thermique</span>
-                                                </div>
-                                                <div *ngIf="imprimante && this.pstkEnabled() === true"
-                                                     class="col-md-6 col-lg-6 col-sm-12 text-center">
-                                                    <!--                                                    <dx-select-box *ngIf="imprimante && envEnabled === true"-->
-                                                    <!--                                                                   [showClearButton]="true"-->
-                                                    <!--                                                                   placeholder="sélectionner un script"-->
-                                                    <!--                                                                   [dataSource]="listScript"-->
-                                                    <!--                                                                   [labelMode]="'floating'"-->
-                                                    <!--                                                                   [stylingMode]="'outlined'"-->
-                                                    <!--                                                                   [value]="scriptSelected"-->
-                                                    <!--                                                                   label="{{'Script'|translate}}"-->
-                                                    <!--                                                                   [searchEnabled]="true"-->
-                                                    <!--                                                                   (onValueChanged)="scriptChange($event)">-->
-                                                    <!--                                                    </dx-select-box>-->
-                                                    <fieldset>
-                                                        <legend class="position-absolute top-0 bg-white d-flex "
-                                                                style="width:max-content;transform:translateX(30px); transform:translateY(-50%); font-size: 90%;
-    background: white;
-    z-index: 100; ">
-                                                            <i aria-hidden="true" class="fa fa-plug mr-1"
-                                                               style="color: black"></i>{{'port' | translate}}
-                                                        </legend>
-
-                                                        <dx-number-box (onValueChanged)="scriptChange($event)"
-                                                                       [min]="0"
-                                                                       [showClearButton]="true"
-                                                                       [step]="1"
-                                                                       [value]="scriptSelected"
-                                                                       format="LPT#0"
-                                                        >
-                                                            <dx-validator>
-                                                                <dxi-validation-rule
-                                                                        message="{{'Le champ est obligatoire'|translate}}"
-                                                                        type="required">
-                                                                </dxi-validation-rule>
-                                                            </dx-validator>
-                                                        </dx-number-box>
-                                                    </fieldset>
+                                <h4 class="text-primary font-size-20 mt-3 mb-2">{{user.mydata.civilite}}
+                                    {{user.mydata.displayname}}</h4>
+                                                                    <h5 class="text-muted font-size-13 mb-0">{{user.mydata.matricule}}</h5>
+                                                                </div>
+                                                            </div><!-- end col -->
+                        <div class="col-md-9">
+                            <div class="ms-3">
+                                <div>
+                                    <h4 class="card-title mb-2">Biography</h4>
+                                    <p class="mb-0 text-muted">Hi I'm Jansh,has been the industry's standard
+                                        dummy text To an English person alteration text.</p>
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>{{user.mydata.mail}}</p>
+                                            <p class="text-muted fw-medium mb-0"><i class="mdi mdi-phone-in-talk-outline me-2"></i>{{user.mydata.mobile}}</p>
+                                            <div class="d-flex" style="width: 60% !important; float: left;">
+                                                <span *ngIf="!editMode" class="ml-2">{{user.mydata.mobile}}</span>
+                                                <form *ngIf="editMode" class="md-form md-outline row g-2 needs-validation" novalidate style="width: 100% !important;">
+                                                    <div class="d-flex" style="width: 80% !important; float: left;">
+                                                        <input #phoneNumber="ngModel" [(ngModel)]="user.mydata.mobile" id="phoneNumber" name="phoneNumber"
+                                                               pattern="^\+?\d{0,12}\s?\d{8}$|^\+?\d{10,12}$" required style="width: 100% !important;" type="text">
+                                                    </div>
+                                                    <div class="d-flex" style="width: 20% !important; float: left;">
+                                                        <button (click)="updatePhoneNumber(user.mydata.matricule, user.mydata.mobile);" [disabled]="phoneNumber.invalid" class="btn btn-success ml-2" type="button">
+                                                            Confirmer
+                                                        </button>
+                                                        <i (click)="editMode = false" class="fa fa-times ml-2" style="cursor: pointer; color: red;"></i>
+                                                    </div>
+                                                    <div *ngIf="phoneNumber.invalid && phoneNumber.dirty" class="text-danger">
+                                                        <span *ngIf="phoneNumber.errors.required">num de tél obligatoire</span>
+                                                        <span *ngIf="phoneNumber.errors.pattern">num invalid (+216 22 222 222)</span>
+                                                    </div>
+                                                </form>
+                                                <div class="d-flex" style="width: 20% !important; float: left;">
+                                                    <i (click)="editMode = true" *ngIf="!editMode" class="fa fa-pencil ml-2" style="cursor: pointer; color: red;"></i>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+
+                                <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link px-4 active" data-bs-toggle="tab" aria-selected="false" tabindex="-1"
+                                           data-mdb-tab-init
+                                           class="nav-link active"
+                                           id="ex2-tab-1"
+                                           href="#ex2-tabs-1"
+                                           role="tab"
+                                           aria-controls="ex2-tabs-1"
+                                        >
+                                            <span class="d-block d-sm-none"><i class="fas fa-home" ></i></span>
+                                            <span class="d-none d-sm-block"
+                                                  aria-selected="true">Projects</span>
+                                        </a>
+                                    </li><!-- end li -->
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link px-4"
+                                           data-mdb-tab-init
+                                           class="nav-link"
+                                           id="ex2-tab-2"
+                                           href="#ex2-tabs-2"
+                                           role="tab"
+                                           aria-controls="ex2-tabs-2"
+                                           aria-selected="false"
+                                        >
+                                            <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
+                                            <span class="d-none d-sm-block"
+
+                                            >Tasks</span>
+                                        </a>
+                                    </li><!-- end li -->
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link px-4 "
+                                           data-mdb-tab-init
+                                           class="nav-link"
+                                           id="ex2-tab-3"
+                                           href="#ex2-tabs-3"
+                                           role="tab"
+                                           aria-controls="ex2-tabs-3"
+                                           aria-selected="false" >
+                                            <span class="d-block d-sm-none"><i class="mdi mdi-account-group-outline"></i></span>
+                                            <span class="d-none d-sm-block"
+
+                                            >Team</span>
+                                        </a>
+                                    </li><!-- end li -->
+                                </ul><!-- end ul -->
+                            </div>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+            <div class="tab-content" id="ex2-content">
+            <div class="card"
+                 class="tab-pane fade show active"
+                 id="ex2-tabs-1"
+                 role="tabpanel"
+                 aria-labelledby="ex2-tab-1"
+            >
+                <div class="tab-content p-4">
+                    <div class="tab-pane active show" id="projects-tab1" role="tabpanel">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-1">
+                                <h4 class="card-title mb-4">Projects</h4>
                             </div>
                         </div>
+
+                        <div class="row" id="all-projects">
+                            <div class="col-md-6" id="project-items-1">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-grow-1 align-items-start">
+                                                <div>
+                                                    <h6 class="mb-0 text-muted">
+                                                        <i class="mdi mdi-circle-medium text-danger fs-3 align-middle"></i>
+                                                        <span class="team-date">21 Jun, 2021</span>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown ms-2">
+                                                <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-1')">Edit</a>
+                                                    <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item delete-item" onclick="deleteProjects('project-items-1')" data-id="project-items-1" href="javascript: void(0);">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h5 class="mb-1 font-size-17 team-title">Marketing</h5>
+                                            <p class="text-muted mb-0 team-description">Every Marketing Plan
+                                                Needs</p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-6" aria-label="Terrell Soto" data-bs-original-title="Terrell Soto">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-1" aria-label="Ruhi Shah" data-bs-original-title="Ruhi Shah">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-15" data-bs-original-title="Denny Silva">
+                                                        <div class="avatar-sm">
+                                                            <div class="avatar-title rounded-circle bg-primary">
+                                                                D
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div><!-- end avatar group -->
+                                            <div class="align-self-end">
+                                                <span class="badge badge-soft-danger p-2 team-status">Pending</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- end cardbody -->
+                                </div><!-- end card -->
+                            </div><!-- end col -->
+
+                            <div class="col-md-6" id="project-items-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-grow-1 align-items-start">
+                                                <div>
+                                                    <h6 class="mb-0 text-muted">
+                                                        <i class="mdi mdi-circle-medium text-success fs-3 align-middle"></i>
+                                                        <span class="team-date">13 Aug, 2021</span>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown ms-2">
+                                                <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-2')">Edit</a>
+                                                    <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item delete-item" href="javascript:void(0);" onclick="deleteProjects('project-items-2')" data-id="project-items-2">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h5 class="mb-1 font-size-17 team-title">Website Design</h5>
+                                            <p class="text-muted mb-0 team-description">Creating the design
+                                                and layout of a
+                                                website.</p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Kelly Osborn" data-bs-original-title="Kelly Osborn">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-2" aria-label="John Page" data-bs-original-title="John Page">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                            </div><!-- end avatar group -->
+                                            <div class="align-self-end">
+                                                <span class="badge badge-soft-success p-2 team-status">Completed</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- end cad-body -->
+                                </div><!-- end card -->
+                            </div><!-- end col -->
+
+                            <div class="col-md-6" id="project-items-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-grow-1 align-items-start">
+                                                <div>
+                                                    <h6 class="mb-0 text-muted">
+                                                        <i class="mdi mdi-circle-medium text-warning fs-3 align-middle"></i>
+                                                        <span class="team-date">08 Sep, 2021</span>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown ms-2">
+                                                <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-3')">Edit</a>
+                                                    <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item delete-item" href="javascript: void(0);" data-id="project-items-3" onclick="deleteProjects('project-items-3')">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h5 class="mb-1 font-size-17 team-title">UI / UX Design</h5>
+                                            <p class="text-muted mb-0 team-description">Plan and onduct user
+                                                research and analysis</p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-3" aria-label="Judy Newland" data-bs-original-title="Judy Newland">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-5" aria-label="Jeffery Legette" data-bs-original-title="Jeffery Legette">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-6" aria-label="Jose Rosborough" data-bs-original-title="Jose Rosborough">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                            </div><!-- end avatar group -->
+                                            <div class="align-self-end">
+                                                <span class="badge badge-soft-warning p-2 team-status">Progress</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card-body -->
+                                </div><!-- end card -->
+                            </div><!-- end col -->
+
+                            <div class="col-md-6" id="project-items-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-grow-1 align-items-start">
+                                                <div>
+                                                    <h6 class="mb-0 text-muted">
+                                                        <i class="mdi mdi-circle-medium text-danger fs-3 align-middle"></i>
+                                                        <span class="team-date">20 Sep, 2021</span>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown ms-2">
+                                                <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-4')">Edit</a>
+                                                    <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item delete-item" href="javascript:void(0);" data-id="project-items-4" onclick="deleteProjects('project-items-4')">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h5 class="mb-1 font-size-17 team-title">Testing</h5>
+                                            <p class="text-muted mb-0 team-description">The procurement
+                                                specifications should
+                                                describe</p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Jansh Wells" data-bs-original-title="Jansh Wells">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                            </div><!-- end avatar group -->
+                                            <div class="align-self-end">
+                                                <span class="badge badge-soft-danger p-2 team-status">Pending</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card-body -->
+                                </div><!-- end card -->
+                            </div><!-- end col -->
+
+                            <div class="col-md-6" id="project-items-5">
+                                <div class="card mb-lg-0">
+                                    <div class="card-body">
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-grow-1 align-items-start">
+                                                <div>
+                                                    <h6 class="mb-0 text-muted">
+                                                        <i class="mdi mdi-circle-medium text-success fs-3 align-middle"></i>
+                                                        <span class="team-date">12 April, 2021</span>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown ms-2">
+                                                <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-dots-horizontal"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-5')">Edit</a>
+                                                    <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item delete-item" onclick="deleteProjects('project-items-5')" data-id="project-items-5" href="javascript: void(0);">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <h5 class="mb-1 font-size-17 team-title">Typography</h5>
+                                            <p class="text-muted mb-0 team-description">Typography is the
+                                                style or appearance
+                                                of text.</p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-1" aria-label="Ruhi Luft" data-bs-original-title="Ruhi Luft">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-5" aria-label="Elias Hardage" data-bs-original-title="Elias Hardage">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                                <div class="avatar-group-item">
+                                                    <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Jansh Wells" data-bs-original-title="Jansh Wells">
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                    </a>
+                                                </div>
+                                            </div><!-- end avatar group -->
+                                            <div class="align-self-end">
+                                                <span class="badge badge-soft-success p-2 team-status">Completed</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card body -->
+                                </div><!-- end card -->
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+                    </div><!-- end tab pane -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+            </div><!-- end card -->
+                <div class="card"
+                     class="tab-pane fade"
+                     id="ex2-tabs-2"
+                     role="tabpanel"
+                     aria-labelledby="ex2-tab-2"
+                >
+                    <div class="tab-content p-4">
+                        <div class="tab-pane active show" id="projects-tab1" role="tabpanel">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-1">
+                                    <h4 class="card-title mb-4">Projects</h4>
+                                </div>
+                            </div>
+
+                            <div class="row" id="all-projects">
+                                <div class="col-md-6" id="project-items-1">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-danger fs-3 align-middle"></i>
+                                                            <span class="team-date">21 Jun, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-1')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" onclick="deleteProjects('project-items-1')" data-id="project-items-1" href="javascript: void(0);">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">Marketing</h5>
+                                                <p class="text-muted mb-0 team-description">Every Marketing Plan
+                                                    Needs</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-6" aria-label="Terrell Soto" data-bs-original-title="Terrell Soto">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-1" aria-label="Ruhi Shah" data-bs-original-title="Ruhi Shah">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-15" data-bs-original-title="Denny Silva">
+                                                            <div class="avatar-sm">
+                                                                <div class="avatar-title rounded-circle bg-primary">
+                                                                    D
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-danger p-2 team-status">Pending</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end cardbody -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+
+                                <div class="col-md-6" id="project-items-2">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-success fs-3 align-middle"></i>
+                                                            <span class="team-date">13 Aug, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-2')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" href="javascript:void(0);" onclick="deleteProjects('project-items-2')" data-id="project-items-2">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">Website Design</h5>
+                                                <p class="text-muted mb-0 team-description">Creating the design
+                                                    and layout of a
+                                                    website.</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Kelly Osborn" data-bs-original-title="Kelly Osborn">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-2" aria-label="John Page" data-bs-original-title="John Page">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-success p-2 team-status">Completed</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end cad-body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+
+                                <div class="col-md-6" id="project-items-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-warning fs-3 align-middle"></i>
+                                                            <span class="team-date">08 Sep, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-3')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" href="javascript: void(0);" data-id="project-items-3" onclick="deleteProjects('project-items-3')">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">UI / UX Design</h5>
+                                                <p class="text-muted mb-0 team-description">Plan and onduct user
+                                                    research and analysis</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-3" aria-label="Judy Newland" data-bs-original-title="Judy Newland">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-5" aria-label="Jeffery Legette" data-bs-original-title="Jeffery Legette">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-6" aria-label="Jose Rosborough" data-bs-original-title="Jose Rosborough">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-warning p-2 team-status">Progress</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card-body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+
+                                <div class="col-md-6" id="project-items-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-danger fs-3 align-middle"></i>
+                                                            <span class="team-date">20 Sep, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-4')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" href="javascript:void(0);" data-id="project-items-4" onclick="deleteProjects('project-items-4')">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">Testing</h5>
+                                                <p class="text-muted mb-0 team-description">The procurement
+                                                    specifications should
+                                                    describe</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Jansh Wells" data-bs-original-title="Jansh Wells">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-danger p-2 team-status">Pending</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card-body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+
+                                <div class="col-md-6" id="project-items-5">
+                                    <div class="card mb-lg-0">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-success fs-3 align-middle"></i>
+                                                            <span class="team-date">12 April, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-5')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" onclick="deleteProjects('project-items-5')" data-id="project-items-5" href="javascript: void(0);">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">Typography</h5>
+                                                <p class="text-muted mb-0 team-description">Typography is the
+                                                    style or appearance
+                                                    of text.</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-1" aria-label="Ruhi Luft" data-bs-original-title="Ruhi Luft">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-5" aria-label="Elias Hardage" data-bs-original-title="Elias Hardage">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Jansh Wells" data-bs-original-title="Jansh Wells">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-success p-2 team-status">Completed</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+                        </div><!-- end tab pane -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </div>
+                </div><!-- end card -->
+                <div class="card"
+                     class="tab-pane fade"
+                     id="ex2-tabs-3"
+                     role="tabpanel"
+                     aria-labelledby="ex2-tab-3"
+                >
+                    <div class="tab-content p-4">
+                        <div class="tab-pane active show" id="projects-tab1" role="tabpanel">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-1">
+                                    <h4 class="card-title mb-4">Projects</h4>
+                                </div>
+                            </div>
+
+                            <div class="row" id="all-projects">
+                                <div class="col-md-6" id="project-items-1">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-danger fs-3 align-middle"></i>
+                                                            <span class="team-date">21 Jun, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-1')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" onclick="deleteProjects('project-items-1')" data-id="project-items-1" href="javascript: void(0);">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">Marketing</h5>
+                                                <p class="text-muted mb-0 team-description">Every Marketing Plan
+                                                    Needs</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-6" aria-label="Terrell Soto" data-bs-original-title="Terrell Soto">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-1" aria-label="Ruhi Shah" data-bs-original-title="Ruhi Shah">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-15" data-bs-original-title="Denny Silva">
+                                                            <div class="avatar-sm">
+                                                                <div class="avatar-title rounded-circle bg-primary">
+                                                                    D
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-danger p-2 team-status">Pending</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end cardbody -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+
+                                <div class="col-md-6" id="project-items-2">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-success fs-3 align-middle"></i>
+                                                            <span class="team-date">13 Aug, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-2')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" href="javascript:void(0);" onclick="deleteProjects('project-items-2')" data-id="project-items-2">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">Website Design</h5>
+                                                <p class="text-muted mb-0 team-description">Creating the design
+                                                    and layout of a
+                                                    website.</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Kelly Osborn" data-bs-original-title="Kelly Osborn">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-2" aria-label="John Page" data-bs-original-title="John Page">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-success p-2 team-status">Completed</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end cad-body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+
+                                <div class="col-md-6" id="project-items-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-warning fs-3 align-middle"></i>
+                                                            <span class="team-date">08 Sep, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-3')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" href="javascript: void(0);" data-id="project-items-3" onclick="deleteProjects('project-items-3')">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">UI / UX Design</h5>
+                                                <p class="text-muted mb-0 team-description">Plan and onduct user
+                                                    research and analysis</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-3" aria-label="Judy Newland" data-bs-original-title="Judy Newland">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-5" aria-label="Jeffery Legette" data-bs-original-title="Jeffery Legette">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-6" aria-label="Jose Rosborough" data-bs-original-title="Jose Rosborough">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-warning p-2 team-status">Progress</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card-body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+
+                                <div class="col-md-6" id="project-items-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-danger fs-3 align-middle"></i>
+                                                            <span class="team-date">20 Sep, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-4')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" href="javascript:void(0);" data-id="project-items-4" onclick="deleteProjects('project-items-4')">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">Testing</h5>
+                                                <p class="text-muted mb-0 team-description">The procurement
+                                                    specifications should
+                                                    describe</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Jansh Wells" data-bs-original-title="Jansh Wells">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-danger p-2 team-status">Pending</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card-body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+
+                                <div class="col-md-6" id="project-items-5">
+                                    <div class="card mb-lg-0">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-3">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <div>
+                                                        <h6 class="mb-0 text-muted">
+                                                            <i class="mdi mdi-circle-medium text-success fs-3 align-middle"></i>
+                                                            <span class="team-date">12 April, 2021</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown ms-2">
+                                                    <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="mdi mdi-dots-horizontal"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="javascript: void(0);" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" onclick="editProjects('project-items-5')">Edit</a>
+                                                        <a class="dropdown-item" href="javascript: void(0);">Share</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item delete-item" onclick="deleteProjects('project-items-5')" data-id="project-items-5" href="javascript: void(0);">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <h5 class="mb-1 font-size-17 team-title">Typography</h5>
+                                                <p class="text-muted mb-0 team-description">Typography is the
+                                                    style or appearance
+                                                    of text.</p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="avatar-group float-start flex-grow-1 task-assigne">
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-1" aria-label="Ruhi Luft" data-bs-original-title="Ruhi Luft">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-5" aria-label="Elias Hardage" data-bs-original-title="Elias Hardage">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                    <div class="avatar-group-item">
+                                                        <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" value="member-10" aria-label="Jansh Wells" data-bs-original-title="Jansh Wells">
+                                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="rounded-circle avatar-sm">
+                                                        </a>
+                                                    </div>
+                                                </div><!-- end avatar group -->
+                                                <div class="align-self-end">
+                                                    <span class="badge badge-soft-success p-2 team-status">Completed</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+                        </div><!-- end tab pane -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div><!-- end card -->
                 </div>
 
-                <!--                </div>-->
-            </div>
-        </div>
-    </div>
 
-    <div class="col-md-6 col-lg-6 col-xs-12 p-0" style="margin-top: 1%">
-        <div class="card card2">
-            <div class="card-body" style="color:white">
-                <div class="groupes">
-                    <h5 class="headerP">
-                        <strong><i class="fas fa-users"></i> Groupe(s)</strong>
-                    </h5>
-                    <ul *ngIf="user">
-                        <li *ngFor="let grp of user.groups">{{grp}}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        </div><!-- end col -->
+
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="pb-2">
+                        <h4 class="card-title mb-3">About</h4>
+                        <p>Hi I'm Jansh, has been the industry's standard dummy text To an English
+                            person, it will seem like
+                            simplified.</p>
+                        <ul class="ps-3 mb-0">
+                            <li>it will seem like simplified.</li>
+                            <li>To achieve this, it would be necessary to have uniform pronunciation</li>
+                        </ul>
+                        <!-- end ul -->
+                    </div>
+                    <hr>
+                    <div class="pt-2">
+                        <h4 class="card-title mb-4">My Skill</h4>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <span class="badge badge-soft-secondary p-2">HTML</span>
+                            <span class="badge badge-soft-secondary p-2">Bootstrap</span>
+                            <span class="badge badge-soft-secondary p-2">Scss</span>
+                            <span class="badge badge-soft-secondary p-2">Javascript</span>
+                            <span class="badge badge-soft-secondary p-2">React</span>
+                            <span class="badge badge-soft-secondary p-2">Angular</span>
+                        </div>
+                    </div>
+                </div><!-- end cardbody -->
+            </div><!-- end card -->
+
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h4 class="card-title mb-4">Personal Details</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Name</th>
+                                    <td>Jansh Wells</td>
+                                </tr><!-- end tr -->
+                                <tr>
+                                    <th scope="row">Location</th>
+                                    <td>California, United States</td>
+                                </tr><!-- end tr -->
+                                <tr>
+                                    <th scope="row">Language</th>
+                                    <td>English</td>
+                                </tr><!-- end tr -->
+                                <tr>
+                                    <th scope="row">Website</th>
+                                    <td>abc12@probic.com</td>
+                                </tr><!-- end tr -->
+                                </tbody><!-- end tbody -->
+                            </table><!-- end table -->
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+            </div><!-- end card -->
+
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h4 class="card-title mb-4">Work Experince</h4>
+                        <ul class="list-unstyled work-activity mb-0">
+                            <li class="work-item" data-date="2020-21">
+                                <h6 class="lh-base mb-0">ABCD Company</h6>
+                                <p class="font-size-13 mb-2">Web Designer</p>
+                                <p>To achieve this, it would be necessary to have uniform grammar, and more
+                                    common words.</p>
+                            </li>
+                            <li class="work-item" data-date="2019-20">
+                                <h6 class="lh-base mb-0">XYZ Company</h6>
+                                <p class="font-size-13 mb-2">Graphic Designer</p>
+                                <p class="mb-0">It will be as simple as occidental in fact, it will be
+                                    Occidental person, it will seem like simplified.</p>
+                            </li>
+                        </ul><!-- end ul -->
+                    </div>
+                </div><!-- end card-body -->
+            </div><!-- end card -->
+        </div><!-- end col -->
     </div>
 </div>
-<dx-popup
-        (onHiding)="getMyFavory()"
-        [(visible)]="popupfavoris"
-        [hideOnOutsideClick]="false"
-        [dragEnabled]="true"
-        [height]="700"
-        [maxHeight]="700"
-        [maxWidth]="'85%'"
-        [showTitle]="true"
-        [width]="'70%'"
-        resizeEnabled="true"
-        title="Gérer mes favoris">
-    <!--    <dx-scroll-view width="100%" height="100%">-->
-    <div>
-        <app-select-orga (personnes)="getPersonnefinale($event)" [mode]="false"
-                         [selectMode]="'multiple'"
-                         [selectdata]="userFavoris" selectbox="asmail"></app-select-orga>
-
-        <div class="footer">
-            <div class="col-md-12 col-lg-12 col-sm-12 row">
-                <div class="col-md-6 col-lg-6 col-sm-6">
-                    <button (click)="Return()" class="btn btn-light"
-                            type="button"> Annuler
-                    </button>
-                </div>
-                <!--                    <div class="col-md-6 col-lg-6 col-sm-6  alignRight">-->
-                <!--                        <button type="submit" class="btn btn-success me-md-2"-->
-                <!--                                style="background-color: #0c8d12" (click)="confirmer()">Confirmer-->
-                <!--                        </button>-->
-                <!--                    </div>-->
-            </div>
-        </div>
-    </div>
-    <!--    </dx-scroll-view>-->
-</dx-popup>
-
-<dx-popup
-        [(visible)]="popupInstallToolkitVisible"
-        [hideOnOutsideClick]="true"
-        [dragEnabled]="false"
-        [height]="'auto'"
-        [maxWidth]="940"
-        [showTitle]="true"
-        [width]="500"
-        title="{{'ATTACHEMENT.popuptoolkittitle' | translate }}">
-    <div class="row">
-        <p> {{'ATTACHEMENT.downloadPstoolkit' | translate }} </p>
-    </div>
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
-            <button (click)="popupInstallToolkitVisible=false"
-                    class="btn btn-outline-secondary  mb-1 mr-1"
-                    type="button">{{ 'annuler' | translate }}
-            </button>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
-            <button (click)="TelechargerTollkit()" class="btn btn-success"
-                    type="submit">{{ 'ATTACHEMENT.download' | translate }}
-            </button>
-        </div>
-    </div>
-</dx-popup>
-
-<dx-load-panel
-    #loadPanel
-    [(visible)]="loadingVisible"
-    [hideOnOutsideClick]="false"
-    [position]="{ of: '#positionLoadPanel' }"
-    [shading]="true"
-    [showIndicator]="true"
-    [showPane]="true"
-    shadingColor="rgba(0,0,0,0.4)">
-</dx-load-panel>

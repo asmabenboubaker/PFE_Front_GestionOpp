@@ -85,4 +85,9 @@ export class OpportuniteService {
     affecterOpportuniteAOffre(opportuniteId: number, offreId: number): Observable<any> {
         return this.http.put<any>(`${this.env.piOpp}${offreId}/affecter-offre/${opportuniteId}`, {});
     }
+    // delete details
+    deleteDetails(id: number): Observable<void> {
+        const url = `${this.env.piOpp}details/${id}`;
+        return this.http.delete<void>(url);
+    }
 }

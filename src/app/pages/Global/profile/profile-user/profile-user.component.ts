@@ -8,7 +8,7 @@ import {ConfigPstkComponent} from "../../config-pstk/config-pstk.component";
 import {CommunFuncService} from "../../attachment/Commun/commun-func.service";
 import {LoginService} from "../../shared-service/login.service";
 import {AttachementModuleService} from "../../attachment/attachement.module.service";
-
+import { Tab, initMDB } from "mdb-ui-kit";
 declare var $: JQueryStatic;
 
 @Component({
@@ -210,6 +210,8 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+
+        initMDB({ Tab });
         if (innerWidth > 1390) {
             this.width = false
         } else {
@@ -338,6 +340,7 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
     }
 
     updatePhoneNumber(employeeid, mobile) {
+        console.log("Updating phone number for employee ID: ", employeeid, " with mobile: ", mobile);
         this.loginService.putEmployePhoneNumber(employeeid, mobile).subscribe(data => {
             this.translateService.get("postWithSuccess").subscribe((res) => {
                 this.getProfileUser()
