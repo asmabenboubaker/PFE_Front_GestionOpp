@@ -9,6 +9,8 @@ import {CommunFuncService} from "../../attachment/Commun/commun-func.service";
 import {LoginService} from "../../shared-service/login.service";
 import {AttachementModuleService} from "../../attachment/attachement.module.service";
 import { Tab, initMDB } from "mdb-ui-kit";
+import {ProjectService} from "../../../../Service/project.service";
+import {EquipeServiceService} from "../../../../Service/equipe-service.service";
 declare var $: JQueryStatic;
 
 @Component({
@@ -145,7 +147,11 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
 
     /*Config PSTK component*/
     constructor(public communService: CommunFuncService, private env: EnvService, private cookieService: CookieService, private translateService: TranslateService,
-                private loginService: LoginService, private fileservice: AttachementModuleService, private fb: FormBuilder, private toastr: ToastrService) {
+                private loginService: LoginService, private fileservice: AttachementModuleService, private fb: FormBuilder, private toastr: ToastrService,
+                private projetService: ProjectService,
+                private equipeService: EquipeServiceService
+
+    ) {
         if (this.cookieService.get('displayname')) {
             this.RefUserName = {displayName: this.cookieService.get('displayname')};
         } else {
@@ -212,6 +218,8 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
 
         initMDB({ Tab });
+        this.displayListProjet();
+        this.displayListEquipe();
         if (innerWidth > 1390) {
             this.width = false
         } else {
@@ -573,6 +581,41 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
 
     secondToMin(second) {
         return (Math.floor(second / 60)) / 1000;
+    }
+
+    //methode pour display list projet
+    projects: any[]= [];
+    displayListProjet() {
+        this.projetService.getprojets().subscribe(data => {
+            this.projects = data;
+        }, error => {
+            this.toastr.error("", error.error.message, {
+                closeButton: true,
+                positionClass: 'toast-top-full-width',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+        })
+
+
+    }
+    equipes: any[]= [];
+    // methode pour display list equipe
+    displayListEquipe() {
+        this.equipeService.getEquipes().subscribe(data => {
+            this.equipes = data;
+        }, error => {
+            this.toastr.error("", error.error.message, {
+                closeButton: true,
+                positionClass: 'toast-top-full-width',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+        })
     }
 }
 
