@@ -83,11 +83,16 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="responsable">Responsable</label>
-                        <input type="text" id="responsable" formControlName="responsable" class="form-control" required>
+                        <select id="responsable" formControlName="responsable" class="form-control" >
+                            <option *ngFor="let user of users" [value]="user.displayname">{{ user.displayname }}</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="participants">Participants</label>
-                        <input type="text" id="participants" formControlName="participants" class="form-control">
+
+                        <select id="participants" formControlName="participants" class="form-control" >
+                            <option *ngFor="let user of equipes" [value]="user.name">{{ user.name }}</option>
+                        </select>
                     </div>
                 </div>
 

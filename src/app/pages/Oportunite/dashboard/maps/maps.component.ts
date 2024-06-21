@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import {ClientServiceService} from "../../../../Service/client-service.service";
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
@@ -8,40 +9,67 @@ import * as L from 'leaflet';
 export class MapsComponent implements OnInit {
 
   map: L.Map;
+  colors: string[] = [
+    'blue', 'green', 'orange', 'cyan', 'yellow', 'red', 'purple', 'pink', 'brown',
+    'lime', 'magenta', 'olive', 'teal', 'navy', 'maroon', 'aqua', 'fuchsia', 'gray',
+    'black', 'silver', 'gold', 'violet', 'indigo', 'turquoise', 'salmon', 'coral',
+    'khaki', 'lavender', 'plum', 'orchid', 'tan', 'wheat', 'mint', 'peach', 'ivory',
+    'beige', 'chocolate', 'crimson', 'firebrick', 'tomato', 'forestgreen', 'seagreen'
+  ];
 
-  constructor() { }
+  constructor(private clientService: ClientServiceService) { }
 
   ngOnInit(): void {
     this.initMap();
+    this.loadClients();
   }
 
+
   private initMap(): void {
-    // Initialiser la carte
     this.map = L.map('map', {
       center: [20, 0],
       zoom: 2
     });
 
-    // Ajouter une couche de tuiles OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
+  }
 
-    // Ajouter des marqueurs pour les pays
-    const clients = [
-      { "name": "United States", "lat": 37.0902, "lng": -95.7129, "color": "blue" },
-      { "name": "Australia", "lat": -25.2744, "lng": 133.7751, "color": "green" },
-      { "name": "India", "lat": 20.5937, "lng": 78.9629, "color": "orange" },
-      { "name": "Saudi Arabia", "lat": 23.8859, "lng": 45.0792, "color": "cyan" },
-      { "name": "Germany", "lat": 51.1657, "lng": 10.4515, "color": "yellow" }
-    ];
-
-    clients.forEach(client => {
-      L.circleMarker([client.lat, client.lng], {
-        color: client.color,
-        radius: 10
-      }).addTo(this.map).bindPopup(client.name);
+  clients: any[] = [];
+  private loadClients(): void {
+    this.clientService.getAllClientsWithoutPages().subscribe(clients => {
+      this.clients = clients;
+      console.log("client",this.clients);
+      this.addMarkers();
     });
   }
+  private addMarkers(): void {
+    this.clients.forEach(client => {
+      if (client.adresse) {
+        this.geocodeAddress(client);
+      }
+    });
+  }
+
+  private geocodeAddress(client: any): void {
+    this.clientService.getCoordinates(client.adresse).subscribe(response => {
+      if (response && response.length > 0) {
+        const lat = response[0].lat;
+        const lng = response[0].lon;
+        const color = this.getRandomColor();
+        L.circleMarker([lat, lng], {
+          color: color,
+          radius: 10
+        }).addTo(this.map).bindPopup(client.nom);
+      }
+    });
+  }
+
+  private getRandomColor(): string {
+    const randomIndex = Math.floor(Math.random() * this.colors.length);
+    return this.colors[randomIndex];
+  }
+
 
 }

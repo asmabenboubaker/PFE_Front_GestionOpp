@@ -17,8 +17,8 @@ export class ClientServiceService {
 
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService) { }
 
-    getClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.env.piOpp+this.Wservice.getClient);
+    getClients(): Observable<any[]> {
+    return this.http.get<any[]>(this.env.piOpp+this.Wservice.getClient);
   }
   getAllClientsWithoutPages(): Observable<Client[]> {
     const url = `${this.env.piOpp + this.Wservice.getClient}/WithoutPages`;
@@ -37,5 +37,10 @@ export class ClientServiceService {
   deleteClient(id: number): Observable<void> {
     return this.http.delete<void>(`${this.env.piOpp}${this.Wservice.getClient}/${id}`);
   }
+  private geocodeUrl = 'https://nominatim.openstreetmap.org/search';
 
+
+  getCoordinates(address: string): Observable<any> {
+    return this.http.get<any>(`${this.geocodeUrl}?q=${encodeURIComponent(address)}&format=json&addressdetails=1&limit=1`);
+  }
 }

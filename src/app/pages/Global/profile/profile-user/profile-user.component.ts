@@ -334,6 +334,23 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
     getProfileUser() {
         this.loginService.profile_user().subscribe(data => {
             this.user = data
+            console.log("userrrrrrrrrrrrrr", this.user)
+        }, error => {
+            this.toastr.error("", error.error.message, {
+                closeButton: true,
+                positionClass: 'toast-top-full-width',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+        })
+
+    }
+    getProfileUser2() {
+        this.loginService.profile_user().subscribe(data => {
+            this.user = data
+            console.log("userrrrrrrrrrrrrr", this.user)
         }, error => {
             this.toastr.error("", error.error.message, {
                 closeButton: true,

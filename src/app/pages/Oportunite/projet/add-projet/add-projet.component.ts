@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProjectService} from "../../../../Service/project.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {EquipeServiceService} from "../../../../Service/equipe-service.service";
 
 @Component({
   selector: 'app-add-projet',
@@ -12,14 +13,25 @@ import {ToastrService} from "ngx-toastr";
 })
 export class AddProjetComponent implements OnInit {
   addProjetForm: FormGroup;
+    users: any[] = [];
+    equipes: any[] = [];
   constructor(  private fb: FormBuilder,
                 private projetService: ProjectService,
                 private router: Router,
-                private toastr: ToastrService
-                ,
+                private toastr: ToastrService,
+                private equipeService: EquipeServiceService,
                 private translateService: TranslateService ) { }
 
   ngOnInit(): void {
+
+      this.projetService.getUsers().subscribe(data => {
+          this.users = data.content;
+      });
+      //set data equipe
+        this.equipeService.getEquipes().subscribe(data => {
+            this.equipes = data;
+        });
+
     this.addProjetForm = this.fb.group({
       nom: ['', Validators.required],
       responsable: ['', Validators.required],
@@ -125,4 +137,6 @@ export class AddProjetComponent implements OnInit {
 
         return key;
     }
+
+
 }

@@ -9,6 +9,7 @@ import {EnvService} from "../../env.service";
 })
 export class ProjectService {
      apiUrl='http://localhost:8888/demo_war/'
+    apiUrl2='https://kernel.picosoft.biz/kernel-v1/api/findAllUsersPage'
  //apiUrl='https://boubaker-asma.atlassian.net/rest/api/2/project'
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService) { }
     csrfToken: string | null = null;
@@ -71,5 +72,8 @@ export class ProjectService {
     //update project
     updateProject(id: number, project: any): Observable<any> {
         return this.http.put(`${this.env.piOpp}projets/${id}`, project);
+    }
+    getUsers(): Observable<any> {
+        return this.http.get<any>(this.apiUrl2);
     }
 }
