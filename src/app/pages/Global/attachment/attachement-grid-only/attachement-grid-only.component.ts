@@ -234,15 +234,17 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
         this.imageItemToDisplay = e.file;
         console.log("this.imageItemToDisplay",this.imageItemToDisplay.dataItem)
         const filePath = 'assets/files/' + this.imageItemToDisplay.dataItem.name; // Adjust based on your actual path
-        this.sanitizedImagePath = this.sanitizer.bypassSecurityTrustUrl(filePath);
+        this.fileItemToDisplay = this.sanitizer.bypassSecurityTrustUrl(filePath);
 
         if (this.isImageFile(filePath)) {
+            this.fileBool=false;
             this.imageBool=true;
             this.sanitizedImagePath = this.sanitizer.bypassSecurityTrustUrl(filePath);
-            //this.sanitizedImagePath=this.sanitizedImagePath.changingThisBreaksApplicationSecurity;
+         this.sanitizedImagePath=this.sanitizedImagePath.changingThisBreaksApplicationSecurity;
             console.log('Imageee=',this.sanitizedImagePath)
             this.popupVisible = true;
         } else if (this.isPdfFile(filePath)) {
+            this.imageBool=false;
             this.fileBool=true;
             this.sanitizedFilePath = this.sanitizer.bypassSecurityTrustResourceUrl(filePath);
             this.popupVisible = true;
@@ -283,6 +285,8 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
         }
     }
 
+
+
     ngOnDestroy(): void {
         this.disposePdfViewer();
     }
@@ -318,6 +322,12 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
     }
     closePopup(): void {
         this.popupVisible = false;
+        if(    this.fileBool==true){
+            this.fileBool=false;
+        }
+        if(    this.imageBool==true){
+            this.imageBool=false;
+        }
         // Clean up any related state if necessary
         this.disposePdfViewer(); // Dispose the PDF viewer when closing the popup
     }
