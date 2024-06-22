@@ -14,6 +14,8 @@ import RemoteFileSystemProvider from 'devextreme/file_management/remote_provider
 import {DxFileManagerComponent} from "devextreme-angular";
 import ObjectFileSystemProvider from 'devextreme/file_management/object_provider';
 import {GcPdfViewer} from "@grapecity/gcpdfviewer";
+import { loadMessages, locale } from 'devextreme/localization';
+import frMessages from 'devextreme/localization/messages/fr.json';
 @Component({
     selector: 'app-attachement-grid-only',
     templateUrl: './attachement-grid-only.component.html',
@@ -63,6 +65,10 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
     }
 
     ngOnInit(): void {
+        // Load French translations
+        loadMessages(frMessages);
+        // Set locale to French
+        locale('fr');
         this.fileservice.getFileItems(this.classid,this.objectid).subscribe(
             (data) => {
                 this.fileItems = data;
