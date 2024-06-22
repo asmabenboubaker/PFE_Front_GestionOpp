@@ -53,20 +53,23 @@
 
 </dx-file-manager>
 <dx-popup
-        id="photo-popup"
+        id="file-popup"
         maxHeight="600"
         [hideOnOutsideClick]="true"
-        [(title)]="imageItemToDisplay.name"
-        [(visible)]="popupVisible"
-        [showCloseButton]="true"
->
-    <div *dxTemplate="let data of 'content'" class="photo-popup-content">
-        <img
-                [src]="sanitizedImagePath"
-                class="photo-popup-image"
-                width="100%"
-                height="150%"
-        />
-
+        [title]="fileItemToDisplay ? fileItemToDisplay.name : ''"
+        [visible]="popupVisible"
+        (onHiding)="closePopup()"
+        [showCloseButton]="true">
+    <div *dxTemplate="let data of 'content'" class="file-popup-content">
+        <ng-container *ngIf="imageBool; else pdfViewer">
+            <img
+                    [src]="sanitizedImagePath"
+                    class="file-popup-image"
+                    width="100%"
+                    height="150%" />
+        </ng-container>
+        <ng-template #pdfViewer>
+            <div id="viewer"></div>
+        </ng-template>
     </div>
 </dx-popup>

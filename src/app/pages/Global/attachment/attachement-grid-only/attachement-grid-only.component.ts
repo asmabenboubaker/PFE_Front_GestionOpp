@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -13,24 +13,29 @@ import CustomFileSystemProvider from 'devextreme/file_management/custom_provider
 import RemoteFileSystemProvider from 'devextreme/file_management/remote_provider';
 import {DxFileManagerComponent} from "devextreme-angular";
 import ObjectFileSystemProvider from 'devextreme/file_management/object_provider';
+import {GcPdfViewer} from "@grapecity/gcpdfviewer";
 @Component({
     selector: 'app-attachement-grid-only',
     templateUrl: './attachement-grid-only.component.html',
     styleUrls: ['./attachement-grid-only.component.scss'],
 })
-export class AttachementGridOnlyComponent implements OnInit {
+export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
     isLoading = false;
     isLoading2 = false;
     fileItems: any[] = [];
     popupVisible = false;
+    imageBool = false;
+    fileBool=false;
     imageItemToDisplay = {} as DxFileManagerTypes.SelectedFileOpenedEvent['file'];
-    sanitizedImagePath: SafeUrl = '';
+    sanitizedImagePath: any = '';
     downloadUrl: SafeUrl = '';
     fileSystemProvider: CustomFileSystemProvider;
     allowedFileExtensions: string[];
     @ViewChild(DxFileManagerComponent, { static: false }) fileManager: DxFileManagerComponent;
     remoteProvider: RemoteFileSystemProvider;
-
+    pdfViewer: GcPdfViewer | null = null;
+    fileItemToDisplay: any = null;
+    sanitizedFilePath: any = '';
     objectFileProvider: ObjectFileSystemProvider;
     @Input() classid: any;
     @Input() objectid: any;
@@ -157,6 +162,7 @@ export class AttachementGridOnlyComponent implements OnInit {
             console.error('Error downloading file:', error);
         });
     }
+
 //     onItemDownloading(e) {
 //         console.log("File upload event:", e);
 //         const fileUrl = e.itemData.downloadUrl;
@@ -224,10 +230,24 @@ export class AttachementGridOnlyComponent implements OnInit {
             });
     }
     displayImagePopup(e: DxFileManagerTypes.SelectedFileOpenedEvent) {
+
         this.imageItemToDisplay = e.file;
+        console.log("this.imageItemToDisplay",this.imageItemToDisplay.dataItem)
         const filePath = 'assets/files/' + this.imageItemToDisplay.dataItem.name; // Adjust based on your actual path
         this.sanitizedImagePath = this.sanitizer.bypassSecurityTrustUrl(filePath);
-        this.popupVisible = true;
+
+        if (this.isImageFile(filePath)) {
+            this.imageBool=true;
+            this.sanitizedImagePath = this.sanitizer.bypassSecurityTrustUrl(filePath);
+            //this.sanitizedImagePath=this.sanitizedImagePath.changingThisBreaksApplicationSecurity;
+            console.log('Imageee=',this.sanitizedImagePath)
+            this.popupVisible = true;
+        } else if (this.isPdfFile(filePath)) {
+            this.fileBool=true;
+            this.sanitizedFilePath = this.sanitizer.bypassSecurityTrustResourceUrl(filePath);
+            this.popupVisible = true;
+            setTimeout(() => this.initializePdfViewer(), 0); // Ensure the PDF viewer initializes after the view has been updated
+        }
     }
     onItemDeleted(e) {
         console.log("File upload event:", e);
@@ -257,6 +277,49 @@ export class AttachementGridOnlyComponent implements OnInit {
     onHidden() {
         //this.employeeInfo = this.employee;
     }
+    ngAfterViewInit(): void {
+        if (this.fileItemToDisplay && this.isPdfFile(this.fileItemToDisplay.name)) {
+            this.initializePdfViewer();
+        }
+    }
 
+    ngOnDestroy(): void {
+        this.disposePdfViewer();
+    }
+
+    initializePdfViewer(): void {
+        if (this.pdfViewer) {
+            this.pdfViewer.dispose();
+        }
+
+        this.pdfViewer = new GcPdfViewer('#viewer', {
+            workerSrc: '//node_modules/@grapecity/gcpdfviewer/gcpdfviewer.worker.js',
+            restoreViewStateOnLoad: false,
+        });
+        this.pdfViewer.addDefaultPanels();
+        console.log("show path = ",this.sanitizedFilePath.changingThisBreaksApplicationSecurity)
+        this.pdfViewer.open(this.sanitizedFilePath.changingThisBreaksApplicationSecurity);
+    }
+
+    disposePdfViewer(): void {
+        if (this.pdfViewer) {
+            this.pdfViewer.dispose();
+            this.pdfViewer = null;
+        }
+    }
+
+
+    isImageFile(fileName: string): boolean {
+        return /\.(jpg|jpeg|png|gif)$/i.test(fileName);
+    }
+
+    isPdfFile(fileName: string): boolean {
+        return /\.pdf$/i.test(fileName);
+    }
+    closePopup(): void {
+        this.popupVisible = false;
+        // Clean up any related state if necessary
+        this.disposePdfViewer(); // Dispose the PDF viewer when closing the popup
+    }
 
 }
