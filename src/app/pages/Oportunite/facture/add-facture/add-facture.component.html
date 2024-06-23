@@ -46,11 +46,18 @@
                 <div class="row p-sm-3 p-0">
                     <div class="col-md-6 col-sm-5 col-12 mb-sm-0 mb-4">
                         <h6 class="pb-2">Invoice To:</h6>
-                        <p class="mb-1">Thomas shelby</p>
-                        <p class="mb-1">Shelby Company Limited</p>
-                        <p class="mb-1">Small Heath, B10 0HF, UK</p>
-                        <p class="mb-1">718-986-6062</p>
-                        <p class="mb-0">peakyFBlinders@gmail.com</p>
+                        <select class="form-select mb-3" (change)="onClientChange($event.target.value)">
+                            <option selected disabled>Select Client</option>
+                            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+                        </select>
+                        <ng-container *ngIf="selectedClient">
+                            <p class="mb-1">Nom :  {{ selectedClient.nom }}</p>
+<!--                            <p class="mb-1">{{ selectedClient.company }}</p>-->
+                            <p class="mb-1">Addresse :  {{ selectedClient.addresse }}</p>
+                            <p class="mb-1">Tel :  {{ selectedClient.telephne }}</p>
+                            <p class="mb-0">Email :  {{ selectedClient.email }}</p>
+
+                        </ng-container>
                     </div>
                     <div class="col-md-6 col-sm-7">
                         <h6 class="pb-2">Bill To:</h6>

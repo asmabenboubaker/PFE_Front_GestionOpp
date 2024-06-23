@@ -11,6 +11,7 @@ import {ToastrService} from "ngx-toastr";
 import {EnvService} from "../../../../../env.service";
 import {TranslateService} from "@ngx-translate/core";
 import {HttpClient} from "@angular/common/http";
+import {ClientServiceService} from "../../../../Service/client-service.service";
 
 @Component({
   selector: 'app-add-facture',
@@ -38,7 +39,7 @@ export class AddFactureComponent implements OnInit {
 
   // Calculate totals
   calculateTotals() {
-    this.subtotal = this.factureData.items.reduce((sum, item) => sum + item.rate * item.qty, 0);
+    this.subtotal = this.factureData.invoiceItems.reduce((sum, item) => sum + item.rate * item.qty, 0);
     // Assume discount and tax are percentages for simplicity
     this.discount = this.subtotal * (0 / 100); // Update discount logic as needed
     this.tax = this.subtotal * (0 / 100); // Update tax logic as needed
@@ -125,7 +126,8 @@ export class AddFactureComponent implements OnInit {
                 private translateService: TranslateService,
                 private toastr: ToastrService,
                 private env: EnvService,
-              private http: HttpClient
+              private http: HttpClient,
+              private clientService: ClientServiceService
               ) {
 
     this.factureForm = this.fb.group({
@@ -157,7 +159,18 @@ export class AddFactureComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addItem();
+    //this.addItem();
+    //set clients
+    console.log("Fetching clients...");
+    this.clientService.getAllClientsWithoutPages().subscribe(
+        clients => {
+          this.clients = clients;
+          console.log("Clients fetched:", this.clients);
+        },
+        error => {
+          console.error("Error fetching clients", error);
+        }
+    );
     // this.invoiceItems = this.factureData.invoiceItems.map(item => ({ ...item }));
   }
 
@@ -201,5 +214,18 @@ export class AddFactureComponent implements OnInit {
 
     }
 
+  }
+  clients: any[] = [];
+  selectedClient: any | null = null;
+
+  onClientChange(clientId: string): void {
+    console.log('Selected Client ID:', clientId);
+
+    const numericClientId = Number(clientId);
+
+    this.clients.forEach(client => console.log(`Client ID: ${client.id}, Type: ${typeof client.id}`));
+
+    this.selectedClient = this.clients.find(client => client.id === numericClientId) || null;
+    console.log('Selected Client:', this.selectedClient);
   }
 }
