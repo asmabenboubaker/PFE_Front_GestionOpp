@@ -3,6 +3,7 @@ import {FactureService} from "../../../../Service/facture.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {OffreService} from "../../../../Service/offre.service";
+import {ClientServiceService} from "../../../../Service/client-service.service";
 
 @Component({
   selector: 'app-edit-facture',
@@ -27,7 +28,7 @@ export class EditFactureComponent implements OnInit {
     itemQty: 0,
   }];
   constructor(private route: ActivatedRoute, private factureService: FactureService, private http: HttpClient, private router: Router,
-              private offreService: OffreService
+              private offreService: OffreService, private clientService: ClientServiceService
 
   ) { }
   removeItem(index: number) {
@@ -58,6 +59,21 @@ export class EditFactureComponent implements OnInit {
     const factureId = +this.route.snapshot.paramMap.get('id');
     this.loadFacture(factureId);
     this.listItem();
+    this.loadClients();
+  }
+  loadClients(): void {
+    this.clientService.getAllClientsWithoutPages().subscribe(
+        clients => {
+          this.clients = clients;
+          // Set selected client if factureData.client exists
+          if (this.factureData.client) {
+            this.selectedClient = this.clients.find(client => client.id === this.factureData.client.id) || null;
+          }
+        },
+        error => {
+          console.error("Error fetching clients", error);
+        }
+    );
   }
   listItem(){
     this.factureService.getItemsByFactureId(+this.route.snapshot.paramMap.get('id')).subscribe(data=>{
@@ -80,22 +96,17 @@ export class EditFactureComponent implements OnInit {
     );
   }
   sendFacture() {
+    //update facture
     this.factureData.invoiceItems = [...this.invoiceItems];
-
-    console.log('Before sending:', this.factureData);
-    this.http.post<any>('http://localhost:8888/demo_war/api/saveFactureWithItems', this.factureData)
-        .subscribe(
-            response => {
-              console.log('Facture created successfully!', response);
-              //navigate to facture list
-              this.router.navigate(['Facture/all']);
-
-            },
-            error => {
-              console.error('Error creating facture', error);
-              // Handle error appropriately, show user feedback, etc.
-            }
-        );
+    this.factureService.updateAndAssignFacture(this.factureData, this.selectedClient.id, +this.route.snapshot.paramMap.get('id')).subscribe(
+        response => {
+          console.log('Facture créée et affectée avec succès!', response);
+          this.router.navigate(['Facture/all']);
+        },
+        error => {
+          console.error('Erreur lors de la création et de l\'affectation de la facture', error);
+        }
+    );
   }
   // toolbar
   backButtonOptions = {
@@ -117,5 +128,17 @@ export class EditFactureComponent implements OnInit {
     console.log('Form Data:', formData);
     this.offreService.generatePdf2(formData, this.invoiceItems);
 
+  }
+  clients: any[] = [];
+  selectedClient: any | null = null;
+  onClientChange(clientId: string): void {
+    console.log('Selected Client ID:', clientId);
+
+    const numericClientId = Number(clientId);
+
+    this.clients.forEach(client => console.log(`Client ID: ${client.id}, Type: ${typeof client.id}`));
+
+    this.selectedClient = this.clients.find(client => client.id === numericClientId) || null;
+    console.log('Selected Client:', this.selectedClient);
   }
 }

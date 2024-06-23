@@ -34,4 +34,9 @@ export class FactureService {
   addAndAssignFacture(facture: any, clientId: number): Observable<any> {
     return this.http.post(`${this.env.piOpp}saveFactureWithItems2/${clientId}`, facture);
   }
+  //update facture et affecter client
+    updateAndAssignFacture(facture: any, clientId: number,factureId: number): Observable<any> {
+        return this.http.put(`${this.env.piOpp+this.Wservice.getFacture}/updateFacture/${factureId}/${clientId}`, facture);
+    }
+
 }
