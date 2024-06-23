@@ -30,4 +30,8 @@ export class FactureService {
     getItemsByFactureId(id: number): Observable<any> {
         return this.http.get<any>(`${this.env.piOpp+this.Wservice.getFacture}/items/${id}`);
     }
+
+  addAndAssignFacture(facture: any, clientId: number): Observable<any> {
+    return this.http.post(`${this.env.piOpp}saveFactureWithItems2/${clientId}`, facture);
+  }
 }

@@ -69,23 +69,51 @@ export class AddFactureComponent implements OnInit {
     this.invoiceItems.splice(index, 1);
   }
   sendFacture() {
+    if (!this.selectedClient) {
+      //toast error
+      this.toastr.error("Veuillez sélectionner un client avant de sauvegarder la facture.", "", {
+        closeButton: true,
+        positionClass: 'toast-top-right',
+        extendedTimeOut: this.env.extendedTimeOutToastr,
+        progressBar: true,
+        disableTimeOut: false,
+        timeOut: this.env.timeOutToastr
+      });
+console.error('No client selected');
+
+      return;
+    }
+
     this.factureData.invoiceItems = [...this.invoiceItems];
 
-    console.log('Before sending:', this.factureData);
-    this.http.post<any>('http://localhost:8888/demo_war/api/saveFactureWithItems', this.factureData)
-        .subscribe(
-            response => {
-              console.log('Facture created successfully!', response);
-              //navigate to facture list
-                this.router.navigate(['Facture/all']);
-
-            },
-            error => {
-              console.error('Error creating facture', error);
-              // Handle error appropriately, show user feedback, etc.
-            }
-        );
+    this.factureService.addAndAssignFacture(this.factureData, this.selectedClient.id).subscribe(
+        response => {
+          console.log('Facture created and assigned successfully!', response);
+          this.router.navigate(['Facture/all']);
+        },
+        error => {
+          console.error('Error creating and assigning facture', error);
+        }
+    );
   }
+  // sendFacture() {
+  //   this.factureData.invoiceItems = [...this.invoiceItems];
+  //
+  //   console.log('Before sending:', this.factureData);
+  //   this.http.post<any>('http://localhost:8888/demo_war/api/saveFactureWithItems', this.factureData)
+  //       .subscribe(
+  //           response => {
+  //             console.log('Facture created successfully!', response);
+  //             //navigate to facture list
+  //               this.router.navigate(['Facture/all']);
+  //
+  //           },
+  //           error => {
+  //             console.error('Error creating facture', error);
+  //             // Handle error appropriately, show user feedback, etc.
+  //           }
+  //       );
+  // }
 //   sendFacture() {
 //     console.log('Invoice Data:', this.factureData);
 //     // Assign the items to the facture data
@@ -130,6 +158,7 @@ export class AddFactureComponent implements OnInit {
               private http: HttpClient,
               private clientService: ClientServiceService,
               private offreService: OffreService,
+
               ) {
 
     this.factureForm = this.fb.group({
