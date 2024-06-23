@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FactureService} from "../../../../Service/facture.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
+import {OffreService} from "../../../../Service/offre.service";
 
 @Component({
   selector: 'app-edit-facture',
@@ -25,7 +26,10 @@ export class EditFactureComponent implements OnInit {
     itemCost: 0,
     itemQty: 0,
   }];
-  constructor(private route: ActivatedRoute, private factureService: FactureService, private http: HttpClient, private router: Router) { }
+  constructor(private route: ActivatedRoute, private factureService: FactureService, private http: HttpClient, private router: Router,
+              private offreService: OffreService
+
+  ) { }
   removeItem(index: number) {
     this.invoiceItems.splice(index, 1);
   }
@@ -51,8 +55,15 @@ export class EditFactureComponent implements OnInit {
     this.calculateTotals();
   }
   ngOnInit(): void {
-    const factureId = +this.route.snapshot.paramMap.get('id'); // Récupère l'ID de la facture depuis l'URL
+    const factureId = +this.route.snapshot.paramMap.get('id');
     this.loadFacture(factureId);
+    this.listItem();
+  }
+  listItem(){
+    this.factureService.getItemsByFactureId(+this.route.snapshot.paramMap.get('id')).subscribe(data=>{
+        this.invoiceItems = data;
+        console.log('items:', data);
+    })
   }
   loadFacture(id: number): void {
     this.factureService.getFactureById(id).subscribe(
@@ -85,5 +96,26 @@ export class EditFactureComponent implements OnInit {
               // Handle error appropriately, show user feedback, etc.
             }
         );
+  }
+  // toolbar
+  backButtonOptions = {
+    icon: 'back',
+    onClick: () => {
+      this.router.navigate(['/Facture/all']);
+    }
+  };
+  addButtonOptions = {
+    icon: 'fa fa-download',
+
+    onClick: () => {
+      this.downloadPdfOnClick();
+    }
+  };
+
+  downloadPdfOnClick() {
+    const formData = this.factureData;
+    console.log('Form Data:', formData);
+    this.offreService.generatePdf2(formData, this.invoiceItems);
+
   }
 }

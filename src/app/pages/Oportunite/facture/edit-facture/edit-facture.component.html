@@ -1,3 +1,17 @@
+
+<dx-toolbar>
+    <dxi-item
+            location="before"
+            widget="dxButton"
+            [options]="backButtonOptions">
+    </dxi-item>
+    <dxi-item
+            location="after"
+            widget="dxButton"
+            [options]="addButtonOptions">
+    </dxi-item>
+
+</dx-toolbar>
 <div class="row invoice-add">
     <!-- Invoice Add -->
     <div class="col-lg-9 col-12 mb-lg-0 mb-4">
@@ -89,13 +103,14 @@
                                 <div class="row w-100 m-0 p-3">
                                     <div class="col-md-6 col-12 mb-md-0 mb-3 ps-md-0">
                                         <p class="mb-2 repeater-title">Item</p>
-                                        <select class="form-select item-details mb-2" [(ngModel)]="item.itemDetails" name="itemDetails-{{i}}">
-                                            <option selected disabled>Select Item</option>
-                                            <option value="App Design">App Design</option>
-                                            <option value="App Customization">App Customization</option>
-                                            <option value="ABC Template">ABC Template</option>
-                                            <option value="App Development">App Development</option>
-                                        </select>
+                                        <input class=" item-details mb-2" [(ngModel)]="item.itemDetails" name="itemDetails-{{i}}"/>
+<!--                                        <select class="form-select item-details mb-2" [(ngModel)]="item.itemDetails" name="itemDetails-{{i}}">-->
+<!--                                            <option selected disabled>Select Item</option>-->
+<!--                                            <option value="App Design">App Design</option>-->
+<!--                                            <option value="App Customization">App Customization</option>-->
+<!--                                            <option value="ABC Template">ABC Template</option>-->
+<!--                                            <option value="App Development">App Development</option>-->
+<!--                                        </select>-->
                                         <textarea class="form-control" rows="2" placeholder="Item Information" [(ngModel)]="item.itemInformation" name="itemInformation-{{i}}"></textarea>
                                     </div>
                                     <div class="col-md-3 col-12 mb-md-0 mb-3">
@@ -138,8 +153,7 @@
                 <div class="row p-sm-3 p-0">
                     <div class="col-md-8 col-12 mb-md-0 mb-3">
                         <div class="d-flex flex-column">
-                            <label for="salesperson" class="form-label">Salesperson</label>
-                            <input type="text" class="form-control" id="salesperson" value="Tom Shelby" placeholder="Salesperson" />
+
                         </div>
                     </div>
                     <div class="col-md-4 col-12 d-flex flex-column pe-0">
@@ -174,18 +188,19 @@
                     </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-label-primary d-grid w-100 mb-3" (click)="sendFacture()">Send Invoice</button>
         </div>
     </div>
 
     <!-- Invoice Actions -->
-    <div class="col-lg-3 col-12 invoice-actions">
-        <div class="card">
-            <div class="card-body">
-                <button type="button" class="btn btn-label-primary d-grid w-100 mb-3" (click)="sendFacture()">Send Invoice</button>
-                <a href="javascript:void(0);" class="btn btn-label-secondary d-grid w-100 mb-3">Download</a>
-                <a href="javascript:void(0);" class="btn btn-label-secondary d-grid w-100 mb-3">Print</a>
-                <a href="app-invoice-preview.html" class="btn btn-primary d-grid w-100 mb-3">Preview</a>
-            </div>
-        </div>
-    </div>
+<!--    <div class="col-lg-3 col-12 invoice-actions">-->
+<!--        <div class="card">-->
+<!--            <div class="card-body">-->
+<!--                <button type="button" class="btn btn-label-primary d-grid w-100 mb-3" (click)="sendFacture()">Send Invoice</button>-->
+<!--                <a href="javascript:void(0);" class="btn btn-label-secondary d-grid w-100 mb-3">Download</a>-->
+<!--                <a href="javascript:void(0);" class="btn btn-label-secondary d-grid w-100 mb-3">Print</a>-->
+<!--                <a href="app-invoice-preview.html" class="btn btn-primary d-grid w-100 mb-3">Preview</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>

@@ -26,4 +26,8 @@ export class FactureService {
   getFactureById(id: number): Observable<any> {
     return this.http.get<any>(`${this.env.piOpp+this.Wservice.getFacture}/invoiceItems/${id}`);
   }
+  // get list item by id facture
+    getItemsByFactureId(id: number): Observable<any> {
+        return this.http.get<any>(`${this.env.piOpp+this.Wservice.getFacture}/items/${id}`);
+    }
 }

@@ -9,6 +9,7 @@ import {AddDemandeComponent} from "../demande/add-demande/add-demande.component"
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
 import {CardsModule} from "angular-bootstrap-md";
 import { EditFactureComponent } from './edit-facture/edit-facture.component';
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 
 export const routes: Routes  = [
 
@@ -53,6 +54,8 @@ export const routes: Routes  = [
 
         WorkflowComponentModule,
         CardsModule,
+        BsDropdownModule.forRoot()
+
     ]
 })
 export class FactureModule { }

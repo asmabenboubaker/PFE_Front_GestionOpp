@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Facture} from "../../../../Models/Facture";
 import {DemandeService} from "../../../../Service/demande.service";
 import {FactureService} from "../../../../Service/facture.service";
@@ -12,6 +12,7 @@ import {EnvService} from "../../../../../env.service";
 import {TranslateService} from "@ngx-translate/core";
 import {HttpClient} from "@angular/common/http";
 import {ClientServiceService} from "../../../../Service/client-service.service";
+import {OffreService} from "../../../../Service/offre.service";
 
 @Component({
   selector: 'app-add-facture',
@@ -21,7 +22,7 @@ import {ClientServiceService} from "../../../../Service/client-service.service";
 export class AddFactureComponent implements OnInit {
 
   factureData: any = {
-    dateFacture: '',
+    dateFacture: new Date(),
     dueDate: '',
     invoiceTo: '',
     invoiceAddress: '',
@@ -127,7 +128,8 @@ export class AddFactureComponent implements OnInit {
                 private toastr: ToastrService,
                 private env: EnvService,
               private http: HttpClient,
-              private clientService: ClientServiceService
+              private clientService: ClientServiceService,
+              private offreService: OffreService,
               ) {
 
     this.factureForm = this.fb.group({
@@ -228,4 +230,28 @@ export class AddFactureComponent implements OnInit {
     this.selectedClient = this.clients.find(client => client.id === numericClientId) || null;
     console.log('Selected Client:', this.selectedClient);
   }
+
+
+  // toolbar
+  backButtonOptions = {
+    icon: 'back',
+    onClick: () => {
+      this.router.navigate(['/Facture/all']);
+    }
+  };
+  addButtonOptions = {
+    icon: 'fa fa-download',
+
+    onClick: () => {
+      this.downloadPdfOnClick();
+    }
+  };
+  downloadPdfOnClick() {
+
+      const formData = this.factureForm;
+      console.log('Form Data:', formData);
+      this.offreService.generatePdf2(formData, this.invoiceItems);
+
+  }
+
 }

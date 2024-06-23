@@ -71,6 +71,225 @@ export class OffreService {
     const url = `${this.env.piOpp}offres/monthly-count`;
     return this.http.get<any[]>(url);
   }
+  generatePdf2(factureData: any, invoiceItems: any[]) {
+    const doc = new jsPDF.default();
+    const today = new Date().toLocaleDateString();
+
+    // Header
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Picosoft',
+            styles: {
+              halign: 'left',
+              fontSize: 20,
+              textColor: '#ffffff'
+            }
+          },
+          {
+            content: 'Facture',
+            styles: {
+              halign: 'right',
+              fontSize: 20,
+              textColor: '#ffffff'
+            }
+          }
+        ],
+      ],
+      theme: 'plain',
+      styles: {
+        fillColor: '#67282d'
+      }
+    });
+
+    // Invoice Information
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Référence: #INV0001' + '\nDate de Facture: ' + today,
+            styles: {
+              halign: 'right'
+            }
+          }
+        ],
+      ],
+      theme: 'plain'
+    });
+
+    // Client and Company Information
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Client:' + '\n' + factureData.invoiceTo + '\n' + factureData.invoiceAddress + '\n' + factureData.invoiceContact,
+            styles: {
+              halign: 'left'
+            }
+          },
+          {
+            content: 'From:' + '\nPicosoft' + '\n4 rue André Ampère - ZI chotrana,' + '\nZI chotrana' + '\n 2083' + '\nTunis',
+            styles: {
+              halign: 'right'
+            }
+          }
+        ],
+      ],
+      theme: 'plain'
+    });
+
+    // Salesperson and Due Date
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Commercial: ' + factureData.salesperson,
+            styles: {
+              halign: 'left'
+            }
+          },
+          {
+            content: 'Date d\'échéance: ' + factureData.dueDate,
+            styles: {
+              halign: 'right'
+            }
+          }
+        ],
+      ],
+      theme: 'plain'
+    });
+
+    // Products & Services Header
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Produits et Services',
+            styles: {
+              halign: 'left',
+              fontSize: 14
+            }
+          }
+        ]
+      ],
+      theme: 'plain'
+    });
+
+    // Generate the table body dynamically from the invoiceItems data
+    const tableBody = invoiceItems.map(item => [
+      item.itemDetails,
+      item.itemInformation,
+      item.itemQty,
+      item.itemCost,
+      (item.itemQty * item.itemCost).toFixed(2)
+    ]);
+
+    // Products & Services Table
+    autoTable(doc, {
+      head: [['Détails', 'Informations', 'Quantité', 'Coût Unitaire', 'Montant']],
+      body: tableBody,
+      theme: 'striped',
+      headStyles: {
+        fillColor: '#343a40'
+      }
+    });
+
+    // Calculate totals dynamically
+    const subtotal = invoiceItems.reduce((acc, item) => acc + (item.itemQty * item.itemCost), 0);
+    const totalTax = 0; // Assuming no tax for now
+
+    // Totals Section
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Prix:',
+            styles: {
+              halign: 'right'
+            }
+          },
+          {
+            content: '$' + subtotal.toFixed(2),
+            styles: {
+              halign: 'right'
+            }
+          },
+        ],
+        [
+          {
+            content: 'Total des taxes:',
+            styles: {
+              halign: 'right'
+            }
+          },
+          {
+            content: '$' + totalTax.toFixed(2),
+            styles: {
+              halign: 'right'
+            }
+          },
+        ],
+        [
+          {
+            content: 'Prix total:',
+            styles: {
+              halign: 'right'
+            }
+          },
+          {
+            content: '$' + (subtotal + totalTax).toFixed(2),
+            styles: {
+              halign: 'right'
+            }
+          },
+        ],
+      ],
+      theme: 'plain'
+    });
+
+    // Description
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Description',
+            styles: {
+              halign: 'left',
+              fontSize: 14
+            }
+          }
+        ],
+        [
+          {
+            content: factureData.description,
+            styles: {
+              halign: 'left'
+            }
+          }
+        ],
+      ],
+      theme: 'plain'
+    });
+
+    // Footer
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'This is a centered footer',
+            styles: {
+              halign: 'center'
+            }
+          }
+        ]
+      ],
+      theme: 'plain'
+    });
+
+    return doc.save('facture.pdf');
+  }
+
   generatePdf(formData: any, articles: any[]) {
     console.log('formData', articles);
     const doc = new jsPDF.default();
