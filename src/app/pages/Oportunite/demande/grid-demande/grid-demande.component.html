@@ -43,6 +43,9 @@
     id="dataGridDemande"
     class="dataGridDemande"
 >
+    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+    <dxo-filter-row [visible]="true" applyFilter="true"></dxo-filter-row>
 
     <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
@@ -52,7 +55,7 @@
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
     <dxi-column dataField="nom" dataType="string"></dxi-column>
-    <dxi-column dataField="statut" dataType="string"></dxi-column>
+
 
     <dxi-column dataField="description" dataType="string"></dxi-column>
     <dxi-column dataField="dateDeCreation" dataType="date"></dxi-column>

@@ -342,7 +342,7 @@ export class GridClientComponent implements OnInit {
     e.toolbarOptions.items.unshift(
         {
           location: 'center',
-          template: 'titreGrid'
+          template: 'Liste Clients'
         }
     );
 

@@ -173,7 +173,7 @@ this.showSuccess();
     e.toolbarOptions.items.unshift(
         {
           location: 'center',
-          template: 'titreGrid'
+          template: 'Liste Demandes'
         }
     );
     if (this.showadd) {

@@ -74,7 +74,7 @@ export class GridOppComponent implements OnInit {
     e.toolbarOptions.items.unshift(
         {
           location: 'center',
-          template: 'titreGrid'
+          template: 'Liste Opportunités',
         }
     );
     e.toolbarOptions.items.unshift(
