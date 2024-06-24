@@ -34,11 +34,13 @@ export class GridOffreComponent implements OnInit {
       private offreService: OffreService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
       private http: HttpClient,private clientService: ClientServiceService,
       private env: EnvService,private router: Router,private toastr: ToastrService,
-      private translateService:TranslateService
+      private translateService:TranslateService,
   ) { }
 
   ngOnInit(): void {
     this.getAllOffre();
+
+
   }
   onToolbarPreparing(e) {
 
@@ -72,7 +74,7 @@ export class GridOffreComponent implements OnInit {
     e.toolbarOptions.items.unshift(
         {
           location: 'center',
-          template: 'titreGrid'
+          template: 'Liste Offre'
         }
     );
     e.toolbarOptions.items.unshift(

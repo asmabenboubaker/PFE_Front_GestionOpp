@@ -13,6 +13,11 @@ export class FactureService {
 
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService,private httpclient: HttpClient,private tokenStorage: TokenStorageService) { }
 
+
+  // get list facture
+    getFactures(): Observable<any[]> {
+        return this.http.get<any[]>(this.env.piOpp+this.Wservice.getFacture);
+    }
   generateInvoice(): Observable<any> {
     return this.http.get<any>(`${this.env.piOpp}/generateInvoice`);
   }
@@ -38,5 +43,16 @@ export class FactureService {
     updateAndAssignFacture(facture: any, clientId: number,factureId: number): Observable<any> {
         return this.http.put(`${this.env.piOpp+this.Wservice.getFacture}/updateFacture/${factureId}/${clientId}`, facture);
     }
+    //count facture api
+    countFacture(): Observable<any> {
+        return this.http.get<any>(`${this.env.piOpp+this.Wservice.getFacture}/count`);
+    }
+    //set boolean ispaid true
+    setPaidFacture(id: number): Observable<any> {
+        return this.http.put<any>(`${this.env.piOpp+this.Wservice.getFacture}/setIsPaid/${id}`, null);
+    }
 
+  getIsPaid(factureId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.env.piOpp+this.Wservice.getFacture}/isPaid/${factureId}`);
+  }
 }

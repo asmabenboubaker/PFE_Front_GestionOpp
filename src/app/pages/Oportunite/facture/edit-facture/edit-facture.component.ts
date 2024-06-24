@@ -33,12 +33,12 @@ export class EditFactureComponent implements OnInit {
   ) { }
   removeItem(index: number) {
     this.invoiceItems.splice(index, 1);
+    this.calculateTotals();
   }
   calculateTotals() {
-    this.subtotal = this.factureData.items.reduce((sum, item) => sum + item.rate * item.qty, 0);
-    // Assume discount and tax are percentages for simplicity
-    this.discount = this.subtotal * (0 / 100); // Update discount logic as needed
-    this.tax = this.subtotal * (0 / 100); // Update tax logic as needed
+    this.subtotal = this.invoiceItems.reduce((sum, item) => sum + item.itemCost * item.itemQty, 0);
+    // this.discount = this.subtotal * 0.1;
+    // this.tax = (this.subtotal - this.discount) * 0.15;
     this.total = this.subtotal - this.discount + this.tax;
   }
   subtotal: number = 0;
@@ -60,6 +60,7 @@ export class EditFactureComponent implements OnInit {
     this.loadFacture(factureId);
     this.listItem();
     this.loadClients();
+
   }
   loadClients(): void {
     this.clientService.getAllClientsWithoutPages().subscribe(
@@ -79,6 +80,7 @@ export class EditFactureComponent implements OnInit {
     this.factureService.getItemsByFactureId(+this.route.snapshot.paramMap.get('id')).subscribe(data=>{
         this.invoiceItems = data;
         console.log('items:', data);
+      this.calculateTotals();
     })
   }
   loadFacture(id: number): void {
@@ -120,6 +122,13 @@ export class EditFactureComponent implements OnInit {
 
     onClick: () => {
       this.downloadPdfOnClick();
+    }
+  };
+  saveOptions = {
+    icon: 'save',
+    useSubmitBehavior: true,
+    onClick: () => {
+      this.sendFacture();
     }
   };
 

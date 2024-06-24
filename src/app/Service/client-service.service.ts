@@ -43,4 +43,10 @@ export class ClientServiceService {
   getCoordinates(address: string): Observable<any> {
     return this.http.get<any>(`${this.geocodeUrl}?q=${encodeURIComponent(address)}&format=json&addressdetails=1&limit=1`);
   }
+// count clients api
+    countClient(): Observable<any> {
+        return this.http.get<any>(`${this.env.piOpp+this.Wservice.getClient}/count`);
+    }
+
+
 }

@@ -29,6 +29,8 @@ export class GridFactureComponent implements OnInit {
     pageSize = this.env.pageSize;
     allowedPageSizes = this.env.allowedPageSizes;
     packageName = require('package.json').name;
+    countClient: number = 0;
+    countFacture: number = 0;
   constructor(private demandeService: DemandeService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
               private http: HttpClient,private clientService: ClientServiceService,
               private env: EnvService,private router: Router,private toastr: ToastrService,
@@ -38,7 +40,54 @@ export class GridFactureComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllFactures();
+      //set count client from service
+        this.clientService.countClient().subscribe(data => {
+            this.countClient = data;
+            console.log("countClient"+this.countClient);
+        });
+      //set countFacture form service
+        this.factureService.countFacture().subscribe(data => {
+            this.countFacture = data;
+        });
   }
+    onPaidStatusChange(invoice: any) {
+        this.factureService.setPaidFacture(invoice.id).subscribe(data => {
+            this.translateService.get("paidWithSuccess").subscribe(
+                res => {
+                    this.toastr.success(res, "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    })
+                }
+            )
+            this.refresh();
+        }, error => {
+            this.toastr.error(error.error.message, "", {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                extendedTimeOut: this.env.extendedTimeOutToastr,
+                progressBar: true,
+                disableTimeOut: false,
+                timeOut: this.env.timeOutToastr
+            })
+        });
+
+    }
+
+    // onPaidStatusChange(invoice: any, event: any) {
+    //     const isPaid = event.value;
+    //     this.factureService.setPaidFacture(invoice.id).subscribe(() => {
+    //         this.paidStatus[invoice.id] = isPaid; // Update cached paid status
+    //     }, error => {
+    //         console.error('Failed to update paid status:', error);
+    //         // Handle error if needed
+    //     });
+    // }
+
     showbordereaux(id: any) {
         this.router.navigate(["Facture/edit/"+id])
 
@@ -91,7 +140,7 @@ export class GridFactureComponent implements OnInit {
         e.toolbarOptions.items.unshift(
             {
                 location: 'center',
-                template: 'titreGrid'
+                template: 'Liste Factures'
             }
         );
         e.toolbarOptions.items.unshift(
@@ -350,9 +399,12 @@ export class GridFactureComponent implements OnInit {
         return this.http.get(this.env.piOpp + 'factures' + "?" + params + filterText, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken())})
             .toPromise()
             .then((data: any) => {
-                  console.log(data)
+                  console.log("datadatdatad",data)
                   this.count = data.totalElements
                   this.nbPage = data['totalPages']
+                // return ispaid by facture id api
+
+
                   return {'data': data.content, 'totalCount': data.totalElements};
 
                 },
@@ -365,6 +417,9 @@ export class GridFactureComponent implements OnInit {
 
 
   }
-
+    paidStatus: { [key: number]: boolean } = {};
+    getPaid(factureId: number){
+    return this.factureService.getIsPaid(factureId);
+     }
 
 }

@@ -8,8 +8,14 @@
     <dxi-item
             location="after"
             widget="dxButton"
+            [options]="saveOptions">
+    </dxi-item>
+    <dxi-item
+            location="after"
+            widget="dxButton"
             [options]="addButtonOptions">
     </dxi-item>
+
 
 </dx-toolbar>
 <div class="row invoice-add">
@@ -123,12 +129,7 @@
                                     <div class="col-md-3 col-12 mb-md-0 mb-3">
                                         <p class="mb-2 repeater-title">Cost</p>
                                         <input type="text" class="form-control invoice-item-price mb-2" placeholder="00" [(ngModel)]="item.itemCost" name="itemCost-{{i}}"/>
-                                        <div>
-                                            <span>Discount:</span>
-                                            <span class="discount me-2">0%</span>
-                                            <span class="tax-1 me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Tax 1">0%</span>
-                                            <span class="tax-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Tax 2">0%</span>
-                                        </div>
+
                                     </div>
                                     <div class="col-md-2 col-12 mb-md-0 mb-3">
                                         <p class="mb-2 repeater-title">Qty</p>
@@ -195,7 +196,7 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-label-primary d-grid w-100 mb-3" (click)="sendFacture()">Send Invoice</button>
+            <button type="button" class="btn btn-label-primary d-grid w-100 mb-3" (click)="sendFacture()">Enregistrer</button>
         </div>
     </div>
 

@@ -23,6 +23,44 @@
 
 <!--    <app-add-demande *ngIf="this.id" [id]="''+this.id" (add)="add($event)"></app-add-demande>-->
 <!--</dx-popup>-->
+<div class="dashboard-summary">
+    <div class="summary-item">
+        <div class="summary-icon">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="summary-details">
+            <div class="summary-number">{{countClient}}</div>
+            <div class="summary-label">Clients</div>
+        </div>
+    </div>
+    <div class="summary-item">
+        <div class="summary-icon">
+            <i class="fas fa-file-alt"></i>
+        </div>
+        <div class="summary-details">
+            <div class="summary-number">{{countFacture}}</div>
+            <div class="summary-label">Factures</div>
+        </div>
+    </div>
+    <div class="summary-item">
+        <div class="summary-icon">
+            <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="summary-details">
+            <div class="summary-number">$2.46k</div>
+            <div class="summary-label">Payé</div>
+        </div>
+    </div>
+    <div class="summary-item">
+        <div class="summary-icon">
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <div class="summary-details">
+            <div class="summary-number">$876</div>
+            <div class="summary-label">Non payé</div>
+        </div>
+    </div>
+</div>
 
 <dx-data-grid
     #dataGridDemande
@@ -48,8 +86,30 @@
 
     <dxi-column dataField="description" dataType="string"></dxi-column>
     <dxi-column dataField="dateFacture" dataType="date"></dxi-column>
+    <!-- Checkbox column for paid status -->
+    <dxi-column
+            dataField="isPaid"
+            caption="Paid"
+            [cellTemplate]="'checkboxCellTemplate'"
+    ></dxi-column>
 
 
+    <div *dxTemplate="let data of 'checkboxCellTemplate'">
+<!--        <dx-check-box-->
+<!--                [(value)]="data.data.isPaid"-->
+<!--                (onValueChanged)="onPaidStatusChange(data.data)"-->
+<!--        ></dx-check-box>-->
+        <div class="dx-field">
+            <div class="dx-field-label">Unchecked</div>
+            <div class="dx-field-value">
+                <dx-check-box
+                        [value]="data.data.isPaid"
+                        [elementAttr]="{ 'aria-label': 'Non Payé' }"
+                        (onValueChanged)="onPaidStatusChange(data.data)"
+                ></dx-check-box>
+            </div>
+        </div>
+    </div>
     <dxi-column [allowResizing]="false"
                 [fixed]="false" caption="{{'' | translate}}"
                 cellTemplate="cellTemplateActions"
