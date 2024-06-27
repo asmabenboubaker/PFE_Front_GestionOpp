@@ -43,37 +43,26 @@
     <li class="nav-item" role="presentation">
         <a
                 data-mdb-tab-init
-                class="nav-link active"
+                class="nav-link "
                 id="ex2-tab-1"
                 href="#ex2-tabs-1"
                 role="tab"
                 aria-controls="ex2-tabs-1"
                 aria-selected="true"
-        >Opportunité</a
+        >Demande Info</a
         >
     </li>
+
     <li class="nav-item" role="presentation">
         <a
                 data-mdb-tab-init
-                class="nav-link"
-                id="ex2-tab-2"
-                href="#ex2-tabs-2"
-                role="tab"
-                aria-controls="ex2-tabs-2"
-                aria-selected="false"
-        >Opportunité Info</a
-        >
-    </li>
-    <li class="nav-item" role="presentation">
-        <a
-                data-mdb-tab-init
-                class="nav-link"
+                class="nav-link active"
                 id="ex2-tab-3"
                 href="#ex2-tabs-3"
                 role="tab"
                 aria-controls="ex2-tabs-3"
                 aria-selected="false"
-        >Demande Info </a
+        > Opportunité </a
         >
     </li>
 </ul>
@@ -82,10 +71,55 @@
 <!-- Tabs content -->
 <div class="tab-content" id="ex2-content">
     <div
-            class="tab-pane fade show active"
+            class="tab-pane fade"
             id="ex2-tabs-1"
             role="tabpanel"
             aria-labelledby="ex2-tab-1"
+
+    >
+        <div class="custom-field">
+            <h1>
+                    <span>
+                        Demande Info
+                    </span>
+            </h1>
+            <div class="fieldContent">
+
+            </div>
+            <div >
+                <div class="form-group">
+                    <label class="form-label"><b>Nom demande:</b></label>
+                    <input class="form-control"  type="text" [value]="demandedto?.demande?.nom " readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><b>Status:</b></label>
+                    <input  class="form-control"  type="text" [value]="demandedto?.demande?.activityName" readonly />
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="form-label"><b>Créer par:</b></label>
+                        <input  class="form-control"  type="text" [value]="demandedto?.demande?.assignee" readonly />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label  class="form-label"><b>Date de creation demande :</b></label>
+                        <input  class="form-control"  type="text" [value]="demandedto?.demande?.dateDeCreation | date:'medium'" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><b>Client:</b></label>
+                    <input class="form-control"  type="text" [value]="demandedto?.demande?.client?.nom " readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div
+            class="tab-pane fade  show active"
+            id="ex2-tabs-3"
+            role="tabpanel"
+            aria-labelledby="ex2-tab-3"
     >
         <div class="tab-content" >
             <!-- acctiver when verification is true-->
@@ -99,138 +133,138 @@
                 <div class="custom-field">
                     <h1>
                     <span>
-                      Gestion des fichiers
+                      Opportunité
                     </span>
                     </h1>
                     <div class="fieldContent">
-                <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
+                        <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
 
-                    <section class="light" >
-                        <div class="container py-2">
-                            <div class="h1 text-center text-dark" id="pageHeaderTitle2"></div>
+                            <section class="light" >
+                                <div class="container py-2">
+                                    <div class="h1 text-center text-dark" id="pageHeaderTitle2"></div>
 
 
-                            <article class="postcard light green">
-                                <a class="postcard__img_link" href="#">
-                                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                                </a>
-                                <div class="postcard__text t-dark">
+                                    <article class="postcard light green">
+                                        <a class="postcard__img_link" href="#">
+                                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                                        </a>
+                                        <div class="postcard__text t-dark">
 
 
-                                    <div class="form-group ">
-                                        <label for="nom" class="form-label">Nom:</label>
-                                        <input class="form-control" formControlName="nom" id="nom" type="text" required>
+                                            <div class="form-group ">
+                                                <label for="nom" class="form-label">Nom:</label>
+                                                <input class="form-control" formControlName="nom" id="nom" type="text" required>
 
-                                    </div>
+                                            </div>
 
 
 
-                                    <div class="form-group ">
-                                        <label for="description" class="form-label">Description:</label>
-                                        <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
+                                            <div class="form-group ">
+                                                <label for="description" class="form-label">Description:</label>
+                                                <textarea class="form-control" formControlName="description" id="description" type="text" required></textarea>
 
-                                    </div>
+                                            </div>
 
+
+                                        </div>
+
+                                    </article>
 
                                 </div>
 
-                            </article>
-
-                        </div>
-
-                    </section>
+                            </section>
 
 
-                    <section class="light" *ngIf="selectedDemande">
-                        <div class="container py-2">
-                            <div class="h1 text-center text-dark" id="pageHeaderTitle"></div>
+                            <section class="light" *ngIf="selectedDemande">
+                                <div class="container py-2">
+                                    <div class="h1 text-center text-dark" id="pageHeaderTitle"></div>
 
 
-                            <article class="postcard light green">
-                                <a class="postcard__img_link" href="#">
-                                    <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
-                                </a>
-                                <div class="postcard__text t-dark">
-                                    <h5><a href="#">Demande informations</a></h5>
-                                    <div class="postcard__subtitle small">
-                                        <time datetime="2020-05-25 12:00:00">
-                                            <i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
-                                        </time>
-                                    </div>
-                                    <div class="postcard__bar"></div>
-                                    <!--                    <div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>-->
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="nomDemande" class="form-label">Nom Demande:</label>
-                                            <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>
+                                    <article class="postcard light green">
+                                        <a class="postcard__img_link" href="#">
+                                            <!--                    <img class="postcard__img" src="https://picsum.photos/500/501" alt="Image Title" />-->
+                                        </a>
+                                        <div class="postcard__text t-dark">
+                                            <h5><a href="#">Demande informations</a></h5>
+                                            <div class="postcard__subtitle small">
+                                                <time datetime="2020-05-25 12:00:00">
+                                                    <i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
+                                                </time>
+                                            </div>
+                                            <div class="postcard__bar"></div>
+                                            <!--                    <div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>-->
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="nomDemande" class="form-label">Nom Demande:</label>
+                                                    <input class="form-control" id="nomDemande" type="text" [value]="demandeF.get('nom').value" readonly>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="client" class="form-label">Client:</label>
+                                                    <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="statut" class="form-label">Statut:</label>
+                                                    <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="source" class="form-label">Source:</label>
+                                                    <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="commentaires" class="form-label">Commentaires:</label>
+                                                    <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="deadline" class="form-label">Deadline:</label>
+                                                    <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="descriptionDemande" class="form-label">Description Demande:</label>
+                                                <textarea class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly></textarea>
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="client" class="form-label">Client:</label>
-                                            <input class="form-control" id="client" type="text" [value]="demandeF.get('client').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="statut" class="form-label">Statut:</label>
-                                            <input class="form-control" id="statut" type="text" [value]="demandeF.get('statut').value" readonly>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="source" class="form-label">Source:</label>
-                                            <input class="form-control" id="source" type="text" [value]="demandeF.get('source').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="commentaires" class="form-label">Commentaires:</label>
-                                            <input class="form-control" id="commentaires" type="text" [value]="demandeF.get('commentaires').value" readonly>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="deadline" class="form-label">Deadline:</label>
-                                            <input class="form-control" id="deadline" type="text" [value]="demandeF.get('deadline').value" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="descriptionDemande" class="form-label">Description Demande:</label>
-                                        <textarea class="form-control" id="descriptionDemande" type="text" [value]="demandeF.get('description').value" readonly></textarea>
-                                    </div>
+                                    </article>
+
                                 </div>
-                            </article>
-
-                        </div>
-                    </section>
-                    <div class="custom-field">
-                        <h1>
+                            </section>
+                            <div class="custom-field">
+                                <h1>
                     <span>
                       Gestion des fichiers
                     </span>
-                        </h1>
-                        <div class="fieldContent">
-                        <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
-                        </div>
-                    </div>
+                                </h1>
+                                <div class="fieldContent">
+                                    <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+                                </div>
+                            </div>
 
 
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="oppForm"
-                                [SaveObject]="oppForm">
-                        </app-workflow-decision>
+                            <div class="workflow-container">
+                                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                                <app-workflow-decision
+                                        *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                                        (decisionEvent)="Confirmation($event)"
+                                        (saveEvent)="save()"
+                                        (RetournEvent)="Retourn()"
+                                        [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                                        [decisions]="decissionWF"
+                                        [object]="oppForm"
+                                        [SaveObject]="oppForm">
+                                </app-workflow-decision>
 
-                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+                                <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                                <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                                <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
 
-                    </div>
-                </form>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -480,68 +514,68 @@
                     <div class="fieldContent">
 
                     </div>
-                <form [formGroup]="techForm" >
-                    <div class="form-group">
-                        <label>Nature:</label>
+                    <form [formGroup]="techForm" >
+                        <div class="form-group">
+                            <label>Nature:</label>
 
-                        <select class="form-select" formControlName="source" id="sourceDemande">
-                            <option value="etudeFaisabilite">Étude de faisabilité</option>
-                            <option value="etudeTechnique">Étude technique</option>
+                            <select class="form-select" formControlName="source" id="sourceDemande">
+                                <option value="etudeFaisabilite">Étude de faisabilité</option>
+                                <option value="etudeTechnique">Étude technique</option>
 
-                        </select>
-                        <div *ngIf="techForm.get('nature').invalid && techForm.get('nature').touched">
-                            <span *ngIf="techForm.get('nature').errors.required">Nature is required</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="specialite">Spécialité:</label>
-                        <select class="form-select" formControlName="specialite" id="specialite">
-                            <option value="developpement-web">Développement Web</option>
-                            <option value="developpement-mobile">Développement Mobile</option>
-                            <option value="data-science">Data Science</option>
-                            <option value="cybersecurite">Cybersécurité</option>
-                            <option value="intelligence-artificielle">Intelligence Artificielle</option>
-                            <option value="gestion-de-projet">Gestion de Projet</option>
-                        </select>
-                        <div *ngIf="techForm.get('specialite').invalid && techForm.get('specialite').touched">
-                            <span *ngIf="techForm.get('specialite').errors.required">Spécialité is required</span>
+                            </select>
+                            <div *ngIf="techForm.get('nature').invalid && techForm.get('nature').touched">
+                                <span *ngIf="techForm.get('nature').errors.required">Nature is required</span>
+                            </div>
                         </div>
 
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                        <label for="nbreHours">Number of Hours:</label>
-                        <input  class="form-control"  type="number" id="nbreHours" formControlName="nbreHours">
-                        <div *ngIf="techForm.get('nbreHours').invalid && techForm.get('nbreHours').touched">
-                            <span *ngIf="techForm.get('nbreHours').errors.required">Number of Hours is required</span>
+                        <div class="form-group">
+
+                            <label for="specialite">Spécialité:</label>
+                            <select class="form-select" formControlName="specialite" id="specialite">
+                                <option value="developpement-web">Développement Web</option>
+                                <option value="developpement-mobile">Développement Mobile</option>
+                                <option value="data-science">Data Science</option>
+                                <option value="cybersecurite">Cybersécurité</option>
+                                <option value="intelligence-artificielle">Intelligence Artificielle</option>
+                                <option value="gestion-de-projet">Gestion de Projet</option>
+                            </select>
+                            <div *ngIf="techForm.get('specialite').invalid && techForm.get('specialite').touched">
+                                <span *ngIf="techForm.get('specialite').errors.required">Spécialité is required</span>
+                            </div>
+
                         </div>
-                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nbreHours">Number of Hours:</label>
+                                <input  class="form-control"  type="number" id="nbreHours" formControlName="nbreHours">
+                                <div *ngIf="techForm.get('nbreHours').invalid && techForm.get('nbreHours').touched">
+                                    <span *ngIf="techForm.get('nbreHours').errors.required">Number of Hours is required</span>
+                                </div>
+                            </div>
 
 
-                        <div class="form-group col-md-6">
-                        <label for="dateDebut">Date Debut:</label>
-                        <input type="date"  class="form-control" id="dateDebut" formControlName="dateDebut">
+                            <div class="form-group col-md-6">
+                                <label for="dateDebut">Date Debut:</label>
+                                <input type="date"  class="form-control" id="dateDebut" formControlName="dateDebut">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="responsableEtude">Responsable Etude:</label>
-                        <input class="form-control"  type="text" id="responsableEtude" formControlName="responsableEtude">
-                        <div *ngIf="techForm.get('responsableEtude').invalid && techForm.get('responsableEtude').touched">
-                            <span *ngIf="techForm.get('responsableEtude').errors.required">Responsible Etude is required</span>
+                        <div class="form-group">
+                            <label for="responsableEtude">Responsable Etude:</label>
+                            <input class="form-control"  type="text" id="responsableEtude" formControlName="responsableEtude">
+                            <div *ngIf="techForm.get('responsableEtude').invalid && techForm.get('responsableEtude').touched">
+                                <span *ngIf="techForm.get('responsableEtude').errors.required">Responsible Etude is required</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <textarea type="text" class="form-control" formControlName="description"></textarea>
-                        <div *ngIf="techForm.get('description').invalid && techForm.get('description').touched">
-                            <span *ngIf="techForm.get('description').errors.required">Description is required</span>
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea type="text" class="form-control" formControlName="description"></textarea>
+                            <div *ngIf="techForm.get('description').invalid && techForm.get('description').touched">
+                                <span *ngIf="techForm.get('description').errors.required">Description is required</span>
+                            </div>
                         </div>
-                    </div>
 
-                </form>
+                    </form>
 
                 </div>
                 <div class="custom-field">
@@ -553,7 +587,7 @@
                     <div class="fieldContent">
 
                     </div>
-                <dx-data-grid
+                    <dx-data-grid
                         #gridContainer
 
                         [dataSource]="tasks"
@@ -563,24 +597,24 @@
                         (onToolbarPreparing)="onToolbarPreparing($event)"
                         ID="gridContainer"
                         keyExpr="ID"
-                >
-                    <dxi-column dataField="nom"></dxi-column>
-                    <dxi-column dataField="description"></dxi-column>
-                    <dxi-column dataField="nbreHours"></dxi-column>
-                    <dxi-column [allowResizing]="false"
-                                [fixed]="false" caption="{{'' | translate}}"
-                                cellTemplate="cellTemplateActions"
                     >
-                    </dxi-column>
-                    <div *dxTemplate="let data of 'cellTemplateActions'"
-                         style="display: flex; justify-content: center; align-items: center;">
+                        <dxi-column dataField="nom"></dxi-column>
+                        <dxi-column dataField="description"></dxi-column>
+                        <dxi-column dataField="nbreHours"></dxi-column>
+                        <dxi-column [allowResizing]="false"
+                                    [fixed]="false" caption="{{'' | translate}}"
+                                    cellTemplate="cellTemplateActions"
+                        >
+                        </dxi-column>
+                        <div *dxTemplate="let data of 'cellTemplateActions'"
+                             style="display: flex; justify-content: center; align-items: center;">
 
 
-                        <a (click)="deleteDetails(data.data.ID)" target="_blank"   title="" >
-                            <i class="fa fa-trash" style="color:#168c94;">
-                            </i></a>
-                    </div>
-                </dx-data-grid>
+                            <a (click)="deleteDetails(data.data.ID)" target="_blank"   title="" >
+                                <i class="fa fa-trash" style="color:#168c94;">
+                                </i></a>
+                        </div>
+                    </dx-data-grid>
                     <dx-popup
                             [(visible)]="popupVisible"
                             [width]="600"
@@ -826,7 +860,7 @@
                                         <dxi-column dataField="nom" dataType="string" caption="Nom"></dxi-column>
                                         <dxi-column dataField="description" dataType="string" caption="Description"></dxi-column>
                                         <dxi-column dataField="nbreHours" dataType="string" caption="nombre des heures" ></dxi-column>
-                                           </dx-data-grid>
+                                    </dx-data-grid>
                                 </div>
                                 <dxo-export
                                         [enabled]="true"
@@ -954,88 +988,8 @@
 
         </div>
     </div>
-    <div
-            class="tab-pane fade"
-            id="ex2-tabs-2"
-            role="tabpanel"
-            aria-labelledby="ex2-tab-2"
-    >
-        <div class="custom-field">
-            <h1>
-                    <span>
-                        Opportunité Info
-                    </span>
-            </h1>
-            <div class="fieldContent">
-
-            </div>
-            <div>
-                <div class="form-group">
-                    <label class="form-label"><b>Nom:</b></label>
-                    <input class="form-control"  type="text" [value]="demandedto?.nom" readonly />
-                </div>
-                <div class="form-group">
-                    <label  class="form-label"><b>Description:</b></label>
-                    <input  class="form-control"  type="text" [value]="demandedto?.description" readonly />
-                </div>
-
-
-                <div class="form-group">
-                    <label class="form-label"><b>Status:</b></label>
-                    <input  class="form-control"  type="text" [value]="demandedto?.status" readonly />
-                </div>
-
-                <div class="form-group">
-                    <label  class="form-label"><b>Created At:</b></label>
-                    <input  class="form-control"  type="text" [value]="demandedto?.createAt | date:'medium'" readonly />
-                </div>
-
-            </div>
-            </div>
-        </div>
     </div>
-    <div
-            class="tab-pane fade"
-            id="ex2-tabs-3"
-            role="tabpanel"
-            aria-labelledby="ex2-tab-3"
-    >
-        <div class="custom-field">
-            <h1>
-                    <span>
-                        Demande Info
-                    </span>
-            </h1>
-            <div class="fieldContent">
 
-            </div>
-        <div >
-            <div class="form-group">
-                <label class="form-label"><b>Nom demande:</b></label>
-                <input class="form-control"  type="text" [value]="demandedto?.demande?.nom " readonly />
-            </div>
-            <div class="form-group">
-                <label class="form-label"><b>Status:</b></label>
-                <input  class="form-control"  type="text" [value]="demandedto?.demande?.activityName" readonly />
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label class="form-label"><b>Créer par:</b></label>
-                    <input  class="form-control"  type="text" [value]="demandedto?.demande?.assignee" readonly />
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label  class="form-label"><b>Date de creation demande :</b></label>
-                    <input  class="form-control"  type="text" [value]="demandedto?.demande?.dateDeCreation | date:'medium'" readonly />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label"><b>Client:</b></label>
-                <input class="form-control"  type="text" [value]="demandedto?.demande?.client?.nom " readonly />
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Tabs content -->
 
 <dx-popup

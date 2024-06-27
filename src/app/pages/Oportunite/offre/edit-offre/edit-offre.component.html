@@ -54,13 +54,13 @@
     <li class="nav-item" role="presentation">
         <a
                 data-mdb-tab-init
-                class="nav-link active"
+                class="nav-link"
                 id="ex3-tab-1"
                 href="#ex3-tabs-1"
                 role="tab"
                 aria-controls="ex3-tabs-1"
                 aria-selected="true"
-        >Offre de prix</a
+        >Client Info</a
         >
     </li>
     <li class="nav-item" role="presentation">
@@ -78,13 +78,13 @@
     <li class="nav-item" role="presentation">
         <a
                 data-mdb-tab-init
-                class="nav-link"
+                class="nav-link active"
                 id="ex3-tab-3"
                 href="#ex3-tabs-3"
                 role="tab"
                 aria-controls="ex3-tabs-3"
                 aria-selected="false"
-        >Client Info</a
+        >Offre de prix</a
         >
     </li>
 </ul>
@@ -93,10 +93,97 @@
 <!-- Tabs content -->
 <div class="tab-content" id="ex2-content">
     <div
-            class="tab-pane fade show active"
+            class="tab-pane fade "
             id="ex3-tabs-1"
             role="tabpanel"
             aria-labelledby="ex3-tab-1"
+    >
+        <div class="custom-field">
+            <h1>
+                    <span>
+                       Client Info
+                    </span>
+            </h1>
+            <div class="fieldContent">
+                <div >
+                    <div class="form-group">
+                        <label class="form-label"><b>Nom du client:</b></label>
+                        <input class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.nom" readonly />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label"><b>Adresse:</b></label>
+                            <input  class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.adresse" readonly />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label  class="form-label"><b>Date d'Inscription :</b></label>
+                            <input  class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.dateInscription | date:'medium'" readonly />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="form-label"><b>Email:</b></label>
+                            <input  class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.email" readonly />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label  class="form-label"><b>Telephone:</b></label>
+                            <input  class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.telephne" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Type du client:</b></label>
+                        <input class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.typeClient" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><b>Description:</b></label>
+
+                        <input class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.description" readonly />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+            class="tab-pane fade"
+            id="ex3-tabs-2"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-2"
+    >
+        <div class="custom-field">
+            <h1>
+                    <span>
+                       Opportunité Info
+                    </span>
+            </h1>
+            <div class="fieldContent">
+                <div class="form-group">
+                    <label class="form-label"><b>Nom de l'opportuité:</b></label>
+                    <input class="form-control"  type="text" [value]="objectData?.opportunite?.nom" readonly />
+                </div>
+                <div class="form-group">
+                    <label  class="form-label"><b>Created At:</b></label>
+                    <input  class="form-control"  type="text" [value]="objectData?.opportunite?.createAt | date:'medium'" readonly />
+                </div>
+
+                <div class="form-group ">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea class="form-control" formControlName="description" [value]="objectData?.opportunite?.description" type="text"  readonly></textarea>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div
+
+            class="tab-pane fade show active"
+            id="ex3-tabs-3"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-3"
     >
         <div  >
 
@@ -202,103 +289,105 @@
                                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                                 <input class="form-control" formControlName="dateLivraison" id="dateLivraison" type="date" required>
                             </div>
-                            <div class="custom-field">
-                                <h1>
-                    <span>
-                      Articles
-                    </span>
-                                </h1>
-                                <div class="fieldContent">
 
-                                </div>
-                                <dx-data-grid
-                                    #gridContainer
-
-                                    [dataSource]="tasks"
-
-                                    [columns]="['nom', 'quantite', 'prixUnitaire']"
-                                    [showBorders]="true"
-                                    (onToolbarPreparing)="onToolbarPreparing($event)"
-                                    id="gridContainer2"
-                                    keyExpr="id"
-                                >
-
-                                    <dxi-column dataField="nom"></dxi-column>
-                                    <dxi-column dataField="quantite"></dxi-column>
-                                    <dxi-column dataField="prixUnitaire"></dxi-column>
-
-                                    <dxi-column [allowResizing]="false"
-                                                [fixed]="false" caption="{{'' | translate}}"
-                                                cellTemplate="cellTemplateActions"
-                                    >
-                                    </dxi-column>
-                                    <div *dxTemplate="let data of 'cellTemplateActions'"
-                                         style="display: flex; justify-content: center; align-items: center;">
-                                        <a (click)="editTask(data.data)" target="_blank"
-                                           title="Consulter demande"><i
-                                                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
-
-                                        <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
-                                            <i class="fa fa-trash" style="color:#168c94;">
-                                            </i></a>
-                                    </div>
-
-                                </dx-data-grid>
-                                <dx-popup
-                                        [(visible)]="popupVisible"
-                                        [width]="600"
-                                        [height]="400"
-                                        [showTitle]="true"
-                                        title="Ajouter Article"
-                                        [dragEnabled]="true"
-                                        [closeOnOutsideClick]="true">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <form [formGroup]="taskForm">
-                                            <div class="form-group">
-                                                <label>Nom:</label>
-                                                <input type="text" class="form-control" formControlName="nom">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label >Quantite:</label>
-                                                <input type="number" class="form-control" formControlName="quantite">
-                                            </div>
-                                            <div class="form-group">
-                                                <label >prix Unitaire:</label>
-                                                <input type="number" class="form-control" formControlName="prixUnitaire">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="description">Description:</label>
-                                                <textarea type="text" class="form-control" formControlName="description"></textarea>
-                                            </div>
-                                        </form>
-                                        <div class="dx-popup-bottom">
-                                            <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
-                                            <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
-                                        </div>
-                                    </div>
-                                </dx-popup>
-                            </div>
-                            <div class="workflow-container">
-                                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                                <app-workflow-decision
-                                        *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
-                                        (decisionEvent)="Confirmation($event)"
-                                        (saveEvent)="save()"
-                                        (RetournEvent)="Retourn()"
-                                        [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
-                                        [decisions]="decissionWF"
-                                        [object]="offreForm"
-                                        [SaveObject]="offreForm">
-                                </app-workflow-decision>
-
-                            </div>
 
 
                         </form>
 
                     </div>
+
+                </div>
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                      Articles
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+
+                    </div>
+                    <dx-data-grid
+                        #gridContainer
+
+                        [dataSource]="tasks"
+
+                        [columns]="['nom', 'quantite', 'prixUnitaire']"
+                        [showBorders]="true"
+                        (onToolbarPreparing)="onToolbarPreparing($event)"
+                        id="gridContainer2"
+                        keyExpr="id"
+                    >
+
+                        <dxi-column dataField="nom"></dxi-column>
+                        <dxi-column dataField="quantite"></dxi-column>
+                        <dxi-column dataField="prixUnitaire"></dxi-column>
+
+                        <dxi-column [allowResizing]="false"
+                                    [fixed]="false" caption="{{'' | translate}}"
+                                    cellTemplate="cellTemplateActions"
+                        >
+                        </dxi-column>
+                        <div *dxTemplate="let data of 'cellTemplateActions'"
+                             style="display: flex; justify-content: center; align-items: center;">
+                            <a (click)="editTask(data.data)" target="_blank"
+                               title="Consulter demande"><i
+                                    class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
+                            <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
+                                <i class="fa fa-trash" style="color:#168c94;">
+                                </i></a>
+                        </div>
+
+                    </dx-data-grid>
+                    <dx-popup
+                            [(visible)]="popupVisible"
+                            [width]="600"
+                            [height]="400"
+                            [showTitle]="true"
+                            title="Ajouter Article"
+                            [dragEnabled]="true"
+                            [closeOnOutsideClick]="true">
+                        <div *dxTemplate="let data of 'content'">
+                            <form [formGroup]="taskForm">
+                                <div class="form-group">
+                                    <label>Nom:</label>
+                                    <input type="text" class="form-control" formControlName="nom">
+                                </div>
+
+                                <div class="form-group">
+                                    <label >Quantite:</label>
+                                    <input type="number" class="form-control" formControlName="quantite">
+                                </div>
+                                <div class="form-group">
+                                    <label >prix Unitaire:</label>
+                                    <input type="number" class="form-control" formControlName="prixUnitaire">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea type="text" class="form-control" formControlName="description"></textarea>
+                                </div>
+                            </form>
+                            <div class="dx-popup-bottom">
+                                <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
+                                <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
+                            </div>
+                        </div>
+                    </dx-popup>
+                </div>
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="offreForm"
+                            [SaveObject]="offreForm">
+                    </app-workflow-decision>
+
                 </div>
             </div>
             <div
@@ -335,100 +424,101 @@
                                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                                 <input class="form-control" formControlName="dateLivraison" type="date" required>
                             </div>
-                            <div class="custom-field">
-                                <h1>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="custom-field">
+                    <h1>
                     <span>
                       Articles
                     </span>
-                                </h1>
-                                <div class="fieldContent">
+                    </h1>
+                    <div class="fieldContent">
 
-                                </div>
-                                <dx-data-grid
-                                    #gridContainer
-
-                                    [dataSource]="tasks"
-
-                                    [columns]="['nom', 'quantite', 'prixUnitaire']"
-                                    [showBorders]="true"
-                                    (onToolbarPreparing)="onToolbarPreparing($event)"
-                                    id="gridContainer1"
-                                    keyExpr="id"
-                                >
-
-                                    <dxi-column dataField="nom"></dxi-column>
-                                    <dxi-column dataField="quantite"></dxi-column>
-                                    <dxi-column dataField="prixUnitaire"></dxi-column>
-
-                                    <dxi-column [allowResizing]="false"
-                                                [fixed]="false" caption="{{'' | translate}}"
-                                                cellTemplate="cellTemplateActions"
-                                    >
-                                    </dxi-column>
-                                    <div *dxTemplate="let data of 'cellTemplateActions'"
-                                         style="display: flex; justify-content: center; align-items: center;">
-                                        <a (click)="editTask(data.data)" target="_blank"
-                                           title="Consulter demande"><i
-                                                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
-
-                                        <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
-                                            <i class="fa fa-trash" style="color:#168c94;">
-                                            </i></a>
-                                    </div>
-
-                                </dx-data-grid>
-                                <dx-popup
-                                        [(visible)]="popupVisible"
-                                        [width]="600"
-                                        [height]="400"
-                                        [showTitle]="true"
-                                        title="Ajouter Article"
-                                        [dragEnabled]="true"
-                                        [closeOnOutsideClick]="true">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <form [formGroup]="taskForm">
-                                            <div class="form-group">
-                                                <label>Nom:</label>
-                                                <input type="text" class="form-control" formControlName="nom">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label >Quantite:</label>
-                                                <input type="number" class="form-control" formControlName="quantite">
-                                            </div>
-                                            <div class="form-group">
-                                                <label >prix Unitaire:</label>
-                                                <input type="number" class="form-control" formControlName="prixUnitaire">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="description">Description:</label>
-                                                <textarea type="text" class="form-control" formControlName="description"></textarea>
-                                            </div>
-                                        </form>
-                                        <div class="dx-popup-bottom">
-                                            <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
-                                            <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
-                                        </div>
-                                    </div>
-                                </dx-popup>
-                            </div>
-                            <div class="workflow-container">
-                                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                                <app-workflow-decision
-                                        *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
-                                        (decisionEvent)="Confirmation($event)"
-                                        (saveEvent)="save()"
-                                        (RetournEvent)="Retourn()"
-                                        [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
-                                        [decisions]="decissionWF"
-                                        [object]="offreForm"
-                                        [SaveObject]="offreForm">
-                                </app-workflow-decision>
-
-                            </div>
-                                                   </form>
                     </div>
+                    <dx-data-grid
+                        #gridContainer
+
+                        [dataSource]="tasks"
+
+                        [columns]="['nom', 'quantite', 'prixUnitaire']"
+                        [showBorders]="true"
+                        (onToolbarPreparing)="onToolbarPreparing($event)"
+                        id="gridContainer1"
+                        keyExpr="id"
+                    >
+
+                        <dxi-column dataField="nom"></dxi-column>
+                        <dxi-column dataField="quantite"></dxi-column>
+                        <dxi-column dataField="prixUnitaire"></dxi-column>
+
+                        <dxi-column [allowResizing]="false"
+                                    [fixed]="false" caption="{{'' | translate}}"
+                                    cellTemplate="cellTemplateActions"
+                        >
+                        </dxi-column>
+                        <div *dxTemplate="let data of 'cellTemplateActions'"
+                             style="display: flex; justify-content: center; align-items: center;">
+                            <a (click)="editTask(data.data)" target="_blank"
+                               title="Consulter demande"><i
+                                    class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
+                            <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
+                                <i class="fa fa-trash" style="color:#168c94;">
+                                </i></a>
+                        </div>
+
+                    </dx-data-grid>
+                    <dx-popup
+                            [(visible)]="popupVisible"
+                            [width]="600"
+                            [height]="400"
+                            [showTitle]="true"
+                            title="Ajouter Article"
+                            [dragEnabled]="true"
+                            [closeOnOutsideClick]="true">
+                        <div *dxTemplate="let data of 'content'">
+                            <form [formGroup]="taskForm">
+                                <div class="form-group">
+                                    <label>Nom:</label>
+                                    <input type="text" class="form-control" formControlName="nom">
+                                </div>
+
+                                <div class="form-group">
+                                    <label >Quantite:</label>
+                                    <input type="number" class="form-control" formControlName="quantite">
+                                </div>
+                                <div class="form-group">
+                                    <label >prix Unitaire:</label>
+                                    <input type="number" class="form-control" formControlName="prixUnitaire">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea type="text" class="form-control" formControlName="description"></textarea>
+                                </div>
+                            </form>
+                            <div class="dx-popup-bottom">
+                                <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
+                                <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
+                            </div>
+                        </div>
+                    </dx-popup>
+                </div>
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="offreForm"
+                            [SaveObject]="offreForm">
+                    </app-workflow-decision>
+
                 </div>
             </div>
             <div
@@ -478,101 +568,103 @@
                                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                                 <input class="form-control" formControlName="dateLivraison" type="date" required>
                             </div>
-                            <div class="custom-field">
-                                <h1>
-                    <span>
-                      Articles
-                    </span>
-                                </h1>
-                                <div class="fieldContent">
-
-                                </div>
-                                <dx-data-grid
-                                    #gridContainer
-
-                                    [dataSource]="tasks"
-
-                                    [columns]="['nom', 'quantite', 'prixUnitaire']"
-                                    [showBorders]="true"
-                                    (onToolbarPreparing)="onToolbarPreparing($event)"
-                                    id="gridContainer3"
-                                    keyExpr="id"
-                                >
-
-                                    <dxi-column dataField="nom"></dxi-column>
-                                    <dxi-column dataField="quantite"></dxi-column>
-                                    <dxi-column dataField="prixUnitaire"></dxi-column>
-
-                                    <dxi-column [allowResizing]="false"
-                                                [fixed]="false" caption="{{'' | translate}}"
-                                                cellTemplate="cellTemplateActions"
-                                    >
-                                    </dxi-column>
-                                    <div *dxTemplate="let data of 'cellTemplateActions'"
-                                         style="display: flex; justify-content: center; align-items: center;">
-                                        <a (click)="editTask(data.data)" target="_blank"
-                                           title="Consulter demande"><i
-                                                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
-
-                                        <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
-                                            <i class="fa fa-trash" style="color:#168c94;">
-                                            </i></a>
-                                    </div>
-
-                                </dx-data-grid>
-                                <dx-popup
-                                        [(visible)]="popupVisible"
-                                        [width]="600"
-                                        [height]="400"
-                                        [showTitle]="true"
-                                        title="Ajouter Article"
-                                        [dragEnabled]="true"
-                                        [closeOnOutsideClick]="true">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <form [formGroup]="taskForm">
-                                            <div class="form-group">
-                                                <label>Nom:</label>
-                                                <input type="text" class="form-control" formControlName="nom">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label >Quantite:</label>
-                                                <input type="number" class="form-control" formControlName="quantite">
-                                            </div>
-                                            <div class="form-group">
-                                                <label >prix Unitaire:</label>
-                                                <input type="number" class="form-control" formControlName="prixUnitaire">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="description">Description:</label>
-                                                <textarea type="text" class="form-control" formControlName="description"></textarea>
-                                            </div>
-                                        </form>
-                                        <div class="dx-popup-bottom">
-                                            <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
-                                            <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
-                                        </div>
-                                    </div>
-                                </dx-popup>
-                            </div>
-                            <div class="workflow-container">
-                                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                                <app-workflow-decision
-                                        *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
-                                        (decisionEvent)="Confirmation($event)"
-                                        (saveEvent)="save()"
-                                        (RetournEvent)="Retourn()"
-                                        [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
-                                        [decisions]="decissionWF"
-                                        [object]="offreForm"
-                                        [SaveObject]="offreForm">
-                                </app-workflow-decision>
-
-                            </div>
 
                         </form>
                     </div>
+
+                </div>
+
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                      Articles
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+
+                    </div>
+                    <dx-data-grid
+                        #gridContainer
+
+                        [dataSource]="tasks"
+
+                        [columns]="['nom', 'quantite', 'prixUnitaire']"
+                        [showBorders]="true"
+                        (onToolbarPreparing)="onToolbarPreparing($event)"
+                        id="gridContainer3"
+                        keyExpr="id"
+                    >
+
+                        <dxi-column dataField="nom"></dxi-column>
+                        <dxi-column dataField="quantite"></dxi-column>
+                        <dxi-column dataField="prixUnitaire"></dxi-column>
+
+                        <dxi-column [allowResizing]="false"
+                                    [fixed]="false" caption="{{'' | translate}}"
+                                    cellTemplate="cellTemplateActions"
+                        >
+                        </dxi-column>
+                        <div *dxTemplate="let data of 'cellTemplateActions'"
+                             style="display: flex; justify-content: center; align-items: center;">
+                            <a (click)="editTask(data.data)" target="_blank"
+                               title="Consulter demande"><i
+                                    class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
+                            <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
+                                <i class="fa fa-trash" style="color:#168c94;">
+                                </i></a>
+                        </div>
+
+                    </dx-data-grid>
+                    <dx-popup
+                            [(visible)]="popupVisible"
+                            [width]="600"
+                            [height]="400"
+                            [showTitle]="true"
+                            title="Ajouter Article"
+                            [dragEnabled]="true"
+                            [closeOnOutsideClick]="true">
+                        <div *dxTemplate="let data of 'content'">
+                            <form [formGroup]="taskForm">
+                                <div class="form-group">
+                                    <label>Nom:</label>
+                                    <input type="text" class="form-control" formControlName="nom">
+                                </div>
+
+                                <div class="form-group">
+                                    <label >Quantite:</label>
+                                    <input type="number" class="form-control" formControlName="quantite">
+                                </div>
+                                <div class="form-group">
+                                    <label >prix Unitaire:</label>
+                                    <input type="number" class="form-control" formControlName="prixUnitaire">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea type="text" class="form-control" formControlName="description"></textarea>
+                                </div>
+                            </form>
+                            <div class="dx-popup-bottom">
+                                <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
+                                <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
+                            </div>
+                        </div>
+                    </dx-popup>
+                </div>
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="offreForm"
+                            [SaveObject]="offreForm">
+                    </app-workflow-decision>
+
                 </div>
             </div>
 
@@ -612,191 +704,108 @@
                                 <label for="dateLivraison" class="form-label">Date de livraison:</label>
                                 <input class="form-control" formControlName="dateLivraison" type="date" required>
                             </div>
-                            <div class="custom-field">
-                                <h1>
-                    <span>
-                      Articles
-                    </span>
-                                </h1>
-                                <div class="fieldContent">
-
-                                </div>
-                                <dx-data-grid
-                                    #gridContainer
-
-                                    [dataSource]="tasks"
-
-                                    [columns]="['nom', 'quantite', 'prixUnitaire']"
-                                    [showBorders]="true"
-                                    (onToolbarPreparing)="onToolbarPreparing($event)"
-                                    id="gridContainer"
-                                    keyExpr="id"
-                                >
-
-                                    <dxi-column dataField="nom"></dxi-column>
-                                    <dxi-column dataField="quantite"></dxi-column>
-                                    <dxi-column dataField="prixUnitaire"></dxi-column>
-
-                                    <dxi-column [allowResizing]="false"
-                                                [fixed]="false" caption="{{'' | translate}}"
-                                                cellTemplate="cellTemplateActions"
-                                    >
-                                    </dxi-column>
-                                    <div *dxTemplate="let data of 'cellTemplateActions'"
-                                         style="display: flex; justify-content: center; align-items: center;">
-                                        <a (click)="editTask(data.data)" target="_blank"
-                                           title="Consulter demande"><i
-                                                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
-
-                                        <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
-                                            <i class="fa fa-trash" style="color:#168c94;">
-                                            </i></a>
-                                    </div>
-
-                                </dx-data-grid>
-                                <dx-popup
-                                        [(visible)]="popupVisible"
-                                        [width]="600"
-                                        [height]="400"
-                                        [showTitle]="true"
-                                        title="Ajouter Article"
-                                        [dragEnabled]="true"
-                                        [closeOnOutsideClick]="true">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <form [formGroup]="taskForm">
-                                            <div class="form-group">
-                                                <label>Nom:</label>
-                                                <input type="text" class="form-control" formControlName="nom">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label >Quantite:</label>
-                                                <input type="number" class="form-control" formControlName="quantite">
-                                            </div>
-                                            <div class="form-group">
-                                                <label >prix Unitaire:</label>
-                                                <input type="number" class="form-control" formControlName="prixUnitaire">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="description">Description:</label>
-                                                <textarea type="text" class="form-control" formControlName="description"></textarea>
-                                            </div>
-                                        </form>
-                                        <div class="dx-popup-bottom">
-                                            <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
-                                            <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
-                                        </div>
-                                    </div>
-                                </dx-popup>
-                            </div>
-                            <div class="workflow-container">
-                                <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                                <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                                <app-workflow-decision
-                                        *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
-                                        (decisionEvent)="Confirmation($event)"
-                                        (saveEvent)="save()"
-                                        (RetournEvent)="Retourn()"
-                                        [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
-                                        [decisions]="decissionWF"
-                                        [object]="offreForm"
-                                        [SaveObject]="offreForm">
-                                </app-workflow-decision>
-
-                            </div>
 
                         </form>
                     </div>
+
                 </div>
-            </div>
 
-
-
-        </div>
-    </div>
-    <div
-            class="tab-pane fade"
-            id="ex3-tabs-2"
-            role="tabpanel"
-            aria-labelledby="ex3-tab-2"
-    >
-        <div class="custom-field">
-            <h1>
+                <div class="custom-field">
+                    <h1>
                     <span>
-                       Opportunité Info
+                      Articles
                     </span>
-            </h1>
-            <div class="fieldContent">
-                <div class="form-group">
-                    <label class="form-label"><b>Nom de l'opportuité:</b></label>
-                    <input class="form-control"  type="text" [value]="objectData?.opportunite?.nom" readonly />
-                </div>
-                <div class="form-group">
-                    <label  class="form-label"><b>Created At:</b></label>
-                    <input  class="form-control"  type="text" [value]="objectData?.opportunite?.createAt | date:'medium'" readonly />
-                </div>
+                    </h1>
+                    <div class="fieldContent">
 
-                <div class="form-group ">
-                    <label for="description" class="form-label">Description:</label>
-                    <textarea class="form-control" formControlName="description" [value]="objectData?.opportunite?.description" type="text"  readonly></textarea>
+                    </div>
+                    <dx-data-grid
+                        #gridContainer
+
+                        [dataSource]="tasks"
+
+                        [columns]="['nom', 'quantite', 'prixUnitaire']"
+                        [showBorders]="true"
+                        (onToolbarPreparing)="onToolbarPreparing($event)"
+                        id="gridContainer"
+                        keyExpr="id"
+                    >
+
+                        <dxi-column dataField="nom"></dxi-column>
+                        <dxi-column dataField="quantite"></dxi-column>
+                        <dxi-column dataField="prixUnitaire"></dxi-column>
+
+                        <dxi-column [allowResizing]="false"
+                                    [fixed]="false" caption="{{'' | translate}}"
+                                    cellTemplate="cellTemplateActions"
+                        >
+                        </dxi-column>
+                        <div *dxTemplate="let data of 'cellTemplateActions'"
+                             style="display: flex; justify-content: center; align-items: center;">
+                            <a (click)="editTask(data.data)" target="_blank"
+                               title="Consulter demande"><i
+                                    class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
+                            <a (click)="deleteArticle(data.data.id)" target="_blank"   title="" >
+                                <i class="fa fa-trash" style="color:#168c94;">
+                                </i></a>
+                        </div>
+
+                    </dx-data-grid>
+                    <dx-popup
+                            [(visible)]="popupVisible"
+                            [width]="600"
+                            [height]="400"
+                            [showTitle]="true"
+                            title="Ajouter Article"
+                            [dragEnabled]="true"
+                            [closeOnOutsideClick]="true">
+                        <div *dxTemplate="let data of 'content'">
+                            <form [formGroup]="taskForm">
+                                <div class="form-group">
+                                    <label>Nom:</label>
+                                    <input type="text" class="form-control" formControlName="nom">
+                                </div>
+
+                                <div class="form-group">
+                                    <label >Quantite:</label>
+                                    <input type="number" class="form-control" formControlName="quantite">
+                                </div>
+                                <div class="form-group">
+                                    <label >prix Unitaire:</label>
+                                    <input type="number" class="form-control" formControlName="prixUnitaire">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea type="text" class="form-control" formControlName="description"></textarea>
+                                </div>
+                            </form>
+                            <div class="dx-popup-bottom">
+                                <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
+                                <button type="button" class="btn btn-primary" (click)="addTask()">Add</button>
+                            </div>
+                        </div>
+                    </dx-popup>
+                </div>
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="offreForm &&(offreForm['workflow']!=undefined ||!(this.offreForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="offreForm['userPermission'] === 'READ' || offreForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="offreForm"
+                            [SaveObject]="offreForm">
+                    </app-workflow-decision>
 
                 </div>
-
             </div>
-        </div>
-    </div>
-    <div
-            class="tab-pane fade"
-            id="ex3-tabs-3"
-            role="tabpanel"
-            aria-labelledby="ex3-tab-3"
-    >
-        <div class="custom-field">
-            <h1>
-                    <span>
-                       Client Info
-                    </span>
-            </h1>
-            <div class="fieldContent">
-                <div >
-                    <div class="form-group">
-                        <label class="form-label"><b>Nom du client:</b></label>
-                        <input class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.nom" readonly />
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label class="form-label"><b>Adresse:</b></label>
-                            <input  class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.adresse" readonly />
-                        </div>
 
-                        <div class="form-group col-md-6">
-                            <label  class="form-label"><b>Date d'Inscription :</b></label>
-                            <input  class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.dateInscription | date:'medium'" readonly />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label class="form-label"><b>Email:</b></label>
-                            <input  class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.email" readonly />
-                        </div>
 
-                        <div class="form-group col-md-6">
-                            <label  class="form-label"><b>Telephone:</b></label>
-                            <input  class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.telephne" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><b>Type du client:</b></label>
-                        <input class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.typeClient" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><b>Description:</b></label>
 
-                        <input class="form-control"  type="text" [value]="objectData?.opportunite?.demande?.client?.description" readonly />
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

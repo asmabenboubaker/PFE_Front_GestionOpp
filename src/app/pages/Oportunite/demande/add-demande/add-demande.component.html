@@ -27,7 +27,7 @@
     <div class="card-header text-center bg-secondary text-white" style="background-color: #40B3A2 !important;">
         <div class="d-flex justify-content-center align-items-center" style="width: 100%;">
             <div *ngIf="demandeForm !== undefined" class="d-flex align-items-center">
-                <h5 class="mb-0">Modifier Demande ({{objectData?.id}})</h5>
+                <h5 class="mb-0">Demande N°:({{objectData?.id}})</h5>
                 <div class="icon-container ml-3" style="cursor: pointer;" (click)="showPopupWF()" title="{{'show-event.Voir la liste des événements' | translate}}">
                     <i class="fas fa-project-diagram"></i>
                 </div>
@@ -107,7 +107,7 @@
             <div class="fieldContent">
         <form  [formGroup]="demandeF"  method="post" novalidate>
             <div class="form-group">
-                <label>Nom:</label>
+                <label>Titre</label>
                 <input type="text" formControlName="nom"  class="form-control" required>
                 <div *ngIf="demandeF.get('nom').invalid && (demandeF.get('nom').dirty || demandeF.get('nom').touched)" class="text-danger">
                     <div *ngIf="demandeF.get('nom').errors.required">
@@ -192,19 +192,7 @@
                     </dx-drop-down-box>
                 </div>
             </div>
-            <div class="workflow-container">
-                <app-workflow-decision
-                        *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                        (decisionEvent)="Confirmation($event)"
-                        (saveEvent)="save()"
-                        (RetournEvent)="Retourn()"
-                        [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                        [decisions]="decissionWF"
-                        [object]="demandeForm"
-                        [SaveObject]="demandeForm">
-                </app-workflow-decision>
 
-            </div>
 
         </form>
 </div>
@@ -229,7 +217,7 @@
     >
         <form  [formGroup]="demandeF"  method="post" novalidate>
             <div class="form-group">
-                <label>Nom:</label>
+                <label>Titre:</label>
                 <input type="text" formControlName="nom" class="form-control" required>
             </div>
             <div class="form-group">
@@ -247,11 +235,22 @@
 <!--            </div>-->
             <div class="form-group">
                 <label>Source de la demande</label>
-                <input class="form-control" formControlName="source" type="text" >
+
+                <select class="form-select" formControlName="source" id="sourceDemande">
+                    <option value="email">Email</option>
+                    <option value="telephone">Téléphone</option>
+                    <option value="siteWeb">Site Web</option>
+
+                </select>
+                <div *ngIf="demandeF.get('source').invalid && (demandeF.get('source').dirty || demandeF.get('source').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('source').errors.required">
+                        La source est requise.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="deadline" class="form-label">Date de deadline:</label>
-                <input class="form-control"  type="date">
+                <input class="form-control" formControlName="deadline"  type="date">
             </div>
             <div class="form-group">
                 <label>Description:</label>
@@ -267,19 +266,6 @@
                 <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
             </div>
 
-            <div class="workflow-container">
-                <app-workflow-decision
-                        *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                        (decisionEvent)="Confirmation($event)"
-                        (saveEvent)="save()"
-                        (RetournEvent)="Retourn()"
-                        [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                        [decisions]="decissionWF"
-                        [object]="demandeForm"
-                        [SaveObject]="demandeForm">
-                </app-workflow-decision>
-
-            </div>
 
         </form>
 
@@ -294,7 +280,7 @@
 
         <form  [formGroup]="demandeF" id="basic-form" method="post" novalidate>
             <div class="form-group">
-                <label>Nom:</label>
+                <label>Titre :</label>
                 <input type="text" formControlName="nom" id="nom" class="form-control" required>
             </div>
             <div class="form-group">
@@ -313,11 +299,22 @@
 <!--            </div>-->
             <div class="form-group">
                 <label>Source de la demande</label>
-                <input class="form-control" formControlName="source" id="source" type="text" >
+
+                <select class="form-select" formControlName="source" id="sourceDemande">
+                    <option value="email">Email</option>
+                    <option value="telephone">Téléphone</option>
+                    <option value="siteWeb">Site Web</option>
+
+                </select>
+                <div *ngIf="demandeF.get('source').invalid && (demandeF.get('source').dirty || demandeF.get('source').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('source').errors.required">
+                        La source est requise.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="deadline" class="form-label">Date de deadline:</label>
-                <input class="form-control"  id="deadline" type="date">
+                <input class="form-control" formControlName="deadline"   id="deadline" type="date">
             </div>
             <div class="form-group">
                 <label>Description:</label>
@@ -333,22 +330,22 @@
                 <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
             </div>
 
-            <div class="workflow-container">
-                <app-workflow-decision
-                        *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                        (decisionEvent)="Confirmation($event)"
-                        (saveEvent)="save()"
-                        (RetournEvent)="Retourn()"
-                        [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                        [decisions]="decissionWF"
-                        [object]="demandeForm"
-                        [SaveObject]="demandeForm">
-                </app-workflow-decision>
-
-            </div>
 
         </form>
 
+
+    </div>
+    <div class="workflow-container">
+        <app-workflow-decision
+                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                (decisionEvent)="Confirmation($event)"
+                (saveEvent)="save()"
+                (RetournEvent)="Retourn()"
+                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                [decisions]="decissionWF"
+                [object]="demandeForm"
+                [SaveObject]="demandeForm">
+        </app-workflow-decision>
 
     </div>
 
