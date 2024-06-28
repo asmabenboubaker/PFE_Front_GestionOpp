@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {WsService} from "../../ws.service";
 import {EnvService} from "../../env.service";
 import {Observable} from "rxjs";
@@ -20,10 +20,14 @@ export class EtudetechServiceService {
         return this.http.post(this.env.piOpp+this.Wservice.getEtudetech, etudetech);
     }
     //create EtudeOpp and Affectater opp
-    createEtudeOpp(etudeOpp,oppId) {
-        return this.http.post(`${this.env.piOpp}createEtudeOppWithAffectation/${oppId}`, etudeOpp);
-    }
+    // createEtudeOpp(etudeOpp,oppId) {
+    //     return this.http.post(`${this.env.piOpp}createEtudeOppWithAffectation/${oppId}`, etudeOpp);
+    // }
+    createEtudeOpp(etudeOpp, oppId) {
+        console.log('Sending object:', etudeOpp);
 
+        return this.http.put(`${this.env.piOpp}createEtudeOppWithAffectation/${oppId}`, etudeOpp);
+    }
     getAllEtudesByOpportuniteId(opportuniteId: number): Observable<any[]> {
         return this.http.get<any[]>(`${this.env.piOpp}opportunite/${opportuniteId}/etudes`);
     }

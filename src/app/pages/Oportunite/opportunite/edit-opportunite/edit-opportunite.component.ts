@@ -343,8 +343,23 @@ else {
   Confirmation(evt) {
 
       this.loadingVisible = true;
-      console.log("Form values:", this.techForm.value); // Vérifiez les valeurs du formulaire
-      if (this.techForm.valid) {
+      console.log("Form values:", this.techForm.value);
+      if(this.Affectaionequipe){
+          // si l'utilisateur ne select pas equipe toasr error
+            if (this.oppF.get('sidDepartement') === null || this.oppF.get('sidDepartement') === undefined ) {
+                console.log("Veuillez sélectionner une équipe")
+                this.toastr.error("Veuillez sélectionner une équipe", "", {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                    progressBar: true,
+                    disableTimeOut: false,
+                    timeOut: this.env.timeOutToastr
+                });
+                return;
+            }
+      }
+      if (this.etude) {
           console.log("dkhal ll if ")
           this.etudeService.createEtudeOpp(this.techForm.value, this.oppid).subscribe(
               (data :any) => {
@@ -379,7 +394,7 @@ else {
         disableTimeOut: false,
         timeOut: this.env.timeOutToastr
       })
-        this.router.navigate(['opportunite/all']);
+        //this.router.navigate(['opportunite/all']);
         if(evt.decision.trim()==="Etude") {
             this.sendNotification(this.oppid);
         }
