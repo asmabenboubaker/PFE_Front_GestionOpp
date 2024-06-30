@@ -2467,19 +2467,19 @@ export class DataGridAttachementWithoutTemplateComponent implements OnInit {
         this.translateService.use("ar");
         this.translateService.get("plus").subscribe((res) => {
             const value = res;
-            // if (!this.ReadOnly) {
-            //   e.toolbarOptions.items.unshift(
-            //       {
-            //         location: 'after',
-            //         widget: 'dxButton',
-            //         options: {
-            //           icon: 'plus',
-            //           hint: value,
-            //           onClick: this.ouvrirPopUpSaveFunction.bind(this),
-            //         }
-            //       }
-            //   );
-            // }
+
+              e.toolbarOptions.items.unshift(
+                  {
+                    location: 'after',
+                    widget: 'dxButton',
+                    options: {
+                      icon: 'plus',
+                      hint: value,
+                      onClick: this.ouvrirPopUpSaveFunction.bind(this),
+                    }
+                  }
+              );
+
         });
         if (!(this.ReadOnly) && (this.cookieService.get("roles").includes(this.env.RoleCanEditDoc))) {
 
@@ -2490,28 +2490,28 @@ export class DataGridAttachementWithoutTemplateComponent implements OnInit {
                 }
             );
         }
-        // this.translateService.get("AjouteraMododule").subscribe((res) => {
-        //     const value2 = res;
-        //     // if(this.listOfficeNotEmpty && this.env.RoleCanEditDoc.includes(this.cookieService.get("roles"))){
-        //     e.toolbarOptions.items.unshift({
-        //         location: 'after',
-        //         widget: 'dxDropDownButton', // Utilisation de dxDropDownButton au lieu de dxButton
-        //         options: {
-        //             text: value2,
-        //             onClick: this.ajouterModule.bind(this),
-        //             stylingMode: 'text',  // Utilisez 'text' pour permettre le style du texte
-        //             elementAttr: {
-        //                 style: {
-        //                     background: '#050404',  // Remplacez cette couleur par la couleur souhaitée
-        //                     color: '#ffffff' // Couleur du texte
-        //                 }
-        //             },
-        //             items: this.menuItems,
-        //
-        //         }
-        //     });
-        //     // }
-        // })
+        this.translateService.get("AjouteraMododule").subscribe((res) => {
+            const value2 = res;
+            // if(this.listOfficeNotEmpty && this.env.RoleCanEditDoc.includes(this.cookieService.get("roles"))){
+            e.toolbarOptions.items.unshift({
+                location: 'after',
+                widget: 'dxDropDownButton', // Utilisation de dxDropDownButton au lieu de dxButton
+                options: {
+                    text: value2,
+                    onClick: this.ajouterModule.bind(this),
+                    stylingMode: 'text',  // Utilisez 'text' pour permettre le style du texte
+                    elementAttr: {
+                        style: {
+                            background: '#050404',  // Remplacez cette couleur par la couleur souhaitée
+                            color: '#ffffff' // Couleur du texte
+                        }
+                    },
+                    items: this.menuItems,
+
+                }
+            });
+            // }
+        })
         this.translateService.get("refresh").subscribe((res) => {
             const value3 = res;
 

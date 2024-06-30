@@ -550,7 +550,7 @@ export class AttachementGridOnlyComponent implements OnInit, OnChanges {
 
             try {
 
-
+console.log("asmaaaaaaaa")
                 this.fileservice.extractfileByUIID(data.data.uuid, this.fileAccessToken).subscribe(async (response: any) => {
                     if (this.fileType) {
 

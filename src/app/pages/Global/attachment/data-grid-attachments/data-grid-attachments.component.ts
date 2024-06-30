@@ -695,10 +695,8 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     /*ATTACHED FILE FROM CARD INTERFACE*/
     attached() {
-
-        document.getElementById("addfilecustom").click();
+        document.getElementById("addfile" + this.fileTemplate.label).click();
     }
-
     /*DELETE FILE FROM CARD */
     deleteFile() {
         this.fileName = null

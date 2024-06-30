@@ -1,6 +1,8 @@
 <app-http-services></app-http-services>
 <input #input (change)="fileChange(input) ; input.value = null" class="file-upload-btn" hidden
        id="addfilecustom" type="file"/>
+<input #input (change)="fileChange(input) ; input.value = null" class="file-upload-btn" hidden
+       id="addfile" type="file"/>
 <div *ngIf="!flipped">
     <!--        <div class="card-body" class="card mt-2" >-->
     <!--            <div class="card-text">-->
@@ -511,6 +513,11 @@
                 </div>
 
                 <dxo-toolbar>
+                    <dxi-item location="before">
+                        <div *dxTemplate>
+                            <dx-button icon="plus" (onClick)="attached()"> </dx-button>
+                        </div>
+                    </dxi-item>
 
 
                     <div *dxTemplate="let data of 'customtoolbar'">
