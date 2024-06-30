@@ -138,6 +138,8 @@ export class TitleBar {
         } else {
             this.open.element.style.display = 'none';
         }
+        this.edit.element.style.display = 'none';
+        this.lang.element.style.display = 'none';
         this.saveBtn.element.style.display = 'none';
         this.cancelBtn.element.style.display = 'none';
         this.documentEditor.isReadOnly = true;

@@ -25,7 +25,17 @@
   window.__env.timeOutToastr = 15000;
 
   //pagination
+  window.__env.typeAttahcement = [
+    "وثيقة أصلية",
+    "وثيقة مطابقة للأصل"
+  ];
+  window.__env.emplacementSource = [
+    "مع الملف",
 
+    "في الأرشيف"
+
+  ];
+//
   window.__env.stateStoring = true;
   window.__env.ITEMS_PER_PAGE = 20
 //    CLOUD MSI PSK

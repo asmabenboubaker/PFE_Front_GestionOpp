@@ -10,6 +10,8 @@ export class EnvService {
   public RoleCanAddDoc ;
   public RoleCanDeleteDoc ;
   // API url
+    public typeAttahcement;
+    public emplacementSource;
   public apiUrlMetiers = '';
   public apiUrlkernel = 'http://localhost.picosoft.biz:4203';
   public apiUrlpostal = '';

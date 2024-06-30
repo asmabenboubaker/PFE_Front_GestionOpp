@@ -1,37 +1,36 @@
-import {EnvService} from 'src/env.service';
-import {TranslateService} from '@ngx-translate/core';
 import {Component, EventEmitter, HostListener, Input, OnInit, Output, SimpleChange, ViewChild} from '@angular/core';
-import {CookieService} from 'ngx-cookie-service';
-import {ToastrService} from 'ngx-toastr';
-import {FormBuilder} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
-import {DxDataGridComponent, DxFormComponent} from 'devextreme-angular';
-import {AttachementModuleService} from '../attachement.module.service';
-import {DeviceDetectorService} from 'ngx-device-detector';
-import {Object} from '../template-attachment/template-attachment.component';
+import {DxDataGridComponent, DxFormComponent} from "devextreme-angular";
+import {FormatDate} from "../../shared-service/formatDate";
+import {HttpServicesComponent} from "../../ps-tools/http-services/http-services.component";
+import {DeviceDetectorService} from "ngx-device-detector";
+import {EnvService} from "../../../../../env.service";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
+import {CookieService} from "ngx-cookie-service";
+import {CommunFuncService} from "../Commun/commun-func.service";
+import {DatePipe} from "@angular/common";
+import {AttachementModuleService} from "../attachement.module.service";
+import {FormBuilder} from "@angular/forms";
 import * as FileSaver from 'file-saver';
+
+import {TranslateService} from "@ngx-translate/core";
 import {
     HttpParamMethodDelete,
     HttpParamMethodPatch,
     HttpParamMethodPost,
     HttpParamMethodPutNEwFormat
-} from '../../ps-tools/class';
-import {HttpServicesComponent} from '../../ps-tools/http-services/http-services.component';
-import {Export} from '../../shared-service/export';
-import {CommunFuncService} from '../Commun/commun-func.service';
-import {DatePipe} from '@angular/common';
-import {FormatDate} from '../../shared-service/formatDate';
-import {loadMessages} from "devextreme/localization";
-import frMessages from "devextreme/localization/messages/fr.json";
-
-import arMessages from 'devextreme/localization/messages/ar.json';
+} from "../../ps-tools/class";
+import {Object} from "../template-attachment/template-attachment.component";
+import {Export} from "../../shared-service/export";
+import CustomStore from "devextreme/data/custom_store";
+import notify from "devextreme/ui/notify";
 
 @Component({
-    selector: 'app-data-grid-attachments',
-    templateUrl: './data-grid-attachments.component.html',
-    styleUrls: ['./data-grid-attachments.component.scss']
+    selector: 'app-data-grid-attachement-without-template',
+    templateUrl: './data-grid-attachement-without-template.component.html',
+    styleUrls: ['./data-grid-attachement-without-template.component.scss']
 })
-export class DataGridAttachmentsComponent implements OnInit {
+export class DataGridAttachementWithoutTemplateComponent implements OnInit {
     packageName = require('package.json').name
     @ViewChild('gridfile', {static: false}) gridfile: DxDataGridComponent;
     @ViewChild('formulaire', {static: false}) formulaire: DxFormComponent;
@@ -45,7 +44,6 @@ export class DataGridAttachmentsComponent implements OnInit {
     @Input() canlock: Boolean = true
     @Input() showSplliter: Boolean = false
     @Input() canUploadfile: Boolean = true
-    @Input() canAddfileDatagrid: Boolean = true
     @Input() canTransfert: Boolean = true
     @Input() canActionPDF: Boolean = true
     @Input() canClone: Boolean = true
@@ -290,10 +288,11 @@ export class DataGridAttachmentsComponent implements OnInit {
 
         this.getfilesByClassIdAndObjectId(this.classid, this.objectid, this.fileAccessToken);
         this.OfficeTemplatePopUpOpen();
+        this.getAllfichiers()
 
     }
 
-    CreateAttatchment() {
+    CreateAttatchment(values) {
         this.loadingVisible = true
         if (!(this.fileContent == null && this.fileTemplate.fileRequired == true)) {
             let obj = new FormData()
@@ -367,46 +366,7 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     }
 
-    ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-        if (changes['levelMin']) {
-            this.getSL();
-            this.visible = true
-        }
 
-
-        if (changes['Refresh'] && changes['Refresh'].previousValue != changes['Refresh'].currentValue) {
-            this.refresh()
-
-
-        }
-
-        // only run when property "data" changed
-        if (changes['attachements'] && changes['attachements'].previousValue != changes['attachements'].currentValue) {
-            this.filedatasource = this.attachements
-            // if (this.showSplliter == true&&  this.attachements.length>0) {
-            //     console.log("Show firs",this.filedatasource)
-            //
-            //     this.viewFileInNGOnChange(this.filedatasource[0],false);
-            //
-            //
-            // }
-
-            this.filedatasource = this.filedatasource.sort((a, b) =>
-                b.id - a.id
-            )
-            this.count = this.attachements.length;
-            if (this.count == 0) {
-                this.isarchiveiconDisabled = true;
-
-            } else if (this.count != 0) {
-                this.isarchiveiconDisabled = false;
-            }
-        }
-        if (changes['listOfficeNotEmpty'] && changes['listOfficeNotEmpty'].previousValue != changes['listOfficeNotEmpty'].currentValue) {
-            this.listOfficeNotEmpty=this.listOfficeNotEmpty
-
-        }
-    }
 
     selectedLicensepstk
 
@@ -528,6 +488,177 @@ export class DataGridAttachmentsComponent implements OnInit {
         return 'sm';
     }
 
+    getAllfichiers() {
+        let size = this.env.pageSize;
+
+        this.filedatasource = new CustomStore({
+
+                load: async function (loadOptions: any) {
+                    loadOptions.requireTotalCount = true
+                    var params = "";
+                    if (loadOptions.take == undefined) loadOptions.take = size;
+                    if (loadOptions.skip == undefined) loadOptions.skip = 0;
+
+                    //size
+                    params += 'size=' + loadOptions.take || size;
+                    params += '&page=' + loadOptions.skip / loadOptions.take || 0;
+                    //sort
+                    if (loadOptions.sort) {
+                        if (loadOptions.sort[0].desc)
+                            params += '&sort=' + loadOptions.sort[0].selector + ',desc';
+                        else
+                            params += '&sort=' + loadOptions.sort[0].selector + ',asc';
+                    }
+
+                    let tab: any[] = [];
+                    if (loadOptions.filter) {
+                        if (loadOptions.filter[1] == 'and') {
+                            for (var i = 0; i < loadOptions.filter.length; i++) {
+                                if (loadOptions.filter[i][1] == 'and') {
+                                    for (var j = 0; j < loadOptions.filter[i].length; j++) {
+                                        if (loadOptions.filter[i][j] != 'and') {
+                                            if (loadOptions.filter[i][j][1] == 'and') {
+                                                tab.push(loadOptions.filter[i][j][0]);
+                                                tab.push(loadOptions.filter[i][j][2]);
+                                            } else
+                                                tab.push(loadOptions.filter[i][j]);
+                                        }
+                                    }
+                                } else tab.push(loadOptions.filter[i]);
+                            }
+                        } else
+                            tab.push([loadOptions.filter[0], loadOptions.filter[1], loadOptions.filter[2]]);
+                    }
+
+                    let q: any[] = [];
+                    for (let i = 0; i < tab.length; i++) {
+                        if (tab[i][0] === "plandeClassement.adresse") tab[i][0] = "adresseConsv"
+                        switch (tab[i][1]) {
+                            case ('notcontains'): {
+                                q.push(tab[i][0] + ".doesNotContain=" + tab[i][2]);
+                                break;
+                            }
+                            case 'contains': {
+                                if (tab[i][0] == "adresseConsv")
+                                    q.push(tab[i][0] + ".contains=" + tab[i][2].adresse);
+                                else
+                                    q.push(tab[i][0] + ".contains=" + tab[i][2]);
+
+                                break;
+                            }
+                            case '<>' : {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + ".notEquals=" + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + ".notEquals=" + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case '=': {
+                                if (tab[i][0] == "adresseConsv")
+                                    q.push(tab[i][0] + ".contains=" + tab[i][2].adresse);
+                                else
+                                    q.push(tab[i][0] + ".contains=" + tab[i][2]);
+
+                                break;
+                            }
+                            case 'endswith': {
+// q.push("(" + tab[i][0] + ":*" + tab[i][2] + ")");
+                                break;
+                            }
+                            case 'startswith': {
+// q.push("(" + tab[i][0] + ":" + tab[i][2] + "*" + ")");
+                                break;
+                            }
+                            case '>=': {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + '.greaterThanOrEqual=' + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + '.greaterThanOrEqual=' + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case '>': {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + '.greaterThan=' + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + '.greaterThan=' + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case '<=': {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + '.lessThanOrEqual=' + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + '.lessThanOrEqual=' + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case '<': {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + '.lessThan=' + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + '.lessThan=' + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case "or" : {
+                                q.push(tab[i][0][0] + '.notEquals=' + tab[i][0][2])
+                                break;
+                            }
+                        }
+                    }
+
+                    let f: string = "";
+                    if (q.length != 0) f += q[0];
+                    for (let i = 1; i < q.length; i++) {
+                        f += "&" + q[i];
+                    }
+                    if (f.length != 0) params += "&" + f
+
+
+
+                    return this.http.get(this.env.apiUrlMetiers + "AttachmentsByClassIdAndObjectId?classId=" + this.classid + "&objectId=" + this.objectid + "&fileAccessToken=" + this.fileAccessToken, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)})
+                        .toPromise()
+                        .then((data: any) => {
+
+                                this.dataArray = data.content
+
+                                return {'data': data.content, 'totalCount': data.totalElements};
+                            },
+                            error => {
+                                notify("\n" + error.message, "error", 3600);
+                                return {'data': [], 'totalCount': 0};
+                            });
+                }.bind(this),
+                insert: (values: any) => {
+
+                    console.log("values ", values)
+                    console.log("values ", this.base64)
+                    if (this.base64 != null) {
+                        values.file = this.base64
+                    }
+                    // this.CreateAttatchment(values)
+
+
+                    return values
+                },
+
+            }
+        );
+    }
+
+
     /*refresh get by id*/
     refresh() {
         this.getfilesByClassIdAndObjectId(this.classid, this.objectid, this.fileAccessToken);
@@ -538,12 +669,12 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     /*GET BY OBJECT IF AND CLASS ID*/
     getfilesByClassIdAndObjectId(classeid, objectid, fileAccessToken) {
-        this.fileservice.findAllfilesByClassIdAndObjectId(classeid, objectid, fileAccessToken).subscribe((data: []) => {
-            this.filedatasource = data['content']
+        this.fileservice.getfilesByClassIdAndObjectId(classeid, objectid, fileAccessToken).subscribe((data: []) => {
+            this.filedatasource = data
             this.filedatasource = this.filedatasource.sort((a, b) =>
                 b.id - a.id
             )
-            this.count = data['totalElements'];
+            this.count = data.length;
             if (this.count == 0) {
                 this.isarchiveiconDisabled = true;
 
@@ -682,7 +813,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         if ((this.objectData) != undefined && (this.objectData) != null && (this.objectData).securiteLevel != null && (this.objectData).securiteLevel != undefined)
             obj.append("objectDatasecuriteLevel", (this.objectData).securiteLevel);
 
-        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.selectedRowKeys.uuid + '?fileAccessToken=' + this.fileAccessToken, obj);
+        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.selectedRowKeys.id + '?fileAccessToken=' + this.fileAccessToken, obj);
         this.Ref.value = this.selectedRowKeys.docTitle
         this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.NiveausecuriteMiseajour", "ATTACHEMENT.ErrorupdatesecurtylFile").then(data => {
             this.refresh();
@@ -694,10 +825,7 @@ export class DataGridAttachmentsComponent implements OnInit {
     ActuelDatatoChange
 
     /*ATTACHED FILE FROM CARD INTERFACE*/
-    attached() {
 
-        document.getElementById("addfilecustom").click();
-    }
 
     /*DELETE FILE FROM CARD */
     deleteFile() {
@@ -880,7 +1008,6 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     /*DETECTE AND CAPT FILE ADD FROM INTERFACE FRONT */
     async fileChange(input) {
-
         this.loadingVisible = true;
         this.fileContent = null;
         this.fileName = null;
@@ -920,7 +1047,6 @@ export class DataGridAttachmentsComponent implements OnInit {
             })
             this.loadingVisible = false;
         }
-        this.CreateAttatchment()
     }
 
     /*DETECTE AND CAPT FILE ADD FROM INTERFACE FRONT */
@@ -943,7 +1069,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         }
         this.Ref.value = this.UploadFile.docTitle;
         this.loadingVisible = false;
-        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.UploadFile.uuid + '?fileAccessToken=' + this.fileAccessToken, obj);
+        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.UploadFile.id + '?fileAccessToken=' + this.fileAccessToken, obj);
         this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
             this.refresh();
 
@@ -1571,7 +1697,7 @@ export class DataGridAttachmentsComponent implements OnInit {
                         obj.append("objectDatasecuriteLevel", (this.objectData).securiteLevel);
                     this.Ref.value = data.docTitle
 
-                    let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + data.uuid + '?fileAccessToken=' + this.fileAccessToken, obj)
+                    let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + data.id + '?fileAccessToken=' + this.fileAccessToken, obj)
                     this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.save_delete", "ATTACHEMENT.save_deleteMAJfailed").then(data => {
                         // if (data["statut"] == true) {
                         this.refresh();
@@ -1965,7 +2091,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         if (data.signed === true && data.locked === false && this.pstkEnabledAndRunning) {
             this.avertismentPopUp = ShowPopupBoolean;
         }
-        this.idFileViewer = data.uuid
+        this.idFileViewer = data.id
         this.idcmis = data.cmisId
         this.fileType = data.fileType
         if (this.idFileViewer != null) {
@@ -2072,7 +2198,8 @@ export class DataGridAttachmentsComponent implements OnInit {
             try {
                 let verifLicensePSTKScan: any
                 let verifLicensePSTKSign: any
-                this.fileservice.extractfileByUIID(data.row.data.uuid, this.fileAccessToken).subscribe(async (response: any) => {
+
+                this.fileservice.extractfileByIdJson(this.idFileViewer, this.fileAccessToken).subscribe(async (response: any) => {
                     if (this.fileType) {
                         this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                         if (this.fileType == 'application/pdf') {
@@ -2084,14 +2211,13 @@ export class DataGridAttachmentsComponent implements OnInit {
                         } else {
                             this.permissionToTopViewer = false;
                         }
-                        let blobFile = new File ([response.body], data.row.data.docTitle, {type: this.fileType});
+                        let blobFile = new Blob([new Uint8Array(response)], {type: this.fileType});
                         var fileURL = URL.createObjectURL(blobFile);
                         this.jsondocviewer.visionneuse = 'url';
                         this.jsondocviewer.pdfSrcc = fileURL
                         this.jsondocviewer.fileType = this.fileType
                         this.jsondocviewer.fileName = data.row.data.docTitle
                         this.jsondocviewer.docTitle = data.row.data.fileName
-                        this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response.body));
                         this.jsondocviewer.fileContent = this.base64
                         this.jsondocviewer.id = data.row.data.id
                         this.jsondocviewer.securityLevel = data.row.data.securiteLevel
@@ -2329,39 +2455,41 @@ export class DataGridAttachmentsComponent implements OnInit {
         this.filppedout.emit(this.flipped)
     }
 
+    attached() {
+        document.getElementById("addfile").click();
+    }
+
     /*flipped to thumbnail*/
 
     /*datagrid attachement prepare*/
     onToolbarPreparinggridfile(e) {
 
         this.translateService.use("ar");
-        if(this.canAddfileDatagrid === true){
-            this.translateService.get("plus").subscribe((res) => {
-                const value = res;
-                if (!this.ReadOnly) {
-                    e.toolbarOptions.items.unshift(
-                        {
-                            location: 'after',
-                            widget: 'dxButton',
-                            options: {
-                                icon: 'plus',
-                                hint: value,
-                                onClick: this.ouvrirPopUpSaveFunction.bind(this),
-                            }
-                        }
-                    );
-                }
-            });
-        }
-  if(!(this.ReadOnly) && (this.cookieService.get("roles").includes(this.env.RoleCanEditDoc))) {
+        this.translateService.get("plus").subscribe((res) => {
+            const value = res;
+            // if (!this.ReadOnly) {
+            //   e.toolbarOptions.items.unshift(
+            //       {
+            //         location: 'after',
+            //         widget: 'dxButton',
+            //         options: {
+            //           icon: 'plus',
+            //           hint: value,
+            //           onClick: this.ouvrirPopUpSaveFunction.bind(this),
+            //         }
+            //       }
+            //   );
+            // }
+        });
+        if (!(this.ReadOnly) && (this.cookieService.get("roles").includes(this.env.RoleCanEditDoc))) {
 
-      e.toolbarOptions.items.unshift(
-          {
-              location: 'after',
-              template: 'customtoolbar'
-          }
-      );
-  }
+            e.toolbarOptions.items.unshift(
+                {
+                    location: 'after',
+                    template: 'customtoolbar'
+                }
+            );
+        }
         // this.translateService.get("AjouteraMododule").subscribe((res) => {
         //     const value2 = res;
         //     // if(this.listOfficeNotEmpty && this.env.RoleCanEditDoc.includes(this.cookieService.get("roles"))){
@@ -2399,7 +2527,14 @@ export class DataGridAttachmentsComponent implements OnInit {
 
         });
 
-
+        if (this.isarchiveiconDisabled) {
+            e.toolbarOptions.items.unshift(
+                {
+                    location: 'after',
+                    template: 'bouttonarchive'
+                },
+            );
+        }
 
     }
 
@@ -2408,11 +2543,12 @@ export class DataGridAttachmentsComponent implements OnInit {
     ajouterModule() {
         this.OfficeTemplatePopUpOpen()
     }
+
     ouvrirPopUpSaveFunction() {
-        console.log("objectData",this.objectData)
+        console.log("objectData", this.objectData)
 
         if (this.objectData.remaingRequestFileDefinitions == null || this.objectData.remaingRequestFileDefinitions.length == 0) {
-            document.getElementById("NewFile").click();
+            document.getElementById("NewFile" + this.objectid).click();
         } else {
 
             this.ouvrirPopUpSave.emit(true)
@@ -2467,6 +2603,7 @@ export class DataGridAttachmentsComponent implements OnInit {
     /*DONWLOAD FILE*/
     downloadFile(dataa: any) {
         try {
+
             this.loadingVisible = true;
             this.fileservice.extractfileByUIID(dataa.row.data.uuid, this.fileAccessToken).subscribe(async (data: any) => {
                 var fileName = await data.headers.get('filename')
@@ -2692,7 +2829,7 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     lockedValue = false;/*LOCKED INITAL*/
 
-    saveNewFile(docTitle) {
+    saveNewFile() {
         this.loadingVisible = true
         let obj = new FormData()
         if (this.fileContent != null)
@@ -2720,7 +2857,6 @@ export class DataGridAttachmentsComponent implements OnInit {
 
 
         obj.append("reqFileDefName", "dos")
-        obj.append("docTitle", docTitle)
         if (this.classid != undefined)
             obj.append("classId", this.classid)
         if (this.objectid != undefined)
@@ -2756,14 +2892,14 @@ export class DataGridAttachmentsComponent implements OnInit {
 
             // await this.fileservice.officeTemplates(alias).subscribe(async data => {
             //     console.log("data of model", data)
-                // await this.fileservice.downloadofficetemplateOutput(data[0].id).subscribe(async data => {
-                //
-                //     // let file = new Blob([data], {type: type});
-                //     let file = new File([(data)], title + ".docx", {type: type});
-                //
-                //     var formData = new FormData()
-                //     formData.append('file', file)
-                //     formData.append('data', JSON.stringify(objectData))
+            //     await this.fileservice.downloadofficetemplateOutput(data[0].id).subscribe(async data => {
+            //
+            //         // let file = new Blob([data], {type: type});
+            //         let file = new File([(data)], title + ".docx", {type: type});
+            //
+            //         var formData = new FormData()
+            //         formData.append('file', file)
+            //         formData.append('data', JSON.stringify(objectData))
                     await this.fileservice.officeTemplateAttach(title, classid, objectid, objectData).subscribe(async (res: any) => {
                     // await this.fileservice.officeTemplateAttachfromDocGenerator(formData).subscribe(async (res: any) => {
                             this.fileType = res.headers.get('Content-Type')
@@ -2791,7 +2927,7 @@ export class DataGridAttachmentsComponent implements OnInit {
                                 });
                             });
                             this.loadingVisible = false;
-                            this.saveNewFile(title)
+                            this.saveNewFile()
                             /*Save Automatique aprés rattachement */
                         }, () => {
                             this.loadingVisible = false
@@ -2837,5 +2973,12 @@ export class DataGridAttachmentsComponent implements OnInit {
 
     }
 
+    logEvent1(initNewRow: string, $event: any) {
+
+    }
+
+    logEvent(rowUpdating: string) {
+
+    }
 }
 

@@ -9,12 +9,7 @@ import ObjectFileSystemProvider from 'devextreme/file_management/object_provider
 import {CookieService} from 'ngx-cookie-service';
 import {HttpClient} from '@angular/common/http';
 import {Object} from '../template-attachment/template-attachment.component';
-import {
-    HttpParamMethodDelete,
-    HttpParamMethodPatch,
-    HttpParamMethodPost,
-    HttpParamMethodPutNEwFormat,
-} from '../../ps-tools/class';
+import {HttpParamMethodDelete, HttpParamMethodPatch, HttpParamMethodPost, HttpParamMethodPutNEwFormat,} from '../../ps-tools/class';
 import {FormatDate} from '../../shared-service/formatDate';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {CommunFuncService} from '../Commun/commun-func.service';
@@ -186,7 +181,7 @@ export class ThumbnailComponent implements OnInit {
     @Input() listOfficeNotEmpty = false;
 
     constructor(private communService: CommunFuncService, private deviceService: DeviceDetectorService, private tokenStorage: TokenStorageService, private http: HttpClient, private fileservice: AttachementModuleService, private cookieService: CookieService, private env: EnvService, private translateService: TranslateService, private toastr: ToastrService,) {
-        if (this.cookieService.get('displayname')) {
+        if (this.cookieService.get('displayname')){
             this.RefUserName = {displayName: this.cookieService.get('displayname')};
         } else {
             this.RefUserName = {displayName: 'utilisateur'};
@@ -222,8 +217,8 @@ export class ThumbnailComponent implements OnInit {
             this.SaveFileAfterEditandDelete = new ActionItem(13, res["ATTACHEMENT.recu&sup"], "fas fa-arrow-circle-up", false)
             this.generePdf = new ActionItem(14, res['ATTACHEMENT.generatepdf'], 'fa-file-word-o', false);
 
-            let subItems: ActionItem[] = [this.modifierFileToEdit, this.SaveFileAfterEditandDelete, this.generePdf];
-            this.modifierFile = new ActionItem(11, res["ATTACHEMENT.MAJ"], "fas fa-pen-nib", false, subItems)
+            let   subItems: ActionItem[] = [this.modifierFileToEdit, this.SaveFileAfterEditandDelete,this.generePdf];
+            this.modifierFile = new ActionItem(11, res["ATTACHEMENT.MAJ"], "fas fa-pen-nib", false,subItems)
 
             this.uploadFile = new ActionItem(15, res['ATTACHEMENT.upload'], 'fa fa-upload ', false);
         })
@@ -382,14 +377,11 @@ export class ThumbnailComponent implements OnInit {
 
         }
     }
-
-    ouvrirPopUpSaveFunction() {
+    ouvrirPopUpSaveFunction(){
         this.ouvrirPopUpSave.emit(true)
 
     }
-
     selectedLicensepstk;
-
     async verifLicensePSTKDatagridAttachement() {
         this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true';
         if (!this.pstkEnabledAndRunning) {
@@ -406,7 +398,7 @@ export class ThumbnailComponent implements OnInit {
             // this.authorizationTokenScan = false;
             this.authorizationTokenOffice = false;
             // this.authorizationTokenSign = false;
-        } else {
+        }else{
             /*IN DATAGRID ATTACHEMENT ALL WE NEED MODULE PSTK OF SCAN && OFFICE*/
             let defaultPort;
 
@@ -592,7 +584,7 @@ export class ThumbnailComponent implements OnInit {
     }
 
     /*TO REFRESH MENU ITEM */
-    fileManager_onSelectionChanged(e) {
+      fileManager_onSelectionChanged(e) {
         if (e.selectedItems.length > 0) {
             this.actionItems = [this.actionViwer, this.actiongestionPDF, this.actionUpdate, this.actionDelete, this.actiondownlowd, this.actioncloned, this.actionTrs, this.actionUnTrs, this.actionVer, this.actionDeve, this.modifierFile, this.uploadFile]
             e.component.option('contextMenu.items', this.actionItems)
@@ -695,9 +687,12 @@ export class ThumbnailComponent implements OnInit {
                     e.component.option('contextMenu.items', array);*/
 
 
+
+
             }
-        } else {
-            this.actionItems = []
+        }
+        else{
+            this.actionItems =[]
         }
     }
 
@@ -776,8 +771,8 @@ export class ThumbnailComponent implements OnInit {
                 this.refreshInit();
                 this.fileManager.instance.refresh();
                 return this.objectProvider.getItems(fileSystemItem).then(
-                    function (items) {
-                        const tooltipedItems = items.map(function (item: any) {
+                    function(items) {
+                        const tooltipedItems = items.map(function(item: any) {
                             item.tooltipText = item.dataItem.tooltipText;
                             return item;
                         });
@@ -935,11 +930,11 @@ export class ThumbnailComponent implements OnInit {
     fileManager_onSelectedFileOpened(e) {
 
         if (e.file.dataItem != null && e.file.dataItem != undefined) { // Your code goes here
-            let fileType = e.file.dataItem.type
-            if (fileType === "application/json" || fileType === "text/plain" || fileType === "image/jpeg" || fileType === "image/png" ||
+           let fileType = e.file.dataItem.type
+            if (fileType === "application/json" || fileType === "text/plain" || fileType === "image/jpeg"  || fileType === "image/png" ||
                 fileType === "image/gif" || fileType === "image/tiff" || fileType === "image/bmp" || fileType === "image/svg+xml" || fileType === "application/pdf")
                 this.viewFile(e.file.dataItem);
-            else {
+            else{
                 this.Downloading(e.file.dataItem);
             }
         }
@@ -949,7 +944,7 @@ export class ThumbnailComponent implements OnInit {
     Downloading(itemData) {
         try {
             this.loadingVisible = true;
-            this.fileservice.extractfileById(itemData.id, this.fileAccessToken).subscribe(async (data: any) => {
+            this.fileservice.extractfileByUIID(itemData.uuid, this.fileAccessToken).subscribe(async (data: any) => {
                 var fileName = await data.headers.get('filename')
                 const f1 = new Blob([data.body], {type: itemData.type});
                 // window.open(data)
@@ -995,10 +990,10 @@ export class ThumbnailComponent implements OnInit {
     }
 
     Cloning(itemData) {
-        let paramsHttp = new HttpParamMethodPutNEwFormat(this.env.apiUrlkernel + "AttachmentCloned/" + itemData.id + "?fileAccessToken=" + this.fileAccessToken, itemData)
+        let paramsHttp = new HttpParamMethodPutNEwFormat(this.env.apiUrlkernel+"AttachmentCloned/"+itemData.id+"?fileAccessToken=" + this.fileAccessToken, itemData)
         this.Ref.value = itemData.name
 
-        this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.cloned", "ATTACHEMENT.clonelError").then(data => {
+        this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.cloned", "ATTACHEMENT.clonelError").then(data => {
             // if (data["statut"] == true) {
             this.refresh();
             // }
@@ -1053,8 +1048,8 @@ export class ThumbnailComponent implements OnInit {
             jsonFile.transferable = true;
             jsonFile.objectDatasecuriteLevel = this.objectData.securiteLevel;
             this.Ref.value = itemData.name
-            let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + "attachements/" + jsonFile.id, jsonFile)
-            this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.Transferable", "ATTACHEMENT.TransferableError").then(data => {
+            let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+"attachements/" + jsonFile.id, jsonFile)
+            this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.Transferable", "ATTACHEMENT.TransferableError").then(data => {
                 this.refresh();
 
             })
@@ -1069,8 +1064,8 @@ export class ThumbnailComponent implements OnInit {
             jsonFile.objectDatasecuriteLevel = this.objectData.securiteLevel;
             this.Ref.value = itemData.name
 
-            let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + "attachements/" + jsonFile.id, jsonFile)
-            this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.UnTransferable", "ATTACHEMENT.UnTransferableError").then(data => {
+            let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+"attachements/" + jsonFile.id, jsonFile)
+            this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.UnTransferable", "ATTACHEMENT.UnTransferableError").then(data => {
                 this.refresh();
 
             })
@@ -1085,8 +1080,8 @@ export class ThumbnailComponent implements OnInit {
             jsonFile.objectDatasecuriteLevel = this.objectData.securiteLevel;
             this.Ref.value = itemData.name
 
-            let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + "attachements/" + jsonFile.id, jsonFile)
-            this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.locked", "ATTACHEMENT.lockedError").then(data => {
+            let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+"attachements/" + jsonFile.id, jsonFile)
+            this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.locked", "ATTACHEMENT.lockedError").then(data => {
                 this.refresh();
 
             })
@@ -1099,10 +1094,10 @@ export class ThumbnailComponent implements OnInit {
             jsonFile = file;
             jsonFile.locked = false;
             jsonFile.objectDatasecuriteLevel = this.objectData.securiteLevel;
-            let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + "attachements/" + jsonFile.id, jsonFile)
+            let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+"attachements/" + jsonFile.id, jsonFile)
             this.Ref.value = itemData.name
 
-            this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.Unlocked", "ATTACHEMENT.UnlockedError").then(data => {
+            this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.Unlocked", "ATTACHEMENT.UnlockedError").then(data => {
                 this.refresh();
 
             })
@@ -1169,9 +1164,9 @@ export class ThumbnailComponent implements OnInit {
                         }
                     }
                 }, error => {
-                    this.Ref.value = data.fileName
+                    this.Ref.value =data.fileName
 
-                    this.translateService.get("ATTACHEMENT.getbyid", this.Ref).subscribe((res) => {
+                    this.translateService.get("ATTACHEMENT.getbyid",  this.Ref).subscribe((res) => {
                         this.toastr.error(res, " ", {
                             closeButton: true,
                             positionClass: 'toast-top-right',
@@ -1229,8 +1224,8 @@ export class ThumbnailComponent implements OnInit {
             obj.append("ObjectDatasecuriteLevel", (this.objectData).securiteLevel);
         this.Ref.value = this.fileName
 
-        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.idFileViewer + '?fileAccessToken=' + this.fileAccessToken, obj)
-        this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.save_delete", "ATTACHEMENT.save_deleteMAJfailed").then(data => {
+        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+'attachementsSetContent/' + this.idFileViewer + '?fileAccessToken=' +this.fileAccessToken, obj)
+        this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.save_delete", "ATTACHEMENT.save_deleteMAJfailed").then(data => {
             this.refresh();
 
             if (data["statut"] == true) {
@@ -1273,10 +1268,10 @@ export class ThumbnailComponent implements OnInit {
                 obj.objectId = this.objectid;
             }
 
-            this.fileservice.getscan_preferencesByName(this.cookieService.get('scannerProfil')).subscribe(async (data: any) => {
-                    let selectedprofile = await data
+            this.fileservice.getscan_preferencesByName( this.cookieService.get('scannerProfil')).subscribe(async(data: any) => {
+                let selectedprofile = await data
 
-                    obj.preferenceName = (this.cookieService.get('scannerProfil'));
+                obj.preferenceName = (this.cookieService.get('scannerProfil'));
 
                     if (JSON.stringify(this.objectData) != undefined && JSON.stringify(this.objectData) != null) {
                         obj.objectData = JSON.stringify(this.objectData);
@@ -1346,26 +1341,26 @@ export class ThumbnailComponent implements OnInit {
                 title,
                 jsonScanPreference.enableOcr
             ).then(async (res) => {
-                    this.fileType = res.result.fileMimeType;
-                    this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true';
-                    let verifLicensePSTKScan: any = await this.communService.verifLicensePSTK(this.ModuleScan);
-                    this.permissionDenied = (this.pstkEnabledAndRunning && verifLicensePSTKScan);
-                    this.permissionToTopViewer = (this.fileType === 'application/pdf');
-                    const byteArray = new Uint8Array(atob(res.result.data).split('').map(char => char.charCodeAt(0)));
-                    this.fileContent = new File([byteArray], res.result.tmpFileName, {type: this.fileType});
-                    this.fileName = res.result.tmpFileName;
-                    this.sizeInput = this.communService.formatBytes(byteArray.length);
-                    this.base64 = res.result.data;
-                    this.pgNbr = res.result.pgNbr;
-                    let arraybuffer = this.communService.base64ToArrayBuffer(this.base64);
-                    if (byteArray.length > this.env.maxUploadMultiPartFile)/*presq 1MO*/
-                    {
-                        this.disableSave = true;
-                        this.translateService.get('ATTACHEMENT.errorMaxSize').subscribe((res) => {
-                                this.toastr.error(res + this.communService.formatBytes(this.env.maxUploadMultiPartFile), '', {
-                                    closeButton: true,
-                                    positionClass: 'toast-top-right',
-                                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                this.fileType = res.result.fileMimeType;
+                this.pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true';
+                let verifLicensePSTKScan: any = await this.communService.verifLicensePSTK(this.ModuleScan);
+                this.permissionDenied = (this.pstkEnabledAndRunning && verifLicensePSTKScan);
+                this.permissionToTopViewer = (this.fileType === 'application/pdf');
+                const byteArray = new Uint8Array(atob(res.result.data).split('').map(char => char.charCodeAt(0)));
+                this.fileContent = new File([byteArray], res.result.tmpFileName, {type: this.fileType});
+                this.fileName = res.result.tmpFileName;
+                this.sizeInput = this.communService.formatBytes(byteArray.length);
+                this.base64 = res.result.data;
+                this.pgNbr = res.result.pgNbr;
+                let arraybuffer = this.communService.base64ToArrayBuffer(this.base64);
+                if (byteArray.length > this.env.maxUploadMultiPartFile)/*presq 1MO*/
+                {
+                    this.disableSave = true;
+                    this.translateService.get('ATTACHEMENT.errorMaxSize').subscribe((res) => {
+                            this.toastr.error(res + this.communService.formatBytes(this.env.maxUploadMultiPartFile), '', {
+                                closeButton: true,
+                                positionClass: 'toast-top-right',
+                                extendedTimeOut: this.env.extendedTimeOutToastr,
                                     progressBar: true,
                                     disableTimeOut: false,
                                     timeOut: this.env.timeOutToastr
@@ -1425,7 +1420,6 @@ export class ThumbnailComponent implements OnInit {
             this.loadingVisible = false
         }
     }
-
     /*Office*/
     initofficeVisble() {
         this.officeVisble = !(this.objectid != null && this.classid != null)
@@ -1434,8 +1428,8 @@ export class ThumbnailComponent implements OnInit {
 
     /*Office template*/
     OfficeTemplatePopUpOpen() {
-        let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'findOfficeTemplate', this.objectData)
-        this.httpServicesComponent.method(paramsHttp, '', "ATTACHEMENT.OfficeTemplateSucces", "ATTACHEMENT.OfficeTemplateError").then(data => {
+        let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel+'findOfficeTemplate', this.objectData)
+        this.httpServicesComponent.method(paramsHttp,  '', "ATTACHEMENT.OfficeTemplateSucces", "ATTACHEMENT.OfficeTemplateError").then(data => {
             if (data["statut"] == true) {
                 this.officeTemplateList = data["value"]
                 this.openOfficePopUp = true
@@ -1479,7 +1473,7 @@ export class ThumbnailComponent implements OnInit {
     }
 
     resetGrid() {
-        localStorage.removeItem(this.packageName + '_' + 'gridofficeTempalte');
+        localStorage.removeItem(this.packageName+'_'+'gridofficeTempalte');
         window.location.reload();
     }
 
@@ -1530,7 +1524,7 @@ export class ThumbnailComponent implements OnInit {
                 }
                 , err => {
                     this.loadingVisible = false
-                    this.Ref.value = this.fileName
+                    this.Ref.value =  this.fileName
 
                     this.translateService.get("ATTACHEMENT.Modeleechec", this.Ref).subscribe((res) => {
                         this.toastr.error(res, "", {
@@ -1545,7 +1539,7 @@ export class ThumbnailComponent implements OnInit {
                 }
             )
         } catch (error) {
-            this.Ref.value = this.fileName
+            this.Ref.value =  this.fileName
 
             this.translateService.get("ATTACHEMENT.SaveAfterEditError", this.Ref).subscribe((res) => {
                 this.toastr.error(res, " ", {
@@ -1562,7 +1556,7 @@ export class ThumbnailComponent implements OnInit {
     }
 
     async viewFileNotAdded() {
-        if (this.fileType === "application/json" || this.fileType === "text/plain" || this.fileType === "image/jpeg" ||
+        if(this.fileType === "application/json" || this.fileType === "text/plain" || this.fileType === "image/jpeg" ||
             this.fileType === "image/png" || this.fileType === "image/gif" || this.fileType === "image/tiff" || this.fileType === "image/bmp" ||
             this.fileType === "image/svg+xml" || this.fileType === "application/pdf") {
             if (this.fileContent != null || this.blobContent != null) {
@@ -1606,7 +1600,7 @@ export class ThumbnailComponent implements OnInit {
 
                 this.loadingVisible = false;
             }
-        } else {
+        }else{
             var fileURL = URL.createObjectURL(this.blobContent);
 
 // create a link element
@@ -1641,7 +1635,7 @@ export class ThumbnailComponent implements OnInit {
         this.Ref.value = this.UploadFileForTemplace.name;
         this.loadingVisible = false;
         let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + this.UploadFileForTemplace.id + '?fileAccessToken=' + this.fileAccessToken, obj);
-        this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
+        this.httpServicesComponent.method(paramsHttp, this.Ref,"ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
             this.refresh();
 
             if (data['statut'] == true) {
@@ -1725,8 +1719,8 @@ export class ThumbnailComponent implements OnInit {
         jsonFile.objectDatasecuriteLevel = this.objectData.securiteLevel;
         this.Ref.value = jsonFile.name
 
-        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + "attachements/" + jsonFile.id, jsonFile)
-        this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
+        let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel+"attachements/" + jsonFile.id, jsonFile)
+        this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
             if (data["statut"] == true) {
                 this.popupModifFileVisible = false
                 this.refreshThumbnailGrid()
@@ -1876,8 +1870,8 @@ export class ThumbnailComponent implements OnInit {
         this.popupDeleteFileVisible = false;
         this.Ref.value = this.fileTodelete.name
 
-        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?id=" + this.fileTodelete.id + "&fileAccessToken=" + this.fileAccessToken, '')
-        this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.deleted", "ATTACHEMENT.deleteError").then(data => {
+        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel+"attachementRemove?uuid=" + this.fileTodelete.uuid + "&fileAccessToken=" + this.fileAccessToken, '')
+        this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.deleted", "ATTACHEMENT.deleteError").then(data => {
             this.refreshbyemitevent()
         })
     }
@@ -1915,7 +1909,7 @@ export class ThumbnailComponent implements OnInit {
     /*TESTER*/
     async OnclickDocxToPDF(data) {
         this.loadingVisible = true
-        let authorizationtokenOffice = await this.communService.authorizationToken(this.ModuleOffice)
+        let authorizationtokenOffice =  await this.communService.authorizationToken(this.ModuleOffice)
 
         this.base64 = null
         this.fileservice.extractfileByIdJson(data.id, this.fileAccessToken).subscribe((response: any) => {
@@ -1995,7 +1989,7 @@ export class ThumbnailComponent implements OnInit {
 
     async OnclickModifierFileToEdit(data) {
         this.loadingVisible = true
-        let authorizationtokenOffice = await this.communService.authorizationToken(this.ModuleOffice)
+        let authorizationtokenOffice =  await this.communService.authorizationToken(this.ModuleOffice)
 
         this.base64 = null
         this.fileservice.extractfileByIdJson(data.id, this.fileAccessToken).subscribe((response: any) => {
@@ -2051,7 +2045,7 @@ export class ThumbnailComponent implements OnInit {
     async OnclickSaveFileAfterEdit(data, enableDelete) {
         this.loadingVisible = true
         try {
-            let authorizationtokenOffice = await this.communService.authorizationToken(this.ModuleOffice)
+            let authorizationtokenOffice =  await this.communService.authorizationToken(this.ModuleOffice)
 
             this.fileservice.SaveFileAfterEdit(authorizationtokenOffice, data.fileName, this.classid + '_' + this.objectid + '_' + data.name, enableDelete).then(async (res) => {
                 let responseBase64 = await res.result.Base64contents
@@ -2070,7 +2064,7 @@ export class ThumbnailComponent implements OnInit {
                 this.Ref.value = data.name
 
                 let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + 'attachementsSetContent/' + data.id + '?fileAccessToken=' + this.fileAccessToken, obj)
-                this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.save_delete", "ATTACHEMENT.save_deleteMAJfailed").then(data => {
+                this.httpServicesComponent.method(paramsHttp,  this.Ref, "ATTACHEMENT.save_delete", "ATTACHEMENT.save_deleteMAJfailed").then(data => {
                     this.refresh();
 
                     // if (data["statut"] == true) {
@@ -2115,7 +2109,8 @@ export class ThumbnailComponent implements OnInit {
         this.fileBusy = false
         this.genepdf = true
         this.showiconEcraseContenu = false
-        let authorizationtokenOffice = await this.communService.authorizationToken(this.ModuleOffice)
+        let authorizationtokenOffice =  await this.communService.authorizationToken(this.ModuleOffice)
+
 
 
         if (data.type && data.type != '' && data.type != null && data.type != undefined) {
@@ -2123,7 +2118,7 @@ export class ThumbnailComponent implements OnInit {
             //all word file mime type
             if (fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
                 fileType === "application/msword" ||
-                fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.template" ||
+                fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.template"||
                 fileType === "application/vnd.ms-word.template.macroEnabled.12") {
                 this.genepdf = false;
             } else {
@@ -2134,10 +2129,11 @@ export class ThumbnailComponent implements OnInit {
         }
 
 
+
         let lockedfile = false
         if (data.locked == true)
             lockedfile = true
-        await this.fileservice.checkIfFileExist(authorizationtokenOffice, data.fileName, this.classid + '_' + this.objectid + '_' + data.name).then(async (res) => {
+        await  this.fileservice.checkIfFileExist(authorizationtokenOffice, data.fileName, this.classid + '_' + this.objectid + '_' + data.name).then(async (res) => {
             if (res.result.codeError === "PSTK_44") /*    "PSTK_44": "No such file Exist!", === Deleted FALSE */
             {
                 this.disabledSaved = lockedfile || this.ContainerViewer
@@ -2203,7 +2199,7 @@ export class ThumbnailComponent implements OnInit {
                         this.jsondocviewer.visionneuse = "url";
                         this.jsondocviewer.pdfSrcc = fileURL;
                     }
-                    this.loadingVisible = false
+                    this.loadingVisible=false
                 }, error => {
                     this.Ref.value = this.fileName
                     this.loadingVisible = false

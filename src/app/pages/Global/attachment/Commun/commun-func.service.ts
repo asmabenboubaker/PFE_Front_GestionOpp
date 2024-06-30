@@ -12,8 +12,7 @@ export class CommunFuncService {
     ModuleSign = require('../ModulePSTK.json').Module_Sign;
     ModuleOffice = require('../ModulePSTK.json').Module_Office;
     ModuleMisc = require('../ModulePSTK.json').Module_Misc;
-
-    constructor(private datepipe: DatePipe, private env: EnvService, private fileservice: AttachementModuleService, private cookieService: CookieService) {
+    constructor(private datepipe: DatePipe,private env: EnvService, private fileservice: AttachementModuleService,private cookieService: CookieService) {
     }
 
     verifDateOfSavedLocaStorage(name) {
@@ -27,12 +26,12 @@ export class CommunFuncService {
 
     /*Convert size*/
     formatBytes(bytes, decimals = 2) {
-        if (bytes === 0 || bytes === null) return '0 Bytes';
+        if (bytes === 0 || bytes === null ) return '0 Bytes';
         const k = 1024;
         const dm = decimals < 0 ? 0 : decimals;
         const sizes = ['octets', 'Ko', 'Mo', 'Go', 'To', 'Po', 'Eo', 'Zo', 'Yo'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return Math.trunc(parseFloat((bytes / Math.pow(k, i)).toFixed(dm))) + ' ' + sizes[i];
+        return Math.trunc(parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) )+ ' ' + sizes[i];
     }
 
     /*Convert size*/
@@ -57,7 +56,6 @@ export class CommunFuncService {
 
     /*base64 to byte array, vice versaa*/
     selectedLicensepstk;
-
     /*Verif auth token and return it */
     async authorizationToken(module) {
         let pstkEnabledAndRunning = this.cookieService.get('envPstkRunning') === 'true';
@@ -70,62 +68,63 @@ export class CommunFuncService {
                 defaultPort = this.env.pstkport;
             }
             let authorizationToken = null;
-            if (this.cookieService.get(module) === 'undefined'
-                || this.cookieService.get(module) === undefined
-                || this.cookieService.get(module) === '') {
+                if (this.cookieService.get(module) === 'undefined'
+                    || this.cookieService.get(module) === undefined
+                    || this.cookieService.get(module) === '') {
 
 
-                if (this.cookieService.get('selectedLicensepstk') != ''
-                    && this.cookieService.get('selectedLicensepstk') != undefined && this.cookieService.get('selectedLicensepstk') != null
-                    && this.cookieService.get('selectedLicensepstk') != 'undefined' && this.cookieService.get('selectedLicensepstk') != 'null')
-                    this.selectedLicensepstk = this.cookieService.get('selectedLicensepstk');
+                    if (this.cookieService.get('selectedLicensepstk') != ''
+                        && this.cookieService.get('selectedLicensepstk') != undefined && this.cookieService.get('selectedLicensepstk') != null
+                        && this.cookieService.get('selectedLicensepstk') != 'undefined' && this.cookieService.get('selectedLicensepstk') != 'null')
+                        this.selectedLicensepstk = this.cookieService.get('selectedLicensepstk');
 
 
-                if (this.selectedLicensepstk === 'Machine') {
-                    return new Promise(async (resolve) => {
-                        await this.fileservice.checkPSTK(defaultPort, null, null, null, null).subscribe(async (res: any) => {
-                            let rslt = false;
-                            if (module === this.ModuleScan) {
-                                rslt = await res.result.Module.Module_Scan;
-                            } else if (module === this.ModuleSign) {
-                                rslt = await res.result.Module.Module_Sign;
-                            } else if (module === this.ModuleOffice) {
-                                rslt = await res.result.Module.Module_Office;
-                            } else if (module === this.ModuleMisc) {
-                                rslt = await res.result.Module.Module_Misc;
-                            }
-                            if (rslt) {
-                                authorizationToken = null;
-                                resolve(authorizationToken)
-                            } else {
-                                authorizationToken = '';
-                                resolve(authorizationToken);
-                            }
-                        });
-                    }).then(res => {
-                        return res;
-                    })
-                } else if (this.selectedLicensepstk === 'Serveur') {
-                    return new Promise(async (resolve) => {
-                        await this.fileservice.getToken(module).then(async (res: any) => {
-                                if (res && res.res.body.authorizationToken) {
-                                    authorizationToken = await res.res.body.authorizationToken;
-                                    resolve(authorizationToken);
-                                }
-                            }, async (error) => {
-                                // console.error(error);
-                                authorizationToken = '';
-                                resolve(authorizationToken);
-                            }
-                        );
-                    }).then(res => {
-                        return res;
-                    })
+                        if (this.selectedLicensepstk === 'Machine') {
+                            return new Promise(async (resolve) => {
+                                await this.fileservice.checkPSTK(defaultPort, null, null, null, null).subscribe(async (res: any) => {
+                                    let rslt = false;
+                                    if (module === this.ModuleScan) {
+                                        rslt = await res.result.Module.Module_Scan;
+                                    } else if (module === this.ModuleSign) {
+                                        rslt = await res.result.Module.Module_Sign;
+                                    } else if (module === this.ModuleOffice) {
+                                        rslt = await res.result.Module.Module_Office;
+                                    } else if (module === this.ModuleMisc) {
+                                        rslt = await res.result.Module.Module_Misc;
+                                    }
+                                    if (rslt) {
+                                        authorizationToken = null;
+                                        resolve(authorizationToken)
+                                    }else{
+                                        authorizationToken = '';
+                                        resolve (authorizationToken);
+                                    }
+                                });
+                            }).then(res => {
+                                return res;
+                            })
+                        } else if (this.selectedLicensepstk === 'Serveur') {
+                            return new Promise(async (resolve) => {
+                                await this.fileservice.getToken(module).then(async (res: any) => {
+                                        if (res && res.res.body.authorizationToken) {
+                                            authorizationToken = await res.res.body.authorizationToken;
+                                            resolve (authorizationToken);
+                                        }
+                                    }, async (error) => {
+                                        // console.error(error);
+                                        authorizationToken = '';
+                                    resolve (authorizationToken);
+                                    }
+                                );
+                            }).then(res =>{
+                                return res;
+                            })
+                        }
+                    }
+                else {
+                    authorizationToken = this.cookieService.get(module);
+                    return(authorizationToken);
                 }
-            } else {
-                authorizationToken = this.cookieService.get(module);
-                return (authorizationToken);
-            }
         }
     }
 
@@ -138,7 +137,7 @@ export class CommunFuncService {
             authorizationTokenBoolean = false;
             return authorizationTokenBoolean;
         } else {
-            let authorizationToken: any = await this.authorizationToken(module)
+            let authorizationToken :any = await this.authorizationToken(module)
 
             if (authorizationToken === null) {
                 authorizationTokenBoolean = true;

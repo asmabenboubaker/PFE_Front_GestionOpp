@@ -1,5 +1,4 @@
 ## COMPSANT D'ATTACHEMENT
-
 ![img.png](img.png)
 ![img_1.png](img_1.png)
 
@@ -10,11 +9,13 @@ dependency :
 "ngx-device-detector": "^4.0.1",
 "ngx-doc-viewer": "^1.4.1",
 
+
 dans env.js
 
     pstoolkitURLhttps : 
     cloudMsiPSTK : 
     pstkport :
+
 
 Input
 
@@ -28,7 +29,8 @@ Output
 
     @Output() refreshedReqFileDef = new EventEmitter<any>(); /*Refresh Request file defnition */
 
-Exemple d'appel :
+
+Exemple d'appel :  
 
        <app-attachment
         [classid]="classid"
@@ -37,14 +39,15 @@ Exemple d'appel :
         (refreshedReqFileDef)="getById()"
         [URL]="'/tesst'"
         ></app-attachment>
-
 ______________________________________________________________________________________
 
-# Version 1.1.2
 
+# Version 1.1.2
     dependency :
   
     "angular2-text-mask": "9.0.0",
+
+
 
 Input
 
@@ -91,6 +94,7 @@ Output
 
     @Output() refreshedReqFileDef = new EventEmitter<any>(); /*Refresh Request file defnition */
 
+
 Exemple d'appel :
 
        <app-attachment
@@ -100,9 +104,9 @@ Exemple d'appel :
         (refreshedReqFileDef)="getById()"
         [URL]="'/tesst'"
         ></app-attachment>
-
 ______________________________________________________________________________________
 
-# Version 1.1.3
+
+# Version 1.1.3 
 
 ajouter qq adaptatoin selon l'integration dans Kernel

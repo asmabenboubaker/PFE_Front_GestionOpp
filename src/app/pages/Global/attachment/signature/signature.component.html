@@ -17,13 +17,11 @@
             </dx-select-box>
         </div>
         <!--PIN OF CERTIF OF USB-->
-        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3 "
-             style="padding:0px !important;margin-top: -0.5%; ">
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3 " style="padding:0px !important;margin-top: -0.5%; ">
             <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.Signpin'| translate }}
                 <span class="spanRequired">*</span></div>
             <div style="width: 100%; ;display: flex;">
-                <mdb-form-control class="form-outline "
-                                  style="background: white ;  padding: 0 !important;border-radius: 10%; height:25px   !important;">
+                <mdb-form-control class="form-outline " style="background: white ;  padding: 0 !important;border-radius: 10%; height:25px   !important;">
                     <input mdbValidate mdbInput formControlName="pinCode" [type]="show ? 'text' : 'password'"
                            id="pinCode" name="pinCode" required class="form-control " autocomplete="disabled"/>
                 </mdb-form-control>
@@ -61,8 +59,7 @@
             </dx-select-box>
         </div>
         <!--Password-->
-        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3  "
-             style="padding:0px !important;margin-top: -0.5%;  ">
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3  " style="padding:0px !important;margin-top: -0.5%;  ">
             <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.labelPassword'| translate }}
                 <span class="spanRequired">*</span></div>
             <div style="width: 100%; ;display: flex;">
@@ -98,8 +95,8 @@
 </mdb-form-control>
 
 <!--input button of certif file -->
-<input #input (change)="CertifChange(input) ; input.value = null" class="file-upload-btn" hidden
-       id="addSignature" type="file"/>
+<input  #input (change)="CertifChange(input) ; input.value = null" class="file-upload-btn" hidden
+        id="addSignature" type="file"/>
 <!--input button of certif file -->
 
 
@@ -128,7 +125,7 @@
         </div>
         <div class="row d-flex" *ngIf="succes===true">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="float-md-right">
+                <div class="float-md-right" >
                     <button (click)="closeSuccess()" class="btn btn-success mr-1" type="submit">{{'close' | translate}}
                     </button>
                 </div>
@@ -160,8 +157,7 @@
         <div class="row " *ngIf="succes===false">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="float-md-right">
-                    <button (click)="closeFailed()" class="btn btn-danger mr-1"
-                            type="button">{{'close' | translate}}</button>
+                    <button (click)="closeFailed()" class="btn btn-danger mr-1" type="button">{{'close' | translate}}</button>
                 </div>
             </div>
         </div>

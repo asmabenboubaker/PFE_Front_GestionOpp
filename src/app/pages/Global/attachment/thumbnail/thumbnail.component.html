@@ -114,12 +114,12 @@
             <dxi-item *ngFor="let data of actionItems" [text]="data.text" [icon]="data.icon"
                       [beginGroup]="data.beginGroup">
 
-                <dxi-item *ngFor="let data of data.subItems"
-                          [text]="data.text"
-                          [icon]="data.icon"
-                          [disabled]="data.disabled"
-                          [beginGroup]="data.beginGroup">
-                </dxi-item>
+                    <dxi-item *ngFor="let data of data.subItems"
+                              [text]="data.text"
+                              [icon]="data.icon"
+                              [disabled]="data.disabled"
+                              [beginGroup]="data.beginGroup">
+                    </dxi-item>
             </dxi-item>
         </dxo-context-menu>
     </dx-file-manager>
@@ -369,8 +369,7 @@
                 </a>
             </div>
             <div *dxTemplate="let data of 'templateFile'" class="end-txt-align">
-                <button type="button" class="btn btn-outline-warning mar-pad"
-                        *ngIf="hasModelOfficeButton && listOfficeNotEmpty"
+                <button type="button" class="btn btn-outline-warning mar-pad" *ngIf="hasModelOfficeButton && listOfficeNotEmpty"
                         (click)="OfficeTemplatePopUpOpen()"
                         [disabled]="initofficeVisble()">
                     <i class='fas fa-file-contract icon-size'
@@ -382,8 +381,7 @@
                     <i class='fa fa-paperclip icon-size'></i>
                 </button>
 
-                <button type="button" class="btn btn-outline-primary mar-pad"
-                        [disabled]="!pstkEnabledAndRunning && !this.authorizationTokenScan"
+                <button type="button" class="btn btn-outline-primary mar-pad" [disabled]="!pstkEnabledAndRunning && !this.authorizationTokenScan"
                         (click)="scanner_and_save()"
                         title="{{ 'ATTACHEMENT.scanner' | translate }}">
                     <i class="material-icons icon-size-mater">scanner</i>
@@ -486,30 +484,21 @@
                 #gridofficeTempalte
                 [dataSource]="officeTemplateList"
                 [width]="'99%'"
-
+                [allowColumnReordering]="true"
+                [allowColumnResizing]="true"
+                [rowAlternationEnabled]="true"
+                [showBorders]="true"
                 [wordWrapEnabled]="true"
-
+                [columnAutoWidth]="true"
+                [hoverStateEnabled]="true"
                 [columnMinWidth]="26"
                 [showRowLines]="true"
-
-
-                [allowColumnReordering]="true"
-                [height]="'auto'"
-                [allowColumnResizing]="true"
-                [columnAutoWidth]="true"
-                [showBorders]="true"
-                [rowAlternationEnabled]="true"
-                [remoteOperations]="true"
-                [hoverStateEnabled]="true"
-                [rtlEnabled]="true"
-                [showColumnLines]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
         >
             <dxo-state-storing [enabled]="true" type="localStorage"
                                [storageKey]="this.packageName+'_'+'gridofficeTempalte'"></dxo-state-storing>
-            <dxo-column-chooser title="{{ 'ATTACHEMENT.SelecteurColonnes' | translate }}"
-                                [enabled]="true"></dxo-column-chooser>
-            <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+
+            <dxo-export [enabled]="false" [allowExportSelectedData]="true"></dxo-export>
             <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
             <dxo-load-panel [enabled]="true"></dxo-load-panel>
             <dxo-filter-row [visible]="false" applyFilter="false"></dxo-filter-row>

@@ -2,19 +2,17 @@
 
 <div id="DWTcontainerTop">
     <div id="divEdit" class="row" style="margin: 0;">
-        <div class="col-5 p-0" *ngIf="PcTkExist">
-            <div *ngIf=" permissionDenied" style="display: flex;justify-content: start; padding:0; ">
+        <div class="col-5 p-0"  *ngIf="PcTkExist" >
+            <div *ngIf=" permissionDenied" style="display: flex;justify-content: start; padding:0; " >
                 <ul>
                     <li class="espacement">
-                        <i class=" menuIcon fa-solid fas fa fa-arrow-up fa-xl"
-                           title="{{ 'ATTACHEMENT.prviousg' | translate }}"
+                        <i class=" menuIcon fa-solid fas fa fa-arrow-up fa-xl" title="{{ 'ATTACHEMENT.prviousg' | translate }}"
                            style="font-size: 22px;line-height: 44px;cursor: pointer" (click)="moinindex()"></i>
                     </li>
                 </ul>
                 <ul>
                     <li class="espacement">
-                        <i class=" menuIcon fa-solid fas fa fa-arrow-down fa-xl"
-                           title="{{ 'ATTACHEMENT.prochaine' | translate }}"
+                        <i class=" menuIcon fa-solid fas fa fa-arrow-down fa-xl" title="{{ 'ATTACHEMENT.prochaine' | translate }}"
                            style="font-size: 22px;line-height: 44px;cursor: pointer" (click)="plusindex()"></i>
                     </li>
                 </ul>
@@ -40,8 +38,7 @@
 
                     <span style="height: 0em; cursor: pointer !important;" (click)="deletepagebyindex()"
                           class="fa-stack fa-lg" title="{{'ATTACHEMENT.deletepg' | translate}} {{Indexvalue}}">
-                        <i class='far fa-file-image fa-stack-1x'
-                           style="margin-top: -0.25em;font-size: 1.7em; border: 1px solid white"></i>
+                        <i class='far fa-file-image fa-stack-1x' style="margin-top: -0.25em;font-size: 1.7em; border: 1px solid white"></i>
                         <i class="fa fa-times fa-stack" style=" margin-top: -2.5em;color:red;font-size: 1.2em;"></i>
                     </span>
 
@@ -55,8 +52,7 @@
                     </li>
                     <li class="espacement">
                     <span class="d-flex justify-content-start menuIcon fa-border"
-                          style="align-items: center; cursor: pointer"
-                          title="{{ 'ATTACHEMENT.numAvant' | translate }} {{Indexvalue}}"
+                          style="align-items: center; cursor: pointer" title="{{ 'ATTACHEMENT.numAvant' | translate }} {{Indexvalue}}"
                           (click)="ScanBeforeBoutton()">
                     <i class=" fa fa-arrow-down " id="arrowdown1" style="font-size: 16px;cursor: pointer"></i>
                     <i class="material-icons" style="font-size: 31px;cursor: pointer">scanner</i>
@@ -72,18 +68,13 @@
                     </li>
                 </ul>
             </div>
-            <div style="justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"
-                 *ngIf=" !permissionDenied">
-                <i class="fa fa-exclamation-triangle p-1"
-                   style="font-size: 200%;color:red;display:flex; justify-content: center"
-                   title="{{'ATTACHEMENT.scanLicensePstk'| translate}} Ou {{'ATTACHEMENT.pstkerror'| translate}} Ou {{'ATTACHEMENT.PermissionFichier'| translate}} Ou {{'ATTACHEMENT.PermissionLocked'| translate}}"></i>
+            <div style="justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"  *ngIf=" !permissionDenied">
+                <i class="fa fa-exclamation-triangle p-1" style="font-size: 200%;color:red;display:flex; justify-content: center" title="{{'ATTACHEMENT.scanLicensePstk'| translate}} Ou {{'ATTACHEMENT.pstkerror'| translate}} Ou {{'ATTACHEMENT.PermissionFichier'| translate}} Ou {{'ATTACHEMENT.PermissionLocked'| translate}}"></i>
 
             </div>
 
         </div>
-        <div class="col-5"
-             style="display: flex;justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"
-             *ngIf="!PcTkExist">
+        <div class="col-5" style="display: flex;justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"  *ngIf="!PcTkExist" >
         </div>
         <div class="col-5" style="border-right: 5px solid #ccc;  height: 100%;" *ngIf="PcTkExist">
             <app-signature *ngIf=" permissionDeniedSig"
@@ -91,13 +82,9 @@
                            [FileNameToSigned]=FileNameToSigned
                            (fileSigned)="signedEvent($event)">
             </app-signature>
-            <i *ngIf="!permissionDeniedSig" class="fa fa-exclamation-triangle p-1"
-               style="font-size: 200%;color:red; display:flex; justify-content: center"
-               title=" {{'ATTACHEMENT.signLicensePstk'| translate}} Ou {{'ATTACHEMENT.pstkerror'| translate}} Ou {{'ATTACHEMENT.PermissionFichier'| translate}}"></i>
+            <i *ngIf="!permissionDeniedSig" class="fa fa-exclamation-triangle p-1" style="font-size: 200%;color:red; display:flex; justify-content: center" title=" {{'ATTACHEMENT.signLicensePstk'| translate}} Ou {{'ATTACHEMENT.pstkerror'| translate}} Ou {{'ATTACHEMENT.PermissionFichier'| translate}}"></i>
         </div>
-        <div class="col-5"
-             style="display: flex;justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"
-             *ngIf="!PcTkExist">
+        <div class="col-5" style="display: flex;justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"  *ngIf="!PcTkExist" >
         </div>
         <div class="col-2">
             <div class="d-flex justify-content-between">
@@ -122,7 +109,7 @@
 ">abc</i>
                     </span>
                 </div>
-                <div style="padding-left: 5%">
+                <div  style="padding-left: 5%">
                     <i class=" menuIcon fa-solid fas fa-save fa-xl" title="Sauvegarder"
                        style="font-size: 22px;line-height: 44px;cursor: pointer" (click)="Sauvegarder()"></i>
                 </div>
@@ -196,7 +183,7 @@
     </div>
 
 
-    <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6 p-3">
+    <div  class="col-md-6 col-xs-6 col-lg-6 col-sm-6 p-3">
         <dx-select-box
 
                 style="height: 56%"
@@ -352,7 +339,7 @@
         </div>
 
     </form>
-    <div class="row d-flex ">
+    <div class="row d-flex " >
         <div class="d-grid gap-2 d-md-flex justify-content-between">
             <button (click)="openPopupWaterMarker=false"
                     class="btn btn-light" mdbRipple
@@ -380,8 +367,8 @@
         title="{{ 'ATTACHEMENT.titleOCR' | translate }}">
     <div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-1 ">
-            <div class="card border-0 shadow-0  position-relative">
-                <div class="card-body text-success">
+            <div class="card border-0 shadow-0  position-relative" >
+                <div class="card-body text-success" >
                     <div class="card-text">
                         <p class="note note-success fw-light fs-6">
                             <strong>{{ 'ATTACHEMENT.ConfirmOCR' | translate }}</strong>
@@ -389,8 +376,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>    </div>
     <div class="d-flex justify-content-between">
         <div>
 

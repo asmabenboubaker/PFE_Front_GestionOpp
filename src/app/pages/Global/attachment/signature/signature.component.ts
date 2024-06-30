@@ -66,9 +66,8 @@ export class SignatureComponent implements OnInit {
     showSuccess = false;
     erreurcomplete;
     succescomplete;
-    packageName = require('package.json').name
-
-    constructor(public communService: CommunFuncService, private env: EnvService, private cookieService: CookieService, private clipboardApi: ClipboardService, private fb: FormBuilder,
+    packageName =  require('package.json').name
+    constructor( public communService: CommunFuncService,private env: EnvService, private cookieService: CookieService, private clipboardApi: ClipboardService, private fb: FormBuilder,
                 private fileservice: AttachementModuleService, private toastr: ToastrService, private translateService: TranslateService, private communFuncService: CommunFuncService) {
     }
 
@@ -188,8 +187,8 @@ export class SignatureComponent implements OnInit {
 
     ngOnInit(): void {
         /*LOCAL STORAGE of formulaire*/
-        if (localStorage.getItem(this.packageName + '_' + 'typeSign') != null) {
-            this.selected_TypeSign = localStorage.getItem(this.packageName + '_' + 'typeSign');
+        if (localStorage.getItem(this.packageName+'_'+'typeSign') != null) {
+            this.selected_TypeSign = localStorage.getItem(this.packageName+'_'+'typeSign');
         }
     }
 
@@ -233,7 +232,7 @@ export class SignatureComponent implements OnInit {
         if (this.BASE64_Input != null && this.BASE64_Input != undefined && this.BASE64_Input != '' && this.FileNameToSigned != null && this.FileNameToSigned != undefined && this.FileNameToSigned != '') {
             this.loadingVisible = true;
             /*LOCAL sTORAGE*/
-            localStorage.setItem(this.packageName + '_' + 'typeSign', this.selected_TypeSign);
+            localStorage.setItem(this.packageName+'_'+'typeSign', this.selected_TypeSign);
             let arraybuffer = this.communFuncService.base64ToArrayBuffer(this.BASE64_Input);
             /* New File to be signed */
             var file = new File([arraybuffer], this.FileNameToSigned, {type: 'application/pdf'});

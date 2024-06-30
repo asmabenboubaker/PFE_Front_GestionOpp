@@ -1,16 +1,14 @@
 <app-http-services></app-http-services>
 <div class="card text-center margin-1 card-height-fixed" style="direction: rtl;box-shadow: {{boxShadow}}">
-    <div class="card-header hei-10" style="background-color: {{backgroundColor}} ">
+    <div class="card-header hei-10" style="background-color:05/1 {{backgroundColor}} ">
         <div class="row d-flex mt-1">
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-xxl-2 width1">
-                <button type="button" class="btn btn-outline-danger mar-pad " (click)="attached()"
-                        *ngIf="fileTemplate&&!showsave&&hasRattachButton"
+                <button type="button" class="btn btn-outline-danger mar-pad " (click)="attached()"  *ngIf="fileTemplate&&!showsave&&hasRattachButton"
                         [disabled]="showButton"
                         title="{{ 'ATTACHEMENT.attachedFile' | translate }}">
                     <i class='fa fa-paperclip icon-size'></i>
                 </button>
-                <button type="button" class="btn btn-outline-success  mar-pad" (click)="save()"
-                        *ngIf="hasAddButton&&showsave"
+                <button type="button" class="btn btn-outline-success  mar-pad" (click)="save()" *ngIf="hasAddButton&&showsave"
                         [disabled]="showButton || disableSave"
                         title="{{ 'ATTACHEMENT.buttonSave' | translate }}">
                     <i class='fa fa-plus icon-size'></i>
@@ -104,7 +102,7 @@
             </dxi-item>
             <dxi-item itemType="group">
                 <dxo-col-count-by-screen
-                        [sm]="4">
+                        [sm]="2" >
                 </dxo-col-count-by-screen>
                 <dxi-item dataField="file" [template]="'PJ'" itemType="group" [colSpan]="2"
                           class="pad-0">
@@ -112,11 +110,11 @@
                     <dxo-label text="File"></dxo-label>
                 </dxi-item>
 
-                <dxi-item dataField="file" [template]="'templateFile'" [colSpan]="2"
-                          class="pad-0">
-                    <dxi-validation-rule [type]="requiredFile" message=""></dxi-validation-rule>
-                    <dxo-label text="File"></dxo-label>
-                </dxi-item>
+                                <dxi-item dataField="file" [template]="'templateFile'" [colSpan]="2"
+                                          class="pad-0">
+                                    <dxi-validation-rule [type]="requiredFile" message=""></dxi-validation-rule>
+                                    <dxo-label text="File"></dxo-label>
+                                </dxi-item>
             </dxi-item>
             <div *dxTemplate="let data of 'PJ'" class="PJ-style p-0">
                 <div class=" d-flex">
@@ -133,7 +131,7 @@
 
                 </div>
 
-                <a><h6 *ngIf="fileName!=null && this.sizeInput!=null">{{sizeInput}}</h6></a>
+                <!--                <a><h6 *ngIf="fileName!=null && this.sizeInput!=null">{{sizeInput}}</h6></a>-->
             </div>
 
 
@@ -229,6 +227,7 @@
         [maxHeight]="500"
         [dragEnabled]="true"
         resizeEnabled="true"
+        [rtlEnabled]="arabe"
         class="mar-1"
         title="{{'ATTACHEMENT.Modele' | translate }}">
     <div class="row" *ngIf="  this.officeTemplateList==null">
@@ -262,29 +261,20 @@
                 #gridofficeTempalte
                 [dataSource]="officeTemplateList"
                 [width]="'99%'"
-
+                [allowColumnReordering]="true"
+                [allowColumnResizing]="true"
+                [rowAlternationEnabled]="true"
+                [showBorders]="true"
                 [wordWrapEnabled]="true"
-
+                [columnAutoWidth]="true"
+                [hoverStateEnabled]="true"
                 [columnMinWidth]="26"
                 [showRowLines]="true"
-
-
-                [allowColumnReordering]="true"
-                [height]="'auto'"
-                [allowColumnResizing]="true"
-                [columnAutoWidth]="true"
-                [showBorders]="true"
-                [rowAlternationEnabled]="true"
-                [remoteOperations]="true"
-                [hoverStateEnabled]="true"
-                [rtlEnabled]="true"
-                [showColumnLines]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
         >
             <dxo-state-storing [enabled]="true" type="localStorage"
                                [storageKey]="this.packageName+'_'+'gridofficeTempalte'"></dxo-state-storing>
-            <dxo-column-chooser title="Selecteur des colonnes" [enabled]="true"></dxo-column-chooser>
-            <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-export [enabled]="false" [allowExportSelectedData]="true"></dxo-export>
             <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
             <dxo-load-panel [enabled]="true"></dxo-load-panel>
             <dxo-filter-row [visible]="false" applyFilter="false"></dxo-filter-row>
@@ -385,7 +375,7 @@
 
             <div *dxTemplate="let data of 'cellTemplateActions'" class="txt-center">
                 <button type="button" class="btn btn-outline-primary"
-                        (click)="officeTemplateAttach(data.data.title,this.classid, this.objectid,this.objectData)">
+                        (click)="officeTemplateAttach(data.data.alias,data.data['filesTypeDTO'].type, data.data.title,this.classid, this.objectid,this.objectData)">
                     {{'ATTACHEMENT.select' | translate }}
                     <i [ngStyle]="{'color': data.data.filesTypeDTO.bgColor}"
                        class={{data.data.filesTypeDTO.icon}}

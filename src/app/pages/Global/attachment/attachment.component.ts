@@ -14,6 +14,7 @@ import {
     HttpParamMethodPutNEwFormat
 } from '../../../pages/Global/ps-tools/class';
 import {FormatDate} from "../shared-service/formatDate";
+import {DataGridAttachmentsComponent} from "./data-grid-attachments/data-grid-attachments.component";
 
 @Component({
     selector: 'app-attachment',
@@ -29,7 +30,7 @@ export class AttachmentComponent implements OnInit {
     @Input() objectid: any;
     @Input() isPublic: any;
     @Input() ReadOnly: Boolean = false;
-    @Output() refreshedReqFileDef = new EventEmitter<any>();
+    @Output() AppelWsGetById = new EventEmitter<any>();
     @Input() ModeGridVsThumbnail: boolean = false;/*true === cad thumbnail // false === cad grid */
     requestFileDef = [];
     attachements;
@@ -46,6 +47,8 @@ export class AttachmentComponent implements OnInit {
     @Input() canDonwloadfileDatagrid: Boolean = true
     @Input() canModiffileDatagrid: Boolean = true
     @Input() canShowfileDatagrid: Boolean = true
+
+    @Input() canAddfileDatagrid: Boolean = true
 
     @Output() jsondocviewerEvent = new EventEmitter<any>();
     @Input() archiveButtonVisible: Boolean = true;
@@ -83,6 +86,7 @@ export class AttachmentComponent implements OnInit {
     /*Module PSTK*/
     RefUserName
     @ViewChild(HttpServicesComponent, {static: true}) private httpServicesComponent: HttpServicesComponent;
+    @ViewChild(DataGridAttachmentsComponent, {static: false}) public dataGridAttachmentsComponent: DataGridAttachmentsComponent;
 
     constructor(private cookieService: CookieService, private communService: CommunFuncService, private env: EnvService, private toastr: ToastrService, private fileservice: AttachementModuleService, private translateService: TranslateService) {
         if (this.cookieService.get('displayname')) {
@@ -92,33 +96,32 @@ export class AttachmentComponent implements OnInit {
         }
         this.verifLicensePSTKDatagridAttachement()
     }
+    @Output()
+    listOfficeNotEmpty = new EventEmitter<any>();
 
-    listOfficeNotEmpty
 
     ngOnInit(): void {
-
         let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'findOfficeTemplate', this.objectData)
         this.httpServicesComponent.method(paramsHttp, '', null, null, false).then(data => {
             if (data["statut"] == true) {
-                this.listOfficeNotEmpty = data["value"].length > 0
+                if(data["value"].length > 0){
+                    this.listOfficeNotEmpty.emit(true)
+
+                }else{
+                    this.listOfficeNotEmpty.emit(false)
+
+                }
+
             }
         })
-        // /*FOR JRXML etc .....*/
-        // if (this.objectData === undefined || this.objectData === null) {
-        //     let id = 15
-        //     let url = 'jrxmlTemplate/'
-        //      this.http.get(this.env.BackUrl + this.url).subscribe((res) => {
-        //             if (res != undefined) {
-        //                 this.objectData =res
-        //             }
-        //         }
-        //     )
-        // }
+
 
     }
 
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+        console.log("this.objectData",this.objectData)
+        console.log("changes",changes)
         if (changes['objectData'] && changes['objectData'].previousValue != changes['objectData'].currentValue) {
             if (this.objectData != null) {
                 if (this.objectData.remaingRequestFileDefinitions)
@@ -143,6 +146,7 @@ export class AttachmentComponent implements OnInit {
                 this.ContainerViewer = false
             // }
         }
+
     }
 
     /*refresh get by id*/
@@ -179,19 +183,18 @@ export class AttachmentComponent implements OnInit {
 
     /*REFRESH GRID OF ATTACHEMENT */
     refreshDataGrid(e) {
-        console.log("ereeereee", e)
-        console.log("requestFileDefbeforeChange", this.requestFileDef)
 
-        const indexElement = this.requestFileDef.findIndex((b) => b.docTitle === e.docTitle);
+        // const indexElement = this.requestFileDef.findIndex((b) => b.docTitle === e.docTitle);
+        //
+        // if (indexElement !== -1) {
+        //     this.requestFileDef.splice(indexElement, 1);
+        //
+        // }
 
-        if (indexElement !== -1) {
-            this.requestFileDef.splice(indexElement, 1);
 
-        }
-        // this.refreshedReqFileDef.emit(true)/*getbyid*/
+        this.AppelWsGetById.emit(true)/*getbyid*/
         this.popUpSave = false
         this.refreshedReqFileDef2 = e
-        console.log("requestFileDefAfterChange", this.requestFileDef)
     }
 
     /*thubnail*/
@@ -424,8 +427,8 @@ export class AttachmentComponent implements OnInit {
     }
 
     RecalFileTodelete(e: any) {
-        if (e.name != this.env.docPardefaut)
-            this.requestFileDef.push(e)
+        // if(e.name!=this.env.docPardefaut)
+        //     this.requestFileDef.push(e)
 
 
     }
@@ -436,3 +439,4 @@ export class PermissionmMode {
     name
     mode
 }
+

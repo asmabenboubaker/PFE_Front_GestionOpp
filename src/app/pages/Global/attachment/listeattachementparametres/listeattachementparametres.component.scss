@@ -26,7 +26,6 @@
 .file-info-grid {
   display: flex;
   align-items: center;
-  margin-left:1rem ;
 }
 
 .action-icons {
@@ -48,10 +47,9 @@
 
 .requiredetoile {
   font-weight: bold;
-  font-size: x-large;
+  font-size: larger;
   color: red;
-  margin-rignt:5px !important;
-
+  margin: 0;
 }
 
 .remove-icon {

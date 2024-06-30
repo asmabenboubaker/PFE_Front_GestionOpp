@@ -12,13 +12,7 @@ import {Component, Input, OnInit} from "@angular/core";
                             [ngStyle]="{'height':customheight == '' ? getheigth() : customheight }"
                             style="width:100% ;">
             </ngx-doc-viewer>
-            <!--            <pdf-viewer [src]="pdfSrcc"-->
-            <!--                        [render-text]="false"-->
-            <!--                        [original-size]="false"-->
-            <!--                        [autoresize]="true"-->
-            <!--                     -->
-            <!--            ></pdf-viewer>-->
-            <div id="div2" style="position: absolute;bottom:20px;"></div>
+            <div id="div2" style="position: absolute;bottom: 20px;"></div>
         </div>
     `,
 
@@ -34,42 +28,22 @@ export class DocViewerComponent implements OnInit {
     myObserver
     someEl
 
-    // @HostListener('change', ['$event'])
-    // onResizee(event) {
-    //     var body = document.body,
-    //         html = document.documentElement;
-    //
-    //     var height = Math.max(body.scrollHeight, body.offsetHeight,
-    //         html.clientHeight, html.scrollHeight, html.offsetHeight);
-    //
-    //
-    //     // document.getElementById('doc').style.height = innerHeight + "px"
-    //      // document.getElementById('doc').c
-    //     //  document.getElementById('doc').
-    // [ngStyle]="{'height': 100vh}"
-    // [ngStyle]="{'height':getheigth()}"
-    // @Input() height;
+
 
 
     constructor() {
-        // this.myObserver = new ResizeObserver(entries => {
-        //     entries.forEach(entry => {
-        //     });
-        // });
-        // this.someEl = document.querySelectorAll('some-element');
-        // this.myObserver.observe(this.someEl);
+
     }
 
     onResize(ev) {
-        // if (ev.contentRect.height < 500) {
-        //     this.renderer.setStyle(ev.target, 'background', 'red');
-        // } else {
-        //     this.renderer.removeStyle(ev.target, 'background');
-        // }
+
     }
 
     ngOnInit() {
     }
+
+
+
 
 
     getheigth() {

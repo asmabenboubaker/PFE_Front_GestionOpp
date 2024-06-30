@@ -1,341 +1,908 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { TokenStorageService } from '../../shared-service/token-storage.service';
-import { CommunFuncService } from '../Commun/commun-func.service';
-import { EnvService } from '../../../../../env.service';
-import { FileServiceService } from '../../../../Service/file-service.service';
-import { DxFileManagerTypes } from 'devextreme-angular/ui/file-manager';
-import CustomFileSystemProvider from 'devextreme/file_management/custom_provider';
-import RemoteFileSystemProvider from 'devextreme/file_management/remote_provider';
-import {DxFileManagerComponent} from "devextreme-angular";
-import ObjectFileSystemProvider from 'devextreme/file_management/object_provider';
-import {GcPdfViewer} from "@grapecity/gcpdfviewer";
-import { loadMessages, locale } from 'devextreme/localization';
-import frMessages from 'devextreme/localization/messages/fr.json';
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    HostListener, inject,
+    Input, OnChanges,
+    OnInit,
+    Output,
+    SimpleChange, TemplateRef,
+    ViewChild
+} from '@angular/core';
+import {DxDataGridComponent, DxFormComponent} from "devextreme-angular";
+import {FormatDate} from "../../shared-service/formatDate";
+import {HttpServicesComponent} from "../../ps-tools/http-services/http-services.component";
+import {DeviceDetectorService} from "ngx-device-detector";
+import {EnvService} from "../../../../../env.service";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
+import {CookieService} from "ngx-cookie-service";
+import {CommunFuncService} from "../Commun/commun-func.service";
+import {DatePipe} from "@angular/common";
+import {AttachementModuleService} from "../attachement.module.service";
+import {FormBuilder} from "@angular/forms";
+import {TranslateService} from "@ngx-translate/core";
+import {
+    HttpParamMethodDelete,
+    HttpParamMethodPatch,
+    HttpParamMethodPost,
+    HttpParamMethodPutNEwFormat
+} from "../../ps-tools/class";
+import {Object} from "../template-attachment/template-attachment.component";
+import {Export} from "../../shared-service/export";
+import * as FileSaver from 'file-saver';
+import {DomSanitizer} from "@angular/platform-browser";
+import {Router} from "@angular/router";
+import {TokenStorageService} from "../../shared-service/token-storage.service";
+import {loadMessages, locale} from "devextreme/localization";
+import frMessages from "devextreme/localization/messages/fr.json";
+import arMessages from "devextreme/localization/messages/ar.json";
+import {ColorState} from "../../shared-service/colorState";
+import CustomStore from "devextreme/data/custom_store";
+import notify from "devextreme/ui/notify";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+
 @Component({
     selector: 'app-attachement-grid-only',
     templateUrl: './attachement-grid-only.component.html',
     styleUrls: ['./attachement-grid-only.component.scss'],
+
 })
-export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
-    isLoading = false;
-    isLoading2 = false;
-    fileItems: any[] = [];
-    popupVisible = false;
-    imageBool = false;
-    fileBool=false;
-    imageItemToDisplay = {} as DxFileManagerTypes.SelectedFileOpenedEvent['file'];
-    sanitizedImagePath: any = '';
-    downloadUrl: SafeUrl = '';
-    fileSystemProvider: CustomFileSystemProvider;
-    allowedFileExtensions: string[];
-    @ViewChild(DxFileManagerComponent, { static: false }) fileManager: DxFileManagerComponent;
-    remoteProvider: RemoteFileSystemProvider;
-    pdfViewer: GcPdfViewer | null = null;
-    fileItemToDisplay: any = null;
-    sanitizedFilePath: any = '';
-    objectFileProvider: ObjectFileSystemProvider;
+export class AttachementGridOnlyComponent implements OnInit, OnChanges {
+    format
+    public currentlang: any = "ar";
+    alignment = "right"
+    public pageSize = this.env.pageSize
+    isGridBoxOpened: boolean;
+
+    showHeaderFilter: boolean;
+    searchExpr: any;
+    editorOptions: any;
+    @ViewChild(DxDataGridComponent, {static: false}) datagridAutresFichiers: DxDataGridComponent;
+    packageName = require('package.json').name
+    ListTypeFichiers = [{
+        label: "مكتب الضبط",
+    },
+        {label: "كتابة الرئيس الأول"}]
+    @Input() ObjectProjet: any;
     @Input() classid: any;
     @Input() objectid: any;
-    constructor(
-        private sanitizer: DomSanitizer,
-        private http: HttpClient,
-        private toastr: ToastrService,
-        private router: Router,
-        private tokenStorage: TokenStorageService,
-        private translateService: TranslateService,
-        private communService: CommunFuncService,
-        private fileservice: FileServiceService,
-        public env: EnvService
-    ) {
+    @Input() objectData: any;
+    @Input() ReadOnly: any;
+    @Input() showSplliter: any;
+    @ViewChild(HttpServicesComponent, {static: true}) private httpServicesComponent: HttpServicesComponent;
+    @Output() AppelWsGetById: EventEmitter<any> = new EventEmitter<any>();
+    @Output() jsondocviewerEventFromGrid = new EventEmitter<any>();
+    @ViewChild('longContent') longContent: TemplateRef<any>;
 
-        // this.fileservice.getFileItems().subscribe((data) => {
-        //     this.fileItems = data;
-        //
-        // this.objectFileProvider = new ObjectFileSystemProvider({
-        //     data: this.fileItems,
-        //     isDirectoryExpr: "isFolder",
-        //     sizeExpr: "itemSize"
-        // });
-        // });
+    private modalService = inject(NgbModal);
+
+    constructor(private sanitizer: DomSanitizer, private ref: ChangeDetectorRef, public env: EnvService, private router: Router, private http: HttpClient, private toastr: ToastrService,
+                private tokenStorage: TokenStorageService, private translateService: TranslateService, private cookieService: CookieService, public communService: CommunFuncService, private fileservice: AttachementModuleService) {
+
+        this.showHeaderFilter = true;
+        this.editorOptions = {placeholder: 'Search city or state'};
+        this.searchExpr = ['label']
+
+
+        if (this.tokenStorage.getToken() == null) {
+            this.router.navigate(['/login']);
+        }
+        if (localStorage.getItem("locale")) {
+            translateService.use(localStorage.getItem("locale"));
+
+
+            locale(localStorage.getItem("locale"));
+            this.currentlang = localStorage.getItem("locale");
+
+        } else {
+            translateService.use("ar");
+            locale("ar");
+            this.currentlang = "ar";
+
+        }
+        if (this.currentlang === "fr") {
+            loadMessages(frMessages);
+        } else if (this.currentlang === "ar") {
+            loadMessages(arMessages);
+
+            loadMessages({
+                'ar': {
+                    // Common
+                    'dxDataGrid-columnChooserTitle': 'اختيار الأعمدة',
+                    'add': 'طلب استشارة قانونية ',
+                    'dxDataGrid-columnChooserEmptyText': 'سحب العمود هنا لإخفاءه',
+                    'dxDataGrid-groupPanelEmptyText': 'اسحب عنوان العمود هنا لتجميع البيانات حسب هذا العمود',
+                    'dxDataGrid-groupPanelPlaceholder': 'اسحب العناوين هنا لتجميع البيانات حسب هذه الأعمدة',
+                    'dxDataGrid-noDataText': 'لا توجد بيانات',
+                    "resetButtonHint": "إعادة التعيين",
+                    "addRowButton": "إضافة صف",
+                    "refreshRowButton": "زر تحديث الصف",
+                    // Paging
+                    'dxDataGrid-pagerPageSizes': 'عناصر لكل صفحة',
+                    'dxDataGrid-pagerInfoText': 'عرض صفحة {0} من {1} ({2} من النتائج)',
+                    'dxDataGrid-pagerNextButtonText': 'التالي',
+                    'dxDataGrid-pagerPrevButtonText': 'السابق',
+                    'dxDataGrid-pagerFirstButtonText': 'الأول',
+                    'dxDataGrid-pagerLastButtonText': 'الأخير',
+
+                    // Editing
+                    'dxDataGrid-editingAddRow': 'إضافة صف',
+                    'dxDataGrid-editingDeleteRow': 'حذف',
+                    'dxDataGrid-editingSaveAllChanges': 'حفظ التغييرات',
+                    'dxDataGrid-editingCancelAllChanges': 'تجاهل التغييرات',
+                    'dxDataGrid-editingConfirmDeleteMessage': 'هل أنت متأكد أنك تريد حذف السجل؟',
+
+                    // Exporting
+                    'dxDataGrid-exportTo': 'تصدير',
+                    'dxDataGrid-exportToExcel': 'تصدير إلى Excel',
+                    'dxDataGrid-excelFormat': 'ملف Excel',
+                    'dxDataGrid-selectedRows': 'الصفوف المحددة',
+                    'dxDataGrid-exportAll': 'تصدير كل البيانات',
+                    'dxDataGrid-exportSelectedRows': 'تصدير الصفوف المحددة',
+
+                    // Filter Row
+                    'dxDataGrid-filterRowShowAllText': '(الكل)',
+                    'dxDataGrid-filterRowResetOperationText': 'إعادة التعيين',
+                    'dxDataGrid-filterRowOperationEquals': 'يساوي',
+                    'dxDataGrid-filterRowOperationNotEquals': 'لا يساوي',
+                    'dxDataGrid-filterRowOperationLess': 'أقل',
+                    'dxDataGrid-filterRowOperationLessOrEquals': 'أقل من أو يساوي',
+                    'dxDataGrid-filterRowOperationGreater': 'أكبر',
+                    'dxDataGrid-filterRowOperationGreaterOrEquals': 'أكبر من أو يساوي',
+                    'dxDataGrid-filterRowOperationStartsWith': 'يبدأ بـ',
+                    'dxDataGrid-filterRowOperationContains': 'يحتوي على',
+                    'dxDataGrid-filterRowOperationNotContains': 'لا يحتوي على',
+                    'dxDataGrid-filterRowOperationEndsWith': 'ينتهي بـ',
+                    'dxDataGrid-filterRowOperationBetween': 'بين',
+                    'dxDataGrid-filterRowOperationBetweenStartText': 'البداية',
+                    'dxDataGrid-filterRowOperationBetweenEndText': 'النهاية',
+
+                    // Header Filter
+                    'dxDataGrid-headerFilterEmptyValue': '(فارغة)',
+                    'dxDataGrid-headerFilterOK': 'موافق',
+                    'dxDataGrid-headerFilterCancel': 'عودة',
+
+                    // Filter Builder
+                    'dxDataGrid-filterBuilderGroupAnd': 'و',
+                    'dxDataGrid-filterBuilderGroupOr': 'أو',
+                    'dxDataGrid-filterBuilderOpEqual': 'يساوي',
+                    'dxDataGrid-filterBuilderOpNotEqual': 'لا يساوي',
+                    'dxDataGrid-filterBuilderOpLess': 'أقل',
+                    'dxDataGrid-filterBuilderOpLessOrEqual': 'أقل من أو يساوي',
+                    'dxDataGrid-filterBuilderOpGreater': 'أكبر',
+                    'dxDataGrid-filterBuilderOpGreaterOrEqual': 'أكبر من أو يساوي',
+                    'dxDataGrid-filterBuilderOpStartsWith': 'يبدأ بـ',
+                    'dxDataGrid-filterBuilderOpContains': 'يحتوي على',
+                    'dxDataGrid-filterBuilderOpNotContains': 'لا يحتوي على',
+                    'dxDataGrid-filterBuilderOpEndsWith': 'ينتهي بـ',
+                    'dxDataGrid-filterBuilderOpBetween': 'بين',
+                    'dxDataGrid-filterBuilderOpBetweenStartText': 'البداية',
+                    'dxDataGrid-filterBuilderOpBetweenEndText': 'النهاية',
+                    'dxDataGrid-filterBuilderOpIsBlank': 'فارغة',
+                    'dxDataGrid-filterBuilderOpIsNotBlank': 'ليست فارغة',
+                }
+            });
+        }
+        this.format = new FormatDate(this.env);
+        this.DeleteFile = this.DeleteFile.bind(this);
+        this.OpenPopupDelete = this.OpenPopupDelete.bind(this);
+        // this.getAllFiles = this.getAllFiles.bind(this);
+
     }
+
+
+    refresh() {
+        if (this.datagridAutresFichiers)
+            this.datagridAutresFichiers.instance.refresh();
+    }
+
+    colorState = new ColorState(this.env, this.http, this.tokenStorage)
+    public loadingVisible = false;
+    public editOnkeyPress = true;
+    public enterKeyAction = "moveFocus";
+    public enterKeyDirection = "column";
+    IDFile
+
+    RattarcherPJ(data) {
+        console.log("data===================>", data)
+        console.log("objectid", this.objectid)
+        this.IDFile = data.label
+        if (this.IDFile !== undefined) {
+            setTimeout(() => {
+                const element = document.getElementById("addfile" + this.IDFile);
+                if (element) {
+                    element.click();
+                }
+            }, 0);
+        }
+
+
+    }
+
+    onToolbarPreparing(e) {
+
+
+        e.toolbarOptions.items.unshift(
+            {
+                location: 'after',
+                widget: 'dxButton',
+                options: {
+                    hint: 'refresh',
+                    icon: 'refresh',
+                    onClick: this.refresh.bind(this),
+
+                }
+            });
+
+
+        // e.toolbarOptions.items.unshift(
+        //     {
+        //       location: 'after',
+        //       widget: 'dxButton',
+        //       options: {
+        //         hint: '+',
+        //         icon: '+',
+        //         onClick: this.Route.bind(window.open('Recalamtion/demandeAffaireConsultativesAnonyme', '_blank')),
+        //       }
+        //     });
+
+
+    }
+
+    onCellPrepared(e: any) {
+
+        if (e.rowType === 'data') {
+
+            if (e.column.dataField === 'activityName') {
+                this.colorState.states.forEach(element => {
+                        if (element['name'] === e.data.activityName)
+                            e.cellElement.style.backgroundColor = element['props']['color'];
+                        e.cellElement.style.color = 'white';
+
+                    }
+                )
+                //  e.cellElement.style.color = this.colorState.Color;
+
+
+            }
+
+        }
+    }
+
+    fileAccessToken = ""
 
     ngOnInit(): void {
-        // Load French translations
-        loadMessages(frMessages);
-        // Set locale to French
-        locale('fr');
-        this.fileservice.getFileItems(this.classid,this.objectid).subscribe(
-            (data) => {
-                this.fileItems = data;
-                this.objectFileProvider = new ObjectFileSystemProvider({
-                    data: this.fileItems,
-                    isDirectoryExpr: "isFolder",
-                    sizeExpr: "itemSize"
-                });
-                this.isLoading = true;
-            },
-            (error) => {
-                console.error('Failed to fetch file items:', error);
-                this.isLoading = false;
+        this.getAllFiles()
+    }
+
+    file: any
+    sizeInput: any
+    fileContent: any;
+    fileType: any;
+    blobContent: any;
+    base64: any;
+    customheight = '800px';
+    filename
+
+    fileChange(input) {
+        alert("innnn")
+        console.log("input", input)
+        this.loadingVisible = true;
+        this.fileContent = null;
+        this.fileContent = input.files[0];
+        this.filename = input.files[0].name;
+
+        console.log("fileContent==========>", this.fileContent)
+        this.fileType = this.fileContent.type;
+
+        this.fileContent.arrayBuffer().then(async (arrayBuffer) => {
+            this.blobContent = new Blob([new Uint8Array(arrayBuffer)], {type: this.fileType});
+            this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(arrayBuffer));
+
+        })
+        this.loadingVisible = false;
+
+    }
+
+    filedatasource: any;
+    conduction: boolean = false;
+    visible: any = false;
+    pdfSrcc: any;
+    visionneuse: any;
+    dataArray: any;
+
+    getAllFiles() {
+        let size = this.env.pageSize;
+
+        this.filedatasource = new CustomStore({
+
+                load: async function (loadOptions: any) {
+                    loadOptions.requireTotalCount = false
+                    var params = "";
+                    if (loadOptions.take == undefined) loadOptions.take = size;
+                    if (loadOptions.skip == undefined) loadOptions.skip = 0;
+
+                    //size
+                    params += 'size=' + loadOptions.take || size;
+                    params += '&page=' + loadOptions.skip / loadOptions.take || 0;
+                    //sort
+                    if (loadOptions.sort) {
+                        if (loadOptions.sort[0].desc)
+                            params += '&sort=' + loadOptions.sort[0].selector + ',desc';
+                        else
+                            params += '&sort=' + loadOptions.sort[0].selector + ',asc';
+                    }
+
+                    let tab: any[] = [];
+                    if (loadOptions.filter) {
+                        if (loadOptions.filter[1] == 'and') {
+                            for (var i = 0; i < loadOptions.filter.length; i++) {
+                                if (loadOptions.filter[i][1] == 'and') {
+                                    for (var j = 0; j < loadOptions.filter[i].length; j++) {
+                                        if (loadOptions.filter[i][j] != 'and') {
+                                            if (loadOptions.filter[i][j][1] == 'and') {
+                                                tab.push(loadOptions.filter[i][j][0]);
+                                                tab.push(loadOptions.filter[i][j][2]);
+                                            } else
+                                                tab.push(loadOptions.filter[i][j]);
+                                        }
+                                    }
+                                } else tab.push(loadOptions.filter[i]);
+                            }
+                        } else
+                            tab.push([loadOptions.filter[0], loadOptions.filter[1], loadOptions.filter[2]]);
+                    }
+
+                    let q: any[] = [];
+                    for (let i = 0; i < tab.length; i++) {
+                        if (tab[i][0] === "plandeClassement.adresse") tab[i][0] = "adresseConsv"
+                        switch (tab[i][1]) {
+                            case ('notcontains'): {
+                                q.push(tab[i][0] + ".doesNotContain=" + tab[i][2]);
+                                break;
+                            }
+                            case 'contains': {
+                                if (tab[i][0] == "adresseConsv")
+                                    q.push(tab[i][0] + ".contains=" + tab[i][2].adresse);
+                                else
+                                    q.push(tab[i][0] + ".contains=" + tab[i][2]);
+
+                                break;
+                            }
+                            case '<>' : {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + ".notEquals=" + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + ".notEquals=" + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case '=': {
+                                if (tab[i][0] == "adresseConsv")
+                                    q.push(tab[i][0] + ".contains=" + tab[i][2].adresse);
+                                else
+                                    q.push(tab[i][0] + ".contains=" + tab[i][2]);
+
+                                break;
+                            }
+                            case 'endswith': {
+// q.push("(" + tab[i][0] + ":*" + tab[i][2] + ")");
+                                break;
+                            }
+                            case 'startswith': {
+// q.push("(" + tab[i][0] + ":" + tab[i][2] + "*" + ")");
+                                break;
+                            }
+                            case '>=': {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + '.greaterThanOrEqual=' + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + '.greaterThanOrEqual=' + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case '>': {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + '.greaterThan=' + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + '.greaterThan=' + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case '<=': {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + '.lessThanOrEqual=' + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + '.lessThanOrEqual=' + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case '<': {
+                                if (tab[i][0] == "startDate" || tab[i][0] == "sysdateCreated" || tab[i][0] == "sysdateUpdated") {
+                                    let isoDate = new Date(tab[i][2]).toISOString();
+                                    q.push(tab[i][0] + '.lessThan=' + isoDate);
+                                    break;
+                                } else {
+                                    q.push(tab[i][0] + '.lessThan=' + tab[i][2]);
+                                    break;
+                                }
+                            }
+                            case "or" : {
+                                q.push(tab[i][0][0] + '.notEquals=' + tab[i][0][2])
+                                break;
+                            }
+                        }
+                    }
+
+                    let f: string = "";
+                    if (q.length != 0) f += q[0];
+                    for (let i = 1; i < q.length; i++) {
+                        f += "&" + q[i];
+                    }
+                    if (f.length != 0) params += "&" + f
+
+
+                    return this.http.get(this.env.apiUrlkernel + "AttachmentsByClassIdAndObjectId?classId=" + this.classid + "&objectId=" + this.objectid + "&fileAccessToken=" + this.fileAccessToken, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)})
+                        .toPromise()
+                        .then((data: any) => {
+
+                                this.dataArray = data.content
+
+                                return {'data': data};
+                            },
+                            error => {
+                                notify("\n" + error.message, "error", 3600);
+                                return {'data': [], 'totalCount': 0};
+                            });
+                }.bind(this),
+                insert: (values: any) => {
+
+                    console.log("this.base64=================", this.base64)
+                    if (this.base64 != undefined)
+                        values.file = this.base64
+
+                    this.CreateAttatchment(values)
+
+                    return values
+                },
+
             }
         );
-
     }
-    refresh() {
-        this.fileManager.instance.refresh();
 
-    }
-    // onFileUploaded(e) {
-    //     console.log("File upload event:", e);
-    //
-    //     // Extract file data from the event object
-    //     const uploadedFile = e.fileData;
-    //     const parentDirectoryName = e.parentDirectory ? e.parentDirectory.name : '';
-    //
-    //     console.log("Uploaded file:", uploadedFile);
-    //     console.log("Parent directory name:", parentDirectoryName);
-    //
-    //     if (parentDirectoryName === 'Images') {
-    //         console.log("File uploaded to 'Images' directory");
-    //         // Your file upload logic here...
-    //     } else {
-    //         console.log("File uploaded to a directory other than 'Images'");
-    //         // Your file upload logic here...
-    //     }
-    // }
-    downloadFile(file: any) {
-        const url = `http://localhost:8888/demo_war/api/downloadFile/${file.name}`;
-        this.http.get(url, { responseType: 'blob' }).subscribe(
-            (response: Blob) => {
-                const blob = new Blob([response], { type: response.type });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = file.name;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            },
-            (error) => {
-                console.error('Download failed:', error);
-                alert('Failed to download the file.');
+    test: boolean = false
+
+    rowclickViewFileOrDownload(evt: any) {
+
+        console.log("evt==============>", evt)
+        // const namefile = evt.row.data.fileName.split('.');
+        const fileType = evt.data.filesTypeDTO.type;
+        if (fileType === "application/json" || fileType === "text/plain" || fileType === "image/jpeg" ||
+            fileType === "image/png" || fileType === "image/gif" || fileType === "image/tiff" || fileType === "image/bmp" ||
+            fileType === "image/svg+xml" || fileType === "application/pdf" || fileType === "application/x-tika-ooxml" || fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || fileType === 'application/msword' || fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.template' || fileType === 'application/vnd.ms-word.template.macroEnabled.12') {
+            if (this.showSplliter == true) {
+
+                this.viewFile(evt, false);
+
+
+            } else {
+                this.viewFile(evt, true);
+
             }
-        );
-    }
-    onItemDownloading(e) {
-        console.log('Downloading item:', e.item);
-
-        // Example: Prevent download for specific file types
-        if (e.item.name.endsWith('.exe')) {
-            e.cancel = true;
-            alert('Downloading .exe files is not allowed.');
         } else {
-            // Implement your download logic here
-           // this.downloadFile(e.item.dataItem);
+            this.downloadFile(evt);
         }
-    }
-    onItemDownloading2(e) {
-        console.log("Download event:", e);
-
-        // Access the file name from the item
-        const fileName = e.item.name;
-
-        const downloadUrl = `http://localhost:8888/demo_war/api/downloadFile/${fileName}`;
-
-        // Fetch the file from the server
-        this.http.get(downloadUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
-            // Create a URL for the blob
-            const fileUrl = window.URL.createObjectURL(blob);
-
-            // Create an anchor element and set its href attribute to the file URL
-            const anchor = document.createElement('a');
-            anchor.href = fileUrl;
-
-            // Set the anchor's download attribute to the file name
-            anchor.download = fileName;
-
-            // Trigger a click on the anchor element to start the download
-            anchor.click();
-
-            // Clean up by revoking the object URL
-            window.URL.revokeObjectURL(fileUrl);
-        }, error => {
-            console.error('Error downloading file:', error);
-        });
-    }
-
-//     onItemDownloading(e) {
-//         console.log("File upload event:", e);
-//         const fileUrl = e.itemData.downloadUrl;
-// console.log("fileUrl",fileUrl)
-//         // Send a GET request to the file URL to download it
-//         this.http.get(fileUrl, {
-//             responseType: 'blob', // Set response type to Blob
-//             headers: new HttpHeaders().append('Content-Type', 'application/octet-stream') // Set content type to application/octet-stream
-//         }).subscribe((response: Blob) => {
-//             // Create a temporary URL for the Blob object
-//             const blobUrl = window.URL.createObjectURL(response);
-//
-//             // Create a temporary anchor element
-//             const anchor = document.createElement('a');
-//             anchor.href = blobUrl;
-//             anchor.download = e.itemData.name; // Set the download attribute to the file name
-//
-//             // Programmatically click the anchor element to initiate the download
-//             anchor.click();
-//
-//             // Cleanup: Revoke the Blob URL and remove the anchor element
-//             window.URL.revokeObjectURL(blobUrl);
-//             anchor.remove();
-//         }, error => {
-//             console.error('Error downloading file:', error);
-//         });
-//     }
-    onFileUploaded(e) {
-        console.log("test upload")
-        const uploadedFile = e.fileData;
-
-        console.log("Parent directory name:", uploadedFile);
-
-            console.log("test upload2")
-            const formData = new FormData();
-            formData.append('file', uploadedFile);
-
-           // const uploadUrl = 'http://localhost:8888/demo_war/api/addFile/27/407';
-        const uploadUrl = `${this.env.piOpp}addFile/${this.classid}/${this.objectid}`;
-            // Send file to backend
-            this.http.post(uploadUrl, formData).subscribe(
-
-                (response) => {
-                    // Handle successful upload
-                    this.toastr.success('<i class="fa fa-check"></i>');
-                    console.log('File uploaded successfully:', response);
-                }
-            );
 
     }
-    uploadFileChunk(fileData, uploadInfo, destinationDirectory, endpointUrl) {
-        console.log('fileData:', fileData);
-        let formData = new FormData();
-        formData.append('file', fileData);
 
-        return this.http.post(endpointUrl, formData).toPromise()
-            .then((response: any) => {
-                console.log("uploaded file", response);
-                return response;
-            })
-            .catch(error => {
-                // Handle error
-                console.error('Upload failed:', error);
-                throw error;
-            });
-    }
-    displayImagePopup(e: DxFileManagerTypes.SelectedFileOpenedEvent) {
+    fileName: any;/*FILE NAME TO DISPLAY*/
+    filebyId: any;
+    id;/*fileSelected id*/
+    pstkEnabledAndRunning = false;
+    idFileViewer: any;/*FILE ID*/
+    idcmis: any;/*FILE ID*/
+    ModuleScan = require('../ModulePSTK.json').Module_Scan
+    ModuleOffice = require('../ModulePSTK.json').Module_Office
+    ModuleSign = require('../ModulePSTK.json').Module_Sign
+    ModuleMisc = require('../ModulePSTK.json').Module_Misc;
+    permissionToTopViewer = true/*PERMISSION FOR Top Viewer */
+    permissionDenied/*PERMISSION FOR SCAN BEFORE/AFTER */
+    permissionDeniedSig = false/*PERMISSION FOR SIGNATURE */
+    jsondocviewer = {
+        pdfSrcc: "",
+        visionneuse: "url",
+        fileName: null,
+        docTitle: null,
+        fileType: null,
+        fileContent: null,
+        id: null,
+        fileAccessToken: null,
+        securityLevel: null,
+        objectData: null
+    };
+    pgNbr/*PGNBRE*/
+    visibleTrueModal = false/*POPUP FILE VIEWER VISIBLE */
 
-        this.imageItemToDisplay = e.file;
-        console.log("this.imageItemToDisplay",this.imageItemToDisplay.dataItem)
-        const filePath = 'assets/files/' + this.imageItemToDisplay.dataItem.name; // Adjust based on your actual path
-        this.fileItemToDisplay = this.sanitizer.bypassSecurityTrustUrl(filePath);
+    async viewFile(data, ShowPopupBoolean) {
+        this.loadingVisible = true;
 
-        if (this.isImageFile(filePath)) {
-            this.fileBool=false;
-            this.imageBool=true;
-            this.sanitizedImagePath = this.sanitizer.bypassSecurityTrustUrl(filePath);
-         this.sanitizedImagePath=this.sanitizedImagePath.changingThisBreaksApplicationSecurity;
-            console.log('Imageee=',this.sanitizedImagePath)
-            this.popupVisible = true;
-        } else if (this.isPdfFile(filePath)) {
-            this.imageBool=false;
-            this.fileBool=true;
-            this.sanitizedFilePath = this.sanitizer.bypassSecurityTrustResourceUrl(filePath);
-            this.popupVisible = true;
-            setTimeout(() => this.initializePdfViewer(), 0); // Ensure the PDF viewer initializes after the view has been updated
-        }
-    }
-    onItemDeleted(e) {
-        console.log("File upload event:", e);
-        const fileName= e.item.dataItem.id;
-       // const apiUrl = `http://localhost:8888/demo_war/api/deleteFile/${fileName}`;
-        const apiUrl = `${this.env.piOpp}deleteFileById/${fileName}`;
-        this.http.delete(apiUrl).subscribe(
-            (response) => {
-                console.log('File deleted successfully:', response);
-                // Handle success message or UI updates
-            },
-            (error) => {
-                console.error('Failed to delete file:', error);
-                // Handle error message or UI updates
+        this.fileName = data.data.fileName;
+        this.filebyId = data.data;
+        this.objectFile = data.data
+
+        this.id = data.data.id;
+
+
+        this.idFileViewer = data.data.id
+
+        this.idcmis = data.data.cmisId
+        this.fileType = data.data.fileType
+        if (this.idFileViewer != null) {
+
+            try {
+
+
+                this.fileservice.extractfileByUIID(data.data.uuid, this.fileAccessToken).subscribe(async (response: any) => {
+                    if (this.fileType) {
+
+
+                        if (this.fileType == 'application/pdf') {
+                            let blobFile = new Blob([new Uint8Array(response.body)], {type: this.fileType});
+                            var fileURL = URL.createObjectURL(blobFile);
+                            this.jsondocviewer.visionneuse = 'url';
+                            this.jsondocviewer.pdfSrcc = fileURL
+
+                            this.pdfSrcc=fileURL ;
+
+
+
+                        } else {
+                            this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response.body));
+                            this.jsondocviewer.fileContent = this.base64
+                        }
+
+                        this.jsondocviewer.fileType = this.fileType
+                        this.jsondocviewer.fileName = data.data.docTitle
+                        this.jsondocviewer.docTitle = data.data.fileName
+
+                        this.jsondocviewer.id = data.data.id
+                        this.jsondocviewer.securityLevel = data.data.securiteLevel
+                        this.jsondocviewer.fileAccessToken = this.fileAccessToken
+                        this.jsondocviewer.objectData = this.objectData
+                        if (!ShowPopupBoolean)
+                            this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
+                        else {
+                            this.fileExtractedContent = this.base64
+                            this.modalService.open(this.longContent, {
+                                scrollable: true,
+                                size: 'xl',
+                                backdrop: 'static'
+                            });
+
+                        }
+
+
+                    }
+                }, error => {
+                    this.Ref.value = data.fileName
+
+                    this.translateService.get("ATTACHEMENT.getbyid", this.Ref).subscribe((res) => {
+                        this.toastr.error(res, " ", {
+                            closeButton: true,
+                            positionClass: 'toast-top-right',
+                            extendedTimeOut: this.env.extendedTimeOutToastr,
+                            progressBar: true,
+                            disableTimeOut: false,
+                            timeOut: this.env.timeOutToastr
+                        })
+                    })
+                    this.loadingVisible = false
+                })
+            } catch (error) {
+                this.Ref.value = data.fileName
+
+                this.translateService.get("ATTACHEMENT.getbyid", this.Ref).subscribe((res) => {
+                    this.toastr.error(res, "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    })
+                })
+                this.loadingVisible = false
             }
-        );
-    }
-
-    // load data
-    loadingVisible = false;
-    onShown() {
-        setTimeout(() => {
-            this.loadingVisible = false;
-        }, 3000);
-    }
-
-    onHidden() {
-        //this.employeeInfo = this.employee;
-    }
-    ngAfterViewInit(): void {
-        if (this.fileItemToDisplay && this.isPdfFile(this.fileItemToDisplay.name)) {
-            this.initializePdfViewer();
         }
     }
 
 
+    downloadFile(dataa: any) {
+        console.log("downloaaaaaaaaaaaaaaaaad")
+        try {
 
-    ngOnDestroy(): void {
-        this.disposePdfViewer();
-    }
+            this.loadingVisible = true;
+            this.fileservice.extractfileByUIID(dataa.row.data.uuid, this.fileAccessToken).subscribe(async (data: any) => {
+                var fileName = await data.headers.get('filename')
+                const f1 = new Blob([(data.body)], {type: dataa.row.data.fileType});
+                // window.open(data)
+                FileSaver.saveAs(f1, fileName);
+                this.loadingVisible = false;
+                this.Ref.value = fileName
 
-    initializePdfViewer(): void {
-        if (this.pdfViewer) {
-            this.pdfViewer.dispose();
+                this.translateService.get("ATTACHEMENT.extractFileWithSuccess", this.Ref).subscribe((res) => {
+                    this.toastr.success(res, "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    })
+                }), err =>
+                    this.translateService.get("ATTACHEMENT.downloadFileErr", this.Ref).subscribe((res) => {
+                        this.toastr.error(res, "", {
+                            closeButton: true,
+                            positionClass: 'toast-top-right',
+                            extendedTimeOut: this.env.extendedTimeOutToastr,
+                            progressBar: true,
+                            disableTimeOut: false,
+                            timeOut: this.env.timeOutToastr
+                        })
+                        this.loadingVisible = false;
+                    })
+            }, err => {
+                this.translateService.get("ATTACHEMENT.downloadFileErr", this.Ref).subscribe((res) => {
+                    this.toastr.error(res, "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    })
+                })
+                this.loadingVisible = false
+            })
+        } catch (error) {
+            this.translateService.get("ATTACHEMENT.downloadFileErr", this.Ref).subscribe((res) => {
+                this.toastr.error('', res + " ", {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                    progressBar: true,
+                    disableTimeOut: false,
+                    timeOut: this.env.timeOutToastr
+                })
+            })
+            this.loadingVisible = false
         }
-
-        this.pdfViewer = new GcPdfViewer('#viewer', {
-            workerSrc: '//node_modules/@grapecity/gcpdfviewer/gcpdfviewer.worker.js',
-            restoreViewStateOnLoad: false,
-        });
-        this.pdfViewer.addDefaultPanels();
-        console.log("show path = ",this.sanitizedFilePath.changingThisBreaksApplicationSecurity)
-        this.pdfViewer.open(this.sanitizedFilePath.changingThisBreaksApplicationSecurity);
     }
 
-    disposePdfViewer(): void {
-        if (this.pdfViewer) {
-            this.pdfViewer.dispose();
-            this.pdfViewer = null;
+    CreateAttatchment(values) {
+        console.log("valueeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", values)
+
+        let Ref = values.requestFileDefinition.label.name
+        this.loadingVisible = true
+        if (!(this.fileContent == null && values.requestFileDefinition.label.fileRequired == true)) {
+            let obj = new FormData()
+            obj.append("docTitle", this.filename)
+            obj.append("objectData", JSON.stringify(this.objectData))
+            obj.append("objectDatasecuriteLevel", "0")
+            obj.append("reqFileDefName", Ref)
+            obj.append("classId", this.classid)
+            obj.append("objectId", this.objectid)
+            obj.append("locked", "false")
+            obj.append("Public", "false")
+            if (this.fileContent != null)
+                obj.append("multipartFiles", this.fileContent)
+            else if (this.fileContent === null || this.fileContent === undefined) {
+                this.translateService.get("ATTACHEMENT.fileEmpty", Ref).subscribe((res) => {
+                    this.toastr.warning(res, "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    })
+                })
+            }
+
+            if ((this.objectData) != undefined && (this.objectData).securiteLevel != null && (this.objectData).securiteLevel != undefined)
+                obj.append("objectDatasecuriteLevel", (this.objectData).securiteLevel);
+
+
+            let paramsHttp = new HttpParamMethodPost(this.env.apiUrlkernel + 'createAttachement' + "?fileAccessToken=" + this.fileAccessToken, obj)
+            this.httpServicesComponent.method(paramsHttp, Ref).then(data => {
+                this.refresh();
+                this.AppelWsGetById.emit(true)/*getbyid*/
+
+                this.loadingVisible = false
+
+            })
+        } else if ((this.fileContent == null || this.fileContent == undefined) && values.requestFileDefinition.label.fileRequired == true) {
+            console.log("this.fileContent", this.fileContent)
+
+            this.loadingVisible = false
+            // this.Ref.value = this.form.instance.option("formData").docTitle
+            this.translateService.get("ATTACHEMENT.fileRequired", Ref).subscribe((res) => {
+                this.toastr.error(res, "", {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                    progressBar: true,
+                    disableTimeOut: false,
+                    timeOut: this.env.timeOutToastr
+                })
+            })
         }
     }
 
+    // consulterPjs(data) {
+    //     console.log(data)
+    //     this.objectFile = data
+    //
+    //     // var fileURL = URL.createObjectURL(data.file);
+    //     this.visible = true
+    //
+    //     this.reloadViewer(data.data, data.docTitle)
+    // }
+    fileExtractedContent
 
-    isImageFile(fileName: string): boolean {
-        return /\.(jpg|jpeg|png|gif)$/i.test(fileName);
+    consulterPjs(data, longContent) {
+        this.objectFile = data
+
+        this.visible = true
+        let docTitle = data['docTitle'];
+
+
+        this.fileservice.extractfileByUIID(data.uuid, this.fileAccessToken).subscribe(async (file: any) => {
+
+            if (this.objectFile.fileType === 'application/pdf')
+                this.reloadViewer(file.body, docTitle)
+            else
+                this.fileExtractedContent = this.communService.arrayBufferToBase64(new Uint8Array(file.body));
+
+
+            this.modalService.open(longContent, {scrollable: true, size: 'xl', backdrop: 'static'});
+        })
+
+
     }
 
-    isPdfFile(fileName: string): boolean {
-        return /\.pdf$/i.test(fileName);
+    close() {
+        this.visible = false;
+
     }
-    closePopup(): void {
-        this.popupVisible = false;
-        if(    this.fileBool==true){
-            this.fileBool=false;
+
+    downloadtout() {
+        this.loadingVisible = true;
+        try {
+            let postattachmentDto = new FormData();
+            postattachmentDto.append("classId", this.classid);
+            postattachmentDto.append("objectId", this.objectid);
+            if (JSON.stringify(this.objectData) != undefined && JSON.stringify(this.objectData) != null)
+                postattachmentDto.append("objectData", JSON.stringify(this.objectData));
+            this.fileservice.downloadtous(postattachmentDto, this.fileAccessToken).subscribe((data: any) => {
+                    var fileName = data.headers.get('filename')
+                    var fileSigned = new File([(data.body)], fileName, {type: "application/octet-stream",});
+                    FileSaver.saveAs(fileSigned, fileName);
+                    this.loadingVisible = false;
+                }, () =>
+                    this.translateService.get("ATTACHEMENT.zipFile").subscribe((res) => {
+                        this.toastr.error(res, "", {
+                            closeButton: true,
+                            positionClass: 'toast-top-right',
+                            extendedTimeOut: this.env.extendedTimeOutToastr,
+                            progressBar: true,
+                            disableTimeOut: false,
+                            timeOut: this.env.timeOutToastr
+                        })
+                        this.loadingVisible = false;
+                    })
+            )
+        } catch (error) {
+            this.translateService.get("ATTACHEMENT.zipFile").subscribe((res) => {
+                this.toastr.error(res, " ", {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    extendedTimeOut: this.env.extendedTimeOutToastr,
+                    progressBar: true,
+                    disableTimeOut: false,
+                    timeOut: this.env.timeOutToastr
+                })
+            })
+            this.loadingVisible = false
         }
-        if(    this.imageBool==true){
-            this.imageBool=false;
-        }
-        // Clean up any related state if necessary
-        this.disposePdfViewer(); // Dispose the PDF viewer when closing the popup
     }
 
+    objectFile: any
+
+    reloadViewer(arraybuffer, filename) {
+        console.log("filename ::> ", filename)
+        console.log("arraybuffer ::> ", arraybuffer)
+        this.fileContent = new File([arraybuffer], filename, {type: 'application/pdf'});
+        console.log(URL.createObjectURL(this.fileContent));
+        this.pdfSrcc = URL.createObjectURL(this.fileContent);
+        this.visionneuse = 'url';
+    }
+
+    public div2: any;
+    public div1: any;
+
+    getheigth() {
+        if (document.getElementById('div2') != null && document.getElementById('div2') != undefined)
+            this.div2 = document.getElementById('div2').getClientRects();
+        if (document.getElementById('div1') != null && document.getElementById('div1') != undefined)
+            this.div1 = document.getElementById('div1').getClientRects();
+        if (this.div2.length != 0)
+            return this.div2[0].y - this.div1[0].y + "px";
+    }
+
+    // logEvent1(initNewRow: string, $event: any) {
+    //     this.test=false
+    // }
+
+    popupDeleteFileVisible: boolean = false
+    Ref = {value: ''};
+    FileToDelete: any
+
+    OpenPopupDelete(e) {
+        this.FileToDelete = e
+        this.popupDeleteFileVisible = true
+    }
+
+    DeleteFile() {
+        console.log("eeeeeeeeeeee=>", this.FileToDelete)
+        this.popupDeleteFileVisible = false;
+        console.log("this.popupDeleteFileVisible", this.popupDeleteFileVisible)
+        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?uuid=" + this.FileToDelete.row.data.uuid + "&fileAccessToken=" + this.fileAccessToken, '')
+        this.Ref.value = this.FileToDelete.row.data.docTitle
+
+        this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.deleted", "ATTACHEMENT.deleteError").then(data => {
+            this.refresh()
+            this.AppelWsGetById.emit(true)/*getbyid*/
+
+        })
+    }
+
+    checkValue(data) {
+        console.log("daataa============>", data)
+        console.log("fileContent============>", this.fileContent)
+    }
+
+    logEvent1(initNewRow: string, $event: any) {
+        console.log("INNNNNNNNNNNNNNNN")
+        this.fileContent = null
+    }
+
+    ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+        console.log("changes['objectid']", changes['objectid']);
+        if (changes['objectid'] === undefined) {
+            this.refresh();
+        }
+        // if (changes['objectId'] && changes['objectId'].previousValue != changes['objectId'].currentValue) {
+        //     this.IDFile = this.objectid
+        // }
+        //
+    }
+
+    DetectChange(e) {
+        console.log("e====================>", e)
+    }
+
+    onEditorPreparing(e) {
+        console.log("e====================>", e)
+
+    }
 }

@@ -10,6 +10,13 @@ import {CookieService} from 'ngx-cookie-service';
     providedIn: 'root'
 })
 export class AttachementModuleService {
+    public classid: any;
+    public objectid: any;
+
+
+
+
+
     private headers: HttpHeaders;
 
     constructor(private env: EnvService, private httpClient: HttpClient, private tokenStorage: TokenStorageService, private cookieService: CookieService) {
@@ -18,12 +25,9 @@ export class AttachementModuleService {
     }
 
 
-    extractfileByUIID(uuid, fileAccessToken): Observable<any> {
-        return this.httpClient.get(`${this.env.apiUrlkernel}` + "extractAttachment/" +  "?uuid="+ uuid + "&fileAccessToken=" + fileAccessToken, {
-            headers: this.headers,
-            responseType: 'arraybuffer' as 'json',
-            observe: 'response', // simply add this option
-        });
+    getRequestFileDefinitions(className) {
+        let params =new HttpParams().set('className',className).set('objectId',1)
+        return this.httpClient.get(this.env.apiUrlkernel + "acl-class-fileDefinition", {params , headers: new HttpHeaders().append("Authorization", this.cookieService.get("token")).append("application", require('package.json').name)});
     }
 
     /*-------------------------------------------------------------------------- KERNEL ------------------------------------------------------------------*/
@@ -65,7 +69,7 @@ export class AttachementModuleService {
 
     /********************** createAttachement   **************************/
     createAttachement(obj, fileAccessToken) {
-        return this.httpClient.post(`${this.env.apiUrlkernel}` + 'createAttachement' + "&fileAccessToken=" + fileAccessToken, obj, {
+        return this.httpClient.post(`${this.env.apiUrlkernel}` + 'createAttachement' + "?fileAccessToken=" + fileAccessToken, obj, {
                 headers: this.headers,
             }
         )
@@ -81,6 +85,15 @@ export class AttachementModuleService {
     /********************* Extract ***************************/
 
     /*OutPut blob*/
+
+    extractfileByUIID(uuid, fileAccessToken): Observable<any> {
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "extractAttachment/" +  "?uuid="+ uuid + "&fileAccessToken=" + fileAccessToken, {
+            headers: this.headers,
+            responseType: 'arraybuffer' as 'json',
+            observe: 'response', // simply add this option
+        });
+    }
+
 
     extractfileById(id, fileAccessToken): Observable<any> {
         return this.httpClient.get(`${this.env.apiUrlkernel}` + "extractAttachment/" + id + "?fileAccessToken=" + fileAccessToken, {
@@ -143,6 +156,17 @@ export class AttachementModuleService {
         });
     }
 
+    findAllfilesByClassIdAndObjectId(classid, objectid, fileAccessToken): Observable<any> {
+        let param = new HttpParams();
+        param.append("classId", classid);
+        param.append("objectId", objectid);
+        param.append("fileAccessToken", fileAccessToken);
+
+        return this.httpClient.get(`${this.env.apiUrlkernel}` + "findAllAttachements?classId.equals=" + classid + "&objectId.equals=" + objectid + "&fileAccessToken=" + fileAccessToken, {
+            headers: this.headers
+        });
+    }
+
 
     editfile(filedto): Observable<any> {
         return this.httpClient.patch(`${this.env.apiUrlkernel}` + "attachements/" + filedto.id, filedto, {
@@ -190,6 +214,30 @@ export class AttachementModuleService {
             }
         )
     }
+  officeTemplateAttachfromDocGenerator(formData) {
+        return this.httpClient.post(this.env.apiUrlDocGenerateur + 'docGenerator', formData,
+            {
+                responseType: 'blob',
+                observe: 'response',
+                headers: this.headers
+            }
+        )
+    }
+
+    downloadofficetemplateOutput(id) : Observable<any> {
+        return this.httpClient.get(this.env.apiUrlkernel + 'download-office-templates/'+id, {
+
+            responseType: 'blob' as 'json',
+            headers: this.headers
+        });
+    }
+    officeTemplates(alias) : Observable<any> {
+        return this.httpClient.get(this.env.apiUrlkernel + 'office-templates?alias.equals='+alias, {
+
+            headers: this.headers
+        });
+    }
+
 
     /*-------------------------------------------------------------------------- KERNEL ------------------------------------------------------------------*/
 
@@ -692,7 +740,6 @@ export class AttachementModuleService {
         let ws = "viewerURL"
         // let ws = "viewerURLwithoutrendition"
 
-        console.log("in ws :::>", FileName)
 
 
         return this.httpClient.get(`${this.env.apiUrlMetiers}` + ws + '?nodeRefFile=' + nodeId + '&FileName=' + FileName + '&versionfile=' + versionfile,
@@ -702,11 +749,6 @@ export class AttachementModuleService {
         );
 
 
-    }
-
-    getRequestFileDefinitions(className) {
-        let params =new HttpParams().set('className',className).set('objectId',1)
-        return this.httpClient.get(this.env.apiUrlkernel + "acl-class-fileDefinition", {params , headers: new HttpHeaders().append("Authorization", this.cookieService.get("token")).append("application", require('package.json').name)});
     }
     VerifPcTk(authorizationToken): Observable<any> {
         let headers = new HttpHeaders();

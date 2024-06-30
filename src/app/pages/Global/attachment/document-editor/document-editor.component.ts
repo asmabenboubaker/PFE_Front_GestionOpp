@@ -4,7 +4,7 @@ import {
   OnChanges,
   OnInit,
   ViewChild,
-  DoCheck
+  DoCheck, Output, EventEmitter
 } from '@angular/core';
 
 import {
@@ -19,6 +19,7 @@ import {TitleBar} from "./title-bar";
 import {TokenStorageService} from "../../shared-service/token-storage.service";
 import {ClickEventArgs, MenuItemModel} from "@syncfusion/ej2-angular-navigations";
 import { showSpinner ,hideSpinner,createSpinner} from '@syncfusion/ej2-popups';
+import * as FileSaver from 'file-saver';
 
 /**
  * Document Editor Component
@@ -36,6 +37,8 @@ export class DocumentEditorComponent implements OnInit, OnChanges, DoCheck {
   @ViewChild('documenteditor_default')
   public container: DocumentEditorContainerComponent;
   showTextBlock = false;
+
+  @Output() supported = new EventEmitter<any>();
   public toolItem: CustomToolbarItemModel = {
     prefixIcon: "e-icons e-copy",
     tooltipText: "Insert a Text Model",
@@ -2137,34 +2140,64 @@ export class DocumentEditorComponent implements OnInit, OnChanges, DoCheck {
     let formData: FormData = new FormData();
     formData.append('base64', this.fileContent);
     this.http.post(this.hostUrl + 'ImportContent', formData ).subscribe((data:any)=>{
-      let titleBarElement: HTMLElement =
-          document.getElementById('default_title_bar');
-      this.titleBar = new TitleBar(
-          titleBarElement,
-          this.container.documentEditor,
-          this.http,
-          this.env,
-          this.idAttachement,
-          this.fileAccessToken,
-          this.securityLevel,
-          this.fileName,
-          this.docTitle,
-          this.fileType,
-          this.fileContent,
-          this.hostUrl,
-          this.objectData,
-          this.tokenStorage,
-          this,
-          true
-      );
-      this.titleBar.idAttachement = this.idAttachement
-      this.container.serviceUrl = this.hostUrl;
-      this.container.documentEditor.open(data)
-      this.container.documentEditor.defaultLocale= 'fr';
-      this.container.documentEditor.documentName = this.fileName;
-      this.titleBar.updateDocumentTitle();
-      this.onDocumentChange()
-      hideSpinner((document.getElementById('container') as HTMLElement));
+      if(data['protectionType']){
+
+          let titleBarElement: HTMLElement =
+              document.getElementById('default_title_bar');
+          this.titleBar = new TitleBar(
+              titleBarElement,
+              this.container.documentEditor,
+              this.http,
+              this.env,
+              this.idAttachement,
+              this.fileAccessToken,
+              this.securityLevel,
+              this.fileName,
+              this.docTitle,
+              this.fileType,
+              this.fileContent,
+              this.hostUrl,
+              this.objectData,
+              this.tokenStorage,
+              this,
+              true
+          );
+          this.titleBar.idAttachement = this.idAttachement
+          this.container.serviceUrl = this.hostUrl;
+          this.container.documentEditor.open(data)
+          this.container.documentEditor.defaultLocale= 'fr';
+          this.container.documentEditor.documentName = this.fileName;
+          this.titleBar.updateDocumentTitle();
+          this.onDocumentChange()
+          hideSpinner((document.getElementById('container') as HTMLElement));
+      }else{
+        const byteCharacters = atob(this.fileContent);
+
+        // Convert the binary string to an ArrayBuffer
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: this.fileType });
+        FileSaver.saveAs(blob, this.fileName);
+
+        this.supported.emit(false);
+
+      }
+    },error => {
+      const byteCharacters = atob(this.fileContent);
+
+      // Convert the binary string to an ArrayBuffer
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: this.fileType });
+      FileSaver.saveAs(blob, this.fileName);
+      this.supported.emit(false);
+
     });
     // this.container.documentEditor.open(JSON.stringify(null));
   }
@@ -2174,7 +2207,9 @@ export class DocumentEditorComponent implements OnInit, OnChanges, DoCheck {
     let formData: FormData = new FormData();
     formData.append('base64', this.fileContent);
     this.http.post(this.hostUrl + 'ImportContent', formData ).subscribe((data:any)=>{
-      this.container.serviceUrl = this.hostUrl;
+      if(data['protectionType']){
+
+        this.container.serviceUrl = this.hostUrl;
       this.container.documentEditor.open(data);
       this.container.documentEditor.documentName = this.fileName;
       this.titleBar.updateDocumentTitle();
@@ -2210,6 +2245,34 @@ export class DocumentEditorComponent implements OnInit, OnChanges, DoCheck {
       this.onDocumentChange()
 
       hideSpinner((document.getElementById('container') as HTMLElement));
+    }else{
+      const byteCharacters = atob(this.fileContent);
+
+      // Convert the binary string to an ArrayBuffer
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: this.fileType });
+      FileSaver.saveAs(blob, this.fileName);
+
+      this.supported.emit(false);
+
+    }
+    },error => {
+      const byteCharacters = atob(this.fileContent);
+
+      // Convert the binary string to an ArrayBuffer
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: this.fileType });
+      FileSaver.saveAs(blob, this.fileName);
+
+      this.supported.emit(false);
     });
     // this.container.documentEditor.open(JSON.stringify(null));
   }

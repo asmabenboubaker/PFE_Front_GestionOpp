@@ -1,0 +1,301 @@
+<div class="row divHeaderGeneralCA">
+    <div  class="divGeneralCA">
+        <div  class="collapse show" aria-labelledby="headingOne" data-parent="#generalCA"
+        >
+            <form class="md-form md-outline g-2 needs-validation" novalidate>
+                <div class="row paddingRight0">
+                    <div class="col-md-12 mt-3"  [lang]="currentLanguage" >
+
+                        <dx-data-grid
+                                id="gridOtherPj"
+                                [dataSource]="otherDocuments"
+                                [allowColumnReordering]="true"
+                                [allowColumnResizing]="true"
+                                [showBorders]="true"
+                                [height]="'auto'"
+                                [columnAutoWidth]="false"
+                                [rowAlternationEnabled]="true"
+                                [rtlEnabled]="currentLanguage === 'ar'"
+                                [remoteOperations]="false"
+                                [hoverStateEnabled]="true"
+                                (onToolbarPreparing)="onToolbarPreparing($event)"
+                                [wordWrapEnabled]="true"
+                                keyExpr="id"
+                                (onRowInserted)="updateFile($event)"
+                                (onRowUpdating)="updateFileChange($event)"
+                        >
+                            <dxo-editing
+                                    mode="row"
+                                    [allowAdding]="false"
+                                    [allowUpdating]="false"
+                                    [useIcons]="true"
+                            ></dxo-editing>
+                            <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+                            <dxo-load-panel [enabled]="true"></dxo-load-panel>
+
+
+                            <dxo-export [enabled]="false" [allowExportSelectedData]="true"></dxo-export>
+                            <dxi-column dataField="id" alignment="right" [visible]="false" [allowHeaderFiltering]="false" sortOrder="desc"
+                                        caption="{{ 'id' | translate }}">
+
+                            </dxi-column>
+
+                            <dxi-column dataField="docTitle"  alignment="right" [allowHeaderFiltering]="false" [visible]="true"
+                                        caption="{{ 'AutreFichiers.typeFichier' | translate }}">
+                                <dxi-validation-rule type="required" ></dxi-validation-rule>
+
+                            </dxi-column>
+
+                            <dxi-column dataField="fileName" alignment="right" [allowHeaderFiltering]="false"
+                                        [visible]="true"
+                                        caption="{{ 'AutreFichiers.fileName' | translate }}">
+
+                            </dxi-column>
+
+                            <dxi-column [visible]="true" cssClass="pointer-column"
+                                        cellTemplate="cellTemplatePJconsult" width="100"></dxi-column>
+
+                            <dxi-column dataField="Actions" caption=""
+                                        fixedPosition="left" style="text-align: center"
+                                        type="buttons">
+                                <dxi-button name="edit"></dxi-button>
+                                <dxi-button  name="delete" ></dxi-button>
+
+
+                            </dxi-column>
+
+                            <div *dxTemplate="let data of 'cellTemplatePJconsult'" >
+                                    <span *ngIf="data.data.docTitle !=null && document.userPermission === 'WRITE'"  class="fa fa-trash fa-1xs trailing d-flex justify-content-end col-md-2" (click)="OpenPopupDelete(data.data)"
+                                          style="color:black; font-size: large;vertical-align: -webkit-baseline-middle;align-self: center;float: left;cursor: pointer;"
+                                          title="{{ 'lawsuitRequest.deleteAttachement' | translate }}"></span>
+                                <span *ngIf="data.data.docTitle !=null" class="fa fa-eye fa-1xs trailing d-flex justify-content-end col-md-2"  (click)="consulterPjs(data.data, longContent)"
+                                      style="color:black; font-size: large;vertical-align: -webkit-baseline-middle;align-self: center;float:left;cursor: pointer;"
+                                      title="{{ 'lawsuitRequest.showAttachement' | translate }}"></span>
+                            </div>
+                            <div *dxTemplate="let data of 'cellTemplateDocTitle'" dir="rtl" lang="{{currentLanguage}}">
+                                <label style="display: flex; align-items: baseline;width: 60% !important;align-self: center;"   >{{data.data.docTitle}}
+                                </label>
+                            </div>
+
+                            <div *dxTemplate="let data of 'cellTemplateIndex'; ">
+                                {{data.rowIndex + 1}}
+                            </div>
+
+                            <div *dxTemplate="let data of 'customtoolbar'">
+                                <dx-drop-down-button
+                                        hint="{{ 'lawsuitRequest.addAttachement' | translate}}"
+                                        text="{{ 'lawsuitRequest.addAttachement' | translate}}"
+                                        [splitButton]="false"
+                                        class="custom-dropdown pl-1"
+                                        style="background-color: #242f50;height: 33px;width: 100% !important"
+                                        (onButtonClick)="addFileOptional($event)"
+                                        displayExpr="label"
+                                        [items]="optionalFileDefinitions"
+                                        [stylingMode]="'outlined'"
+                                        [useSelectMode]="false"
+                                        [useItemTextAsTitle]="false"
+                                        [showArrowIcon]="false"
+                                        itemTemplate="itemTemplate"
+                                        [dropDownOptions]="ddbOptions"
+                                >
+                                    <div *dxTemplate="let data of 'itemTemplate'; " >
+                                        <div  dir="rtl" class="custom-dropdown-item d-flex justify-content-between">
+                                            <div style="display: flex; align-items: baseline;width: auto;align-self: center; padding-left: 1rem"
+                                                 dir="rtl"
+
+                                                 lang="{{currentLanguage}}">
+
+                                                <label [lang]="currentLanguage"
+                                                       style="margin-left:1rem ;">
+                                                    <b *ngIf="data.fileRequired" style="color: red;
+    font-weight: 700;
+    font-size: x-large;
+    float: right;
+    padding-left: 0.2rem;">*</b>{{ data.label | translate }}<i class="fa fa-info-circle mr-3"
+                                                               style="z-index: 10000000;position: relative;"
+                                                               title="{{data.description}}"
+                                                               (mouseenter)="showInfo(data.id)"
+                                                               (mouseleave)="hideInfo(data.id)"></i></label>
+
+
+                                            </div>
+                                            <input hidden type="file" class="custom-file-input"
+                                                   style="cursor: pointer  !important;" id="fileOptionnelInput{{data.id}}"
+                                                   (change)="onFileChangeOptional($event, data)">
+
+
+                                            <div dir="rtl" class="action-icons">
+                                            <span class="action-icons"><i class="fa fa-paperclip"
+                                                                          (click)="triggerFilechange('fileOptionnelInput'+data.id, data.labelEditable)"
+                                                                          style="color:black;cursor: pointer !important;"></i></span>
+
+
+                                                <span class="action-icons material-icons icon-size-mater" *ngIf="pstkEnabledAndRunning && PstkEnabled"
+                                                      title="{{ 'pstolkit.Scanner' | translate }}"
+                                                      style="color:black;align-self: center;float:left;cursor: pointer; font-size: x-large;"
+                                                      (click)="triggerscanner(data)"
+                                                >scanner</span>
+                                            </div>
+
+
+                                        </div>
+
+                                        <!--                                        <div class="custom-dropdown-item">-->
+<!--                                            <div style="display: flex; align-items: baseline;width: auto;align-self: center;" dir="rtl" lang="{{currentLanguage}}">-->
+
+<!--                                                <label  [lang]="currentLanguage"  style="display: flex; align-items: baseline;width: 60% !important;align-self: center;">{{ data.label | translate }} <b *ngIf="data.fileRequired" style="color: red;">*</b><i class="fa fa-info-circle mr-3" style="z-index: 10000000;position: relative;" title="{{data.description}}" (mouseenter)="showInfo(data.id)" (mouseleave)="hideInfo(data.id)"></i></label>-->
+
+
+<!--                                            </div>-->
+<!--                                            <input  type="file" class="custom-file-input" style="cursor: pointer  !important;" id="fileInput{{data.id}}" (change)="onFileChangeOptional($event, data.id, data.name, data.label, data.labelEditable)">-->
+
+<!--                                        </div>-->
+                                    </div>
+                                </dx-drop-down-button>
+                            </div>
+                        </dx-data-grid>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<dx-popup
+        [showCloseButton]="true"
+        (closeOnOutsideClickChange)="true"
+        [rtlEnabled]="true"
+        width="50%"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="{{ 'otherDocuments.filedetails' | translate }}"
+        [dragEnabled]="true"
+        [(visible)]="showpopupName"
+        style="background-color: #fdfdfe !important;">
+    <form
+            style="background-color: #fdfdfe !important;">
+        <!-- creation-reunion.component.html -->
+
+        <div class="dx-field ml-3">
+            <div class="dx-field-label">
+                {{'License' | translate }} :
+            </div>
+            <div class="dx-field-value">
+                <dx-radio-group
+                        [items]="optionalFileDefinitions"
+                        [value]="selectedFileDefinition"
+                        (onValueChanged)="onValueChanged($event)"
+                        displayExpr="label"
+                        layout="horizontal"
+                >
+                </dx-radio-group>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-2" style="    text-align: center">
+                <label [lang]="currentLanguage"
+                       class=" col-form-label col-form-label-sm">
+                    <span class="spanRequired">*</span>
+                    <strong> {{ 'otherDocuments.fileName' | translate }}</strong>
+                </label>
+            </div>
+            <!--عدد الحكم المطعون فيه في الأصل input -->
+            <div class="col-md-4 ">
+                <input
+                        class="form-control"
+                        name="filename"
+                        type="text"
+                        [(ngModel)]="filename"
+                        [lang]="currentLanguage"
+                        style="text-align: right;width: 100%;"
+                        [required]="true"
+                />
+                <!--                    <div *ngIf="!filename?.invalid ">-->
+                <!--                        <div class="error-class">{{ 'ErrorValidator'|translate }}{{ 'otherDocuments.fileName' | translate }}</div>-->
+                <!--                    </div>-->
+            </div>
+
+
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+                <button
+                        type="button"
+                        class="btn btn-success custom-button me-md-2" [disabled]="!filename"
+                        style="float: left; color: black; background-color:#025a95; color: white; width: 6em; border-color: #025a95;border-radius: 5rem;"
+                        (click)="confirmPopupName()"
+                >
+                    {{ 'confirmDecision' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+</dx-popup>
+<ng-template #longContent let-modal   let-c="close" let-d="dismiss">
+    <div class="modal-header" dir="ltr" style="background: #37474f !important; color: white !important;">
+        <button type="button" dir="ltr" style="float: left;color: white !important;" class="btn-close float-left" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body" >
+        <Doc_viewer *ngIf="objectFile && pdfSrcc!='' && objectFile.fileType === 'application/pdf'" id="doc1"
+                    [pdfSrcc]=pdfSrcc
+                    [visionneuse]="'pdf'"
+                    style="width:100%;">
+        </Doc_viewer>
+        <app-document-editor
+                *ngIf="objectFile && objectFile.fileType !== null && objectFile.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || objectFile.fileType === 'application/msword' || objectFile.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.template' ||  objectFile.fileType === 'application/x-tika-ooxml' || objectFile.fileType === 'application/vnd.ms-word.template.macroEnabled.12'"
+                [fileType]="objectFile.fileType"
+                [fileName]="objectFile.fileName"
+                [docTitle]="objectFile.docTitle"
+                [fileContent]="fileExtractedContent"
+                [idAttachement]="objectFile.defId"
+                [fileAccessToken]="''"
+                [modeWrite]="false"
+        ></app-document-editor>
+    </div>
+</ng-template>
+
+
+
+<dx-popup
+        [(visible)]="popupDeleteFileVisible"
+        [showTitle]="true"
+        [closeOnOutsideClick]="true"
+        [showCloseButton]="true"
+        [maxWidth]="'100%'"
+        [width]="'20%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="popupDeleteFileVisible=false"
+        (closeOnOutsideClickChange)="popupDeleteFileVisible=false"
+        title="{{'ATTACHEMENT.deletePopupStyle' | translate}}" style="text-align: right"
+>
+    <div>
+        <p>{{'ATTACHEMENT.messageConfirmationDelete' | translate}} </p>
+    </div>
+    <div class="d-flex justify-content-between">
+
+        <div>
+            <button (click)="DeleteFile()" class="btn btn-success"
+                    type="submit">{{'Accepter' | translate}}
+            </button>
+        </div>
+        <div>
+            <button (click)="popupDeleteFileVisible=false" class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">{{'Fermer' | translate}}
+            </button>
+        </div>
+    </div>
+</dx-popup>
+
+<app-http-services></app-http-services>

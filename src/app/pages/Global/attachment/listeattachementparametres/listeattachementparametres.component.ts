@@ -1,15 +1,13 @@
 import {Component, EventEmitter, inject, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpServicesComponent} from "../../ps-tools/http-services/http-services.component";
-import {HttpParamMethodDelete, HttpParamMethodPost} from "../../ps-tools/class";
+import {HttpParamMethodDelete, HttpParamMethodGet, HttpParamMethodPost} from "../../ps-tools/class";
 import {ToastrService} from "ngx-toastr";
 import {EnvService} from "../../../../../env.service";
 import {AttachementModuleService} from "../attachement.module.service";
 import {CommunFuncService} from "../Commun/commun-func.service";
 import {CookieService} from "ngx-cookie-service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-// import {CaseRequestService} from "../../../PI/case-requests/caseRequest.service";
-
 @Component({
     selector: 'app-listeattachementparametres',
     templateUrl: './listeattachementparametres.component.html',
@@ -31,11 +29,10 @@ export class ListeattachementparametresComponent implements OnInit {
     @Output() AppelWsGetById: EventEmitter<any> = new EventEmitter<any>();
     @Output() jsondocviewerEventFromGrid = new EventEmitter<any>();
     @Output() datsourcesFilesEVENT = new EventEmitter<any>();
+
     private modalService = inject(NgbModal);
 
-    constructor(
-        // private caseRequestService: CaseRequestService,
-                private cookie: CookieService, public communService: CommunFuncService, private fileservice: AttachementModuleService, public env: EnvService, private translateService: TranslateService, private toastr: ToastrService) {
+    constructor(private cookie: CookieService, public communService: CommunFuncService, private fileservice: AttachementModuleService, public env: EnvService, private translateService: TranslateService, private toastr: ToastrService) {
 
         this.languageAcual = this.translateService.currentLang
     }
@@ -43,6 +40,7 @@ export class ListeattachementparametresComponent implements OnInit {
     datsourcesFiles: any = []
 
     ngOnInit(): void {
+        console.log("attachedLabels",this.attachedLabels)
         this.attachedLabels.forEach((item: any) => {
             let reQFiles = new ReQFiles(
                 item.faIcon,
@@ -72,62 +70,50 @@ export class ListeattachementparametresComponent implements OnInit {
             this.datsourcesFiles.push(reQFiles);
         });
 
+        console.log("datasource files ",this.datsourcesFiles)
 
-        this.getRequestFileDefinitions()
+        // this.getRequestFileDefinitions()
         this.getdatasource()
     }
 
 
-    // getRequestFileDefinitions() {
-    //     let object =  this.Req_Data;
-    //     object["className"] = 'RequestCase';
-    //     this.caseRequestService.findRequestFileDefinitions('RequestCase', JSON.stringify(object)).subscribe((data: any) => {
-    //
-    //
-    //         this.attachedLabels = data.requestFileDefinition
-    //     })
-    // }
+
 
     getRequestFileDefinitions() {
         const parts = this.className.split('.');
         const className = parts[parts.length - 1];
-        let json = {
-            "className": className,
-            "caseType": this.objectData["caseType"]
-        }
-        // this.objectData["className"] = className
         this.datsourcesFiles = []
-        // this.caseRequestService.findRequestFileDefinitions(className, JSON.stringify(json)).subscribe((data: any) => {
-        //
-        //     data.requestFileDefinition.forEach((item: any) => {
-        //         let reQFiles = new ReQFiles(
-        //             item.faIcon,
-        //             item.defaultFile,
-        //             item.description,
-        //             item.fileRequired,
-        //             item.hasAddButton,
-        //             item.hasExpirationDate,
-        //             item.hasIdRegex,
-        //             item.hasIssueAdress,
-        //             item.hasIssueDate,
-        //             item.hasLockButton,
-        //             item.hasModelOfficeButton,
-        //             item.hasRattachButton,
-        //             item.hasScanButton,
-        //             item.id,
-        //             item.idRegex,
-        //             item.idRegexIsRequired,
-        //             item.issueAdressIsRequired,
-        //             item.label,
-        //             item.labelEditable,
-        //             item.maxCopies,
-        //             item.minCopies,
-        //             item.name,
-        //             item.attachement
-        //         );
-        //         this.datsourcesFiles.push(reQFiles);
-        //     });
-        // })
+        this.fileservice.getRequestFileDefinitions(className).subscribe((data: any) => {
+
+            data.requestFileDefinition.forEach((item: any) => {
+                let reQFiles = new ReQFiles(
+                    item.faIcon,
+                    item.defaultFile,
+                    item.description,
+                    item.fileRequired,
+                    item.hasAddButton,
+                    item.hasExpirationDate,
+                    item.hasIdRegex,
+                    item.hasIssueAdress,
+                    item.hasIssueDate,
+                    item.hasLockButton,
+                    item.hasModelOfficeButton,
+                    item.hasRattachButton,
+                    item.hasScanButton,
+                    item.id,
+                    item.idRegex,
+                    item.idRegexIsRequired,
+                    item.issueAdressIsRequired,
+                    item.label,
+                    item.labelEditable,
+                    item.maxCopies,
+                    item.minCopies,
+                    item.name,
+                    item.attachement
+                );
+                this.datsourcesFiles.push(reQFiles);
+            });
+        })
 
 
     }
@@ -142,6 +128,7 @@ export class ListeattachementparametresComponent implements OnInit {
 
     filename: any
     fileContent: any
+    fileExtractedContent: any
     fileType: any
 
     onFileChange(event: Event, index: number, reqFileDef): void {
@@ -167,13 +154,11 @@ export class ListeattachementparametresComponent implements OnInit {
             if (data.length !== 0) {
                 data.forEach(file => {
                     const reQFiles = this.datsourcesFiles.find(elem => elem.id === file.requestFileDefinition.id);
-                    // const reQFiles = this.datsourcesFiles.find(elem => elem.name === file.docTitle);
                     if (reQFiles) {
                         reQFiles.attachement = file; // Assuming `file` is the attachment data you want to set
                     }
                 });
             }
-            console.log("datasources", this.datsourcesFiles)
             this.datsourcesFilesEVENT.emit(this.datsourcesFiles)
 
         })
@@ -238,17 +223,6 @@ export class ListeattachementparametresComponent implements OnInit {
         this.popupDeleteFileVisible = true
     }
 
-    // consulterPjs(data) {
-    //     console.log(data)
-    //     this.objectFile = data
-    //
-    //     this.visible = true
-    //
-    //     this.reloadViewer(data.data, data.docTitle)
-    // }
-
-    fileExtractedContent: any
-
     consulterPjs(data, longContent) {
 
         this.objectFile = data
@@ -256,18 +230,24 @@ export class ListeattachementparametresComponent implements OnInit {
         this.visible = true
 
 
-        let docTitle = data['docTitle'];
+        let docTitle =data['docTitle'];
 
         this.fileservice.extractfileByUIID(data.uuid, this.fileAccessToken).subscribe(async (file: any) => {
 
             if (this.objectFile.fileType === 'application/pdf')
-                this.reloadViewer(file.body, docTitle)
+                this.reloadViewer(file.body,docTitle )
             else
-                this.fileExtractedContent = this.communService.arrayBufferToBase64(new Uint8Array(file.body));
+            this.fileExtractedContent = this.communService.arrayBufferToBase64(new Uint8Array(file.body));
 
 
-            this.modalService.open(longContent, {scrollable: true, size: 'xl', backdrop: 'static'});
+
+
+
+            this.modalService.open(longContent, { scrollable: true, size: 'xl', backdrop: 'static' });
         })
+
+
+
 
 
     }
@@ -291,13 +271,16 @@ export class ListeattachementparametresComponent implements OnInit {
     }
 
 
+
+
+
     pdfSrcc: any;
     visionneuse: any;
-
+    base64
     reloadViewer(arraybuffer, filename) {
 
-        console.log("filename ::> ", filename)
-        console.log("arraybuffer ::> ", arraybuffer)
+        console.log("filename ::> ",filename)
+        console.log("arraybuffer ::> ",arraybuffer)
         this.fileContent = new File([arraybuffer], filename, {type: 'application/pdf'});
         console.log(URL.createObjectURL(this.fileContent));
         this.pdfSrcc = URL.createObjectURL(this.fileContent);

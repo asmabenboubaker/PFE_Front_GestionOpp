@@ -1,6 +1,6 @@
 <app-http-services></app-http-services>
 <input #input (change)="fileChange(input) ; input.value = null" class="file-upload-btn" hidden
-       id="NewFile" type="file"/>
+       id="addfilecustom" type="file"/>
 <div *ngIf="!flipped">
     <!--        <div class="card-body" class="card mt-2" >-->
     <!--            <div class="card-text">-->
@@ -11,36 +11,25 @@
                     #gridfile
                     [id]="this.packageName+'_'+'gridfile'"
                     keyExpr="id"
+                    [rtlEnabled]="currentlang === 'ar'"
                     [(selectedRowKeys)]="selectedRows"
-
-
                     [columnHidingEnabled]="true"
                     [dataSource]="filedatasource"
-
-                    [columnMinWidth]="26"
-
-
-
-                    [allowColumnReordering]="true"
-                    [height]="'auto'"
-                    [allowColumnResizing]="true"
-                    [columnAutoWidth]="true"
-                    [showBorders]="true"
-                    [rowAlternationEnabled]="true"
-                    [remoteOperations]="true"
                     [hoverStateEnabled]="true"
-                    [rtlEnabled]="true"
-                    [showColumnLines]="false"
+                    [remoteOperations]="false"
+                    [columnMinWidth]="26"
+                    [rowAlternationEnabled]="true"
                     (mouseenter)="onRowMouseEnter($event)"
                     (mouseleave)="onRowMouseLeave($event)"
+                    [showBorders]="true"
                     [showRowLines]="true"
                     (onToolbarPreparing)="onToolbarPreparinggridfile($event)"
                     (onRowDblClick)="rowclickViewFileOrDownload($event)"
                     (onCellClick)="rowclickViewFileOrDownload($event)"
+
             >
                 <dxo-selection mode="single"> <!-- "multiple" | "none" --></dxo-selection>
-                <dxo-column-chooser title="{{ 'ATTACHEMENT.SelecteurColonnes' | translate }}"
-                                    [enabled]="false"></dxo-column-chooser>
+
                 <dxo-state-storing [enabled]="true" type="localStorage"
                                    [storageKey]="this.packageName+'_'+'gridfile'"></dxo-state-storing>
                 <dxo-editing [allowAdding]="false" [allowDeleting]="false" [allowUpdating]="false"
@@ -87,9 +76,11 @@
                         [filterOperations]="['contains', '=','notcontains','<>']"
                         [allowHeaderFiltering]="false"
                         [visible]="visibleCelldocTitle"
+
                         caption="{{ 'ATTACHEMENT.name' | translate }}"
                         dataField="docTitle"
                         alignment="right"
+                        size="medium"
                         dataType="string">
                     <dxi-validation-rule type="pattern"
                                          [pattern]="validDocTitle"
@@ -105,6 +96,7 @@
                         alignment="right"
                         caption="{{ 'ATTACHEMENT.fileName' | translate }}"
                         dataField="fileName"
+
                         dataType="string"
                         [hidingPriority]="9"
                 >
@@ -131,8 +123,10 @@
 
                         [allowSorting]="true"
                         [allowHeaderFiltering]="false"
-                        [visible]="visibleCelldocIssueDate"
+                        [visible]="false"
                         dataField="docIssueDate"
+
+
                         caption="{{ 'ATTACHEMENT.DateEmission' | translate }}"
                         format="dd/MM/yyyy"
                         alignment="right"
@@ -158,6 +152,8 @@
                         dataField="docExpirationDate"
                         caption="{{ 'ATTACHEMENT.DateExpiration' | translate }}"
                         format="dd/MM/yyyy"
+
+
                         alignment="right"
                         dataType="date"
                         [hidingPriority]="1"
@@ -176,6 +172,8 @@
                         [allowSorting]="true"
                         [filterOperations]="['contains', '=','notcontains','<>']"
                         [allowHeaderFiltering]="false"
+
+
                         [visible]="visibleCellissueAdress"
                         dataField="issueAdress"
                         caption="{{ 'ATTACHEMENT.LieuEmission' | translate }}"
@@ -199,7 +197,9 @@
                 <dxi-column [allowEditing]="false"
                             [allowResizing]="false"
                             [allowSorting]="true"
-                            [visible]="visibleCellsysdateUpdated"
+
+
+                            [visible]="false"
                             caption="{{'ATTACHEMENT.datemaj'| translate}}"
                             cellTemplate="cellTemplateSysdateUpdated"
                             dataField="sysdateUpdated"
@@ -233,7 +233,7 @@
                             alignment="center"
                             dataField="securiteLevel"
                             headerCellTemplate="securiteLevelTemplateHeaderTemplate"
-                            style="text-align: center !important;"
+                            style="text-align: center !important;font-size: medium"
                 >
                 </dxi-column>
                 <!--                [visible]="visibleCellSignedOrLockedState"-->
@@ -242,6 +242,7 @@
                             [allowResizing]="false"
                             [allowSorting]="false"
                             [visible]="false"
+
 
                             caption=""
                             alignment="center"
@@ -370,7 +371,7 @@
                 <!--                    </dx-button>-->
                 <!--                </div>-->
 
-                <dxi-column dataField="Actions" caption="{{'ATTACHEMENT.Actions' | translate}}"
+                <dxi-column dataField="Actions" caption=""
                             fixedPosition="left" style="text-align: center"
                             type="buttons">
 
@@ -390,12 +391,14 @@
                     <!--                                hint="{{'ATTACHEMENT.unlock' | translate}}"-->
                     <!--                                icon="fa fa-unlock IconStyle"></dxi-button>-->
                     <!--Remplace FILE    -->
-                    <dxi-button
-                            id="upload"
-                            [onClick]="UploadFileStep1"
-                            [visible]="isuploadVisibe&&objectData.userPermission=='WRITE'&&objectData.activityName!=this.env.activityNameDemande"
-                            hint="{{'ATTACHEMENT.upload' | translate}}"
-                            icon="fa fa-clone IconStyle icon-upload"></dxi-button>
+<!--                    <dxi-button-->
+<!--                            id="upload"-->
+<!--                            [onClick]="UploadFileStep1"-->
+<!--                            [visible]="isuploadVisibe&&objectData.userPermission=='WRITE'&&objectData.activityName!=this.env.activityNameDemande"-->
+<!--                            hint="{{'ATTACHEMENT.upload' | translate}}"-->
+<!--                            icon="fa fa-clone IconStyle icon-upload"></dxi-button>-->
+
+
                     <!--Button visualiser -- with pdf eye -- Only in mode Mobile && tablet   -->
                     <!--                    <dxi-button *ngIf="!this.isDesktopDevice && (this.isMobile || this.isTablet)"-->
                     <!--                                [onClick]="downloadFile"-->
@@ -506,6 +509,29 @@
                     <div *ngIf="data.data.fileType!='application/vnd.openxmlformats-officedocument.presentationml.presentation'&&data.data.fileType!='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'&&data.data.fileType!='application/msword'&&data.data.fileType!='application/vnd.openxmlformats-officedocument.wordprocessingml.document'&&data.data.fileType!='application/pdf'&&data.data.fileType!='application/x-tika-ooxml'&&data.data.fileType!='application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
                         <i style="color: #1571a7" class="fas fa-file"></i></div>
                 </div>
+
+                <dxo-toolbar>
+
+
+                    <div *dxTemplate="let data of 'customtoolbar'">
+                        <dx-drop-down-button
+                                hint="{{'AjouteraMododule' | translate}}"
+                                text="{{'AjouteraMododule' | translate}}"
+                                [splitButton]="true"
+                                style="background-color: #9e3929;height: 33px;color: #FFFFFF"
+                                (onButtonClick)="executeOffice($event)"
+                                [keyExpr]="'value'"
+                                [items]="menuItems"
+                                [stylingMode]="'outlined'"
+                                [useSelectMode]="false"
+                                [useItemTextAsTitle]="false"
+                        >
+                        </dx-drop-down-button>
+                    </div>
+
+
+                </dxo-toolbar>
+
             </dx-data-grid>
         </div>
     </div>
@@ -523,6 +549,7 @@
         [maxHeight]="500"
         [dragEnabled]="false"
         resizeEnabled="true"
+        [rtlEnabled]="currentlang === 'ar'"
         (onHiding)="popupDeleteFileVisible=false"
         (closeOnOutsideClickChange)="popupDeleteFileVisible=false"
         title="{{'ATTACHEMENT.deletePopupStyle' | translate}}">
@@ -548,12 +575,15 @@
         [showTitle]="true"
         [closeOnOutsideClick]="false"
         [maxWidth]="'100%'"
-        [width]="'30%'"
+        [width]="'60%'"
         [height]="'auto'"
         [maxHeight]="500"
         [dragEnabled]="false"
         resizeEnabled="true"
+
         (onHiding)="deleteFile()"
+        [rtlEnabled]="currentlang === 'ar'"
+
         (closeOnOutsideClickChange)="deleteFile()"
         title="{{'ATTACHEMENT.RemplacerFilePopup' | translate}}">
     <div>
@@ -606,12 +636,12 @@
                     <i class='fa fa-paperclip icon-size'></i>
                 </button>
 
-                <button type="button" class="btn btn-outline-primary mar-pad "
-                        [disabled]="!pstkEnabledAndRunning && !this.authorizationTokenScan"
-                        (click)="scanner_and_save()"
-                        title="{{ 'ATTACHEMENT.scanner' | translate }}">
-                    <i class="material-icons icon-size-mater">scanner</i>
-                </button>
+<!--                <button type="button" class="btn btn-outline-primary mar-pad "-->
+<!--                        [disabled]="!pstkEnabledAndRunning && !this.authorizationTokenScan"-->
+<!--                        (click)="scanner_and_save()"-->
+<!--                        title="{{ 'ATTACHEMENT.scanner' | translate }}">-->
+<!--                    <i class="material-icons icon-size-mater">scanner</i>-->
+<!--                </button>-->
             </div>
         </dx-form>
 
@@ -620,16 +650,19 @@
     <div class="d-flex justify-content-between">
         <div>
             <button (click)="deleteFile()" class="btn btn-outline-secondary  mb-1 mr-1"
-                    type="button">{{ 'close' | translate }}
+                    type="button">{{ 'Annuler' | translate }}
             </button>
         </div>
         <div>
             <button class="btn btn-success" (click)="attachementsSetContent()"
-                    type="button" [disabled]="disableSave">{{ 'accept' | translate }}
+                    type="button" [disabled]="disableSave">{{ 'Save' | translate }}
             </button>
         </div>
     </div>
 </dx-popup>
+
+
+
 
 <dx-popup
         [(visible)]="popupDeleteFileVisibleAttached"
@@ -708,30 +741,21 @@
                 #gridofficeTempalte
                 [dataSource]="officeTemplateList"
                 [width]="'99%'"
-
+                [allowColumnReordering]="true"
+                [allowColumnResizing]="true"
+                [rowAlternationEnabled]="true"
+                [showBorders]="true"
                 [wordWrapEnabled]="true"
-
+                [columnAutoWidth]="true"
+                [hoverStateEnabled]="true"
                 [columnMinWidth]="26"
                 [showRowLines]="true"
-
-
-                [allowColumnReordering]="true"
-                [height]="'auto'"
-                [allowColumnResizing]="true"
-                [columnAutoWidth]="true"
-                [showBorders]="true"
-                [rowAlternationEnabled]="true"
-                [remoteOperations]="true"
-                [hoverStateEnabled]="true"
-                [rtlEnabled]="true"
-                [showColumnLines]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
+[rtlEnabled]="arabe"
         >
             <dxo-state-storing [enabled]="true" type="localStorage"
                                [storageKey]="this.packageName+'_'+'gridofficeTempalte'"></dxo-state-storing>
-            <dxo-column-chooser title="{{ 'ATTACHEMENT.SelecteurColonnes' | translate }}"
-                                [enabled]="true"></dxo-column-chooser>
-            <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+
             <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
             <dxo-load-panel [enabled]="true"></dxo-load-panel>
             <dxo-filter-row [visible]="false" applyFilter="false"></dxo-filter-row>
@@ -745,7 +769,7 @@
                         [allowEditing]="true" [allowReordering]="false"></dxi-column>
 
             <dxi-column dataField="title"
-                        caption="{{'title' | translate}}"
+                        caption="{{'officeTemplate.title' | translate}}"
                         alignment="center"
                         width="150"
                         [allowEditing]="false"
@@ -769,7 +793,7 @@
             <!--            </dxi-column>-->
 
             <dxi-column dataField="description"
-                        caption="{{'description' | translate}}"
+                        caption="{{'officeTemplate.description' | translate}}"
                         alignment="center"
                         [allowEditing]="false"
                         [visible]="true"
@@ -833,7 +857,7 @@
 
             <div *dxTemplate="let data of 'cellTemplateActions'" class="txt-center">
                 <button type="button" class="btn btn-outline-primary"
-                        (click)="officeTemplateAttach(data.data.title,this.classid, this.objectid)">
+                        (click)="officeTemplateAttach(data.data.alias,data.data['filesTypeDTO'].type, data.data.title,this.classid, this.objectid,this.objectData)">
                     {{ 'ATTACHEMENT.select' | translate }}
                     <i [ngStyle]="{'color': data.data.filesTypeDTO.bgColor}"
                        class={{data.data.filesTypeDTO.icon}}
@@ -849,6 +873,7 @@
     </div>
 </dx-popup>
 
+
 <dx-popup
         [(visible)]="popupModifFileVisible"
         [showTitle]="true"
@@ -859,6 +884,7 @@
         [maxHeight]="500"
         [dragEnabled]="false"
         (onHiding)="refresh()"
+        [rtlEnabled]="true"
         resizeEnabled="true"
         title="{{ 'ATTACHEMENT.modificationPopUp' | translate }}">
     <div class="card text-center margin-1" style="box-shadow: {{boxShadow}}"
@@ -871,10 +897,10 @@
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 width2" *ngIf="fileTemplate">
                     {{fileTemplate.requestFileDefinition.label}}
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-3 width3" *ngIf="fileTemplate">
-                    {{fileTemplate.requestFileDefinition.minCopies}}
-                    -{{fileTemplate.requestFileDefinition.maxCopies}}
-                </div>
+<!--                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-3 width3" *ngIf="fileTemplate">-->
+<!--                    {{fileTemplate.requestFileDefinition.minCopies}}-->
+<!--                    -{{fileTemplate.requestFileDefinition.maxCopies}}-->
+<!--                </div>-->
             </div>
         </div>
         <div class="card-body modif-popup-style">
@@ -895,7 +921,7 @@
                     </dxo-col-count-by-screen>
                     <dxi-item dataField="docTitle" editorType="dxTextBox" [editorOptions]="editorOptionsName">
                         <dxi-validation-rule type="required" message=""></dxi-validation-rule>
-                        <dxo-label text="{{ 'name' | translate }}"></dxo-label>
+                        <dxo-label text="{{ 'ATTACHEMENT.name' | translate }}"></dxo-label>
                         <dxi-validation-rule type="pattern"
                                              [pattern]="validDocTitle"
                                              [message]="validDocTitleMSG">
@@ -972,16 +998,19 @@
     </div>
     <br>
     <div class="d-flex justify-content-between">
+
+
         <div>
-            <button (click)="popupModifFileVisible=false;refresh()" class="btn btn-outline-secondary  mb-1 mr-1"
-                    type="button">{{'close'|translate}}
+            <button type="button " class="btn btn-primary btn-rounded ng-star-inserted" style="float: left; margin-left: 2%; background-color: #025a95; color: white; width: 5em !important; font-size: larger; border-color: #025a95;" [disabled]="disableSave"
+                    (click)="save(fileTemplate)">{{'Confirmer'|translate}}
             </button>
         </div>
         <div>
-            <button type="button " class="btn btn-success" [disabled]="disableSave"
-                    (click)="save(fileTemplate)">{{'accept'|translate}}
+            <button (click)="popupModifFileVisible=false;refresh()" class="btn btn-primary btn-rounded ng-star-inserted" style="float: left; margin-left: 2%; background-color: #9f2a2a; color: white; width: 5em; font-size: larger; border-color: #9f2a2a;"
+                    type="button">{{'Retour'|translate}}
             </button>
         </div>
+
     </div>
 </dx-popup>
 
