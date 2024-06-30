@@ -290,7 +290,232 @@ export class OffreService {
     return doc.save('facture.pdf');
   }
 
-  generatePdf(formData: any, articles: any[]) {
+  // generatePdf(formData: any, articles: any[]) {
+  //   console.log('formData', articles);
+  //   const doc = new jsPDF.default();
+  //   const today = new Date().toLocaleDateString();
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Picosoft',
+  //           styles: {
+  //             halign: 'left',
+  //             fontSize: 20,
+  //             textColor: '#ffffff'
+  //           }
+  //         },
+  //         {
+  //           content: 'Offre de Prix',
+  //           styles: {
+  //             halign: 'right',
+  //             fontSize: 20,
+  //             textColor: '#ffffff'
+  //           }
+  //         }
+  //       ],
+  //     ],
+  //     theme: 'plain',
+  //     styles: {
+  //       fillColor: '#67282d'
+  //     }
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Reference: #INV0001' + '\nDate:' + today ,
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         }
+  //       ],
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Client:' + '\nJohn Doe' + '\nBilling Address line 1' + '\nBilling Address line 2' + '\nZip code - City' + '\nCountry',
+  //           styles: {
+  //             halign: 'left'
+  //           }
+  //         },
+  //
+  //         {
+  //           content: 'From:' + '\nPicosoft' + '\n4 rue André Ampère - ZI chotrana,' + '\nZI chotrana' + '\n 2083' + '\nTunis',
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         }
+  //       ],
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Montant',
+  //           styles: {
+  //             halign: 'right',
+  //             fontSize: 14
+  //           }
+  //         }
+  //       ],
+  //       [
+  //         {
+  //           content: formData.montant,
+  //           styles: {
+  //             halign: 'right',
+  //             fontSize: 20,
+  //             textColor: '#0d39e3'
+  //           }
+  //         }
+  //       ],
+  //       [
+  //         {
+  //           content: 'Due date:' + today,
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         }
+  //       ]
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Products & Services',
+  //           styles: {
+  //             halign: 'left',
+  //             fontSize: 14
+  //           }
+  //         }
+  //       ]
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   // Generate the table body dynamically from the articles data
+  //   const tableBody = articles.map(article => [
+  //     article.nom,
+  //     'Category', // Assuming a placeholder as category is not part of the form data
+  //     article.quantite,
+  //     article.prixUnitaire,
+  //     '0', // Assuming 0 as a placeholder for tax if it's not provided
+  //     article.quantite * article.prixUnitaire
+  //   ]);
+  //
+  //   autoTable(doc, {
+  //     head: [['Items', 'Category', 'Quantity', 'Price', 'Tax', 'Amount']],
+  //     body: tableBody,
+  //     theme: 'striped',
+  //     headStyles: {
+  //       fillColor: '#343a40'
+  //     }
+  //   });
+  //
+  //   // Calculate totals dynamically
+  //   const subtotal = articles.reduce((acc, article) => acc + (article.quantite * article.prixUnitaire), 0);
+  //   const totalTax = 0; // Assuming no tax for now
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Prix:',
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         },
+  //         {
+  //           content: '$' + subtotal,
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         },
+  //       ],
+  //       [
+  //         {
+  //           content: 'Total tax:',
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         },
+  //         {
+  //           content: '$' + totalTax,
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         },
+  //       ],
+  //       [
+  //         {
+  //           content: 'Prix total:',
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         },
+  //         {
+  //           content: '$' + (subtotal + totalTax),
+  //           styles: {
+  //             halign: 'right'
+  //           }
+  //         },
+  //       ],
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'Description',
+  //           styles: {
+  //             halign: 'left',
+  //             fontSize: 14
+  //           }
+  //         }
+  //       ],
+  //       [
+  //         {
+  //           content: formData.description,
+  //           styles: {
+  //             halign: 'left'
+  //           }
+  //         }
+  //       ],
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   autoTable(doc, {
+  //     body: [
+  //       [
+  //         {
+  //           content: 'This is a centered footer',
+  //           styles: {
+  //             halign: 'center'
+  //           }
+  //         }
+  //       ]
+  //     ],
+  //     theme: 'plain'
+  //   });
+  //
+  //   return doc.save('invoice');
+  // }
+  generatePdf(formData: any, articles: any[], client: any) {
     console.log('formData', articles);
     const doc = new jsPDF.default();
     const today = new Date().toLocaleDateString();
@@ -326,7 +551,7 @@ export class OffreService {
       body: [
         [
           {
-            content: 'Reference: #INV0001' + '\nDate:' + today ,
+            content: 'Reference: #INV0001' + '\nDate:' + today,
             styles: {
               halign: 'right'
             }
@@ -340,12 +565,11 @@ export class OffreService {
       body: [
         [
           {
-            content: 'Client:' + '\nJohn Doe' + '\nBilling Address line 1' + '\nBilling Address line 2' + '\nZip code - City' + '\nCountry',
+            content: 'Client:' + '\n' + (client?.nom || 'John Doe') + '\n' +'Adresse : ' +(client?.adresse || 'Billing Address line 1') + '\n' + "Telephone" +(client?.telephne || 'Billing Address line 2') + '\n' + "Email"+ (client?.email || 'Zip code') ,
             styles: {
               halign: 'left'
             }
           },
-
           {
             content: 'From:' + '\nPicosoft' + '\n4 rue André Ampère - ZI chotrana,' + '\nZI chotrana' + '\n 2083' + '\nTunis',
             styles: {
