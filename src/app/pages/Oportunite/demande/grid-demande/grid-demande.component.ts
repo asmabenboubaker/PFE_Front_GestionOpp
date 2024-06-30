@@ -36,6 +36,7 @@ export class GridDemandeComponent implements OnInit {
   popupDeleteVisible: boolean=false;
   demandeadd: any;
     showadd: boolean=false;
+  loadingVisible = false;
   constructor(private demandeService: DemandeService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
               private http: HttpClient,private clientService: ClientServiceService,
               private env: EnvService,private router: Router,private toastr: ToastrService,
@@ -117,10 +118,11 @@ this.showSuccess();
 
     adddemande() {
         // Navigate to the add-demande component without an ID
-
+this.loadingVisible=true
       this.demandeService.Initdemande().subscribe(data => {
         this.demandeadd = data['id'];
        this.router.navigate(['Demande/add/'+this.demandeadd]);
+       this.loadingVisible=false
       });
 
     }

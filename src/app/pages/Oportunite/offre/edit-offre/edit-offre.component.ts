@@ -36,6 +36,7 @@ export class EditOffreComponent implements OnInit {
     elsebool: boolean = false;
     taskForm: FormGroup;
     article:any[]=[];
+
   offreF= new FormGroup({
     id: new FormControl(''),
     modePaiement: new FormControl(''),
@@ -170,12 +171,14 @@ this.offreF.get('description').setValue(data.description);
         disableTimeOut: false,
         timeOut: this.env.timeOutToastr
       })
+        this.loadingVisible = true;
+        //return to list
+        this.router.navigate(['offre/all']);
       //redirect to demande list
       //   this.router.navigate(['offre/edit/'+this.oppid]);
         if(evt.decision.trim()=="Validation"){
         this.sendNotification(this.oppid);
         }
-        window.location.reload();
     }, error => {
       this.toastr.error("failed to add ", "", {
         closeButton: true,
@@ -232,7 +235,8 @@ this.offreF.get('description').setValue(data.description);
 
     downloadPdfOnClick() {
         const formData = this.offreF.value;
-        this.offreService.generatePdf(formData,this.tasks);
+        const client = this.objectData?.opportunite?.demande?.client;
+        this.offreService.generatePdf(formData,this.tasks,client);
     }
     Retourn(){
 
@@ -471,4 +475,12 @@ this.offreF.get('description').setValue(data.description);
             this.downloadPdfOnClick();
         }
     };
+
+    GetjsonDowViewerFromAttatchement($event: any) {
+        
+    }
+
+    getInstructionById(id) {
+        
+    }
 }

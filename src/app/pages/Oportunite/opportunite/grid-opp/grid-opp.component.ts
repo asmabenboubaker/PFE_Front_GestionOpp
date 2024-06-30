@@ -33,6 +33,9 @@ export class GridOppComponent implements OnInit {
   iddoc:any;
   oppadd: any;
   demandeadd: any;
+
+    loadingVisible = false;
+
   constructor(private opportuniteService: OpportuniteService,private demandeService: DemandeService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
               private http: HttpClient,private clientService: ClientServiceService,
               private env: EnvService,private router: Router,private toastr: ToastrService,
@@ -99,10 +102,11 @@ export class GridOppComponent implements OnInit {
   }
   addOpp() {
 
-
+this.loadingVisible= true;
     this.opportuniteService.InitOpp().subscribe(data => {
       this.oppadd = data['id'];
       this.router.navigate(['opportunite/add/'+this.oppadd]);
+      this.loadingVisible= false;
     });
 
   }

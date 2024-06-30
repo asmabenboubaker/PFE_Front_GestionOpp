@@ -8,6 +8,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {EditOffreComponent} from "./edit-offre/edit-offre.component";
 import {SharedModuleModule} from "../../Global/shared-module/shared-module.module";
 import {WorkflowComponentModule} from "../../Global/workflow-components/workflow-component.module";
+import {AttachmentModule} from "../../Global/attachment/attachment.module";
 
 export const routes: Routes  = [
   {
@@ -45,6 +46,7 @@ export const routes: Routes  = [
         TranslateModule,
         SharedModuleModule,
         WorkflowComponentModule,
+        AttachmentModule,
     ]
 })
 export class OffreModule { }

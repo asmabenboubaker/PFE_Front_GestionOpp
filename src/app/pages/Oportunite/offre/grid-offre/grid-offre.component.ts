@@ -30,6 +30,7 @@ export class GridOffreComponent implements OnInit {
   @ViewChild('dataGridoffre', {static: false}) dataGridoffre: DxDataGridComponent;
   iddoc:any;
   oppadd: any;
+  loadingVisible=false;
   constructor(
       private offreService: OffreService,private tokenStorage: TokenStorageService, private cookieService: CookieService,
       private http: HttpClient,private clientService: ClientServiceService,
@@ -304,10 +305,11 @@ export class GridOffreComponent implements OnInit {
   }
   addOffre() {
 
-
+this.loadingVisible=true
     this.offreService.InitOffre().subscribe(data => {
       this.oppadd = data['id'];
       this.router.navigate(['offre/edit/'+this.oppadd]);
+      this.loadingVisible=false
     });
 
   }

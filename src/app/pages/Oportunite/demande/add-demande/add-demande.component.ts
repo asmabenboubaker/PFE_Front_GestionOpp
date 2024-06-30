@@ -323,7 +323,8 @@ if(this.listIddomainde.length!=0) {
     // this.showSuccess();
        // window.location.reload();
       //return to demande list
-        this.router.navigate(['Demande/user']);
+      this.loadingVisible = false;
+      this.router.navigate(['Demande/user']);
 
     }, error => {
       this.toastr.error("failed to add ", "", {

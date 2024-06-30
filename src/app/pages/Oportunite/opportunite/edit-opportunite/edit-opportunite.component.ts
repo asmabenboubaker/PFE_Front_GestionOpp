@@ -394,6 +394,8 @@ else {
         disableTimeOut: false,
         timeOut: this.env.timeOutToastr
       })
+        this.loadingVisible = false;
+        this.router.navigate(['opportunite/all']);
         //this.router.navigate(['opportunite/all']);
         if(evt.decision.trim()==="Etude") {
             this.sendNotification(this.oppid);
@@ -418,6 +420,7 @@ else {
         timeOut: this.env.timeOutToastr
       })
       console.log("error", error)
+
     })
     // this.closepopupMeeting();
 

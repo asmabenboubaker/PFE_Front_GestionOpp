@@ -193,25 +193,7 @@ export class GridValidationComponent implements OnInit {
     localStorage.removeItem(this.packageName + '_' + 'dataGridDemande');
     window.location.reload();
   }
-  // getAllDemandes() {
-  //   this.demandeService.getDemandes().subscribe((data) => {
-  //     this.demandes = data;
-  //     this.dataSourceElement = new CustomStore({
-  //       load: (loadOptions: any) => {
-  //         loadOptions.requireTotalCount = true;
-  //         const size = loadOptions.take || this.env.pageSize;
-  //         const startIndex = loadOptions.skip || 0;
-  //         const endIndex = startIndex + size;
-  //         const paginatedData = this.demandes.slice(startIndex, endIndex);
-  //
-  //         return Promise.resolve({
-  //           data: paginatedData,
-  //           totalCount: this.demandes.length,
-  //         });
-  //       },
-  //     });
-  //   });
-  // }
+
   getAllDemandes() {
 
     this.dataSourceElement = new CustomStore({
@@ -237,6 +219,7 @@ export class GridValidationComponent implements OnInit {
 // filter par validaion
         //params += `&filter=activityName.equals=Validation`;
         params += `&filter=activityName.equals=Validation`;
+        console.log("paramsssssssssssssssssssss", params)
         //sort
         // params += '&sort=dateRecrutement,desc'
         if (loadOptions.sort) {

@@ -88,7 +88,7 @@
             </div>
             <div >
                 <div class="form-group">
-                    <label class="form-label"><b>Nom demande:</b></label>
+                    <label class="form-label"><b>Titre demande:</b></label>
                     <input class="form-control"  type="text" [value]="demandedto?.demande?.nom " readonly />
                 </div>
                 <div class="form-group">
@@ -220,7 +220,7 @@
 
 
                                     <div class="form-group ">
-                                        <label for="nom" class="form-label">Nom:</label>
+                                        <label for="nom" class="form-label">Titre:</label>
                                         <input class="form-control" formControlName="nom" type="text" required>
                                         <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
                                         <!--             class="alert alert-danger">-->
@@ -450,7 +450,7 @@
 
                         [dataSource]="tasks"
 
-                        [columns]="['nom', 'description', 'nbreHours']"
+                        [columns]="['titre', 'description', 'nbreHours']"
                         [showBorders]="true"
                         (onToolbarPreparing)="onToolbarPreparing($event)"
                         ID="gridContainer"
@@ -487,7 +487,7 @@
                         <div *dxTemplate="let data of 'content'">
                             <form [formGroup]="taskForm">
                                 <div class="form-group">
-                                    <label for="nom">Nom:</label>
+                                    <label for="nom">Titre:</label>
                                     <input type="text" class="form-control" formControlName="nom">
                                 </div>
 
@@ -563,7 +563,7 @@
 
 
                             <div class="form-group ">
-                                <label for="nom" class="form-label">Nom:</label>
+                                <label for="nom" class="form-label">Titre:</label>
                                 <input class="form-control" formControlName="nom" type="text" required>
                                 <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
                                 <!--             class="alert alert-danger">-->
@@ -643,7 +643,7 @@
 
 
                             <div class="form-group ">
-                                <label for="nom" class="form-label">Nom:</label>
+                                <label for="nom" class="form-label">Titre:</label>
                                 <input class="form-control" formControlName="nom" type="text" required>
                                 <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
                                 <!--             class="alert alert-danger">-->
@@ -795,7 +795,7 @@
 
 
                             <div class="form-group ">
-                                <label for="nom" class="form-label">Nom:</label>
+                                <label for="nom" class="form-label">Titre:</label>
                                 <input class="form-control" formControlName="nom" type="text" required>
                                 <!--        <div *ngIf="demandeForm.get('nom').invalid && (demandeForm.get('nom').dirty || demandeForm.get('nom').touched)"-->
                                 <!--             class="alert alert-danger">-->
@@ -886,7 +886,6 @@
     [showPane]="true"
     [shading]="true"
     [hideOnOutsideClick]="false"
-    (onShown)="onShown()"
-    (onHidden)="onHidden()"
+
 >
 </dx-load-panel>
