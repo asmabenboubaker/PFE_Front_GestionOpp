@@ -344,7 +344,7 @@ this.offreF.get('description').setValue(data.description);
         e.toolbarOptions.items.unshift(
             {
                 location: 'center',
-                template: 'titreGrid'
+                template: 'Liste Articles'
             }
         );
 

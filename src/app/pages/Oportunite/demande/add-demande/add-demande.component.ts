@@ -287,7 +287,9 @@ if(this.listIddomainde.length!=0) {
     next: (response) => {
       console.log('Domaines affectés:', response);
       this.updateAndAssignToClient();
+
     },
+    
     error: (error) => {
       this.toastr.error("Failed to affect domaines", "", {
         closeButton: true,

@@ -64,7 +64,7 @@ getDemandeByid(id): Observable<any> {
     return this.http.get<string[]>(`${this.env.piOpp}list`);
   }
   createDemandeAndAssignToClient(clientId: Number, demandeData: any): Observable<any> {
-    const url = `${this.env.piOpp+this.Wservice.getdemandes}/client?clientId=${clientId}`;
+    const url = `${this.env.piOpp+this.Wservice.getdemandes}/client/${clientId}`;
     console.log(url);
     return this.http.post<any>(url, demandeData);
   }

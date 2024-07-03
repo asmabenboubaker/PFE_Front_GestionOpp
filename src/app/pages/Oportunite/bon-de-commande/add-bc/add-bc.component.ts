@@ -13,6 +13,7 @@ import {OffreService} from "../../../../Service/offre.service";
   styleUrls: ['./add-bc.component.scss']
 })
 export class AddBcComponent implements OnInit {
+    loadingVisible = false;
   statusList: string[] = [];
   demandeid
   objectData:any
@@ -116,16 +117,13 @@ export class AddBcComponent implements OnInit {
   }
 
     Confirmation(evt) {
-
+        this.loadingVisible = true;
         const formData = this.demandeF.value;
 
-
-        // this.demandeDTO['decision'] = evt.decision
-        // this.demandeDTO['wfCurrentComment ']= evt.wfCurrentComment
         formData['decision'] = evt.decision;
         formData['wfCurrentComment'] = evt.wfCurrentComment;
         console.log("this.demanade CONFIRMATION",formData)
-//set id
+
         formData['id'] = this.demandeid;
         this.servicebc.BC_process_Submit(formData).subscribe(data => {
 
@@ -138,9 +136,9 @@ export class AddBcComponent implements OnInit {
                 disableTimeOut: false,
                 timeOut: this.env.timeOutToastr
             })
-            //redirect to demande add id
-           // this.router.navigate(['Demande/add/']+this.demandeid);
-            window.location.reload();
+            this.loadingVisible =false;
+                this.router.navigate(['bondecommande/all']);
+
         }, error => {
             this.toastr.error("failed to add ", "", {
                 closeButton: true,
@@ -151,6 +149,7 @@ export class AddBcComponent implements OnInit {
                 timeOut: this.env.timeOutToastr
             })
             console.log("error", error)
+            this.loadingVisible =false;
         })
         // this.closepopupMeeting();
     }
@@ -199,4 +198,14 @@ export class AddBcComponent implements OnInit {
     }
     popupHeight = window.innerHeight-50;
     popupWidth = window.innerWidth - window.innerWidth / 3;
+
+
+    GetjsonDowViewerFromAttatchement($event: any) {
+
+    }
+
+    getInstructionById(id) {
+
+    }
+
 }

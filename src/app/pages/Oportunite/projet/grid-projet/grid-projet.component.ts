@@ -76,7 +76,7 @@ export class GridProjetComponent implements OnInit {
     e.toolbarOptions.items.unshift(
         {
           location: 'center',
-          template: 'titreGrid'
+          template: 'Liste Projets'
         }
     );
     e.toolbarOptions.items.unshift(

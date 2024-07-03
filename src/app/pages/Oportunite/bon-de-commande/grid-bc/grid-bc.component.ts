@@ -78,7 +78,7 @@ export class GridBCComponent implements OnInit {
     e.toolbarOptions.items.unshift(
         {
           location: 'center',
-          template: 'titreGrid'
+          template: 'Liste Bon de commande'
         }
     );
     e.toolbarOptions.items.unshift(
