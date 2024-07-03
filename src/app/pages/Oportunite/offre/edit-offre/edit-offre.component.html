@@ -176,6 +176,30 @@
                 </div>
 
             </div>
+
+
+        </div>
+        <div class="custom-field">
+            <h1>
+                    <span>
+                        Les fichiers
+                    </span>
+            </h1>
+            <div class="fieldContent">
+
+                <app-attachment *ngIf="objectData?.opportunite?.id && objectData?.opportunite?.id !== null"
+                                [classid]="31"
+                                [objectid]="objectData?.opportunite?.id"
+                                [objectData]="objectData?.opportunite"
+                                [isPublic]=false
+                                (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                [withoutviewer]="true"
+                                [ShowSplitter]=true
+
+                                (refreshedReqFileDef)="getInstructionById(objectData.id)"
+                                #attachmentComponent
+                ></app-attachment>
+            </div>
         </div>
     </div>
     <div

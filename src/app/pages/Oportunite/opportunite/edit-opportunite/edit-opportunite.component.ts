@@ -29,6 +29,7 @@ import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 
 import {AddDetailsComponent} from "../add-details/add-details.component";
 import {Observable} from "rxjs";
+import {ProjectService} from "../../../../Service/project.service";
 const TASK_DATA: any[] = [
     {id: 1, name: 'Tâche 1', description: 'Description 1'},
     {id: 2, name: 'Tâche 2', description: 'Description 2'},
@@ -52,7 +53,7 @@ listIdEquipe: any[] = [];
   oppForm: any;
     @ViewChild('clientSelect') clientSelect: ElementRef;
     @ViewChild('gridContainer', {static: false}) gridContainer: DxDataGridComponent;
-
+    users: any[] = [];
     techForm: FormGroup;
     taskForm: FormGroup;
   oppid: any;
@@ -97,6 +98,7 @@ evaluer:boolean=false;
                 private cookieService: CookieService,
               private offreService: OffreService,
               private webSocketService: WebSocketService,
+              private projetService:ProjectService
 
 
               ) {
@@ -191,6 +193,9 @@ evaluer:boolean=false;
 
   ngOnInit(): void {
       initMDB({ Tab });
+      this.projetService.getUsers().subscribe(data => {
+          this.users = data.content;
+      });
       this.oppid = this.route.snapshot.paramMap.get('id');
       this.ObjectId=this.route.snapshot.paramMap.get('id');
 //set oppObject
@@ -804,5 +809,13 @@ else {
                 console.error('Error deleting task:', error);
             }
         );
+    }
+
+    GetjsonDowViewerFromAttatchement($event: any) {
+
+    }
+
+    getInstructionById(id) {
+
     }
 }

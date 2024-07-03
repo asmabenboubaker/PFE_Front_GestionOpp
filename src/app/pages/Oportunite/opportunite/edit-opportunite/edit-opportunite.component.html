@@ -253,8 +253,6 @@
                     </div>
                 </form>
 
-                <!--mena touda louila-->
-                <!--thenya-->
                 <div class="custom-field">
                     <h1>
                     <span>
@@ -305,7 +303,7 @@
                                     <dxi-column dataField="nom" dataType="string" caption="Nom"></dxi-column>
                                     <dxi-column dataField="description" dataType="string" caption="Description"></dxi-column>
                                     <dxi-column dataField="nbreHours" dataType="string" caption="nombre des heures" ></dxi-column>
-                                    <dxi-column dataField="nombre des ingénieurs" dataType="string" caption="nombre des ingénieurs" ></dxi-column>
+<!--                                    <dxi-column dataField="nombre des ingénieurs" dataType="string" caption="nombre des ingénieurs" ></dxi-column>-->
                                 </dx-data-grid>
                             </div>
                             <dxo-export
@@ -320,17 +318,29 @@
                         </dx-data-grid>
                     </div>
                 </div>
-                <!--thenya toufa lena -->
+
                 <div class="custom-field">
                     <h1>
                     <span>
-                      Gestion des fichiers
+                        Gestion des fichiers
                     </span>
                     </h1>
                     <div class="fieldContent">
-                        <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+
+                        <app-attachment *ngIf="demandedto.id && demandedto.id !== null"
+                                        [classid]="this.demandedto.classId"
+                                        [objectid]="this.demandedto.id"
+                                        [objectData]="demandedto"
+                                        [isPublic]=false
+                                        (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                        [withoutviewer]="true"
+                                        [ShowSplitter]=true
+                                        (refreshedReqFileDef)="getInstructionById(demandedto.id)"
+                                        #attachmentComponent
+                        ></app-attachment>
                     </div>
                 </div>
+
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                     <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
@@ -419,7 +429,9 @@
                         </div>
                         <div class="form-group">
                             <label for="responsableEtude">Responsable Etude:</label>
-                            <input class="form-control"  type="text" id="responsableEtude" formControlName="responsableEtude">
+                            <select id="responsableEtude" formControlName="responsableEtude" class="form-control" >
+                                <option *ngFor="let user of users" [value]="user.displayname">{{ user.displayname }}</option>
+                            </select>
                             <div *ngIf="techForm.get('responsableEtude').invalid && techForm.get('responsableEtude').touched">
                                 <span *ngIf="techForm.get('responsableEtude').errors.required">Responsible Etude is required</span>
                             </div>
@@ -510,13 +522,25 @@
                 <div class="custom-field">
                     <h1>
                     <span>
-                      Gestion des fichiers
+                        Gestion des fichiers
                     </span>
                     </h1>
                     <div class="fieldContent">
-                        <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+
+                        <app-attachment *ngIf="demandedto.id && demandedto.id !== null"
+                                        [classid]="this.demandedto.classId"
+                                        [objectid]="this.demandedto.id"
+                                        [objectData]="demandedto"
+                                        [isPublic]=false
+                                        (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                        [withoutviewer]="true"
+                                        [ShowSplitter]=true
+                                        (refreshedReqFileDef)="getInstructionById(demandedto.id)"
+                                        #attachmentComponent
+                        ></app-attachment>
                     </div>
                 </div>
+
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                     <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
@@ -586,38 +610,29 @@
 
                     </article>
 
-                    <div class="custom-field">
-                        <h1>
-                    <span>
-                      Gestion des fichiers
-                    </span>
-                        </h1>
-                        <div class="fieldContent">
-                            <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
-                        </div>
-                    </div>
 
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="oppForm"
-                                [SaveObject]="oppForm">
-                        </app-workflow-decision>
 
-                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
-
-                    </div>
                 </form>
 
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="oppForm"
+                            [SaveObject]="oppForm">
+                    </app-workflow-decision>
+
+                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+                </div>
             </div>
 
 
@@ -629,6 +644,13 @@
                     *ngIf="elsebool"
             >
 
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
 
                 <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
 
@@ -673,104 +695,117 @@
 
                     </article>
 
-                    <div class="custom-field">
-                        <h1>
+
+                </form>
+                    </div>
+                </div>
+                <div class="custom-field">
+                    <h1>
     <span>
         Etudes
     </span>
-                        </h1>
-                        <div class="fieldContent">
-                            <dx-data-grid
+                    </h1>
+                    <div class="fieldContent">
+                        <dx-data-grid
 
-                                    [dataSource]="productsDataSource"
-                                    [repaintChangesOnly]="true"
-                                    [columnAutoWidth]="true"
-                                    [showBorders]="true"
-                                    (onExporting)="onExporting($event)"
-                            >
-                                <dxo-selection mode="multiple"></dxo-selection>
+                                [dataSource]="productsDataSource"
+                                [repaintChangesOnly]="true"
+                                [columnAutoWidth]="true"
+                                [showBorders]="true"
+                                (onExporting)="onExporting($event)"
+                        >
+                            <dxo-selection mode="multiple"></dxo-selection>
 
-                                <dxo-filter-row [visible]="true"></dxo-filter-row>
-                                <dxo-group-panel [visible]="true"></dxo-group-panel>
-                                <dxo-paging [pageSize]="10"></dxo-paging>
+                            <dxo-filter-row [visible]="true"></dxo-filter-row>
+                            <dxo-group-panel [visible]="true"></dxo-group-panel>
+                            <dxo-paging [pageSize]="10"></dxo-paging>
 
-                                <dxi-column dataField="description" dataType="string"></dxi-column>
-                                <dxi-column
-                                        dataField="nature"
-                                        dataType="string"
-                                        format="currency"
-                                ></dxi-column>
-                                <dxi-column dataField="responsableEtude" dataType="datetime"></dxi-column>
-                                <dxi-column dataField="dateDebut" dataType="number"></dxi-column>
-                                <dxi-column
-                                        dataField="nbreHours"
-                                        dataType="number"
+                            <dxi-column dataField="description" dataType="string"></dxi-column>
+                            <dxi-column
+                                    dataField="nature"
+                                    dataType="string"
+                                    format="currency"
+                            ></dxi-column>
+                            <dxi-column dataField="responsableEtude" dataType="datetime"></dxi-column>
+                            <dxi-column dataField="dateDebut" dataType="number"></dxi-column>
+                            <dxi-column
+                                    dataField="nbreHours"
+                                    dataType="number"
 
-                                        [allowSorting]="true"
-                                ></dxi-column>
+                                    [allowSorting]="true"
+                            ></dxi-column>
 
-                                <dxo-master-detail [enabled]="true" template="tacheDetail">
-                                </dxo-master-detail>
-                                <div *dxTemplate="let detail of 'tacheDetail'">
-                                    <dx-data-grid
-                                            [dataSource]="getDetailGridDataSource(detail.data)"
-                                            [columnAutoWidth]="true"
-                                            [repaintChangesOnly]="true"
-                                            [showBorders]="true"
-                                    >
-                                        <dxo-paging [pageSize]="5"></dxo-paging>
-                                        <dxo-selection mode="single"></dxo-selection>
-                                        <dxo-filter-row [visible]="true"></dxo-filter-row>
-                                        <dxo-group-panel [visible]="true"></dxo-group-panel>
-                                        <dxi-column dataField="id" dataType="number" caption="ID"></dxi-column>
-                                        <dxi-column dataField="nom" dataType="string" caption="Nom"></dxi-column>
-                                        <dxi-column dataField="description" dataType="string" caption="Description"></dxi-column>
-                                        <dxi-column dataField="nbreHours" dataType="string" caption="nombre des heures" ></dxi-column>
-                                    </dx-data-grid>
-                                </div>
-                                <dxo-export
-                                        [enabled]="true"
-                                        [formats]="['pdf']"
-                                        [allowExportSelectedData]="true"
-                                ></dxo-export>
-                                <dxo-search-panel
-                                        [visible]="true"
-                                        [highlightCaseSensitive]="true"
-                                ></dxo-search-panel>
-                            </dx-data-grid>
-                        </div>
+                            <dxo-master-detail [enabled]="true" template="tacheDetail">
+                            </dxo-master-detail>
+                            <div *dxTemplate="let detail of 'tacheDetail'">
+                                <dx-data-grid
+                                        [dataSource]="getDetailGridDataSource(detail.data)"
+                                        [columnAutoWidth]="true"
+                                        [repaintChangesOnly]="true"
+                                        [showBorders]="true"
+                                >
+                                    <dxo-paging [pageSize]="5"></dxo-paging>
+                                    <dxo-selection mode="single"></dxo-selection>
+                                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                                    <dxi-column dataField="id" dataType="number" caption="ID"></dxi-column>
+                                    <dxi-column dataField="nom" dataType="string" caption="Nom"></dxi-column>
+                                    <dxi-column dataField="description" dataType="string" caption="Description"></dxi-column>
+                                    <dxi-column dataField="nbreHours" dataType="string" caption="nombre des heures" ></dxi-column>
+                                </dx-data-grid>
+                            </div>
+                            <dxo-export
+                                    [enabled]="true"
+                                    [formats]="['pdf']"
+                                    [allowExportSelectedData]="true"
+                            ></dxo-export>
+                            <dxo-search-panel
+                                    [visible]="true"
+                                    [highlightCaseSensitive]="true"
+                            ></dxo-search-panel>
+                        </dx-data-grid>
                     </div>
-                    <div class="custom-field">
-                        <h1>
+                </div>
+                <div class="custom-field">
+                    <h1>
                     <span>
-                      Gestion des fichiers
+                        Gestion des fichiers
                     </span>
-                        </h1>
-                        <div class="fieldContent">
-                            <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
-                        </div>
+                    </h1>
+                    <div class="fieldContent">
+
+                        <app-attachment *ngIf="demandedto.id && demandedto.id !== null"
+                                        [classid]="this.demandedto.classId"
+                                        [objectid]="this.demandedto.id"
+                                        [objectData]="demandedto"
+                                        [isPublic]=false
+                                        (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                        [withoutviewer]="true"
+                                        [ShowSplitter]=true
+                                        (refreshedReqFileDef)="getInstructionById(demandedto.id)"
+                                        #attachmentComponent
+                        ></app-attachment>
                     </div>
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="oppForm"
-                                [SaveObject]="oppForm">
-                        </app-workflow-decision>
+                </div>
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="oppForm"
+                            [SaveObject]="oppForm">
+                    </app-workflow-decision>
 
-                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
 
-                    </div>
-                </form>
-
+                </div>
             </div>
 
 
@@ -783,9 +818,6 @@
             >
 
                 <form [formGroup]="oppF" class="row g-3 needs-validation custom-form" novalidate>
-
-
-
 
                     <article class="postcard light green">
                         <a class="postcard__img_link" href="#">
@@ -818,38 +850,49 @@
 
                     </article>
 
-                    <div class="custom-field">
-                        <h1>
-                    <span>
-                      Gestion des fichiers
-                    </span>
-                        </h1>
-                        <div class="fieldContent">
-                            <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
-                        </div>
-                    </div>
 
-                    <div class="workflow-container">
-                        <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-                        <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-                        <app-workflow-decision
-                                *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
-                                (decisionEvent)="Confirmation($event)"
-                                (saveEvent)="save()"
-                                (RetournEvent)="Retourn()"
-                                [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
-                                [decisions]="decissionWF"
-                                [object]="oppForm"
-                                [SaveObject]="oppForm">
-                        </app-workflow-decision>
-
-                        <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-                        <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-                        <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
-
-                    </div>
                 </form>
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
 
+                        <app-attachment *ngIf="demandedto.id && demandedto.id !== null"
+                                        [classid]="this.demandedto.classId"
+                                        [objectid]="this.demandedto.id"
+                                        [objectData]="demandedto"
+                                        [isPublic]=false
+                                        (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                        [withoutviewer]="true"
+                                        [ShowSplitter]=true
+                                        (refreshedReqFileDef)="getInstructionById(demandedto.id)"
+                                        #attachmentComponent
+                        ></app-attachment>
+                    </div>
+                </div>
+
+                <div class="workflow-container">
+                    <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+                    <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+                    <app-workflow-decision
+                            *ngIf="oppForm &&(oppForm['workflow']!=undefined ||!(this.oppForm.userPermission == 'WRITE')) "
+                            (decisionEvent)="Confirmation($event)"
+                            (saveEvent)="save()"
+                            (RetournEvent)="Retourn()"
+                            [access]="oppForm['userPermission'] === 'READ' || oppForm['userPermission'] === 'NONE'"
+                            [decisions]="decissionWF"
+                            [object]="oppForm"
+                            [SaveObject]="oppForm">
+                    </app-workflow-decision>
+
+                    <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+                    <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+                    <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+
+                </div>
             </div>
 
         </div>

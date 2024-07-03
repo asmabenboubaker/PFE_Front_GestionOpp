@@ -632,7 +632,6 @@ export class OffreService {
     // Generate the table body dynamically from the articles data
     const tableBody = articles.map(article => [
       article.nom,
-      'Category', // Assuming a placeholder as category is not part of the form data
       article.quantite,
       article.prixUnitaire,
       '0', // Assuming 0 as a placeholder for tax if it's not provided
@@ -640,7 +639,7 @@ export class OffreService {
     ]);
 
     autoTable(doc, {
-      head: [['Items', 'Category', 'Quantity', 'Price', 'Tax', 'Amount']],
+      head: [['Items', 'Quantity', 'Price', 'Tax', 'Amount']],
       body: tableBody,
       theme: 'striped',
       headStyles: {
