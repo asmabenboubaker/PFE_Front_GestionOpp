@@ -1489,7 +1489,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         this.loadingVisible = true
         let authorizationtokenOffice = await this.communService.authorizationToken(this.ModuleOffice)
 
-
+console.log("asmaexport")
         try {
             if (e.itemData.id == 1) {
                 this.base64 = null
@@ -2036,6 +2036,7 @@ export class DataGridAttachmentsComponent implements OnInit {
     /*view file in popup */
     async viewFile(data, ShowPopupBoolean) {
         console.log("data", data)
+
         this.loadingVisible = true;
 
         this.fileName = data.row.data.fileName;
@@ -2367,7 +2368,8 @@ export class DataGridAttachmentsComponent implements OnInit {
     /*DELETE AND CONFIRME DELETE FILE*/
     Confirmdelete() {
         this.popupDeleteFileVisible = false;
-        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?id=" + this.fileTodelete.id + "&fileAccessToken=" + this.fileAccessToken, '')
+       // let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?id=" + this.fileTodelete.id + "&fileAccessToken=" + this.fileAccessToken, '')
+        let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?uuid=" + this.fileTodelete.uuid + "&fileAccessToken=" + this.fileAccessToken, '')
         this.Ref.value = this.fileTodelete.docTitle
 
         this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.deleted", "ATTACHEMENT.deleteError").then(data => {
@@ -2407,7 +2409,7 @@ export class DataGridAttachmentsComponent implements OnInit {
         try {
 
             this.loadingVisible = true;
-            this.fileservice.extractfileById(dataa.row.data.id, this.fileAccessToken).subscribe(async (data: any) => {
+            this.fileservice.extractfileByUIID(dataa.row.data.uuid, this.fileAccessToken).subscribe(async (data: any) => {
                 var fileName = await data.headers.get('filename')
                 const f1 = new Blob([(data.body)], {type: dataa.row.data.fileType});
                 // window.open(data)

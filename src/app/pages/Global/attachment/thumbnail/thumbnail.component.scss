@@ -26,7 +26,6 @@
   width: 3.3em !important;
   transform: translate(790px, 0px) !important;
 }
-
 :host::ng-deep.dx-filemanager .dx-filemanager-thumbnails .dx-filemanager-thumbnails-view-port .dx-filemanager-thumbnails-item .dx-filemanager-thumbnails-item-content .dx-filemanager-thumbnails-item-thumbnail {
   //:host::ng-deep.img.dx-icon.dx-filemanager-thumbnails-item-thumbnail.dx-filemanager-item-custom-thumbnail {
   width: 135% !important;
@@ -37,12 +36,10 @@
   border: none !important;
   color: gray;
 }
-
-:host::ng-deep.dx-filemanager .dx-filemanager-thumbnails .dx-filemanager-thumbnails-view-port .dx-filemanager-thumbnails-item .dx-filemanager-thumbnails-item-content .dx-filemanager-thumbnails-item-spacer {
+:host::ng-deep.dx-filemanager .dx-filemanager-thumbnails .dx-filemanager-thumbnails-view-port .dx-filemanager-thumbnails-item .dx-filemanager-thumbnails-item-content .dx-filemanager-thumbnails-item-spacer{
   display: none !important;
 
 }
-
 dx-file-manager#fileManager {
   border: none !important;
 
@@ -68,18 +65,16 @@ dx-file-manager#fileManager {
 
 :host::ng-deep.dx-item-content.dx-filemanager-thumbnails-item-content {
   /* background: rgb(247 247 247); */
-  border: 2px solid #dee2e6 !important;
+  border: 2px solid #dee2e6!important;
 }
-
 :host::ng-deep.dx-filemanager .dx-filemanager-thumbnails .dx-filemanager-thumbnails-view-port .dx-filemanager-thumbnails-item .dx-filemanager-thumbnails-item-content {
-  padding-right: 30px !important;
+  padding-right: 30px!important;
 }
 
 .dx-field-item.dx-flex-layout {
   padding: 0px 2px 5px !important;
 }
-
-::ng-deep a {
+:host ::ng-deep a {
   color: #2a73ae !important;
 }
 
@@ -107,7 +102,7 @@ dx-file-manager#fileManager {
 }
 
 /*icon style actions in data grid*/
-::ng-deep.IconStyle {
+:host ::ng-deep.IconStyle {
   //margin-right: 4% !important;
   float: right !important;
   color: $iconColor
@@ -205,16 +200,13 @@ dx-file-manager#fileManager {
   margin: 0%;
   background-color: white
 }
-
-.margin-button-10 {
+.margin-button-10{
   text-align: center;
   margin-bottom: -10px;
 }
-
-.button-thumbnail {
+.button-thumbnail{
   float: right;
   margin: 10px;
   margin-top: -20px;
 }
-
 //____________________________________________________________________

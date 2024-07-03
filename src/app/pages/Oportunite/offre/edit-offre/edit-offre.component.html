@@ -252,6 +252,7 @@
                 .fieldContent{
 
                     padding: 20px;
+
                 }
             </style>
             <div
@@ -374,6 +375,29 @@
                         </div>
                     </dx-popup>
                 </div>
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+
+                <app-attachment *ngIf="objectData.id && objectData.id !== null"
+                                [classid]="this.objectData.classId"
+                                [objectid]="this.objectData.id"
+                                [objectData]="objectData"
+                                [isPublic]=false
+                                (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                [withoutviewer]="true"
+                                [ShowSplitter]=true
+
+                                (refreshedReqFileDef)="getInstructionById(objectData.id)"
+                                #attachmentComponent
+                ></app-attachment>
+                    </div>
+                </div>
+
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                     <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
@@ -505,6 +529,29 @@
                         </div>
                     </dx-popup>
                 </div>
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+
+                        <app-attachment *ngIf="objectData.id && objectData.id !== null"
+                                        [classid]="this.objectData.classId"
+                                        [objectid]="this.objectData.id"
+                                        [objectData]="objectData"
+                                        [isPublic]=false
+                                        (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                        [withoutviewer]="true"
+                                        [ShowSplitter]=true
+
+                                        (refreshedReqFileDef)="getInstructionById(objectData.id)"
+                                        #attachmentComponent
+                        ></app-attachment>
+                    </div>
+                </div>
+
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                     <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
@@ -652,18 +699,28 @@
                     </dx-popup>
                 </div>
 
-                                         <app-attachment *ngIf="objectData.id && objectData.id !== null"
-                                                         [classid]="this.objectData.classId"
-                                                         [objectid]="this.objectData.id"
-                                                         [objectData]="objectData"
-                                                         [isPublic]=false
-                                                         (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
-                                                         [withoutviewer]="true"
-                                                         [ShowSplitter]=true
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
 
-                                                         (refreshedReqFileDef)="getInstructionById(objectData.id)"
-                                                         #attachmentComponent
-                                         ></app-attachment>
+                        <app-attachment *ngIf="objectData.id && objectData.id !== null"
+                                        [classid]="this.objectData.classId"
+                                        [objectid]="this.objectData.id"
+                                        [objectData]="objectData"
+                                        [isPublic]=false
+                                        (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                        [withoutviewer]="true"
+                                        [ShowSplitter]=true
+
+                                        (refreshedReqFileDef)="getInstructionById(objectData.id)"
+                                        #attachmentComponent
+                        ></app-attachment>
+                    </div>
+                </div>
 
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
@@ -801,6 +858,29 @@
                         </div>
                     </dx-popup>
                 </div>
+                <div class="custom-field">
+                    <h1>
+                    <span>
+                        Gestion des fichiers
+                    </span>
+                    </h1>
+                    <div class="fieldContent">
+
+                        <app-attachment *ngIf="objectData.id && objectData.id !== null"
+                                        [classid]="this.objectData.classId"
+                                        [objectid]="this.objectData.id"
+                                        [objectData]="objectData"
+                                        [isPublic]=false
+                                        (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                        [withoutviewer]="true"
+                                        [ShowSplitter]=true
+
+                                        (refreshedReqFileDef)="getInstructionById(objectData.id)"
+                                        #attachmentComponent
+                        ></app-attachment>
+                    </div>
+                </div>
+
                 <div class="workflow-container">
                     <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
                     <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->

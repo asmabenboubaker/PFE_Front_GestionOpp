@@ -87,7 +87,7 @@
                         [filterOperations]="['contains', '=','notcontains','<>']"
                         [allowHeaderFiltering]="false"
                         [visible]="visibleCelldocTitle"
-                        caption="{{ 'ATTACHEMENT.name' | translate }}"
+                        caption="{{ 'Nom' | translate }}"
                         dataField="docTitle"
                         alignment="right"
                         dataType="string">
@@ -200,7 +200,7 @@
                             [allowResizing]="false"
                             [allowSorting]="true"
                             [visible]="visibleCellsysdateUpdated"
-                            caption="{{'ATTACHEMENT.datemaj'| translate}}"
+                            caption="{{'Date'| translate}}"
                             cellTemplate="cellTemplateSysdateUpdated"
                             dataField="sysdateUpdated"
                             dataType="date" alignment="right"
@@ -826,7 +826,7 @@
             </div>
 
 
-            <dxi-column caption="{{'ATTACHEMENT.Actions' | translate}}" cellTemplate="cellTemplateActions"
+            <dxi-column caption="{{'Actions' | translate}}" cellTemplate="cellTemplateActions"
                         [fixed]="true"
                         [allowResizing]="false"
                         fixedPosition="right" alignment="center"></dxi-column>

@@ -200,12 +200,24 @@
         <div class="custom-field">
             <h1>
                     <span>
-                      Gestion des fichiers
+                        Gestion des fichiers
                     </span>
             </h1>
+            <div class="fieldContent">
 
-            <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
+                <app-attachment *ngIf="objectData.id && objectData.id !== null"
+                                [classid]="this.objectData.classId"
+                                [objectid]="this.objectData.id"
+                                [objectData]="objectData"
+                                [isPublic]=false
+                                (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                [withoutviewer]="true"
+                                [ShowSplitter]=true
+                                (refreshedReqFileDef)="getInstructionById(objectData.id)"
+                                #attachmentComponent
+                ></app-attachment>
             </div>
+        </div>
 
     </div>
     <div
@@ -256,18 +268,30 @@
                 <label>Description:</label>
                 <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
             </div>
-            <div class="custom-field">
-                <h1>
-                    <span>
-                      Gestion des fichiers
-                    </span>
-                </h1>
-
-                <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
-            </div>
 
 
         </form>
+        <div class="custom-field">
+            <h1>
+                    <span>
+                        Gestion des fichiers
+                    </span>
+            </h1>
+            <div class="fieldContent">
+
+                <app-attachment *ngIf="objectData.id && objectData.id !== null"
+                                [classid]="this.objectData.classId"
+                                [objectid]="this.objectData.id"
+                                [objectData]="objectData"
+                                [isPublic]=false
+                                (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                [withoutviewer]="true"
+                                [ShowSplitter]=true
+                                (refreshedReqFileDef)="getInstructionById(objectData.id)"
+                                #attachmentComponent
+                ></app-attachment>
+            </div>
+        </div>
 
     </div>
     <div
@@ -320,19 +344,32 @@
                 <label>Description:</label>
                 <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
             </div>
-            <div class="custom-field">
-                <h1>
-                    <span>
-                      Gestion des fichiers
-                    </span>
-                </h1>
 
-                <app-attachement-grid-only [classid]="ClassId" [objectid]="ObjectId"></app-attachement-grid-only>
-            </div>
 
 
         </form>
 
+        <div class="custom-field">
+            <h1>
+                    <span>
+                        Gestion des fichiers
+                    </span>
+            </h1>
+            <div class="fieldContent">
+
+                <app-attachment *ngIf="objectData.id && objectData.id !== null"
+                                [classid]="this.objectData.classId"
+                                [objectid]="this.objectData.id"
+                                [objectData]="objectData"
+                                [isPublic]=false
+                                (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
+                                [withoutviewer]="true"
+                                [ShowSplitter]=true
+                                (refreshedReqFileDef)="getInstructionById(objectData.id)"
+                                #attachmentComponent
+                ></app-attachment>
+            </div>
+        </div>
 
     </div>
     <div class="workflow-container">

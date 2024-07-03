@@ -2,14 +2,17 @@
 @import "../Commun/commun-style";
 
 
-:host::ng-deep.dx-header-row > td > .dx-datagrid-text-content:not(.dx-sort-indicator):not(.dx-header-filter-indicator) {
-  max-width: 100%;
-  margin-right: 7% !important;
-}
+
+
+
+//:host::ng-deep.dx-header-row > td > .dx-datagrid-text-content:not(.dx-sort-indicator):not(.dx-header-filter-indicator) {
+//  max-width: 100%;
+//  margin-right: 7% !important;
+//}
 
 /*padding of data grid attachcment*/
 :host::ng-deep .dx-datagrid .dx-row > td, .dx-datagrid .dx-row > tr > td {
-  padding: 0px !important;
+  padding: 1px !important;
 }
 
 /*padding of data grid attachcment*/
@@ -45,7 +48,7 @@
 }
 
 :host::ng-deep dx-drop-down-button.dx-widget.dx-dropdownbutton.dx-dropdownbutton-has-arrow {
-  position: absolute !important;
+  //position: absolute ;
 }
 
 .dx-field-item.dx-flex-layout {
@@ -81,7 +84,7 @@
 }
 
 /*icon style actions in data grid*/
-::ng-deep.IconStyle {
+:host ::ng-deep.IconStyle {
   //margin-right: 4% !important;
   color: $iconColor
 }
@@ -181,13 +184,13 @@
 
 //____________________________________________________________________
 
-::ng-deep .dx-button-mode-contained .dx-icon {
+:host ::ng-deep .dx-button-mode-contained .dx-icon {
   color: $buttondatagridcolor;
 }
 
 /*ROW data GRID background*/
 
-::ng-deep #gridContainer .dx-datagrid-rowsview .dx-selection.dx-row > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > td, .dx-datagrid-rowsview .dx-selection.dx-row > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > tr > td {
+:host ::ng-deep #gridContainer .dx-datagrid-rowsview .dx-selection.dx-row > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > td, .dx-datagrid-rowsview .dx-selection.dx-row > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > tr > td {
   //background-color: rgb(72 58 13 / 19%) !important;
   background-color: $backgrounddatagridcolor;
   color: $colortxtdatagridcolor;
@@ -195,4 +198,26 @@
 
 .hide-actions {
   display: none;
+}
+
+:host::ng-deep.dx-datagrid-borders > .dx-datagrid-rowsview.dx-last-row-border tbody:last-child > .dx-data-row:nth-last-child(2) > td {
+  border-bottom-width: 0;
+  font-size: medium;
+}
+.dx-dropdownbutton {
+  height: 28px;
+  background-color: black;
+}
+
+.custom-dropdown-item {
+  width: 150px !important;
+}
+
+::ng-deep .dx-popup-title.dx-toolbar {
+
+  background: #37474f !important;
+
+  text-align: center !important;
+
+  color: white;
 }

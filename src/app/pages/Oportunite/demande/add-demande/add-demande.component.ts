@@ -134,13 +134,15 @@ demandeObejct:any;
       client: ['']
     });
   }
-  GetjsonDowViewerFromAttatchement(e) {
-    this.JsonDocViewerFromFormToComponent.emit(e)
+
+  GetjsonDowViewerFromAttatchement($event: any) {
+
   }
-  getById() {
-    console.log("inWebServiceGetByID")
-    this.AppelWsGetById.emit(true)
+
+  getInstructionById(id) {
+
   }
+
   onCancelClick(): void {
     this.showModal = false;
   }
