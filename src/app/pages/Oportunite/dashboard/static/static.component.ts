@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {OffreService} from "../../../../Service/offre.service";
+import {DemandeService} from "../../../../Service/demande.service";
+import {BcServiceService} from "../../../../Service/bc-service.service";
 
 @Component({
   selector: 'app-static',
@@ -11,7 +13,7 @@ export class StaticComponent implements OnInit {
   monthlyOffreCounts: any[] = [];
   constructor(
 
-    private http: HttpClient,private offreService: OffreService
+    private http: HttpClient,private offreService: OffreService, private demandeService: DemandeService,private bCServiceService: BcServiceService
   ) { }
 
   customizeLabel = (pointInfo: any) => {
@@ -21,7 +23,19 @@ export class StaticComponent implements OnInit {
   customizeValueLabel = (pointInfo: any) => {
     return `${pointInfo.value} Offres`;
   }
+  nbredemande: any;
+  nbrebC: any;
   ngOnInit(): void {
+    //set nbredemande to the number of bc
+    this.bCServiceService.countBC().subscribe(data => {
+      this.nbrebC = data;
+      console.log("nbrebc", this.nbrebC);
+      console.log("nbrebc", this.nbrebC);
+    });
+    //set nbredemande to the number of demandes
+    this.demandeService.countDemande().subscribe(data => {
+      this.nbredemande = data;
+    });
     // pie chart
     this.fetchDemandsByDomain();
     this.offreService.getMonthlyOffreCounts().subscribe(data => {

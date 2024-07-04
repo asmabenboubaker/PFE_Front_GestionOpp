@@ -27,7 +27,10 @@ export class BcServiceService {
   getStatusList(): Observable<string[]> {
     return this.http.get<string[]>(`${this.env.piOpp}listbc`);
   }
-
+// count BC
+    countBC(): Observable<number> {
+        return this.http.get<number>(`${this.env.piOpp}countBC`);
+    }
   getbcById(id): Observable<any> {
     const url = `${this.env.piOpp}BondecommandeByid/${id}`;
     return this.http.get<any>(url);

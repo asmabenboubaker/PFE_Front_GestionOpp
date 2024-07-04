@@ -218,10 +218,10 @@ export class GridValidationComponent implements OnInit {
         params += '&page=' + (loadOptions.skip && loadOptions.skip != null && loadOptions.skip !== 0 ? (Math.ceil(loadOptions.skip / loadOptions.take)) : 0);
 // filter par validaion
         //params += `&filter=activityName.equals=Validation`;
-        params += `&filter=activityName.equals=Validation`;
+        params += `&activityName.equals=Validation`;
         console.log("paramsssssssssssssssssssss", params)
         //sort
-        // params += '&sort=dateRecrutement,desc'
+        params += '&sort=id,desc'
         if (loadOptions.sort) {
           if (loadOptions.sort[0].desc) {
             params += '&sort=' + loadOptions.sort[0].selector + ',desc';
