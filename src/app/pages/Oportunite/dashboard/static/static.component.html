@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytical Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 <div class="dashboard-summary">
     <div class="summary-item">
         <div class="summary-icon">
@@ -37,60 +46,62 @@
     </div>
 </div>
 
-<br>
-<br>
-<br>
-
-
-<br>
-<br>
-<br>
 
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <dx-pie-chart
-                    id="pie"
-                    title="Demande par Categorie"
-                    palette="bright"
-                    [dataSource]="areas"
-                    (onPointClick)="pointClickHandler($event)"
-                    (onLegendClick)="legendClickHandler($event)"
-            >
-                <dxi-series argumentField="country" valueField="area">
-                    <dxo-label [visible]="true">
-                        <dxo-connector [visible]="true" [width]="1"></dxo-connector>
-                    </dxo-label>
-                </dxi-series>
-                <dxo-size [width]="500"></dxo-size>
-                <dxo-export [enabled]="true"></dxo-export>
-            </dx-pie-chart>
-
-
+            <div class="chart-container">
+                <dx-pie-chart
+                        id="pie"
+                        title="Demande par Categorie"
+                        palette="bright"
+                        [dataSource]="areas"
+                        (onPointClick)="pointClickHandler($event)"
+                        (onLegendClick)="legendClickHandler($event)"
+                >
+                    <dxi-series argumentField="country" valueField="area">
+                        <dxo-label [visible]="true">
+                            <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+                        </dxo-label>
+                    </dxi-series>
+                    <dxo-size [width]="500"></dxo-size>
+                    <dxo-export [enabled]="true"></dxo-export>
+                </dx-pie-chart>
+            </div>
         </div>
         <div class="col-md">
-            <dx-chart
-                    [dataSource]="monthlyOffreCounts"
-                    title="Nombre total d'offres de prix par mois">
-                <dxi-series
-                        argumentField="month"
-                        valueField="count"
-                        name="Offres"
-                        type="bar"
-                        color="#ffaa66">
-                </dxi-series>
-                <dxo-argument-axis>
-                    <dxi-label [customizeText]="customizeLabel"></dxi-label>
-                </dxo-argument-axis>
-                <dxo-value-axis>
-                    <dxo-label [customizeText]="customizeValueLabel"></dxo-label>
-                </dxo-value-axis>
-            </dx-chart>
-
+            <div class="chart-container">
+                <dx-chart
+                        [dataSource]="monthlyOffreCounts"
+                        title="Nombre total d'offres de prix par mois"
+                >
+                    <dxi-series
+                            argumentField="month"
+                            valueField="count"
+                            name="Offres"
+                            type="bar"
+                            color="#ffaa66"
+                    >
+                    </dxi-series>
+                    <dxo-argument-axis>
+                        <dxi-label [customizeText]="customizeLabel"></dxi-label>
+                    </dxo-argument-axis>
+                    <dxo-value-axis>
+                        <dxo-label [customizeText]="customizeValueLabel"></dxo-label>
+                    </dxo-value-axis>
+                </dx-chart>
+            </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md">
-            One of three columns
+            <div class="chart-container">
+                <app-maps></app-maps>
+            </div>
         </div>
     </div>
 </div>
-<app-maps></app-maps>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="scripts.js"></script>
+</body>
+</html>

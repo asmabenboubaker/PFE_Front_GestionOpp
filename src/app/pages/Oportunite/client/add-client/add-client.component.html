@@ -5,7 +5,7 @@
         <div *ngIf="domaineForm.get('nom').invalid && (domaineForm.get('nom').dirty || domaineForm.get('nom').touched)"
              class="alert alert-danger">
             <div *ngIf="domaineForm.get('nom').errors.required">
-                Nom is required.
+                Nom est obligatoire
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div *ngIf="domaineForm.get('adresse').invalid && (domaineForm.get('adresse').dirty || domaineForm.get('adresse').touched)"
              class="alert alert-danger">
             <div *ngIf="domaineForm.get('adresse').errors.required">
-                Adresse is required.
+                Adresse est obligatoire.
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
         <div *ngIf="domaineForm.get('telephne').invalid && (domaineForm.get('telephne').dirty || domaineForm.get('telephne').touched)"
              class="alert alert-danger">
             <div *ngIf="domaineForm.get('telephne').errors.required">
-                telephne is required.
+                telephone est obligatoire
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
         <div *ngIf="domaineForm.get('email').invalid && (domaineForm.get('email').dirty || domaineForm.get('email').touched)"
              class="alert alert-danger">
             <div *ngIf="domaineForm.get('email').errors.required">
-                email is required.
+                email est obligatoire
             </div>
         </div>
     </div>
@@ -83,8 +83,8 @@
 
     <div class="col-12">
         <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-            <button (click)="Return()" class="btn btn-light" type="button">Cancel</button>
-            <button (click)="onSubmit()" class="btn btn-success" type="submit">Save</button>
+            <button (click)="Return()" class="btn btn-light" type="button">Annuler</button>
+            <button (click)="onSubmit()" class="btn btn-success" type="submit">Enregistrer</button>
         </div>
     </div>
 </form>

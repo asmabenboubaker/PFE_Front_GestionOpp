@@ -170,7 +170,7 @@ export class GridValidationComponent implements OnInit {
     e.toolbarOptions.items.unshift(
         {
           location: 'center',
-          template: 'titreGrid'
+          template: 'Liste des opportunités en cours de validation'
         }
     );
     if (this.showadd) {
