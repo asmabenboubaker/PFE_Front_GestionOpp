@@ -16,7 +16,7 @@ import {ClientServiceService} from "../../../../Service/client-service.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {TranslateService} from "@ngx-translate/core";
-import {ChartData, ChartType} from "chart.js";
+
 
 @Component({
   selector: 'app-grid-demande',
@@ -448,5 +448,29 @@ this.loadingVisible=true
     );
   }
 
+  onCellPrepared(e: any) {
 
+    if (e.rowType === 'data') {
+
+      if (e.column.dataField === 'activityName') {
+        if (e.data.activityName === 'Création Demande') {
+          e.cellElement.style.backgroundColor = 'blue';
+          e.cellElement.style.color = 'white';
+
+        } else if (e.data.activityName === 'Validation') {
+          e.cellElement.style.backgroundColor = 'purple';
+          e.cellElement.style.color = 'white';
+
+        } else if (e.data.activityName === 'Accepté') {
+          e.cellElement.style.backgroundColor = 'green';
+          e.cellElement.style.color = 'white';
+
+        } else {
+          e.cellElement.style.backgroundColor = 'white';
+          e.cellElement.style.color = 'balck';
+        }
+
+      }
+    }
+  }
 }

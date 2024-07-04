@@ -31,7 +31,7 @@
         id="gridContainer"
     (onToolbarPreparing)="onToolbarPreparing($event)"
         [columnAutoWidth]="true"
-
+(onCellPrepared)="onCellPrepared($event)"
         [dataSource]="dataSourceElement"
         [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
     [rowAlternationEnabled]="false"
@@ -55,6 +55,7 @@
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
     <dxi-column dataField="nom" dataType="string"></dxi-column>
+    <dxi-column dataField="activityName" dataType="string"></dxi-column>
 
 
     <dxi-column dataField="description" dataType="string"></dxi-column>

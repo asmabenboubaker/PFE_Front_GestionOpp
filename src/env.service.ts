@@ -9,6 +9,7 @@ export class EnvService {
   public docPardefaut;
   public RoleCanAddDoc ;
   public RoleCanDeleteDoc ;
+    public BackUrl;
   // API url
   public apiUrlMetiers = '';
   public apiUrlkernel = 'http://localhost.picosoft.biz:4203';
