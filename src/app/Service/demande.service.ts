@@ -95,4 +95,13 @@ getDemandeByid(id): Observable<any> {
   affecterDomaines(demandeId: number, domaineIds: number[]): Observable<any> {
     return this.http.post<any>(`${this.env.piOpp+this.Wservice.getdemandes}/${demandeId}/domaines`, domaineIds);
   }
+
+  getDataFromApi() {
+
+    return this.http.get<any>(`${this.env.piOpp+this.Wservice.getdemandes}/by-date`);
+  }
+  getDataOppParDate() {
+
+    return this.http.get<any>(`${this.env.piOpp+this.Wservice.getOpp}/by-date`);
+  }
 }

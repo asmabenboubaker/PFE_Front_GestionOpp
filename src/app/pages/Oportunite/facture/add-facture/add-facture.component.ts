@@ -27,7 +27,7 @@ export class AddFactureComponent implements OnInit {
     invoiceTo: '',
     invoiceAddress: '',
     invoiceContact: '',
-    salesperson: '',
+    totalAmount: '',
     description: '',
     invoiceItems: []
   };
@@ -85,7 +85,7 @@ console.error('No client selected');
     }
 
     this.factureData.invoiceItems = [...this.invoiceItems];
-
+this.factureData.totalAmount = this.total;
     this.factureService.addAndAssignFacture(this.factureData, this.selectedClient.id).subscribe(
         response => {
           console.log('Facture created and assigned successfully!', response);

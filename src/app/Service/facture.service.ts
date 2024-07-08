@@ -55,4 +55,8 @@ export class FactureService {
   getIsPaid(factureId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.env.piOpp+this.Wservice.getFacture}/isPaid/${factureId}`);
   }
+  //totalAmount
+    getTotalAmount(): Observable<number> {
+        return this.http.get<number>(`${this.env.piOpp+this.Wservice.getFacture}/totalAmount`);
+    }
 }

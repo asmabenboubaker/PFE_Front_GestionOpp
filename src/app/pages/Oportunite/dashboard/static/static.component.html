@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytical Dashboard</title>
     <link rel="stylesheet" href="styles.css">
+<!--    <style>-->
+<!--        .chart-container {-->
+<!--            height: 400px;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+
+<!--            border: solid red 2px;-->
+<!--        }-->
+<!--        .chart-wrapper {-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            border: solid green 2px;-->
+<!--            margin: 0 !important;-->
+<!--            padding: 0 !important;-->
+<!--        }-->
+<!--        dx-pie-chart, dx-chart, app-line-chart {-->
+<!--            width: 100% !important;-->
+<!--            height: 100% !important;-->
+
+<!--        }-->
+<!--    </style>-->
 </head>
 <body>
 <div class="dashboard-summary">
@@ -13,8 +35,9 @@
             <i class="fas fa-user"></i>
         </div>
         <div class="summary-details">
-            <div class="summary-number">{{nbredemande}}</div>
-            <div class="summary-label">Demandes</div>
+
+            <div class="summary-number">{{nbreclient}}</div>
+            <div class="summary-label">Clients</div>
         </div>
     </div>
     <div class="summary-item">
@@ -22,8 +45,8 @@
             <i class="fas fa-file-alt"></i>
         </div>
         <div class="summary-details">
-            <div class="summary-number">{{nbrebC}}</div>
-            <div class="summary-label">Bon de commande</div>
+            <div class="summary-number">{{nbredemande}}</div>
+            <div class="summary-label">Demandes</div>
         </div>
     </div>
     <div class="summary-item">
@@ -31,8 +54,8 @@
             <i class="fas fa-dollar-sign"></i>
         </div>
         <div class="summary-details">
-            <div class="summary-number">$2.46k</div>
-            <div class="summary-label">Payé</div>
+            <div class="summary-number">{{facturesMontant}}</div>
+            <div class="summary-label">Facture</div>
         </div>
     </div>
     <div class="summary-item">
@@ -45,60 +68,81 @@
         </div>
     </div>
 </div>
+<br><br>
+<div class="dashboard-summary">
 
-
-<div class="container">
-    <div class="row">
-        <div class="col-md">
-            <div class="chart-container">
-                <dx-pie-chart
-                        id="pie"
-                        title="Demande par Categorie"
-                        palette="bright"
-                        [dataSource]="areas"
-                        (onPointClick)="pointClickHandler($event)"
-                        (onLegendClick)="legendClickHandler($event)"
-                >
-                    <dxi-series argumentField="country" valueField="area">
-                        <dxo-label [visible]="true">
-                            <dxo-connector [visible]="true" [width]="1"></dxo-connector>
-                        </dxo-label>
-                    </dxi-series>
-                    <dxo-size [width]="500"></dxo-size>
-                    <dxo-export [enabled]="true"></dxo-export>
-                </dx-pie-chart>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <dx-pie-chart
+                                id="pie"
+                                title="Demande par Categorie"
+                                palette="bright"
+                                [dataSource]="areas"
+                                (onPointClick)="pointClickHandler($event)"
+                                (onLegendClick)="legendClickHandler($event)"
+                        >
+                            <dxi-series argumentField="country" valueField="area">
+                                <dxo-label [visible]="true">
+                                    <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+                                </dxo-label>
+                            </dxi-series>
+                            <dxo-legend verticalAlignment="bottom" horizontalAlignment="left"></dxo-legend>
+                            <dxo-size [width]="300"></dxo-size>
+                            <dxo-export [enabled]="true"></dxo-export>
+                        </dx-pie-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <dx-chart
+                                [dataSource]="monthlyOffreCounts"
+                                title="Nombre total d'offres de prix par mois"
+                        >
+                            <dxi-series
+                                    argumentField="month"
+                                    valueField="count"
+                                    name="Offres"
+                                    type="bar"
+                                    color="#ffaa66"
+                            >
+                            </dxi-series>
+                            <dxo-argument-axis>
+                                <dxi-label [customizeText]="customizeLabel"></dxi-label>
+                            </dxo-argument-axis>
+                            <dxo-value-axis>
+                                <dxo-label [customizeText]="customizeValueLabel"></dxo-label>
+                            </dxo-value-axis>
+                            <dxo-export [enabled]="true"></dxo-export>
+                            <dxo-tooltip [enabled]="true"></dxo-tooltip>
+                        </dx-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <app-line-chart></app-line-chart>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md">
-            <div class="chart-container">
-                <dx-chart
-                        [dataSource]="monthlyOffreCounts"
-                        title="Nombre total d'offres de prix par mois"
-                >
-                    <dxi-series
-                            argumentField="month"
-                            valueField="count"
-                            name="Offres"
-                            type="bar"
-                            color="#ffaa66"
-                    >
-                    </dxi-series>
-                    <dxo-argument-axis>
-                        <dxi-label [customizeText]="customizeLabel"></dxi-label>
-                    </dxo-argument-axis>
-                    <dxo-value-axis>
-                        <dxo-label [customizeText]="customizeValueLabel"></dxo-label>
-                    </dxo-value-axis>
-                </dx-chart>
-            </div>
+
+
+</div>
+<br><br>
+<div class="dashboard-summary">
+    <div class="container">
+<div class="row">
+    <div class="col-md">
+        <div class="chart-container">
+            <app-maps></app-maps>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md">
-            <div class="chart-container">
-                <app-maps></app-maps>
-            </div>
-        </div>
+</div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

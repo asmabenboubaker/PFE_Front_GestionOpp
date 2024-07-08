@@ -454,18 +454,23 @@ this.loadingVisible=true
 
       if (e.column.dataField === 'activityName') {
         if (e.data.activityName === 'Création Demande') {
-          e.cellElement.style.backgroundColor = 'blue';
+          e.cellElement.style.backgroundColor = '#B3D9FF';
           e.cellElement.style.color = 'white';
 
         } else if (e.data.activityName === 'Validation') {
-          e.cellElement.style.backgroundColor = 'purple';
+          e.cellElement.style.backgroundColor = '#D9B3FF';
           e.cellElement.style.color = 'white';
 
         } else if (e.data.activityName === 'Accepté') {
-          e.cellElement.style.backgroundColor = 'green';
+          e.cellElement.style.backgroundColor = 'rgba(5,114,34,0.94)';
           e.cellElement.style.color = 'white';
 
-        } else {
+        }
+        else if (e.data.activityName === 'Rejeté') {
+          e.cellElement.style.backgroundColor = 'rgba(245,121,121,0.96)';
+          e.cellElement.style.color = 'black';
+        }
+        else {
           e.cellElement.style.backgroundColor = 'white';
           e.cellElement.style.color = 'balck';
         }

@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {OffreService} from "../../../../Service/offre.service";
 import {DemandeService} from "../../../../Service/demande.service";
 import {BcServiceService} from "../../../../Service/bc-service.service";
+import {ClientServiceService} from "../../../../Service/client-service.service";
+import {FactureService} from "../../../../Service/facture.service";
 
 @Component({
   selector: 'app-static',
@@ -13,7 +15,8 @@ export class StaticComponent implements OnInit {
   monthlyOffreCounts: any[] = [];
   constructor(
 
-    private http: HttpClient,private offreService: OffreService, private demandeService: DemandeService,private bCServiceService: BcServiceService
+    private http: HttpClient,private offreService: OffreService, private demandeService: DemandeService,private bCServiceService: BcServiceService,
+    private clientService: ClientServiceService,private factureService: FactureService
   ) { }
 
   customizeLabel = (pointInfo: any) => {
@@ -25,7 +28,17 @@ export class StaticComponent implements OnInit {
   }
   nbredemande: any;
   nbrebC: any;
+  nbreclient: any;
+  facturesMontant: any;
   ngOnInit(): void {
+    //set facturesMontant to the total amount of factures
+    this.factureService.getTotalAmount().subscribe(data => {
+      this.facturesMontant = data;
+    });
+    //set nbredemande to the number of clients
+    this.clientService.countClient().subscribe(data => {
+      this.nbreclient = data;
+    });
     //set nbredemande to the number of bc
     this.bCServiceService.countBC().subscribe(data => {
       this.nbrebC = data;

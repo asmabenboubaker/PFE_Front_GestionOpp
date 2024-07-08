@@ -1,0 +1,39 @@
+<div id="chart-demo">
+    <dx-chart palette="Violet" [dataSource]="countriesInfo">
+        <dxi-series
+                argumentField="date"
+                valueField="value"
+                type="line"
+        >
+        </dxi-series>
+        <dxo-common-series-settings
+                argumentField="date"
+                type="line"
+        >
+        </dxo-common-series-settings>
+        <dxo-margin [bottom]="20"></dxo-margin>
+        <dxo-argument-axis
+                [argumentType]="'datetime'"
+                [tickInterval]="{ hours: 1 }"
+        [valueMarginsEnabled]="false"
+        discreteAxisDivisionMode="crossLabels"
+        >
+        <dxo-label
+                [format]="'hh:mm:ss a'"
+        >
+        </dxo-label>
+        <dxo-grid [visible]="true"></dxo-grid>
+        </dxo-argument-axis>
+        <dxo-legend
+                verticalAlignment="bottom"
+                horizontalAlignment="center"
+                itemTextPosition="bottom"
+        >
+        </dxo-legend>
+        <dxo-title text="Demande par date">
+            <dxo-subtitle text="(Units)"> </dxo-subtitle>
+        </dxo-title>
+        <dxo-export [enabled]="true"></dxo-export>
+        <dxo-tooltip [enabled]="true"></dxo-tooltip>
+    </dx-chart>
+</div>

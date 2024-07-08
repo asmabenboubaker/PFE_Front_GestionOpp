@@ -13,6 +13,7 @@ import {
 } from "devextreme-angular/ui/nested";
 import { MapsComponent } from './maps/maps.component';
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import { LineChartComponent } from './line-chart/line-chart.component';
 
 export const routes: Routes  = [
   {
@@ -25,7 +26,8 @@ export const routes: Routes  = [
 @NgModule({
   declarations: [
     StaticComponent,
-    MapsComponent
+    MapsComponent,
+    LineChartComponent
   ],
     imports: [
         CommonModule,
