@@ -218,7 +218,19 @@
                 ></app-attachment>
             </div>
         </div>
+        <div class="workflow-container">
+            <app-workflow-decision
+                    *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                    (decisionEvent)="Confirmation($event)"
+                    (saveEvent)="save()"
+                    (RetournEvent)="Retourn()"
+                    [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                    [decisions]="decissionWF"
+                    [object]="demandeForm"
+                    [SaveObject]="demandeForm">
+            </app-workflow-decision>
 
+        </div>
     </div>
     <div
             class="tab-pane fade {{ pourvalidation2 ? 'show active' : '' }}"
@@ -229,22 +241,26 @@
     >
         <form  [formGroup]="demandeF"  method="post" novalidate>
             <div class="form-group">
-                <label>Titre:</label>
-                <input type="text" formControlName="nom" class="form-control" required>
+                <label>Titre</label>
+                <input type="text" formControlName="nom"  class="form-control" required>
+                <div *ngIf="demandeF.get('nom').invalid && (demandeF.get('nom').dirty || demandeF.get('nom').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('nom').errors.required">
+                        Le nom est requis.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Client</label>
-                <select #clientSelect class="form-control"  >
+                <select #clientSelect class="form-select" >
                     <option *ngFor="let client of clients" [value]="client?.id">{{ client.nom }}</option>
                 </select>
+                <div *ngIf="demandeF.get('client').invalid && (demandeF.get('client').dirty || demandeF.get('client').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('client').errors.required">
+                        Le client est requis.
+                    </div>
+                </div>
             </div>
 
-<!--            <div class="form-group">-->
-<!--                <label>Statut:</label>-->
-<!--                <select class="form-control" formControlName="statut" >-->
-<!--                    <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>-->
-<!--                </select>-->
-<!--            </div>-->
             <div class="form-group">
                 <label>Source de la demande</label>
 
@@ -263,12 +279,24 @@
             <div class="form-group">
                 <label for="deadline" class="form-label">Date de deadline:</label>
                 <input class="form-control" formControlName="deadline"  type="date">
+                <div *ngIf="demandeF.get('deadline').invalid && (demandeF.get('deadline').dirty || demandeF.get('deadline').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('deadline').errors.required">
+                        La date de deadline est requise.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Description:</label>
-                <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+                <div class="textarea-container">
+                    <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+                    <i class="fas fa-microphone" (click)="startListening()"></i>
+                </div>
+                <div *ngIf="demandeF.get('description').invalid && (demandeF.get('description').dirty || demandeF.get('description').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('description').errors.required">
+                        La description est requise.
+                    </div>
+                </div>
             </div>
-
 
         </form>
         <div class="custom-field">
@@ -291,6 +319,19 @@
                                 #attachmentComponent
                 ></app-attachment>
             </div>
+            <div class="workflow-container">
+                <app-workflow-decision
+                        *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                        (decisionEvent)="Confirmation($event)"
+                        (saveEvent)="save()"
+                        (RetournEvent)="Retourn()"
+                        [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                        [decisions]="decissionWF"
+                        [object]="demandeForm"
+                        [SaveObject]="demandeForm">
+                </app-workflow-decision>
+
+            </div>
         </div>
 
     </div>
@@ -302,25 +343,28 @@
             *ngIf="elsedesision"
     >
 
-        <form  [formGroup]="demandeF" id="basic-form" method="post" novalidate>
+        <form  [formGroup]="demandeF"  method="post" novalidate>
             <div class="form-group">
-                <label>Titre :</label>
-                <input type="text" formControlName="nom" id="nom" class="form-control" required>
+                <label>Titre</label>
+                <input type="text" formControlName="nom"  class="form-control" required>
+                <div *ngIf="demandeF.get('nom').invalid && (demandeF.get('nom').dirty || demandeF.get('nom').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('nom').errors.required">
+                        Le nom est requis.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Client</label>
-                <select #clientSelect class="form-control" id="client" >
+                <select #clientSelect class="form-select" >
                     <option *ngFor="let client of clients" [value]="client?.id">{{ client.nom }}</option>
                 </select>
+                <div *ngIf="demandeF.get('client').invalid && (demandeF.get('client').dirty || demandeF.get('client').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('client').errors.required">
+                        Le client est requis.
+                    </div>
+                </div>
             </div>
 
-
-<!--            <div class="form-group">-->
-<!--                <label>Statut:</label>-->
-<!--                <select class="form-control" formControlName="statut" id="statut">-->
-<!--                    <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>-->
-<!--                </select>-->
-<!--            </div>-->
             <div class="form-group">
                 <label>Source de la demande</label>
 
@@ -338,17 +382,27 @@
             </div>
             <div class="form-group">
                 <label for="deadline" class="form-label">Date de deadline:</label>
-                <input class="form-control" formControlName="deadline"   id="deadline" type="date">
+                <input class="form-control" formControlName="deadline"  type="date">
+                <div *ngIf="demandeF.get('deadline').invalid && (demandeF.get('deadline').dirty || demandeF.get('deadline').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('deadline').errors.required">
+                        La date de deadline est requise.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Description:</label>
-                <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+                <div class="textarea-container">
+                    <textarea class="form-control" formControlName="description"  rows="5" cols="30" required></textarea>
+                    <i class="fas fa-microphone" (click)="startListening()"></i>
+                </div>
+                <div *ngIf="demandeF.get('description').invalid && (demandeF.get('description').dirty || demandeF.get('description').touched)" class="text-danger">
+                    <div *ngIf="demandeF.get('description').errors.required">
+                        La description est requise.
+                    </div>
+                </div>
             </div>
 
-
-
         </form>
-
         <div class="custom-field">
             <h1>
                     <span>
@@ -370,21 +424,21 @@
                 ></app-attachment>
             </div>
         </div>
+        <div class="workflow-container">
+            <app-workflow-decision
+                    *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+                    (decisionEvent)="Confirmation($event)"
+                    (saveEvent)="save()"
+                    (RetournEvent)="Retourn()"
+                    [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+                    [decisions]="decissionWF"
+                    [object]="demandeForm"
+                    [SaveObject]="demandeForm">
+            </app-workflow-decision>
 
+        </div>
     </div>
-    <div class="workflow-container">
-        <app-workflow-decision
-                *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                (decisionEvent)="Confirmation($event)"
-                (saveEvent)="save()"
-                (RetournEvent)="Retourn()"
-                [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                [decisions]="decissionWF"
-                [object]="demandeForm"
-                [SaveObject]="demandeForm">
-        </app-workflow-decision>
 
-    </div>
 
 </div>
 <!--<app-attachment-->

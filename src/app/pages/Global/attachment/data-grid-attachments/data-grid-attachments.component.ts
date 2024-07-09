@@ -1493,7 +1493,7 @@ console.log("asmaexport")
         try {
             if (e.itemData.id == 1) {
                 this.base64 = null
-                this.fileservice.extractfileByIdJson(data.id, this.fileAccessToken).subscribe((response: any) => {
+                this.fileservice.extractfileByUIID(data.uuid, this.fileAccessToken).subscribe((response: any) => {
                     this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                     this.fileservice.openFileForEdit(authorizationtokenOffice, data.fileName, data.classId + '_' + data.objectId + '_' + data.docTitle, this.base64).then(res => {
                         this.checkIfFileExist(e, data)
@@ -1585,7 +1585,7 @@ console.log("asmaexport")
                 })
             } else if (e.itemData.id == 3) {
                 this.base64 = null
-                this.fileservice.extractfileByIdJson(data.id, this.fileAccessToken).subscribe((response: any) => {
+                this.fileservice.extractfileByUIID(data.uuid, this.fileAccessToken).subscribe((response: any) => {
                     this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                     this.fileservice.docXToPdf(authorizationtokenOffice, data.fileName, data.classId + '_' + data.objectId + '_' + data.docTitle, this.base64).then(res => {
 
@@ -1797,7 +1797,7 @@ console.log("asmaexport")
                         ];
                     })
                 }
-                this.fileservice.extractfileByIdJson(data.id, this.fileAccessToken).subscribe((response: any) => {
+                this.fileservice.extractfileByUIID(data.uuid, this.fileAccessToken).subscribe((response: any) => {
                     this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                     this.fileservice.checkIfFileBusy(authorizationtokenOffice, data.fileName, data.classId + '_' + data.objectId + '_' + data.docTitle, this.base64).then
                     (() => {
@@ -1964,7 +1964,7 @@ console.log("asmaexport")
                 let verifLicensePSTKScan: any
                 let verifLicensePSTKSign: any
 
-                this.fileservice.extractfileByIdJson(this.idFileViewer, this.fileAccessToken).subscribe(async (response: any) => {
+                this.fileservice.extractfileByUIID(data.uuid, this.fileAccessToken).subscribe(async (response: any) => {
                     if (this.fileType) {
                         this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                         if (this.fileType == 'application/pdf') {
@@ -2058,7 +2058,7 @@ console.log("asmaexport")
                 let verifLicensePSTKScan: any
                 let verifLicensePSTKSign: any
 
-                this.fileservice.extractfileByIdJson(this.idFileViewer, this.fileAccessToken).subscribe(async (response: any) => {
+                this.fileservice.extractfileByUIID(data.row.data.uuid, this.fileAccessToken).subscribe(async (response: any) => {
                     if (this.fileType) {
                         this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                         if (this.fileType == 'application/pdf') {
@@ -2075,6 +2075,7 @@ console.log("asmaexport")
                         this.jsondocviewer.visionneuse = 'url';
                         this.jsondocviewer.pdfSrcc = fileURL
                         this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
+
                         if (this.fileType === 'application/pdf' && this.pstkEnabledAndRunning && verifLicensePSTKScan) {
                             let authorizationtokenScan = await this.communService.authorizationToken(this.ModuleScan)
 
@@ -2082,6 +2083,7 @@ console.log("asmaexport")
                                 this.pgNbr = res.result.totalpage;
                                 this.loadingVisible = false;
                                 this.visibleTrueModal = ShowPopupBoolean;
+
                             }, err => {
                                 this.loadingVisible = false;
                                 this.visibleTrueModal = ShowPopupBoolean;
@@ -2210,7 +2212,7 @@ console.log("asmaexport")
         if (this.idFileViewer != null) {
 
             try {
-                this.fileservice.extractfileByIdJson(this.idFileViewer, this.fileAccessToken).subscribe(async (response: any) => {
+                this.fileservice.extractfileByUIID(this.idFileViewer, this.fileAccessToken).subscribe(async (response: any) => {
                     if (this.fileType) {
                         this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response));
                         let blobFile = new Blob([new Uint8Array(response)], {type: this.fileType});

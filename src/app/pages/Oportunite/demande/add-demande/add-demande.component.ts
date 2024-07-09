@@ -276,7 +276,21 @@ demandeObejct:any;
   }
 
   Confirmation(evt) {
+    const nomControl = this.demandeF.get('nom');
+    const descriptionControl = this.demandeF.get('description');
 
+    if (nomControl.invalid || descriptionControl.invalid){
+      this.demandeF.markAllAsTouched();
+        this.toastr.error("Veuillez remplir tous les champs obligatoires", "", {
+            closeButton: true,
+            positionClass: 'toast-top-right',
+            extendedTimeOut: this.env.extendedTimeOutToastr,
+            progressBar: true,
+            disableTimeOut: false,
+            timeOut: this.env.timeOutToastr
+        });
+      return;
+    }
 
     this.loadingVisible = true;
 
@@ -345,14 +359,20 @@ if(this.listIddomainde.length!=0) {
 
   }
   Retourn(){
+    //return to demande list
+    this.router.navigate(['Demande/user']);
 
   }
 
 
 
   save() {
-    if(this.gridBoxValue.length==0){
-      this.toastr.warning("Veuillez sélectionner categorie", "", {
+    const nomControl = this.demandeF.get('nom');
+    const descriptionControl = this.demandeF.get('description');
+
+    if (nomControl.invalid || descriptionControl.invalid){
+      this.demandeF.markAllAsTouched();
+      this.toastr.error("Veuillez remplir tous les champs obligatoires", "", {
         closeButton: true,
         positionClass: 'toast-top-right',
         extendedTimeOut: this.env.extendedTimeOutToastr,
@@ -362,6 +382,7 @@ if(this.listIddomainde.length!=0) {
       });
       return;
     }
+
 
     const formData = this.demandeF.value;
 

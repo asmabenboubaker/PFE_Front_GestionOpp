@@ -26,7 +26,7 @@ import { Tab, initMDB } from "mdb-ui-kit";
 import { jsPDF } from 'jspdf';
 import { exportDataGrid } from 'devextreme/pdf_exporter';
 import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
-
+declare var webkitSpeechRecognition;
 import {AddDetailsComponent} from "../add-details/add-details.component";
 import {Observable} from "rxjs";
 import {ProjectService} from "../../../../Service/project.service";
@@ -62,8 +62,8 @@ demandedto: any;
     showModal:boolean=false;
   oppF = new FormGroup({
     id: new FormControl(''),
-    nom: new FormControl(''),
-    description: new FormControl(''),
+    nom: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
     createAt: new FormControl(''),
     montantEstime: new FormControl(''),
       nomDepartement: new FormControl(''),
@@ -131,7 +131,7 @@ evaluer:boolean=false;
     this.oppForm = this.fb.group({
       id: null, // You might want to initialize other properties based on your requirements
       nom: ['', Validators.required],
-      description: null,
+      description: ['', Validators.required],
       createAt: currentDate,
       montantEstime: [null, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]], // Définir comme nombre à virgule flottante avec validation de modèle
 
@@ -336,16 +336,45 @@ else {
             this.showModal = false;
         });
     }
+    selectedDepartmentName;
     onDepartementChange(event) {
-        const selectedDepartmentName = event.target.value;
-        const selectedDepartment = this.gridDataSource.find(dept => dept.name === selectedDepartmentName);
+         this.selectedDepartmentName = event.target.value;
+        const selectedDepartment = this.gridDataSource.find(dept => dept.name === this.selectedDepartmentName);
+        console.log("select depart :"+ this.selectedDepartmentName)
         if (selectedDepartment) {
             this.oppF.patchValue({
                 sidDepartement: selectedDepartment.aclsidMGR
             });
         }
+
     }
   Confirmation(evt) {
+      const nomControl = this.oppF.get('nom');
+      const descriptionControl = this.oppF.get('description');
+
+      if (nomControl.invalid || descriptionControl.invalid){
+          this.oppF.markAllAsTouched();
+          this.toastr.error("Veuillez remplir tous les champs obligatoires", "", {
+              closeButton: true,
+              positionClass: 'toast-top-right',
+              extendedTimeOut: this.env.extendedTimeOutToastr,
+              progressBar: true,
+              disableTimeOut: false,
+              timeOut: this.env.timeOutToastr
+          });
+
+      }
+      if (this.selectedDepartmentName === null || this.selectedDepartmentName === undefined || this.selectedDepartmentName === '') {
+          this.toastr.error("Veuillez sélectionner une équipe", "", {
+              closeButton: true,
+              positionClass: 'toast-top-right',
+              extendedTimeOut: this.env.extendedTimeOutToastr,
+              progressBar: true,
+              disableTimeOut: false,
+              timeOut: this.env.timeOutToastr
+          });
+          return;
+      }
 
       this.loadingVisible = true;
       console.log("Form values:", this.techForm.value);
@@ -818,4 +847,27 @@ else {
     getInstructionById(id) {
 
     }
+    results;
+    startListening() {
+        // let voiceHandler = this.hiddenSearchHandler?.nativeElement;
+        if ('webkitSpeechRecognition' in window) {
+            const vSearch = new webkitSpeechRecognition();
+            vSearch.continuous = false;
+            vSearch.interimresults = false;
+            vSearch.lang = 'fr-FR';
+            // vSearch.lang = 'en-US';
+            vSearch.start();
+            vSearch.onresult = (e) => {
+                console.log(e);
+                // voiceHandler.value = e?.results[0][0]?.transcript;
+                this.results = e.results[0][0].transcript;
+                this.demandeF.get('description').setValue(this.results);
+                // console.log(this.results);
+                vSearch.stop();
+            };
+        } else {
+            alert('Your browser does not support voice recognition!');
+        }
+    }
+
 }
