@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --force
 COPY . .
-RUN npm run build --prod
+RUN npm run build-prod
 
 # Use an Nginx image to serve the Angular app
 FROM nginx:alpine
