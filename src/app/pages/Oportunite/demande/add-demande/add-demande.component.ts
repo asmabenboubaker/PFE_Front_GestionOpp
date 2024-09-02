@@ -686,5 +686,20 @@ username:any;
       alert('Your browser does not support voice recognition!');
     }
   }
+  // toolbar :
+  backButtonOptions = {
+    icon: 'back',
+    onClick: () => {
+      this.router.navigate(['/Demanade/all']);
+    }
+  };
+  addButtonOptions = {
+    icon: 'fa fa-plus',
+    text: 'Ajouter Opportunité',
+
+    onClick: () => {
+      this.onCreateOpportunityClick();
+    }
+  };
 
 }

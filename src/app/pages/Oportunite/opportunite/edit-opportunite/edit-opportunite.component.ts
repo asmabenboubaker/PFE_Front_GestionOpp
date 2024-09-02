@@ -364,35 +364,23 @@ else {
           });
 
       }
-      if (this.selectedDepartmentName === null || this.selectedDepartmentName === undefined || this.selectedDepartmentName === '') {
-          this.toastr.error("Veuillez sélectionner une équipe", "", {
-              closeButton: true,
-              positionClass: 'toast-top-right',
-              extendedTimeOut: this.env.extendedTimeOutToastr,
-              progressBar: true,
-              disableTimeOut: false,
-              timeOut: this.env.timeOutToastr
-          });
-          return;
-      }
 
       this.loadingVisible = true;
       console.log("Form values:", this.techForm.value);
-      if(this.Affectaionequipe){
-          // si l'utilisateur ne select pas equipe toasr error
-            if (this.oppF.get('sidDepartement') === null || this.oppF.get('sidDepartement') === undefined ) {
-                console.log("Veuillez sélectionner une équipe")
-                this.toastr.error("Veuillez sélectionner une équipe", "", {
-                    closeButton: true,
-                    positionClass: 'toast-top-right',
-                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                    progressBar: true,
-                    disableTimeOut: false,
-                    timeOut: this.env.timeOutToastr
-                });
-                return;
-            }
-      }
+if(this.Affectaionequipe){
+    if (this.selectedDepartmentName === null || this.selectedDepartmentName === undefined || this.selectedDepartmentName === '') {
+        this.toastr.error("Veuillez sélectionner une équipe", "", {
+            closeButton: true,
+            positionClass: 'toast-top-right',
+            extendedTimeOut: this.env.extendedTimeOutToastr,
+            progressBar: true,
+            disableTimeOut: false,
+            timeOut: this.env.timeOutToastr
+        });
+        return;
+    }
+
+}
       if (this.etude) {
           console.log("dkhal ll if ")
           this.etudeService.createEtudeOpp(this.techForm.value, this.oppid).subscribe(
@@ -869,5 +857,20 @@ else {
             alert('Your browser does not support voice recognition!');
         }
     }
+    // toolbar :
+    backButtonOptions = {
+        icon: 'back',
+        onClick: () => {
+            this.router.navigate(['/opportunite/all']);
+        }
+    };
+    addButtonOptions = {
+        icon: 'fa fa-plus',
+        text:'Ajouter offre',
+
+        onClick: () => {
+            this.onCreateOpportunityClick();
+        }
+    };
 
 }

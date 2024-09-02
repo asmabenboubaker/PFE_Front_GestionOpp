@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-md-6">
-        <label for="adresse" class="form-label">Adresse:</label>
+        <label for="adresse" class="form-label">Pays:</label>
 
         <select class="form-select" formControlName="adresse" id="adresse">
             <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>

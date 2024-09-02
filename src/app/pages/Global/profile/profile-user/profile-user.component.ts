@@ -246,28 +246,20 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
                     let selectedprofile = data.find(({id}) => id === jsonscanpreference.id)
                     this.configjson.scannerProfil = selectedprofile;
                 }
-            }, error1 =>
-                this.toastr.error(error1.error.message, "", {
-                    closeButton: true,
-                    positionClass: 'toast-top-right',
-                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                    progressBar: true,
-                    disableTimeOut: false,
-                    timeOut: this.env.timeOutToastr
-                })
+            },
         )
 
 
         if (!this.pstkEnabledAndRunning) {
             this.translateService.get('ATTACHEMENT.PstkNotEncours').subscribe((res) => {
-                this.toastr.info(res, '', {
-                    closeButton: true,
-                    positionClass: 'toast-top-right',
-                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                    progressBar: true,
-                    disableTimeOut: false,
-                    timeOut: this.env.timeOutToastr
-                });
+                // this.toastr.info(res, '', {
+                //     closeButton: true,
+                //     positionClass: 'toast-top-right',
+                //     extendedTimeOut: this.env.extendedTimeOutToastr,
+                //     progressBar: true,
+                //     disableTimeOut: false,
+                //     timeOut: this.env.timeOutToastr
+                // });
             });
         }
         if (this.pstkEnabledAndRunning) {
@@ -286,14 +278,14 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
                     this.avertissementPstk = true;
                 } else {
                     this.translateService.get("ATTACHEMENT.errorPStk").subscribe((res) => {
-                        this.toastr.error(err.result.detailError, res, {
-                            closeButton: true,
-                            positionClass: 'toast-top-full-width',
-                            extendedTimeOut: this.env.extendedTimeOutToastr,
-                            progressBar: true,
-                            disableTimeOut: false,
-                            timeOut: this.env.timeOutToastr
-                        })
+                        // this.toastr.error(err.result.detailError, res, {
+                        //     closeButton: true,
+                        //     positionClass: 'toast-top-full-width',
+                        //     extendedTimeOut: this.env.extendedTimeOutToastr,
+                        //     progressBar: true,
+                        //     disableTimeOut: false,
+                        //     timeOut: this.env.timeOutToastr
+                        // })
                     })
                     this.avertissementPstk = true;
                 }
@@ -336,14 +328,14 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
             this.user = data
             console.log("userrrrrrrrrrrrrr", this.user)
         }, error => {
-            this.toastr.error("", error.error.message, {
-                closeButton: true,
-                positionClass: 'toast-top-full-width',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
+            // this.toastr.error("", error.error.message, {
+            //     closeButton: true,
+            //     positionClass: 'toast-top-full-width',
+            //     extendedTimeOut: this.env.extendedTimeOutToastr,
+            //     progressBar: true,
+            //     disableTimeOut: false,
+            //     timeOut: this.env.timeOutToastr
+            // })
         })
 
     }
@@ -352,14 +344,14 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
             this.user = data
             console.log("userrrrrrrrrrrrrr", this.user)
         }, error => {
-            this.toastr.error("", error.error.message, {
-                closeButton: true,
-                positionClass: 'toast-top-full-width',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
+            // this.toastr.error("", error.error.message, {
+            //     closeButton: true,
+            //     positionClass: 'toast-top-full-width',
+            //     extendedTimeOut: this.env.extendedTimeOutToastr,
+            //     progressBar: true,
+            //     disableTimeOut: false,
+            //     timeOut: this.env.timeOutToastr
+            // })
         })
 
     }
@@ -369,24 +361,24 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
         this.loginService.putEmployePhoneNumber(employeeid, mobile).subscribe(data => {
             this.translateService.get("postWithSuccess").subscribe((res) => {
                 this.getProfileUser()
-                this.toastr.success("", res, {
-                    closeButton: true,
-                    positionClass: 'toast-top-full-width',
-                    extendedTimeOut: this.env.extendedTimeOutToastr,
-                    progressBar: true,
-                    disableTimeOut: false,
-                    timeOut: this.env.timeOutToastr
-                })
+                // this.toastr.success("", res, {
+                //     closeButton: true,
+                //     positionClass: 'toast-top-full-width',
+                //     extendedTimeOut: this.env.extendedTimeOutToastr,
+                //     progressBar: true,
+                //     disableTimeOut: false,
+                //     timeOut: this.env.timeOutToastr
+                // })
             })
         }, error => {
-            this.toastr.error("", error.error.message, {
-                closeButton: true,
-                positionClass: 'toast-top-full-width',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
+            // this.toastr.error("", error.error.message, {
+            //     closeButton: true,
+            //     positionClass: 'toast-top-full-width',
+            //     extendedTimeOut: this.env.extendedTimeOutToastr,
+            //     progressBar: true,
+            //     disableTimeOut: false,
+            //     timeOut: this.env.timeOutToastr
+            // })
         })
         this.editMode = false
     }
@@ -400,14 +392,14 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
                 this.userFavoris.push(element['aclSid'])
             })
         }, error => {
-            this.toastr.error("", error.error.message, {
-                closeButton: true,
-                positionClass: 'toast-top-full-width',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
+            // this.toastr.error("", error.error.message, {
+            //     closeButton: true,
+            //     positionClass: 'toast-top-full-width',
+            //     extendedTimeOut: this.env.extendedTimeOutToastr,
+            //     progressBar: true,
+            //     disableTimeOut: false,
+            //     timeOut: this.env.timeOutToastr
+            // })
         })
     }
 
@@ -549,14 +541,14 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
                 }
             )
         }, error2 => {
-            this.toastr.error(error2.error.message, "", {
-                closeButton: true,
-                positionClass: 'toast-top-right',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
+            // this.toastr.error(error2.error.message, "", {
+            //     closeButton: true,
+            //     positionClass: 'toast-top-right',
+            //     extendedTimeOut: this.env.extendedTimeOutToastr,
+            //     progressBar: true,
+            //     disableTimeOut: false,
+            //     timeOut: this.env.timeOutToastr
+            // })
         })
     }
 
@@ -577,14 +569,14 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
                 }
             )
         }, error2 => {
-            this.toastr.error(error2.error.message, "", {
-                closeButton: true,
-                positionClass: 'toast-top-right',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
+            // this.toastr.error(error2.error.message, "", {
+            //     closeButton: true,
+            //     positionClass: 'toast-top-right',
+            //     extendedTimeOut: this.env.extendedTimeOutToastr,
+            //     progressBar: true,
+            //     disableTimeOut: false,
+            //     timeOut: this.env.timeOutToastr
+            // })
         })
     }
 
@@ -606,14 +598,14 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
         this.projetService.getprojets().subscribe(data => {
             this.projects = data;
         }, error => {
-            this.toastr.error("", error.error.message, {
-                closeButton: true,
-                positionClass: 'toast-top-full-width',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
+            // this.toastr.error("", error.error.message, {
+            //     closeButton: true,
+            //     positionClass: 'toast-top-full-width',
+            //     extendedTimeOut: this.env.extendedTimeOutToastr,
+            //     progressBar: true,
+            //     disableTimeOut: false,
+            //     timeOut: this.env.timeOutToastr
+            // })
         })
 
 
@@ -624,14 +616,14 @@ export class ProfileUserComponent implements OnInit, AfterViewInit {
         this.equipeService.getEquipes().subscribe(data => {
             this.equipes = data;
         }, error => {
-            this.toastr.error("", error.error.message, {
-                closeButton: true,
-                positionClass: 'toast-top-full-width',
-                extendedTimeOut: this.env.extendedTimeOutToastr,
-                progressBar: true,
-                disableTimeOut: false,
-                timeOut: this.env.timeOutToastr
-            })
+            // this.toastr.error("", error.error.message, {
+            //     closeButton: true,
+            //     positionClass: 'toast-top-full-width',
+            //     extendedTimeOut: this.env.extendedTimeOutToastr,
+            //     progressBar: true,
+            //     disableTimeOut: false,
+            //     timeOut: this.env.timeOutToastr
+            // })
         })
     }
 }
