@@ -390,12 +390,12 @@
                     <!--                                hint="{{'ATTACHEMENT.unlock' | translate}}"-->
                     <!--                                icon="fa fa-unlock IconStyle"></dxi-button>-->
                     <!--Remplace FILE    -->
-                    <dxi-button
-                            id="upload"
-                            [onClick]="UploadFileStep1"
-                            [visible]="isuploadVisibe&&objectData.userPermission=='WRITE'&&objectData.activityName!=this.env.activityNameDemande"
-                            hint="{{'ATTACHEMENT.upload' | translate}}"
-                            icon="fa fa-clone IconStyle icon-upload"></dxi-button>
+<!--                    <dxi-button-->
+<!--                            id="upload"-->
+<!--                            [onClick]="UploadFileStep1"-->
+<!--                            [visible]="isuploadVisibe&&objectData.userPermission=='WRITE'&&objectData.activityName!=this.env.activityNameDemande"-->
+<!--                            hint="{{'ATTACHEMENT.upload' | translate}}"-->
+<!--                            icon="fa fa-clone IconStyle icon-upload"></dxi-button>-->
                     <!--Button visualiser -- with pdf eye -- Only in mode Mobile && tablet   -->
                     <!--                    <dxi-button *ngIf="!this.isDesktopDevice && (this.isMobile || this.isTablet)"-->
                     <!--                                [onClick]="downloadFile"-->
@@ -985,28 +985,71 @@
     </div>
 </dx-popup>
 
-<app-popup-attachment-viewer
-        [fileName]="fileName"
-        [visibleTrueModal]="visibleTrueModal"
-        [PcTkExist]="pstkEnabledAndRunning"
-        [permissionDenied]="permissionDenied"
-        [permissionToTopViewer]="permissionToTopViewer"
-        [avertismentPopUp]="avertismentPopUp"
-        [pgNbr]="pgNbr"
-        [base64]="base64"
-        [permissionDeniedSig]="permissionDeniedSig"
-        [jsondocviewer]="jsondocviewer"
-        (BASE64_Output_Reload)="getBASE64_Output($event)"
-        (BASE64_Output_Save)="BASE64_Output_Save($event)"
-        (closeModal)="closeViwerPopUp()"
-        (fileSigned)="signedEvent($event)"
-        [idAttachement]="id"
-        [filebyId]="filebyId"
-        [objectData]="objectData"
-        [fileAccessToken]="fileAccessToken"
-        (updateWaterMarker)="updateWaterMarkerrs($event)"
->
-</app-popup-attachment-viewer>
+
+<dx-popup
+        [(visible)]="visibleTrueModal"
+        [showTitle]="true"
+        [closeOnOutsideClick]="false"
+        [maxWidth]="'100%'"
+        [width]="970"
+        [height]="'80%'"
+        title="{{this.fileName}}"
+        [maxHeight]="'100%'"
+        [dragEnabled]="true"
+        [showCloseButton]="true"
+        [resizeEnabled]="true">
+<Doc_viewer *ngIf="jsondocviewer.pdfSrcc!='' "
+            [pdfSrcc]="jsondocviewer.pdfSrcc"
+            [customheight]="'800px'"
+            [visionneuse]="jsondocviewer.visionneuse">
+</Doc_viewer>
+</dx-popup>
+
+<ng-template #longContent let-modal let-c="close" let-d="dismiss">
+    <div class="modal-header" dir="ltr" style="background: #37474f !important; color: white !important;">
+        <button type="button" dir="ltr" style="float: left;color: white !important;" class="btn-close float-left"
+                aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <Doc_viewer *ngIf="objectData && pdfSrcc!='' && objectFile.fileType === 'application/pdf'" id="doc1"
+                    [pdfSrcc]=pdfSrcc
+                    [visionneuse]="'pdf'"
+                    style="width:100%;">
+        </Doc_viewer>
+        <app-document-editor
+                *ngIf="objectFile && objectFile.fileType !== null && objectFile.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || objectFile.fileType === 'application/msword' || objectFile.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.template' ||  objectFile.fileType === 'application/x-tika-ooxml' || objectFile.fileType === 'application/vnd.ms-word.template.macroEnabled.12'"
+                [fileType]="objectFile.fileType"
+                [fileName]="objectFile.fileName"
+                [docTitle]="objectFile.docTitle"
+                [fileContent]="fileExtractedContent"
+                [idAttachement]="objectFile.defId"
+                [fileAccessToken]="''"
+                [modeWrite]="false"
+        ></app-document-editor>
+    </div>
+</ng-template>
+<!--<app-popup-attachment-viewer-->
+<!--        [fileName]="fileName"-->
+<!--        [visibleTrueModal]="visibleTrueModal"-->
+<!--        [PcTkExist]="pstkEnabledAndRunning"-->
+<!--        [permissionDenied]="permissionDenied"-->
+<!--        [permissionToTopViewer]="permissionToTopViewer"-->
+<!--        [avertismentPopUp]="avertismentPopUp"-->
+<!--        [pgNbr]="pgNbr"-->
+<!--        [base64]="base64"-->
+<!--        [permissionDeniedSig]="permissionDeniedSig"-->
+<!--        [jsondocviewer]="jsondocviewer"-->
+<!--        (BASE64_Output_Reload)="getBASE64_Output($event)"-->
+<!--        (BASE64_Output_Save)="BASE64_Output_Save($event)"-->
+<!--        (closeModal)="closeViwerPopUp()"-->
+<!--        (fileSigned)="signedEvent($event)"-->
+<!--        [idAttachement]="id"-->
+<!--        [filebyId]="filebyId"-->
+<!--        [objectData]="objectData"-->
+<!--        [fileAccessToken]="fileAccessToken"-->
+<!--        (updateWaterMarker)="updateWaterMarkerrs($event)"-->
+<!--&gt;-->
+<!--</app-popup-attachment-viewer>-->
 
 <dx-load-panel
     #loadPanel

@@ -36,6 +36,19 @@
     </div>
 
 </div>
+<dx-toolbar *ngIf="elsedesision">
+    <dxi-item
+            location="before"
+            widget="dxButton"
+            [options]="backButtonOptions">
+    </dxi-item>
+    <dxi-item
+            location="after"
+            widget="dxButton"
+            [options]="addButtonOptions">
+    </dxi-item>
+
+</dx-toolbar>
 
 <!-- Tabs content -->
 <div class="tab-content" id="ex2-content">
@@ -211,8 +224,8 @@
                                 [objectData]="objectData"
                                 [isPublic]=false
                                 (jsondocviewerEvent)="GetjsonDowViewerFromAttatchement($event)"
-                                [withoutviewer]="true"
-                                [ShowSplitter]=true
+                                [withoutviewer]="false"
+                                [ShowSplitter]=false
                                 (refreshedReqFileDef)="getInstructionById(objectData.id)"
                                 #attachmentComponent
                 ></app-attachment>

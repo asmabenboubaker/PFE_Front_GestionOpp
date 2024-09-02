@@ -1,6 +1,16 @@
 import {EnvService} from 'src/env.service';
 import {TranslateService} from '@ngx-translate/core';
-import {Component, EventEmitter, HostListener, Input, OnInit, Output, SimpleChange, ViewChild} from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    HostListener,
+    inject,
+    Input,
+    OnInit,
+    Output,
+    SimpleChange, TemplateRef,
+    ViewChild
+} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
 import {ToastrService} from 'ngx-toastr';
 import {FormBuilder} from '@angular/forms';
@@ -25,6 +35,7 @@ import {loadMessages} from "devextreme/localization";
 import frMessages from "devextreme/localization/messages/fr.json";
 
 import arMessages from 'devextreme/localization/messages/ar.json';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-data-grid-attachments',
@@ -86,7 +97,18 @@ export class DataGridAttachmentsComponent implements OnInit {
     canUnLock: boolean;
     @Output() filppedout = new EventEmitter();
     @Output() newFile = new EventEmitter();
-    jsondocviewer = {pdfSrcc: "", visionneuse: "url"};/*Viewer*/
+    jsondocviewer = {
+        pdfSrcc: "",
+        visionneuse: "url",
+        fileName: null,
+        docTitle: null,
+        fileType: null,
+        fileContent: null,
+        id: null,
+        fileAccessToken: null,
+        securityLevel: null,
+        objectData: null
+    };/*Viewer*/
     loadingVisible: any = false;
     filedatasource: any = []
     count: any;
@@ -183,6 +205,8 @@ export class DataGridAttachmentsComponent implements OnInit {
     // @Input() authorizationTokenSign = false;
     // @Input() authorizationTokenMisc = false;
     currentlang
+    private modalService = inject(NgbModal);
+    @ViewChild('longContent') longContent: TemplateRef<any>;
 
     constructor(private deviceService: DeviceDetectorService, public env: EnvService, private http: HttpClient,
                 private toastr: ToastrService, private cookieService: CookieService, public communService: CommunFuncService, private datepipe: DatePipe,
@@ -1004,7 +1028,7 @@ export class DataGridAttachmentsComponent implements OnInit {
             let paramsHttp = new HttpParamMethodPatch(this.env.apiUrlkernel + "attachements/" + jsonFile.id, jsonFile)
             this.Ref.value = jsonFile.docTitle
 
-            this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.MessageMiseajour", "ATTACHEMENT.editErreur").then(data => {
+            this.httpServicesComponent.method(paramsHttp, this.Ref, "Attachement mise à jour", "ATTACHEMENT.editErreur").then(data => {
                 if (data["statut"] == true) {
                     this.popupModifFileVisible = false;
                     this.refresh();
@@ -2034,7 +2058,7 @@ console.log("asmaexport")
     /*check If File Exist sur disq && open sur editor */
 
     /*view file in popup */
-    async viewFile(data, ShowPopupBoolean) {
+    async viewFileold(data, ShowPopupBoolean) {
         console.log("data", data)
 
         this.loadingVisible = true;
@@ -2067,14 +2091,24 @@ console.log("asmaexport")
                             this.permissionDenied = data.row.data.locked == false && this.ContainerViewer && this.pstkEnabledAndRunning && verifLicensePSTKScan;
                             verifLicensePSTKSign = await this.communService.verifLicensePSTK(this.ModuleSign);
                             this.permissionDeniedSig = (this.ContainerViewer && this.pstkEnabledAndRunning && verifLicensePSTKSign);
+
+
                         } else {
                             this.permissionToTopViewer = false;
                         }
                         let blobFile = new Blob([new Uint8Array(response)], {type: this.fileType});
-                        var fileURL = URL.createObjectURL(blobFile);
-                        this.jsondocviewer.visionneuse = 'url';
-                        this.jsondocviewer.pdfSrcc = fileURL
-                        this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
+
+                        let arraybuffer = this.communService.base64ToArrayBuffer(this.base64);
+                        this.fileContent = new File([arraybuffer], this.fileName, {type: this.fileType});
+                        var fileURL = URL.createObjectURL(this.fileContent);
+                        this.jsondocviewer.pdfSrcc = fileURL;
+                        this.jsondocviewer.visionneuse = "url";
+
+                        // var fileURL = URL.createObjectURL(blobFile);
+                        // this.jsondocviewer.visionneuse = 'url';
+                        // this.jsondocviewer.pdfSrcc = fileURL
+                        // this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
+                        this.visibleTrueModal = ShowPopupBoolean;
 
                         if (this.fileType === 'application/pdf' && this.pstkEnabledAndRunning && verifLicensePSTKScan) {
                             let authorizationtokenScan = await this.communService.authorizationToken(this.ModuleScan)
@@ -2092,6 +2126,101 @@ console.log("asmaexport")
                             this.loadingVisible = false
                             this.visibleTrueModal = ShowPopupBoolean
                         }
+
+                    }
+                }, error => {
+                    this.Ref.value = data.fileName
+
+                    this.translateService.get("ATTACHEMENT.getbyid", this.Ref).subscribe((res) => {
+                        this.toastr.error(res, " ", {
+                            closeButton: true,
+                            positionClass: 'toast-top-right',
+                            extendedTimeOut: this.env.extendedTimeOutToastr,
+                            progressBar: true,
+                            disableTimeOut: false,
+                            timeOut: this.env.timeOutToastr
+                        })
+                    })
+                    this.loadingVisible = false
+                })
+            } catch (error) {
+                this.Ref.value = data.fileName
+
+                this.translateService.get("ATTACHEMENT.getbyid", this.Ref).subscribe((res) => {
+                    this.toastr.error(res, "", {
+                        closeButton: true,
+                        positionClass: 'toast-top-right',
+                        extendedTimeOut: this.env.extendedTimeOutToastr,
+                        progressBar: true,
+                        disableTimeOut: false,
+                        timeOut: this.env.timeOutToastr
+                    })
+                })
+                this.loadingVisible = false
+            }
+        }
+    }
+    objectFile:any
+    pdfSrcc:any
+    fileExtractedContent:any
+    async viewFile(data, ShowPopupBoolean) {
+        this.loadingVisible = true;
+
+        this.fileName = data.row.data.fileName;
+        this.filebyId = data.row.data;
+        this.objectFile = data.row.data
+
+        this.id = data.row.data.id;
+
+
+        this.idFileViewer = data.row.data.id
+
+        this.idcmis = data.row.data.cmisId
+        this.fileType = data.row.data.fileType
+        if (this.idFileViewer != null) {
+
+            try {
+
+
+                this.fileservice.extractfileByUIID(data.row.data.uuid, this.fileAccessToken).subscribe(async (response: any) => {
+                    if (this.fileType) {
+                        this.loadingVisible = false;
+
+                        if (this.fileType == 'application/pdf') {
+                            let blobFile = new Blob([new Uint8Array(response.body)], {type: this.fileType});
+                            var fileURL = URL.createObjectURL(blobFile);
+                            this.jsondocviewer.visionneuse = 'url';
+                            this.jsondocviewer.pdfSrcc = fileURL
+
+                            this.pdfSrcc=fileURL ;
+
+
+
+                        } else {
+                            this.base64 = this.communService.arrayBufferToBase64(new Uint8Array(response.body));
+                            this.jsondocviewer.fileContent = this.base64
+                        }
+
+                        this.jsondocviewer.fileType = this.fileType
+                        this.jsondocviewer.fileName = data.row.data.docTitle
+                        this.jsondocviewer.docTitle = data.row.data.fileName
+
+                        this.jsondocviewer.id = data.row.data.id
+                        this.jsondocviewer.securityLevel = data.row.data.securiteLevel
+                        this.jsondocviewer.fileAccessToken = this.fileAccessToken
+                        this.jsondocviewer.objectData = this.objectData
+                        if (!ShowPopupBoolean)
+                            this.jsondocviewerEventFromGrid.emit(this.jsondocviewer)
+                        else {
+                            this.fileExtractedContent = this.base64
+                            this.modalService.open(this.longContent, {
+                                scrollable: true,
+                                size: 'xl',
+                                backdrop: 'static'
+                            });
+
+                        }
+
 
                     }
                 }, error => {
@@ -2374,7 +2503,7 @@ console.log("asmaexport")
         let paramsHttp = new HttpParamMethodDelete(this.env.apiUrlkernel + "attachementRemove?uuid=" + this.fileTodelete.uuid + "&fileAccessToken=" + this.fileAccessToken, '')
         this.Ref.value = this.fileTodelete.docTitle
 
-        this.httpServicesComponent.method(paramsHttp, this.Ref, "ATTACHEMENT.deleted", "ATTACHEMENT.deleteError").then(data => {
+        this.httpServicesComponent.method(paramsHttp, this.Ref, "Attachement deleted", "ATTACHEMENT.deleteError").then(data => {
             if (data["statut"] == true) {
                 this.refresh();
                 // this.newFile.emit(this.fileTemplate);
@@ -2419,7 +2548,7 @@ console.log("asmaexport")
                 this.loadingVisible = false;
                 this.Ref.value = fileName
 
-                this.translateService.get("ATTACHEMENT.extractFileWithSuccess", this.Ref).subscribe((res) => {
+                this.translateService.get("extract File With Success", this.Ref).subscribe((res) => {
                     this.toastr.success(res, "", {
                         closeButton: true,
                         positionClass: 'toast-top-right',
