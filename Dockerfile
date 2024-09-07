@@ -5,7 +5,8 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy the build output from the Jenkins pipeline (dist folder) to Nginx directory
-COPY /dist/startng-seed /usr/share/nginx/html
+#COPY /dist/startng-seed /usr/share/nginx/html
+COPY ./dist /usr/share/nginx/html
 
 # Expose port 4302 for the frontend
 EXPOSE 4302
