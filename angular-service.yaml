@@ -5,8 +5,9 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 4302
-      nodePort: 30000
+    - port: 80          # Update to match the Nginx port inside the container
+      targetPort: 80     # The container's internal port that Nginx listens to
+      nodePort: 30000    # The external port to access the service
       protocol: TCP
   selector:
     app: angular-app
