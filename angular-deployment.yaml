@@ -16,4 +16,4 @@ spec:
       - name: angular-app
         image: asmabenboubaker/angular-app:1.0.0
         ports:
-        - containerPort: 4302
+        - containerPort: 80
