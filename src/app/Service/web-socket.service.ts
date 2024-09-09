@@ -16,7 +16,7 @@ export class WebSocketService {
   constructor(private cookieService: CookieService, private wservice: WsService) {
     const username = this.cookieService.get('profil');
     // this.client = Stomp.over(new SockJS('http://localhost:8888/demo_war/ws'));
-    this.client = Stomp.over(new SockJS('http://10.109.228.20:8888/demo-v1/ws'));
+    this.client = Stomp.over(new SockJS('http://localhost:30000/demo-v1/ws'));
     
     this.client.connect({}, () => {
       this.client.subscribe('/topic/notifications', (message) => {

@@ -9,7 +9,7 @@ import {EnvService} from "../../env.service";
 })
 export class ProjectService {
     //  apiUrl='http://localhost:8888/demo_war/'
-     apiUrl='http://10.109.228.20:8888/demo-v1/'
+     apiUrl='http://localhost:30000/demo-v1/'
     apiUrl2='https://kernel.picosoft.biz/kernel-v1/api/findAllUsersPage'
  //apiUrl='https://boubaker-asma.atlassian.net/rest/api/2/project'
   constructor(private http: HttpClient,private Wservice: WsService,public env: EnvService) { }

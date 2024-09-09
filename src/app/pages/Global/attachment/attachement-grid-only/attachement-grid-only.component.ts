@@ -109,7 +109,8 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
     //     }
     // }
     downloadFile(file: any) {
-        const url = `http://localhost:8888/demo_war/api/downloadFile/${file.name}`;
+        
+        const url = `http://10.109.228.20:8888/demo-v1/api/downloadFile/${file.name}`;
         this.http.get(url, { responseType: 'blob' }).subscribe(
             (response: Blob) => {
                 const blob = new Blob([response], { type: response.type });
@@ -145,8 +146,8 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
         // Access the file name from the item
         const fileName = e.item.name;
 
-        const downloadUrl = `http://localhost:8888/demo_war/api/downloadFile/${fileName}`;
-
+        
+        const downloadUrl = `http://localhost:30000/demo-v1/api/downloadFile/${fileName}`;
         // Fetch the file from the server
         this.http.get(downloadUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
             // Create a URL for the blob
@@ -206,7 +207,7 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
             const formData = new FormData();
             formData.append('file', uploadedFile);
 
-           // const uploadUrl = 'http://localhost:8888/demo_war/api/addFile/27/407';
+           
         const uploadUrl = `${this.env.piOpp}addFile/${this.classid}/${this.objectid}`;
             // Send file to backend
             this.http.post(uploadUrl, formData).subscribe(
@@ -260,7 +261,7 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
     onItemDeleted(e) {
         console.log("File upload event:", e);
         const fileName= e.item.dataItem.id;
-       // const apiUrl = `http://localhost:8888/demo_war/api/deleteFile/${fileName}`;
+       
         const apiUrl = `${this.env.piOpp}deleteFileById/${fileName}`;
         this.http.delete(apiUrl).subscribe(
             (response) => {

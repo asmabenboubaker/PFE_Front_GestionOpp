@@ -60,7 +60,7 @@ export class StaticComponent implements OnInit {
 
   areas: any[];
   fetchDemandsByDomain() {
-    this.http.get<any>('http://localhost:8888/demo_war/api/demandes/count2')
+    this.http.get<any>('http://localhost:30000/demo-v1/api/demandes/count2')
         .subscribe(data => {
           this.areas = Object.entries(data).map(([country, area]) => ({ country, area }));
           console.log("areas", this.areas);

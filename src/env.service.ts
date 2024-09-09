@@ -24,8 +24,8 @@ export class EnvService {
   public labelMode;
   public activityNameenCoursPreparation;
   // public piOpp='http://localhost:8888/demo_war/api/';
-  public piOpp='http://10.109.228.20:8888/demo-v1/api/';
-
+  //public piOpp='http://10.109.228.20:8888/demo-v1/api/';
+  public piOpp='http://localhost:30000/demo-v1/api/';
   // Whether or not to enable debug mode
   public enableDebug = true;
 
