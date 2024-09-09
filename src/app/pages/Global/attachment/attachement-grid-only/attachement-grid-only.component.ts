@@ -110,7 +110,7 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
     // }
     downloadFile(file: any) {
         
-        const url = `http://10.109.228.20:8888/demo-v1/api/downloadFile/${file.name}`;
+        const url = `http://localhost:31624/demo-v1/api/downloadFile/${file.name}`;
         this.http.get(url, { responseType: 'blob' }).subscribe(
             (response: Blob) => {
                 const blob = new Blob([response], { type: response.type });
