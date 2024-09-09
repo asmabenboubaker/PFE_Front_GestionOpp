@@ -111,7 +111,7 @@ username:any;
 
 
         // get all notifications
-        this.http.get<any[]>('http://localhost:30000/demo-v1/notifications/').subscribe((notifications) => {
+        this.http.get<any[]>('http://localhost:31624/demo-v1/notifications/').subscribe((notifications) => {
             // filter notifications by username
             notifications = notifications.filter(notification => notification.username.trim() == this.username.trim());
             // reverse the list
@@ -316,7 +316,7 @@ username:any;
     unreadNotificationCount: number = 0;
     fetchUnreadNotificationCount() {
         this.username = this.cookieService.get('profil');
-        this.http.get<number>(`http://localhost:30000/demo-v1/notifications/unread-count/${this.username}`)
+        this.http.get<number>(`http://localhost:31624/demo-v1/notifications/unread-count/${this.username}`)
             .subscribe((count) => {
                 this.unreadNotificationCount = count;
             });
@@ -324,7 +324,7 @@ username:any;
 
     markNotificationsAsRead() {
         this.username = this.cookieService.get('profil');
-        this.http.put(`http://localhost:30000/demo-v1/mark-as-seen/${this.username}`, {})
+        this.http.put(`http://localhost:31624/demo-v1/mark-as-seen/${this.username}`, {})
             .subscribe(() => {
                 this.unreadNotificationCount = 0;
             });

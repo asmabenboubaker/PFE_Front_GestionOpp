@@ -21,7 +21,7 @@ export class WebSocketComponent implements OnInit {
         this.webSocketService.notifications$.subscribe((notifications) => {
             this.notifications = notifications;
         });
-        this.http.get<Notification[]>('http://localhost:30000/demo-v1/notifications').subscribe((notifications) => {
+        this.http.get<Notification[]>('http://localhost:31624/demo-v1/notifications').subscribe((notifications) => {
             this.notifications = notifications;
         });
     }

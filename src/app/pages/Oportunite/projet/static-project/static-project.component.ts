@@ -33,7 +33,7 @@ export class StaticProjectComponent implements OnInit {
   }
 
   fetchDemandsByDomain() {
-    this.http.get<any>('http://localhost:30000/demo-v1/api/tasks/1/task-status-statistics')
+    this.http.get<any>('http://localhost:31624/demo-v1/api/tasks/1/task-status-statistics')
         .subscribe(data => {
           this.areas = data.map(entry => ({ country: entry.status, area: entry.count }));
           console.log("areas", this.areas);

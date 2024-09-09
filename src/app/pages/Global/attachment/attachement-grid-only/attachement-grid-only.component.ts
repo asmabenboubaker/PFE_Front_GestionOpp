@@ -147,7 +147,7 @@ export class AttachementGridOnlyComponent implements OnInit, OnDestroy  {
         const fileName = e.item.name;
 
         
-        const downloadUrl = `http://localhost:30000/demo-v1/api/downloadFile/${fileName}`;
+        const downloadUrl = `http://localhost:31624/demo-v1/api/downloadFile/${fileName}`;
         // Fetch the file from the server
         this.http.get(downloadUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
             // Create a URL for the blob
